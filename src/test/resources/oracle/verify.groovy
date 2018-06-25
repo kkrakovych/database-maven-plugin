@@ -18,6 +18,6 @@ package oracle
 def separator = System.getProperty("file.separator")
 
 // Check service scripts
-def filePath = "$basedir" + separator + "target" + separator + "install.sql"
+def filePath = "$basedir" + separator + "target" + separator + "install_manual.sql"
 def file = new File(filePath)
 assert file.exists(): filePath + " file not found"
