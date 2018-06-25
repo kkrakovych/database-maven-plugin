@@ -23,6 +23,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 
 import static java.lang.Boolean.FALSE;
 import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
+import static net.kosto.util.FileUtils.FILE_MASK_SQL;
 
 /**
  * {@code OracleObject} represents Oracle object configuration.
@@ -79,6 +80,6 @@ public class OracleObject extends DatabaseObject implements ValidateAction {
         if (getIgnoreDirectory() == null)
             setIgnoreDirectory(FALSE);
         if (getFileMask() == null)
-            setFileMask("*.sql");
+            setFileMask(FILE_MASK_SQL);
     }
 }

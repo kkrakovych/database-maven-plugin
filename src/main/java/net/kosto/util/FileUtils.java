@@ -21,19 +21,26 @@ import org.apache.maven.plugin.MojoExecutionException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import static java.io.File.separator;
 
 public class FileUtils {
+
+    public static final String FILE_MASK_SQL = "*.sql";
 
     private FileUtils() {
     }
 
-    public static void createDirectories(Path directory) throws MojoExecutionException {
-        if (!directory.toFile().exists()) {
+    public static Path createDirectories(String... directories) throws MojoExecutionException {
+        Path result = Paths.get(separator, directories);
+        if (!result.toFile().exists()) {
             try {
-                Files.createDirectories(directory);
+                Files.createDirectories(result);
             } catch (IOException x) {
                 throw new MojoExecutionException("Failed to create a directory.", x);
             }
         }
+        return result;
     }
 }

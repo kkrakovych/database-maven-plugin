@@ -33,8 +33,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static java.io.File.separator;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static net.kosto.util.FileUtils.FILE_MASK_SQL;
 
 public class OracleProcessor implements Processor {
 
@@ -64,15 +64,16 @@ public class OracleProcessor implements Processor {
     }
 
     private void processServiceScripts() throws MojoExecutionException {
-        // Create service directory
-        Path directory = Paths.get(configuration.getOutputDirectory(), configuration.getServiceDirectory());
-        FileUtils.createDirectories(directory);
+        Path directory = FileUtils.createDirectories(configuration.getOutputDirectory());
+        List<Path> files = ResourceUtils.getFiles(FILE_MASK_SQL, "oracle");
+        processFiles(directory, files);
 
-        // Get list of all service files
-        Path resource = Paths.get(separator, "oracle", "service");
-        List<Path> files = ResourceUtils.getFiles(resource, "*.sql");
+        directory = FileUtils.createDirectories(configuration.getOutputDirectory(), configuration.getServiceDirectory());
+        files = ResourceUtils.getFiles(FILE_MASK_SQL, "oracle", "service");
+        processFiles(directory, files);
+    }
 
-        // Create all service files
+    private void processFiles(Path directory, List<Path> files) throws MojoExecutionException {
         for (Path file : files) {
             Path fileName = file.getFileName();
             if (fileName == null)

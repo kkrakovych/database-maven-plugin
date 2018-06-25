@@ -35,7 +35,7 @@ public class ResourceUtils {
     private ResourceUtils() {
     }
 
-    public static List<Path> getFiles(Path directory, String fileMask) throws MojoExecutionException {
+    public static List<Path> getFiles(String fileMask, String... directories) throws MojoExecutionException {
         List<Path> result = new ArrayList<>();
 
         CodeSource source = ResourceUtils.class.getProtectionDomain().getCodeSource();
@@ -50,6 +50,7 @@ public class ResourceUtils {
                     .replace("?", ".?")
                     .replace("*", ".*?");
 
+                Path directory = Paths.get(separator, directories);
                 ZipEntry ze;
                 while ((ze = zip.getNextEntry()) != null) {
                     Path path = Paths.get(separator, ze.getName());
