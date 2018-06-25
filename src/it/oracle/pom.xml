@@ -40,7 +40,7 @@
                         <schemes>
                             <schema>
                                 <index>1</index>
-                                <name>schema-a</name>
+                                <name>schema_a</name>
                                 <objects>
                                     <object>
                                         <index>1</index>

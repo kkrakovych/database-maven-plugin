@@ -1,4 +1,6 @@
-prompt Check connections.
+prompt
+prompt === Check connections
+prompt
 
 <#list database.schemes as schema>
 prompt &usr_${schema.name}

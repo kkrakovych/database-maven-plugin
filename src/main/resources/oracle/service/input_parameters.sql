@@ -1,4 +1,4 @@
-prompt Input parameters.
+prompt
 
 accept tns_name char prompt 'Enter TNS name for database [${database.name}]: '
 <#list database.schemes as schema>
