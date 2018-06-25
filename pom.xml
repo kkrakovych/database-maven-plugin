@@ -33,9 +33,9 @@
         <maven-plugin-api.version>3.5.4</maven-plugin-api.version>
         <maven-plugin-annotations.version>3.5.2</maven-plugin-annotations.version>
         <maven-plugin-plugin.version>3.5.2</maven-plugin-plugin.version>
+        <maven-invoker-plugin.version>3.1.0</maven-invoker-plugin.version>
         <freemarker.version>2.3.28</freemarker.version>
         <junit-vintage-engine.version>5.2.0</junit-vintage-engine.version>
-        <maven-verifier.version>1.6</maven-verifier.version>
     </properties>
 
     <dependencies>
@@ -62,12 +62,6 @@
             <version>${junit-vintage-engine.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.apache.maven.shared</groupId>
-            <artifactId>maven-verifier</artifactId>
-            <version>${maven-verifier.version}</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>
@@ -76,6 +70,25 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-plugin-plugin</artifactId>
                 <version>${maven-plugin-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-invoker-plugin</artifactId>
+                <version>${maven-invoker-plugin.version}</version>
+                <configuration>
+                    <projectsDirectory>src/it</projectsDirectory>
+                    <localRepositoryPath>${project.build.directory}/.m2</localRepositoryPath>
+                    <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
+                    <postBuildHookScript>verify.groovy</postBuildHookScript>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>integration-test</id>
+                        <goals>
+                            <goal>install</goal>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
