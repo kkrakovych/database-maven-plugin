@@ -26,11 +26,13 @@ column dt new_value timestamp noprint
 select to_char(sysdate, 'YYYYMMDDHH24MISS') dt from dual;
 spool install_manual_${database.name}_${buildVersion}_&timestamp..log
 
-@./${serviceDirectory}/information.sql
+@./${serviceDirectory}/deploy_information.sql
 
 <#list database.schemes as schema>
 @./${schema.sourceDirectory}/install.sql
 </#list>
+
+prompt
 
 spool off
 

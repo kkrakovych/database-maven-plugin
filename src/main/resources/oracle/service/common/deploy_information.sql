@@ -25,5 +25,3 @@ prompt List of schemas:
 <#list database.schemes as schema>
 prompt * ${schema.name} -> &usr_${schema.name}
 </#list>
-
-prompt

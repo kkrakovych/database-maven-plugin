@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
+prompt
 prompt === Deploy schema ${schema.name}
+prompt
 
 connect &usr_${schema.name}/&pwd_${schema.name}@&tns_name
 
 @./${serviceDirectory}/sqlplus_setup.sql
 @./${serviceDirectory}/check_deploy_tables.sql
 @./${serviceDirectory}/deploy_start.sql
-
-
 
 @./${serviceDirectory}/compile_schema.sql
 @./${serviceDirectory}/deploy_finish.sql
