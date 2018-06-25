@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-prompt
-prompt === Deploy Information
-prompt
+prompt === Deploy schema ${schema.name}
 
-prompt Database           ${database.name}
-prompt Build version:     ${buildVersion}
-prompt Build timestamp:   ${buildTimestamp}
-prompt Database TNS name: &tns_name
-prompt List of schemas:
-<#list database.schemes as schema>
-prompt * ${schema.name} -> &usr_${schema.name}
-</#list>
+connect &usr_${schema.name}/&pwd_${schema.name}@&tns_name
 
-prompt
+@./${serviceDirectory}/sqlplus_setup.sql
+@./${serviceDirectory}/check_deploy_tables.sql
+@./${serviceDirectory}/deploy_start.sql
+
+
+
+@./${serviceDirectory}/compile_schema.sql
+@./${serviceDirectory}/deploy_finish.sql

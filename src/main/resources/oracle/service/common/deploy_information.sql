@@ -14,24 +14,16 @@
  * limitations under the License.
  */
 
+prompt === Deploy Information
 prompt
-prompt === DATABASE-MAVEN-PLUGIN
-prompt [${database.name}] oracle database version [${buildVersion}] created at [${buildTimestamp}]
 
-@./${serviceDirectory}/input_parameters.sql
-@./${serviceDirectory}/sqlplus_setup.sql
-@./${serviceDirectory}/check_connections.sql
-
-column dt new_value timestamp noprint
-select to_char(sysdate, 'YYYYMMDDHH24MISS') dt from dual;
-spool install_manual_${database.name}_${buildVersion}_&timestamp..log
-
-@./${serviceDirectory}/information.sql
-
+prompt Database           ${database.name}
+prompt Build version:     ${buildVersion}
+prompt Build timestamp:   ${buildTimestamp}
+prompt Database TNS name: &tns_name
+prompt List of schemas:
 <#list database.schemes as schema>
-@./${schema.sourceDirectory}/install.sql
+prompt * ${schema.name} -> &usr_${schema.name}
 </#list>
 
-spool off
-
-exit
+prompt

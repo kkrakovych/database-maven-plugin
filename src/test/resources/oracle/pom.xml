@@ -48,6 +48,16 @@
                                     </object>
                                 </objects>
                             </schema>
+                            <schema>
+                                <index>2</index>
+                                <name>schema_b</name>
+                                <objects>
+                                    <object>
+                                        <index>1</index>
+                                        <type>PROCEDURE</type>
+                                    </object>
+                                </objects>
+                            </schema>
                         </schemes>
                     </oracle>
                 </configuration>

@@ -19,6 +19,7 @@ package net.kosto.service;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import net.kosto.configuration.Configuration;
+import net.kosto.configuration.oracle.OracleSchema;
 import net.kosto.util.DateUtils;
 import net.kosto.util.FileUtils;
 import net.kosto.util.ResourceUtils;
@@ -61,6 +62,7 @@ public class OracleProcessor implements Processor {
     @Override
     public void process() throws MojoExecutionException {
         processServiceScripts();
+        processSchemes();
     }
 
     private void processServiceScripts() throws MojoExecutionException {
@@ -69,8 +71,20 @@ public class OracleProcessor implements Processor {
         processFiles(directory, files);
 
         directory = FileUtils.createDirectories(configuration.getOutputDirectory(), configuration.getServiceDirectory());
-        files = ResourceUtils.getFiles(FILE_MASK_SQL, "oracle", "service");
+        files = ResourceUtils.getFiles(FILE_MASK_SQL, "oracle", "service", "common");
         processFiles(directory, files);
+    }
+
+    private void processSchemes() throws MojoExecutionException {
+        Path directory;
+        List<Path> files;
+
+        for (OracleSchema schema : configuration.getOracle().getSchemes()) {
+            directory = FileUtils.createDirectories(configuration.getOutputDirectory(), schema.getSourceDirectory());
+            files = ResourceUtils.getFiles(FILE_MASK_SQL, "oracle", "service", "schema");
+            templateParameters.put("schema", schema);
+            processFiles(directory, files);
+        }
     }
 
     private void processFiles(Path directory, List<Path> files) throws MojoExecutionException {
