@@ -1,3 +1,4 @@
+package oracle
 //
 // Copyright 2018 Kostyantyn Krakovych
 //
