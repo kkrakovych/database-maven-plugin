@@ -72,7 +72,7 @@ public class OracleDatabase extends DatabaseObject implements ValidateAction {
         checkMandatoryValues();
         setDefaultValues();
 
-        getSchemes().sort(Comparator.comparing(OracleSchema::getIndex));
+        getSchemes().sort(Comparator.comparingInt(OracleSchema::getIndex).thenComparing(OracleSchema::getName));
 
         for (OracleSchema schema : schemes) {
             schema.setDirectoryFull(getSourceDirectoryFull(), getOutputDirectoryFull());

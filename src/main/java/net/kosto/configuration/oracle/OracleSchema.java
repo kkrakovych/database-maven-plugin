@@ -71,7 +71,7 @@ public class OracleSchema extends DatabaseObject implements ValidateAction {
         checkMandatoryValues();
         setDefaultValues();
 
-        getObjects().sort(Comparator.comparing(OracleObject::getIndex));
+        getObjects().sort(Comparator.comparingInt(OracleObject::getIndex).thenComparing(OracleObject::getType));
 
         for (OracleObject object : objects) {
             object.setDirectoryFull(getSourceDirectoryFull(), getOutputDirectoryFull());

@@ -39,17 +39,21 @@
                         <name>database</name>
                         <schemes>
                             <schema>
-                                <index>1</index>
+                                <index>2</index>
                                 <name>schema_a</name>
                                 <objects>
                                     <object>
-                                        <index>1</index>
+                                        <index>2</index>
                                         <type>PROCEDURE</type>
+                                    </object>
+                                    <object>
+                                        <index>1</index>
+                                        <type>FUNCTION</type>
                                     </object>
                                 </objects>
                             </schema>
                             <schema>
-                                <index>2</index>
+                                <index>1</index>
                                 <name>schema_b</name>
                                 <objects>
                                     <object>
