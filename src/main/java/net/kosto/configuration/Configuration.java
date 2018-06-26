@@ -30,6 +30,8 @@ import static net.kosto.configuration.model.DatabaseType.ORACLE;
  */
 public class Configuration implements ValidateAction {
 
+    public static final String DEFAULT_SERVICE_DIRECTORY = "service";
+
     /** Current build version. */
     private final String buildVersion;
     /** Current build timestamp. */
@@ -179,9 +181,12 @@ public class Configuration implements ValidateAction {
             return new Configuration(this);
         }
 
+        /**
+         * Sets default values for {@code Configuration}.
+         */
         private void setDefaultValues() {
             if (serviceDirectory == null || serviceDirectory.isEmpty())
-                serviceDirectory = "service";
+                serviceDirectory = DEFAULT_SERVICE_DIRECTORY;
             if (oracle != null)
                 databaseType = ORACLE;
         }

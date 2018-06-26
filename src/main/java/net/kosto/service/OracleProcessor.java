@@ -39,12 +39,12 @@ import java.util.Map;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.StandardCopyOption.COPY_ATTRIBUTES;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import static net.kosto.configuration.Configuration.DEFAULT_SERVICE_DIRECTORY;
 import static net.kosto.util.FileUtils.FILE_MASK_SQL;
 
 public class OracleProcessor implements Processor {
 
     private static final String ORACLE = "oracle";
-    private static final String SERVICE = "service";
     private static final String COMMON = "common";
     private static final String SCHEMA = "schema";
     private static final String OBJECT = "object";
@@ -81,14 +81,14 @@ public class OracleProcessor implements Processor {
         processTemplateFiles(directory, ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE));
 
         directory = FileUtils.createDirectories(configuration.getOutputDirectory(), configuration.getServiceDirectory());
-        processTemplateFiles(directory, ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, SERVICE, COMMON));
+        processTemplateFiles(directory, ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, DEFAULT_SERVICE_DIRECTORY, COMMON));
     }
 
     private void processSchemes() throws MojoExecutionException {
         for (OracleSchema schema : configuration.getOracle().getSchemes()) {
             Path directory = FileUtils.createDirectories(schema.getOutputDirectoryFull());
             templateParameters.put(SCHEMA, schema);
-            processTemplateFiles(directory, ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, SERVICE, SCHEMA));
+            processTemplateFiles(directory, ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, DEFAULT_SERVICE_DIRECTORY, SCHEMA));
 
             processSchemaObjects(schema);
         }
@@ -100,7 +100,7 @@ public class OracleProcessor implements Processor {
             Path directory = FileUtils.createDirectories(object.getOutputDirectoryFull());
             templateParameters.put(OBJECT, object);
             templateParameters.put(FILES, FileUtils.getFileNames(source, object.getFileMask()));
-            processTemplateFiles(directory, ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, SERVICE, OBJECT));
+            processTemplateFiles(directory, ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, DEFAULT_SERVICE_DIRECTORY, OBJECT));
 
             processSourceFiles(directory, FileUtils.getFiles(source, object.getFileMask()));
         }
@@ -111,9 +111,9 @@ public class OracleProcessor implements Processor {
             Path fileName = file.getFileName();
             if (fileName == null)
                 continue;
-
+            // Process file name via template
             String name = fileName.toString();
-            if (name.contains("$")) {
+            if (name.contains("${")) {
                 StringWriter writer = new StringWriter();
                 try {
                     Template template = new Template(name, name, templateConfiguration);
@@ -125,9 +125,8 @@ public class OracleProcessor implements Processor {
                     throw new MojoExecutionException("Failed to process template file name.", x);
                 }
             }
-
+            // Process file via template
             Path output = Paths.get(directory.toString(), name);
-
             try {
                 Template template = templateConfiguration.getTemplate(file.toString());
                 try (
