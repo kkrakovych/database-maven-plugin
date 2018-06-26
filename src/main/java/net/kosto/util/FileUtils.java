@@ -19,9 +19,12 @@ package net.kosto.util;
 import org.apache.maven.plugin.MojoExecutionException;
 
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.io.File.separator;
 
@@ -42,5 +45,19 @@ public class FileUtils {
             }
         }
         return result;
+    }
+
+    public static List<Path> getFiles(Path sourceDirectory, String fileExtension) throws MojoExecutionException {
+        List<Path> files = new ArrayList<>();
+        if (sourceDirectory.toFile().exists()) {
+            try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(sourceDirectory, fileExtension)) {
+                for (Path path : directoryStream) {
+                    files.add(path);
+                }
+            } catch (IOException x) {
+                throw new MojoExecutionException("Failed to get list of files.", x);
+            }
+        }
+        return files;
     }
 }

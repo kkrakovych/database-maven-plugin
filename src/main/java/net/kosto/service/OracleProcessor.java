@@ -19,6 +19,7 @@ package net.kosto.service;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import net.kosto.configuration.Configuration;
+import net.kosto.configuration.oracle.OracleObject;
 import net.kosto.configuration.oracle.OracleSchema;
 import net.kosto.util.DateUtils;
 import net.kosto.util.FileUtils;
@@ -35,6 +36,8 @@ import java.util.List;
 import java.util.Map;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.nio.file.StandardCopyOption.COPY_ATTRIBUTES;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static net.kosto.util.FileUtils.FILE_MASK_SQL;
 
 public class OracleProcessor implements Processor {
@@ -68,11 +71,11 @@ public class OracleProcessor implements Processor {
     private void processServiceScripts() throws MojoExecutionException {
         Path directory = FileUtils.createDirectories(configuration.getOutputDirectory());
         List<Path> files = ResourceUtils.getFiles(FILE_MASK_SQL, "oracle");
-        processFiles(directory, files);
+        processTemplateFiles(directory, files);
 
         directory = FileUtils.createDirectories(configuration.getOutputDirectory(), configuration.getServiceDirectory());
         files = ResourceUtils.getFiles(FILE_MASK_SQL, "oracle", "service", "common");
-        processFiles(directory, files);
+        processTemplateFiles(directory, files);
     }
 
     private void processSchemes() throws MojoExecutionException {
@@ -80,14 +83,30 @@ public class OracleProcessor implements Processor {
         List<Path> files;
 
         for (OracleSchema schema : configuration.getOracle().getSchemes()) {
-            directory = FileUtils.createDirectories(configuration.getOutputDirectory(), schema.getSourceDirectory());
+            directory = FileUtils.createDirectories(schema.getOutputDirectoryFull());
             files = ResourceUtils.getFiles(FILE_MASK_SQL, "oracle", "service", "schema");
             templateParameters.put("schema", schema);
-            processFiles(directory, files);
+            processTemplateFiles(directory, files);
+
+            processSchemaObjects(schema);
         }
     }
 
-    private void processFiles(Path directory, List<Path> files) throws MojoExecutionException {
+    private void processSchemaObjects(OracleSchema schema) throws MojoExecutionException {
+        Path directory;
+        List<Path> files;
+        Path source;
+
+        for (OracleObject object : schema.getObjects()) {
+            source = Paths.get(object.getSourceDirectoryFull());
+            directory = FileUtils.createDirectories(object.getOutputDirectoryFull());
+            files = FileUtils.getFiles(source, object.getFileMask());
+
+            processSourceFiles(directory, files);
+        }
+    }
+
+    private void processTemplateFiles(Path directory, List<Path> files) throws MojoExecutionException {
         for (Path file : files) {
             Path fileName = file.getFileName();
             if (fileName == null)
@@ -103,9 +122,22 @@ public class OracleProcessor implements Processor {
                     writer.flush();
                 }
             } catch (IOException x) {
-                throw new MojoExecutionException("Failed to get template.", x);
+                throw new MojoExecutionException("Failed to get template file.", x);
             } catch (TemplateException x) {
-                throw new MojoExecutionException("Failed to process template.", x);
+                throw new MojoExecutionException("Failed to process template file.", x);
+            }
+        }
+    }
+
+    private void processSourceFiles(Path directory, List<Path> files) throws MojoExecutionException {
+        Path target;
+
+        for (Path file : files) {
+            try {
+                target = Paths.get(directory.toString(), file.getFileName().toString());
+                Files.copy(file, target, REPLACE_EXISTING, COPY_ATTRIBUTES);
+            } catch (IOException x) {
+                throw new MojoExecutionException("Failed to copy source file.", x);
             }
         }
     }
