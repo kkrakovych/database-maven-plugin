@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
-<#list files as file>
-@./${database.sourceDirectory}/${schema.sourceDirectory}/${object.sourceDirectory}/${file}
-</#list>
+create or replace function fnc_test_d
+   return varchar2
+is
+begin
+   return null;
+end;
+/

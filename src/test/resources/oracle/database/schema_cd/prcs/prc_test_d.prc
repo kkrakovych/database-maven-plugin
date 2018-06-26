@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
-<#list files as file>
-@./${database.sourceDirectory}/${schema.sourceDirectory}/${object.sourceDirectory}/${file}
-</#list>
+create or replace procedure prc_test_b
+is
+begin
+   null;
+end;
+/
