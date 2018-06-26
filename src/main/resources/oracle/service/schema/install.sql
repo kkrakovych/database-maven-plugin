@@ -25,7 +25,7 @@ connect &usr_${schema.name}/&pwd_${schema.name}@&tns_name
 @./${serviceDirectory}/deploy_start.sql
 
 <#list schema.objects as object>
-@./${object.sourceDirectory}/install_${object.index}_${object.type}.sql
+@./${database.sourceDirectory}/${schema.sourceDirectory}/${object.sourceDirectory}/install_${object.index}_${object.type}.sql
 </#list>
 
 @./${serviceDirectory}/compile_schema.sql
