@@ -40,7 +40,7 @@
                         <schemes>
                             <schema>
                                 <index>2</index>
-                                <name>schema_ab</name>
+                                <name>schema_a</name>
                                 <objects>
                                     <object>
                                         <index>2</index>
@@ -54,7 +54,7 @@
                             </schema>
                             <schema>
                                 <index>1</index>
-                                <name>schema_cd</name>
+                                <name>schema_b</name>
                                 <objects>
                                     <object>
                                         <index>1</index>
