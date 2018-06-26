@@ -56,7 +56,7 @@ public class OracleDatabase extends DatabaseObject implements ValidateAction {
 
     @Override
     public String toString() {
-        return "oracle{" +
+        return "OracleDatabase{" +
             "name=" + getName() +
             ", type=" + getType() +
             ", sourceDirectory=" + getSourceDirectory() +
@@ -103,5 +103,6 @@ public class OracleDatabase extends DatabaseObject implements ValidateAction {
         setType(DATABASE);
         if (getIgnoreDirectory() == null)
             setIgnoreDirectory(FALSE);
+        setDirectoryFull(getSourceDirectoryFull(), getOutputDirectoryFull());
     }
 }

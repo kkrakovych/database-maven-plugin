@@ -55,7 +55,7 @@ public class OracleSchema extends DatabaseObject implements ValidateAction {
 
     @Override
     public String toString() {
-        return "schema{" +
+        return "OracleSchema{" +
             "index=" + getIndex() +
             ", name=" + getName() +
             ", sourceDirectory=" + getSourceDirectory() +
@@ -104,5 +104,6 @@ public class OracleSchema extends DatabaseObject implements ValidateAction {
         setType(SCHEMA);
         if (getIgnoreDirectory() == null)
             setIgnoreDirectory(FALSE);
+        setDirectoryFull(getSourceDirectoryFull(), getOutputDirectoryFull());
     }
 }

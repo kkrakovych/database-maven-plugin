@@ -42,7 +42,7 @@ public class OracleObject extends DatabaseObject implements ValidateAction {
 
     @Override
     public String toString() {
-        return "object{" +
+        return "OracleObject{" +
             "index=" + getIndex() +
             ", type=" + getType() +
             ", sourceDirectory=" + getSourceDirectory() +
@@ -81,5 +81,6 @@ public class OracleObject extends DatabaseObject implements ValidateAction {
             setIgnoreDirectory(FALSE);
         if (getFileMask() == null)
             setFileMask(FILE_MASK_SQL);
+        setDirectoryFull(getSourceDirectoryFull(), getOutputDirectoryFull());
     }
 }
