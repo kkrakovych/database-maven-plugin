@@ -35,6 +35,7 @@
                 <artifactId>database-maven-plugin</artifactId>
                 <version>1.0-SNAPSHOT</version>
                 <configuration>
+                    <serviceDirectory>.service</serviceDirectory>
                     <oracle>
                         <name>database</name>
                         <schemes>

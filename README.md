@@ -96,19 +96,41 @@ mvn database:package
         <plugin>
             <groupId>net.kosto</groupId>
             <artifactId>database-maven-plugin</artifactId>
-            <version>1.0</version>
+            <version>1.0-SNAPSHOT</version>
             <configuration>
-                <serviceDirectory>serviceDirectoryName</serviceDirectory>
+                <serviceDirectory>.service</serviceDirectory>
                 <oracle>
-                    <name>databaseName</name>
+                    <name>database</name>
                     <schemes>
                         <schema>
+                            <index>2</index>
+                            <name>schema_a</name>
+                            <objects>
+                                <object>
+                                    <index>2</index>
+                                    <type>PROCEDURE</type>
+                                </object>
+                                <object>
+                                    <index>1</index>
+                                    <type>FUNCTION</type>
+                                </object>
+                            </objects>
+                        </schema>
+                        <schema>
                             <index>1</index>
-                            <name>schemaName</name>
+                            <name>schema_b</name>
                             <objects>
                                 <object>
                                     <index>1</index>
+                                    <type>FUNCTION</type>
+                                    <sourceDirectory>fncs</sourceDirectory>
+                                    <fileMask>*.fnc</fileMask>
+                                </object>
+                                <object>
+                                    <index>2</index>
                                     <type>PROCEDURE</type>
+                                    <sourceDirectory>prcs</sourceDirectory>
+                                    <fileMask>*.prc</fileMask>
                                 </object>
                             </objects>
                         </schema>
