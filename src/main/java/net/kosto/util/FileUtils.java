@@ -25,6 +25,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.io.File.separator;
 
@@ -59,5 +60,10 @@ public class FileUtils {
             }
         }
         return files;
+    }
+
+    public static List<String> getFileNames(Path sourceDirectory, String fileExtension) throws MojoExecutionException {
+        List<Path> files = getFiles(sourceDirectory, fileExtension);
+        return files.stream().map(Path::getFileName).map(Path::toString).sorted(String::compareTo).collect(Collectors.toList());
     }
 }

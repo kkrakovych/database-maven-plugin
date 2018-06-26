@@ -28,6 +28,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -41,6 +42,13 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static net.kosto.util.FileUtils.FILE_MASK_SQL;
 
 public class OracleProcessor implements Processor {
+
+    private static final String ORACLE = "oracle";
+    private static final String SERVICE = "service";
+    private static final String COMMON = "common";
+    private static final String SCHEMA = "schema";
+    private static final String OBJECT = "object";
+    private static final String FILES = "files";
 
     /** Full configuration object. */
     private final Configuration configuration;
@@ -70,39 +78,31 @@ public class OracleProcessor implements Processor {
 
     private void processServiceScripts() throws MojoExecutionException {
         Path directory = FileUtils.createDirectories(configuration.getOutputDirectory());
-        List<Path> files = ResourceUtils.getFiles(FILE_MASK_SQL, "oracle");
-        processTemplateFiles(directory, files);
+        processTemplateFiles(directory, ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE));
 
         directory = FileUtils.createDirectories(configuration.getOutputDirectory(), configuration.getServiceDirectory());
-        files = ResourceUtils.getFiles(FILE_MASK_SQL, "oracle", "service", "common");
-        processTemplateFiles(directory, files);
+        processTemplateFiles(directory, ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, SERVICE, COMMON));
     }
 
     private void processSchemes() throws MojoExecutionException {
-        Path directory;
-        List<Path> files;
-
         for (OracleSchema schema : configuration.getOracle().getSchemes()) {
-            directory = FileUtils.createDirectories(schema.getOutputDirectoryFull());
-            files = ResourceUtils.getFiles(FILE_MASK_SQL, "oracle", "service", "schema");
-            templateParameters.put("schema", schema);
-            processTemplateFiles(directory, files);
+            Path directory = FileUtils.createDirectories(schema.getOutputDirectoryFull());
+            templateParameters.put(SCHEMA, schema);
+            processTemplateFiles(directory, ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, SERVICE, SCHEMA));
 
             processSchemaObjects(schema);
         }
     }
 
     private void processSchemaObjects(OracleSchema schema) throws MojoExecutionException {
-        Path directory;
-        List<Path> files;
-        Path source;
-
         for (OracleObject object : schema.getObjects()) {
-            source = Paths.get(object.getSourceDirectoryFull());
-            directory = FileUtils.createDirectories(object.getOutputDirectoryFull());
-            files = FileUtils.getFiles(source, object.getFileMask());
+            Path source = Paths.get(object.getSourceDirectoryFull());
+            Path directory = FileUtils.createDirectories(object.getOutputDirectoryFull());
+            templateParameters.put(OBJECT, object);
+            templateParameters.put(FILES, FileUtils.getFileNames(source, object.getFileMask()));
+            processTemplateFiles(directory, ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, SERVICE, OBJECT));
 
-            processSourceFiles(directory, files);
+            processSourceFiles(directory, FileUtils.getFiles(source, object.getFileMask()));
         }
     }
 
@@ -111,7 +111,22 @@ public class OracleProcessor implements Processor {
             Path fileName = file.getFileName();
             if (fileName == null)
                 continue;
-            Path output = Paths.get(directory.toString(), fileName.toString());
+
+            String name = fileName.toString();
+            if (name.contains("$")) {
+                StringWriter writer = new StringWriter();
+                try {
+                    Template template = new Template(name, name, templateConfiguration);
+                    template.process(templateParameters, writer);
+                    name = writer.toString();
+                } catch (IOException x) {
+                    throw new MojoExecutionException("Failed to get template file name.", x);
+                } catch (TemplateException x) {
+                    throw new MojoExecutionException("Failed to process template file name.", x);
+                }
+            }
+
+            Path output = Paths.get(directory.toString(), name);
 
             try {
                 Template template = templateConfiguration.getTemplate(file.toString());
@@ -130,11 +145,9 @@ public class OracleProcessor implements Processor {
     }
 
     private void processSourceFiles(Path directory, List<Path> files) throws MojoExecutionException {
-        Path target;
-
         for (Path file : files) {
             try {
-                target = Paths.get(directory.toString(), file.getFileName().toString());
+                Path target = Paths.get(directory.toString(), file.getFileName().toString());
                 Files.copy(file, target, REPLACE_EXISTING, COPY_ATTRIBUTES);
             } catch (IOException x) {
                 throw new MojoExecutionException("Failed to copy source file.", x);
