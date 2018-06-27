@@ -22,6 +22,7 @@ import net.kosto.service.Processor;
 import net.kosto.service.ProcessorFactory;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
@@ -31,6 +32,8 @@ import static org.apache.maven.plugins.annotations.LifecyclePhase.PROCESS_SOURCE
 
 @Mojo(name = "package", defaultPhase = PROCESS_SOURCES)
 public class Package extends AbstractMojo {
+
+    private final Log logger = this.getLog();
 
     @Parameter(property = "project.version", required = true)
     private String buildVersion;
@@ -59,6 +62,8 @@ public class Package extends AbstractMojo {
             .oracle(oracle)
             .build();
         configuration.validate();
+
+        logger.debug(configuration.toString());
 
         Processor processor = ProcessorFactory.getProcessor(configuration);
         processor.process();
