@@ -27,8 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.io.File.separator;
-
 public class FileUtils {
 
     public static final String FILE_MASK_SQL = "*.sql";
@@ -36,8 +34,8 @@ public class FileUtils {
     private FileUtils() {
     }
 
-    public static Path createDirectories(String... directories) throws MojoExecutionException {
-        Path result = Paths.get(separator, directories);
+    public static Path createDirectories(String firstDirectoryPart, String... moreDirectoryParts) throws MojoExecutionException {
+        Path result = Paths.get(firstDirectoryPart, moreDirectoryParts);
         if (!result.toFile().exists()) {
             try {
                 Files.createDirectories(result);

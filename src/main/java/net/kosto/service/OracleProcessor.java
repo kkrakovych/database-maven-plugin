@@ -128,7 +128,9 @@ public class OracleProcessor implements Processor {
             // Process file via template
             Path output = Paths.get(directory.toString(), name);
             try {
-                Template template = templateConfiguration.getTemplate(file.toString());
+                // Line below is for defence against execution on OS Windows
+                String templateName = file.toString().replaceAll("\\\\", "/");
+                Template template = templateConfiguration.getTemplate(templateName);
                 try (
                     BufferedWriter writer = Files.newBufferedWriter(output, UTF_8)
                 ) {

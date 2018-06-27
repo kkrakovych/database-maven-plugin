@@ -28,14 +28,12 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import static java.io.File.separator;
-
 public class ResourceUtils {
 
     private ResourceUtils() {
     }
 
-    public static List<Path> getFiles(String fileMask, String... directories) throws MojoExecutionException {
+    public static List<Path> getFiles(String fileMask, String firstDirectoryPart, String... moreDirectoryParts) throws MojoExecutionException {
         List<Path> result = new ArrayList<>();
 
         CodeSource source = ResourceUtils.class.getProtectionDomain().getCodeSource();
@@ -50,13 +48,15 @@ public class ResourceUtils {
                     .replace("?", ".?")
                     .replace("*", ".*?");
 
-                Path directory = Paths.get(separator, directories);
+                Path directory = Paths.get(firstDirectoryPart, moreDirectoryParts);
                 ZipEntry ze;
                 while ((ze = zip.getNextEntry()) != null) {
-                    Path path = Paths.get(separator, ze.getName());
+                    if (!ze.getName().contains(firstDirectoryPart) || !ze.getName().matches(pattern))
+                        continue;
+                    Path path = Paths.get(ze.getName());
                     Path parent = path.getParent();
                     Path file = path.getFileName();
-                    if (file != null && parent.equals(directory) && file.toString().matches(pattern)) {
+                    if (file != null && parent != null && parent.equals(directory) && file.toString().matches(pattern)) {
                         result.add(path);
                     }
                 }
