@@ -16,9 +16,29 @@
 
 package oracle
 
-def separator = System.getProperty("file.separator")
+import java.nio.charset.StandardCharsets
+import java.nio.file.Files
 
-// Check service scripts
-def filePath = "$basedir" + separator + "target" + separator + "install_manual.sql"
-def file = new File(filePath)
-assert file.exists(): filePath + " file not found"
+def sep = File.separator
+
+// Check service scripts existence
+def outputFilePath = "$basedir" + sep + "target" + sep + "install_manual.sql"
+def outputFile = new File(outputFilePath.toString())
+assert outputFile.exists(): outputFilePath + " file not found"
+
+// Check service script content
+def sampleFilePath = "$basedir" + sep + "verify" + sep + "install_manual.sql"
+def sampleFile = new File(sampleFilePath.toString())
+assert sampleFile.exists(): sampleFilePath + " file not found"
+
+List<String> outputLines = Files.readAllLines(outputFile.toPath(), StandardCharsets.UTF_8)
+List<String> sampleLines = Files.readAllLines(sampleFile.toPath(), StandardCharsets.UTF_8)
+assert (outputLines.size() == sampleLines.size()): outputFilePath + " file has wrong size"
+
+def diffCount = 0
+for (int i = 0; i < outputLines.size(); i++) {
+    if (outputLines.get(i) != sampleLines.get(i)) {
+        diffCount = diffCount + 1
+    }
+}
+assert (diffCount < 2): outputFilePath + " file has wrong content"
