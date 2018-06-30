@@ -1,6 +1,6 @@
 
 prompt
-prompt === Deploy schema schema_a
+prompt === Deploy Schema [schema_a]
 prompt
 
 connect &usr_schema_a/&pwd_schema_a@&tns_name

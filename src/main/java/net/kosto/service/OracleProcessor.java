@@ -19,6 +19,7 @@ package net.kosto.service;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import net.kosto.configuration.Configuration;
+import net.kosto.configuration.oracle.OracleDatabase;
 import net.kosto.configuration.oracle.OracleObject;
 import net.kosto.configuration.oracle.OracleSchema;
 import net.kosto.util.FileUtils;
@@ -47,6 +48,7 @@ public class OracleProcessor implements Processor {
 
     private static final String ORACLE = "oracle";
     private static final String COMMON = "common";
+    private static final String DATABASE = "database";
     private static final String SCHEMA = "schema";
     private static final String OBJECT = "object";
     private static final String FILES = "files";
@@ -73,16 +75,27 @@ public class OracleProcessor implements Processor {
 
     @Override
     public void process() throws MojoExecutionException {
+        processMainScripts();
         processServiceScripts();
-        processSchemes();
+        processDatabase();
+    }
+
+    private void processMainScripts() throws MojoExecutionException {
+        Path directory = FileUtils.createDirectories(configuration.getOutputDirectory());
+        processTemplateFiles(directory, ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE));
     }
 
     private void processServiceScripts() throws MojoExecutionException {
-        Path directory = FileUtils.createDirectories(configuration.getOutputDirectory());
-        processTemplateFiles(directory, ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE));
-
-        directory = FileUtils.createDirectories(configuration.getOutputDirectory(), configuration.getServiceDirectory());
+        Path directory = FileUtils.createDirectories(configuration.getOutputDirectory(), configuration.getServiceDirectory());
         processTemplateFiles(directory, ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, DEFAULT_SERVICE_DIRECTORY, COMMON));
+    }
+
+    private void processDatabase() throws MojoExecutionException {
+        OracleDatabase database = configuration.getOracle();
+        Path directory = FileUtils.createDirectories(database.getOutputDirectoryFull());
+        processTemplateFiles(directory, ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, DEFAULT_SERVICE_DIRECTORY, DATABASE));
+
+        processSchemes();
     }
 
     private void processSchemes() throws MojoExecutionException {

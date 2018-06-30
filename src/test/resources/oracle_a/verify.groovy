@@ -25,7 +25,7 @@ def verify = "$basedir" + sep + "verify" + sep
 String output
 String sample
 
-static void checkFile(output, sample) {
+static void checkFile(output, sample, diffCountLimit) {
     def outputFile = new File(output.toString())
     assert outputFile.exists(): output + " file not found"
 
@@ -42,17 +42,21 @@ static void checkFile(output, sample) {
             diffCount = diffCount + 1
         }
     }
-    assert (diffCount < 2): output + " file has wrong content"
+    assert (diffCount <= diffCountLimit): output + " file has wrong content"
 }
 
 output = target + "install_manual.sql"
 sample = verify + "install_manual.sql"
-checkFile(output, sample)
+checkFile(output, sample, 1)
 
-output = target + "database" + sep + "schema_a" + sep + "install.sql"
-sample = verify + "database" + sep + "schema_a" + sep + "install.sql"
-checkFile(output, sample)
+output = target + "database" + sep + "install_database.sql"
+sample = verify + "database" + sep + "install_database.sql"
+checkFile(output, sample, 0)
 
-output = target + "database" + sep + "schema_b" + sep + "install.sql"
-sample = verify + "database" + sep + "schema_b" + sep + "install.sql"
-checkFile(output, sample)
+output = target + "database" + sep + "schema_a" + sep + "install_2_schema_a.sql"
+sample = verify + "database" + sep + "schema_a" + sep + "install_2_schema_a.sql"
+checkFile(output, sample, 0)
+
+output = target + "database" + sep + "schema_b" + sep + "install_1_schema_b.sql"
+sample = verify + "database" + sep + "schema_b" + sep + "install_1_schema_b.sql"
+checkFile(output, sample, 0)

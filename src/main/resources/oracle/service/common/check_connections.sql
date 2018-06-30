@@ -15,7 +15,7 @@
   -->
 
 prompt
-prompt === Check connections
+prompt === Check Connections
 prompt
 
 <#list database.schemes as schema>
