@@ -14,7 +14,7 @@
   -- limitations under the License.
   -->
 
-prompt Compile schema objects
+prompt Compile schema objects.
 
 begin
    dbms_utility.compile_schema

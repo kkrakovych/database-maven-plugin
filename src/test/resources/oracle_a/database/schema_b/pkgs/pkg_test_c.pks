@@ -14,9 +14,17 @@
  * limitations under the License.
  */
 
-create or replace procedure prc_test_c
-is
-begin
-   null;
-end prc_test_c;
+create or replace package pkg_test_c as
+
+   procedure prc_test_a;
+
+   procedure prc_test_b;
+
+   function fnc_test_a
+      return number;
+
+   function fnc_test_b
+      return varchar2;
+
+end pkg_test_c;
 /

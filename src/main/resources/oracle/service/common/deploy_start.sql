@@ -14,7 +14,7 @@
   -- limitations under the License.
   -->
 
-prompt Start deploy version
+prompt Start deploy version.
 
 update deploy$version v
    set v.is_current   = 'N'

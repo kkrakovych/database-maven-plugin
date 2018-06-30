@@ -18,5 +18,5 @@ create or replace procedure prc_test_b
 is
 begin
    null;
-end;
+end prc_test_b;
 /

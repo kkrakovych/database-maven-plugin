@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-create or replace procedure prc_test_c
-is
-begin
-   null;
-end prc_test_c;
+create or replace force view view_d
+as
+ select rownum as id
+   from dual
+connect by level <= 10;
 /

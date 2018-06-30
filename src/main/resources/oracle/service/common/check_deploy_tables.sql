@@ -14,7 +14,7 @@
   -- limitations under the License.
   -->
 
-prompt Check deploy tables
+prompt Check deploy tables.
 
 declare
    c_msg_service_table  constant varchar2(1000 char) := 'Service table ';

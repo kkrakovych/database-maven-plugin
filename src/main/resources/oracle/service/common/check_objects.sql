@@ -14,12 +14,20 @@
   -- limitations under the License.
   -->
 
-prompt Finish deploy version.
+prompt Check objects.
 
-update deploy$version            v
-   set v.deploy_finish_timestamp = sysdate
-     , v.deploy_status           = 'COMPLETED'
- where v.is_current              = 'Y'
-/
-commit
+declare
+   l_cnt pls_integer;
+begin
+   dbms_output.put('Number of invalid schema''s objects = ');
+   select count(1)
+     into l_cnt
+     from user_objects o
+    where o.status     <> 'VALID';
+   dbms_output.put_line(l_cnt || '.');
+   if l_cnt <> 0
+   then
+      raise_application_error(-20001, 'The schema contains invalid objects.');
+   end if;
+end;
 /

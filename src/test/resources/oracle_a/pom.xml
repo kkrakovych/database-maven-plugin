@@ -46,12 +46,24 @@
                                 <name>schema_a</name>
                                 <objects>
                                     <object>
+                                        <index>3</index>
+                                        <type>VIEW</type>
+                                    </object>
+                                    <object>
                                         <index>2</index>
                                         <type>PROCEDURE</type>
                                     </object>
                                     <object>
                                         <index>1</index>
                                         <type>FUNCTION</type>
+                                    </object>
+                                    <object>
+                                        <index>4</index>
+                                        <type>PACKAGE_SPEC</type>
+                                    </object>
+                                    <object>
+                                        <index>5</index>
+                                        <type>PACKAGE_BODY</type>
                                     </object>
                                 </objects>
                             </schema>
@@ -70,6 +82,23 @@
                                         <type>PROCEDURE</type>
                                         <sourceDirectory>prcs</sourceDirectory>
                                         <fileMask>*.prc</fileMask>
+                                    </object>
+                                    <object>
+                                        <index>3</index>
+                                        <type>VIEW</type>
+                                        <sourceDirectory>view</sourceDirectory>
+                                    </object>
+                                    <object>
+                                        <index>4</index>
+                                        <type>PACKAGE_SPEC</type>
+                                        <sourceDirectory>pkgs</sourceDirectory>
+                                        <fileMask>*.pks</fileMask>
+                                    </object>
+                                    <object>
+                                        <index>5</index>
+                                        <type>PACKAGE_BODY</type>
+                                        <sourceDirectory>pkgs</sourceDirectory>
+                                        <fileMask>*.pkb</fileMask>
                                     </object>
                                 </objects>
                             </schema>

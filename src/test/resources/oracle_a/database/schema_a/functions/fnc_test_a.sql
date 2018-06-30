@@ -19,5 +19,5 @@ create or replace function fnc_test_a
 is
 begin
    return null;
-end;
+end fnc_test_a;
 /

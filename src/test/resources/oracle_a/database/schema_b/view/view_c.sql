@@ -14,9 +14,21 @@
  * limitations under the License.
  */
 
-create or replace procedure prc_test_c
-is
-begin
-   null;
-end prc_test_c;
+create or replace force view view_c
+as
+select 1           as id
+     , 'something' as text
+  from dual
+ union all
+select 2           as id
+     , 'in'        as text
+  from dual
+ union all
+select 3           as id
+     , 'the'       as text
+  from dual
+ union all
+select 3           as id
+     , 'air'       as text
+  from dual
 /

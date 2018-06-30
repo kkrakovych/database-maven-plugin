@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-create or replace procedure prc_test_b
+create or replace procedure prc_test_d
 is
 begin
    null;
-end;
+end prc_test_d;
 /
