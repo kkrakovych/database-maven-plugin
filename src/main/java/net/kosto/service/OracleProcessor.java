@@ -21,7 +21,6 @@ import freemarker.template.TemplateException;
 import net.kosto.configuration.Configuration;
 import net.kosto.configuration.oracle.OracleObject;
 import net.kosto.configuration.oracle.OracleSchema;
-import net.kosto.util.DateUtils;
 import net.kosto.util.FileUtils;
 import net.kosto.util.ResourceUtils;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -40,7 +39,9 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.StandardCopyOption.COPY_ATTRIBUTES;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static net.kosto.configuration.Configuration.DEFAULT_SERVICE_DIRECTORY;
+import static net.kosto.util.DateUtils.FORMATTER_DATE_TIME;
 import static net.kosto.util.FileUtils.FILE_MASK_SQL;
+import static net.kosto.util.FileUtils.UNIX_SEPARATOR;
 
 public class OracleProcessor implements Processor {
 
@@ -65,7 +66,7 @@ public class OracleProcessor implements Processor {
         // Set up template processor configuration
         templateParameters = new HashMap<>();
         templateParameters.put("buildVersion", configuration.getBuildVersion());
-        templateParameters.put("buildTimestamp", configuration.getBuildTimestamp().format(DateUtils.FORMATTER_DATE_TIME));
+        templateParameters.put("buildTimestamp", configuration.getBuildTimestamp().format(FORMATTER_DATE_TIME));
         templateParameters.put("serviceDirectory", configuration.getServiceDirectory());
         templateParameters.put("database", configuration.getOracle());
     }
@@ -129,7 +130,7 @@ public class OracleProcessor implements Processor {
             Path output = Paths.get(directory.toString(), name);
             try {
                 // Line below is for defence against execution on OS Windows
-                String templateName = file.toString().replaceAll("\\\\", "/");
+                String templateName = file.toString().replaceAll("\\\\", UNIX_SEPARATOR);
                 Template template = templateConfiguration.getTemplate(templateName);
                 try (
                     BufferedWriter writer = Files.newBufferedWriter(output, UTF_8)

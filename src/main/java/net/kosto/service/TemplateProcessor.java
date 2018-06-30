@@ -24,6 +24,7 @@ import static freemarker.template.Configuration.VERSION_2_3_28;
 import static freemarker.template.TemplateExceptionHandler.RETHROW_HANDLER;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Locale.US;
+import static net.kosto.util.FileUtils.UNIX_SEPARATOR;
 
 public class TemplateProcessor {
 
@@ -33,7 +34,7 @@ public class TemplateProcessor {
 
     private TemplateProcessor() {
         configuration = new Configuration(DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
-        configuration.setClassForTemplateLoading(Package.class, "/");
+        configuration.setClassForTemplateLoading(Package.class, UNIX_SEPARATOR);
         configuration.setIncompatibleImprovements(VERSION_2_3_28);
         configuration.setDefaultEncoding(UTF_8.name());
         configuration.setLocale(US);

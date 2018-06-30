@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 
 public class FileUtils {
 
+    public static final String UNIX_SEPARATOR = "/";
     public static final String FILE_MASK_SQL = "*.sql";
 
     private FileUtils() {

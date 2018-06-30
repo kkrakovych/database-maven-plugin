@@ -18,6 +18,8 @@ package net.kosto.configuration.model;
 
 import java.nio.file.Paths;
 
+import static net.kosto.util.FileUtils.UNIX_SEPARATOR;
+
 /**
  * {@code DatabaseObject} represents basic database object configuration.
  * <p>
@@ -39,7 +41,7 @@ public abstract class DatabaseObject {
     private String fileMask;
 
     /** Relative path to execute directory. */
-    private String executeDirectory = "/";
+    private String executeDirectory = UNIX_SEPARATOR;
     /** Full path to object's source directory. */
     private String sourceDirectoryFull;
     /** Full path to object's output directory. */
@@ -123,7 +125,7 @@ public abstract class DatabaseObject {
      */
     protected void amendDirectories() {
         if (!getIgnoreDirectory()) {
-            this.executeDirectory = ("/" + getExecuteDirectory() + "/" + getSourceDirectory() + "/").replaceAll("/{2,}", "/");
+            this.executeDirectory = (UNIX_SEPARATOR + getExecuteDirectory() + UNIX_SEPARATOR + getSourceDirectory() + UNIX_SEPARATOR).replaceAll(UNIX_SEPARATOR + "{2,}", UNIX_SEPARATOR);
             this.sourceDirectoryFull = Paths.get(getSourceDirectoryFull(), getSourceDirectory()).toString();
             this.outputDirectoryFull = Paths.get(getOutputDirectoryFull(), getSourceDirectory()).toString();
         }
