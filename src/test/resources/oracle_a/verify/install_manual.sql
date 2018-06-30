@@ -1,7 +1,7 @@
 
 prompt
 prompt === DATABASE-MAVEN-PLUGIN
-prompt [database] oracle database version [test] created at [2018-06-28 21:15:31]
+prompt [database] oracle database version [test] created at [2018-06-30 16:34:35]
 
 @./.service/input_parameters.sql
 @./.service/sqlplus_setup.sql

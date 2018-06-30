@@ -22,6 +22,8 @@ import java.nio.file.Files
 def sep = File.separator
 def target = "$basedir" + sep + "target" + sep
 def verify = "$basedir" + sep + "verify" + sep
+String output
+String sample
 
 static void checkFile(output, sample) {
     def outputFile = new File(output.toString())
@@ -43,6 +45,14 @@ static void checkFile(output, sample) {
     assert (diffCount < 2): output + " file has wrong content"
 }
 
-def output = target + "install_manual.sql"
-def sample = verify + "install_manual.sql"
+output = target + "install_manual.sql"
+sample = verify + "install_manual.sql"
+checkFile(output, sample)
+
+output = target + "database" + sep + "schema_a" + sep + "install.sql"
+sample = verify + "database" + sep + "schema_a" + sep + "install.sql"
+checkFile(output, sample)
+
+output = target + "database" + sep + "schema_b" + sep + "install.sql"
+sample = verify + "database" + sep + "schema_b" + sep + "install.sql"
 checkFile(output, sample)
