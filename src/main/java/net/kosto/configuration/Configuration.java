@@ -107,7 +107,8 @@ public class Configuration implements ValidateAction {
     public void validate() throws MojoExecutionException {
         switch (databaseType) {
             case ORACLE:
-                oracle.setDirectoryFull(getSourceDirectory(), getOutputDirectory());
+                oracle.setSourceDirectoryFull(getSourceDirectory());
+                oracle.setOutputDirectoryFull(getOutputDirectory());
                 oracle.validate();
                 break;
             default:

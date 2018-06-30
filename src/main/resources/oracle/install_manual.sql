@@ -29,7 +29,7 @@ spool install_manual_${database.name}_${buildVersion}_&timestamp..log
 @./${serviceDirectory}/deploy_information.sql
 
 <#list database.schemes as schema>
-@./${database.sourceDirectory}/${schema.sourceDirectory}/install.sql
+@.${schema.executeDirectory}install.sql
 </#list>
 
 prompt

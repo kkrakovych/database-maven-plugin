@@ -61,9 +61,10 @@ public class OracleDatabase extends DatabaseObject implements ValidateAction {
             ", type=" + getType() +
             ", sourceDirectory=" + getSourceDirectory() +
             ", ignoreDirectory=" + getIgnoreDirectory() +
-            ", schemes=" + getSchemes() +
+            ", executeDirectory=" + getExecuteDirectory() +
             ", sourceDirectoryFull=" + getSourceDirectoryFull() +
             ", outputDirectoryFull=" + getOutputDirectoryFull() +
+            ", schemes=" + getSchemes() +
             '}';
     }
 
@@ -75,7 +76,9 @@ public class OracleDatabase extends DatabaseObject implements ValidateAction {
         getSchemes().sort(Comparator.comparingInt(OracleSchema::getIndex).thenComparing(OracleSchema::getName));
 
         for (OracleSchema schema : schemes) {
-            schema.setDirectoryFull(getSourceDirectoryFull(), getOutputDirectoryFull());
+            schema.setExecuteDirectory(getExecuteDirectory());
+            schema.setSourceDirectoryFull(getSourceDirectoryFull());
+            schema.setOutputDirectoryFull(getOutputDirectoryFull());
             schema.validate();
         }
     }
@@ -98,11 +101,11 @@ public class OracleDatabase extends DatabaseObject implements ValidateAction {
      * Sets default values for {@code OracleDatabase} configuration.
      */
     private void setDefaultValues() {
-        if (getSourceDirectory() == null || getSourceDirectory().isEmpty())
-            setSourceDirectory(getName());
         setType(DATABASE);
         if (getIgnoreDirectory() == null)
             setIgnoreDirectory(FALSE);
-        setDirectoryFull(getSourceDirectoryFull(), getOutputDirectoryFull());
+        if (getSourceDirectory() == null || getSourceDirectory().isEmpty())
+            setSourceDirectory(getIgnoreDirectory() ? "" : getName());
+        amendDirectories();
     }
 }

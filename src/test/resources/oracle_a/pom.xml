@@ -22,8 +22,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>net.test</groupId>
-    <artifactId>oracle</artifactId>
-    <name>oracle</name>
+    <artifactId>oracle_a</artifactId>
+    <name>oracle_a</name>
     <version>test</version>
 
     <properties>

@@ -14,19 +14,10 @@
  * limitations under the License.
  */
 
-prompt
-prompt === Deploy schema ${schema.name}
-prompt
-
-connect &usr_${schema.name}/&pwd_${schema.name}@&tns_name
-
-@./${serviceDirectory}/sqlplus_setup.sql
-@./${serviceDirectory}/check_deploy_tables.sql
-@./${serviceDirectory}/deploy_start.sql
-
-<#list schema.objects as object>
-@.${object.executeDirectory}install_${object.index}_${object.type}.sql
-</#list>
-
-@./${serviceDirectory}/compile_schema.sql
-@./${serviceDirectory}/deploy_finish.sql
+create or replace function fnc_test_a
+   return number
+is
+begin
+   return null;
+end;
+/

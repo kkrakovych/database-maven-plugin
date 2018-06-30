@@ -15,5 +15,5 @@
  */
 
 <#list files as file>
-@./${database.sourceDirectory}/${schema.sourceDirectory}/${object.sourceDirectory}/${file}
+@.${object.executeDirectory}${file}
 </#list>

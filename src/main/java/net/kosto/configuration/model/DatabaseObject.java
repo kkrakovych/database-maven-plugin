@@ -38,6 +38,8 @@ public abstract class DatabaseObject {
     /** Database object's file mask. */
     private String fileMask;
 
+    /** Relative path to execute directory. */
+    private String executeDirectory = "/";
     /** Full path to object's source directory. */
     private String sourceDirectoryFull;
     /** Full path to object's output directory. */
@@ -91,27 +93,39 @@ public abstract class DatabaseObject {
         this.fileMask = fileMask;
     }
 
+    public String getExecuteDirectory() {
+        return executeDirectory;
+    }
+
+    public void setExecuteDirectory(String executeDirectory) {
+        this.executeDirectory = executeDirectory;
+    }
+
     public String getSourceDirectoryFull() {
         return sourceDirectoryFull;
+    }
+
+    public void setSourceDirectoryFull(String sourceDirectoryFull) {
+        this.sourceDirectoryFull = sourceDirectoryFull;
     }
 
     public String getOutputDirectoryFull() {
         return outputDirectoryFull;
     }
 
+    public void setOutputDirectoryFull(String outputDirectoryFull) {
+        this.outputDirectoryFull = outputDirectoryFull;
+    }
+
     /**
-     * Sets full path to source and output directories taking into account specified parameters and {@link #ignoreDirectory} option.
-     *
-     * @param sourceDirectoryFull Full path to source directory.
-     * @param outputDirectoryFull Full path to output directory.
+     * Amends paths to full source and output, and execute directories
+     * taking into account specified parameters and {@link #ignoreDirectory} option.
      */
-    public void setDirectoryFull(String sourceDirectoryFull, String outputDirectoryFull) {
-        if (getIgnoreDirectory() != null && !getIgnoreDirectory()) {
-            this.sourceDirectoryFull = Paths.get(sourceDirectoryFull, getSourceDirectory()).toString();
-            this.outputDirectoryFull = Paths.get(outputDirectoryFull, getSourceDirectory()).toString();
-        } else {
-            this.sourceDirectoryFull = sourceDirectoryFull;
-            this.outputDirectoryFull = outputDirectoryFull;
+    protected void amendDirectories() {
+        if (!getIgnoreDirectory()) {
+            this.executeDirectory = ("/" + getExecuteDirectory() + "/" + getSourceDirectory() + "/").replaceAll("/{2,}", "/");
+            this.sourceDirectoryFull = Paths.get(getSourceDirectoryFull(), getSourceDirectory()).toString();
+            this.outputDirectoryFull = Paths.get(getOutputDirectoryFull(), getSourceDirectory()).toString();
         }
     }
 
@@ -124,6 +138,7 @@ public abstract class DatabaseObject {
             ", sourceDirectory=" + sourceDirectory +
             ", ignoreDirectory=" + ignoreDirectory +
             ", fileMask=" + fileMask +
+            ", executeDirectory=" + executeDirectory +
             ", sourceDirectoryFull=" + sourceDirectoryFull +
             ", outputDirectoryFull=" + outputDirectoryFull +
             '}';

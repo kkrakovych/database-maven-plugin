@@ -60,9 +60,10 @@ public class OracleSchema extends DatabaseObject implements ValidateAction {
             ", name=" + getName() +
             ", sourceDirectory=" + getSourceDirectory() +
             ", ignoreDirectory=" + getIgnoreDirectory() +
-            ", objects=" + getObjects() +
+            ", executeDirectory=" + getExecuteDirectory() +
             ", sourceDirectoryFull=" + getSourceDirectoryFull() +
             ", outputDirectoryFull=" + getOutputDirectoryFull() +
+            ", objects=" + getObjects() +
             "}";
     }
 
@@ -74,7 +75,9 @@ public class OracleSchema extends DatabaseObject implements ValidateAction {
         getObjects().sort(Comparator.comparingInt(OracleObject::getIndex).thenComparing(OracleObject::getType));
 
         for (OracleObject object : objects) {
-            object.setDirectoryFull(getSourceDirectoryFull(), getOutputDirectoryFull());
+            object.setExecuteDirectory(getExecuteDirectory());
+            object.setSourceDirectoryFull(getSourceDirectoryFull());
+            object.setOutputDirectoryFull(getOutputDirectoryFull());
             object.validate();
         }
     }
@@ -99,11 +102,11 @@ public class OracleSchema extends DatabaseObject implements ValidateAction {
      * Sets default values for {@code OracleSchema} configuration.
      */
     private void setDefaultValues() {
-        if (getSourceDirectory() == null || getSourceDirectory().isEmpty())
-            setSourceDirectory(getName());
         setType(SCHEMA);
         if (getIgnoreDirectory() == null)
             setIgnoreDirectory(FALSE);
-        setDirectoryFull(getSourceDirectoryFull(), getOutputDirectoryFull());
+        if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory())
+            setSourceDirectory(getIgnoreDirectory() ? "" : getName());
+        amendDirectories();
     }
 }

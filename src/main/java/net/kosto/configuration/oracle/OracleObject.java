@@ -48,6 +48,7 @@ public class OracleObject extends DatabaseObject implements ValidateAction {
             ", sourceDirectory=" + getSourceDirectory() +
             ", ignoreDirectory=" + getIgnoreDirectory() +
             ", fileMask=" + getFileMask() +
+            ", executeDirectory=" + getExecuteDirectory() +
             ", sourceDirectoryFull=" + getSourceDirectoryFull() +
             ", outputDirectoryFull=" + getOutputDirectoryFull() +
             "}";
@@ -75,12 +76,12 @@ public class OracleObject extends DatabaseObject implements ValidateAction {
      * Sets default values for {@code OracleObject} configuration.
      */
     private void setDefaultValues() {
-        if (getSourceDirectory() == null || getSourceDirectory().isEmpty())
-            setSourceDirectory(getType().getSourceDirectory());
         if (getIgnoreDirectory() == null)
             setIgnoreDirectory(FALSE);
         if (getFileMask() == null)
             setFileMask(FILE_MASK_SQL);
-        setDirectoryFull(getSourceDirectoryFull(), getOutputDirectoryFull());
+        if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory())
+            setSourceDirectory(getIgnoreDirectory() ? "" : getType().getSourceDirectory());
+        amendDirectories();
     }
 }
