@@ -26,7 +26,6 @@ import java.util.List;
 import static java.lang.Boolean.FALSE;
 import static net.kosto.configuration.ValidateError.EMPTY_LIST_PARAMETER;
 import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
-import static net.kosto.configuration.model.DatabaseObjectType.DATABASE;
 
 /**
  * {@code OracleDatabase} represents Oracle database configuration.
@@ -37,7 +36,6 @@ import static net.kosto.configuration.model.DatabaseObjectType.DATABASE;
  * Default values for missing attributes:
  * <ul>
  * <li>{@link OracleDatabase#sourceDirectory} = {@link OracleDatabase#name}</li>
- * <li>{@link OracleDatabase#type} = {@link net.kosto.configuration.model.DatabaseObjectType#DATABASE}</li>
  * <li>{@link OracleDatabase#ignoreDirectory} = {@link Boolean#FALSE}</li>
  * </ul>
  */
@@ -58,7 +56,6 @@ public class OracleDatabase extends DatabaseObject implements ValidateAction {
     public String toString() {
         return "OracleDatabase{" +
             "name=" + getName() +
-            ", type=" + getType() +
             ", sourceDirectory=" + getSourceDirectory() +
             ", ignoreDirectory=" + getIgnoreDirectory() +
             ", executeDirectory=" + getExecuteDirectory() +
@@ -101,11 +98,10 @@ public class OracleDatabase extends DatabaseObject implements ValidateAction {
      * Sets default values for {@code OracleDatabase} configuration.
      */
     private void setDefaultValues() {
-        setType(DATABASE);
         if (getIgnoreDirectory() == null)
             setIgnoreDirectory(FALSE);
         if (getSourceDirectory() == null || getSourceDirectory().isEmpty())
             setSourceDirectory(getIgnoreDirectory() ? "" : getName());
-        amendDirectories();
+        postProcessDirectories();
     }
 }

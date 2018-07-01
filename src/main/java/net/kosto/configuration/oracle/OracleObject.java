@@ -18,7 +18,6 @@ package net.kosto.configuration.oracle;
 
 import net.kosto.configuration.ValidateAction;
 import net.kosto.configuration.model.DatabaseObject;
-import net.kosto.configuration.model.DatabaseObjectType;
 import org.apache.maven.plugin.MojoExecutionException;
 
 import static java.lang.Boolean.FALSE;
@@ -33,12 +32,23 @@ import static net.kosto.util.FileUtils.FILE_MASK_SQL;
  * <p>
  * Default values for missing attributes:
  * <ul>
- * <li>{@link OracleObject#sourceDirectory} = {@link DatabaseObjectType#getSourceDirectory()}</li>
+ * <li>{@link OracleObject#sourceDirectory} = {@link OracleObjectType#getSourceDirectory()}</li>
  * <li>{@link OracleObject#ignoreDirectory} = {@link Boolean#FALSE}</li>
  * <li>{@link OracleObject#fileMask} = {@code "*.sql"}</li>
  * </ul>
  */
 public class OracleObject extends DatabaseObject implements ValidateAction {
+
+    /** Database object's type. */
+    private OracleObjectType type;
+
+    public OracleObjectType getType() {
+        return type;
+    }
+
+    public void setType(OracleObjectType type) {
+        this.type = type;
+    }
 
     @Override
     public String toString() {
@@ -82,6 +92,6 @@ public class OracleObject extends DatabaseObject implements ValidateAction {
             setFileMask(FILE_MASK_SQL);
         if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory())
             setSourceDirectory(getIgnoreDirectory() ? "" : getType().getSourceDirectory());
-        amendDirectories();
+        postProcessDirectories();
     }
 }

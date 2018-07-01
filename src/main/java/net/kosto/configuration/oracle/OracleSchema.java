@@ -26,7 +26,6 @@ import java.util.List;
 import static java.lang.Boolean.FALSE;
 import static net.kosto.configuration.ValidateError.EMPTY_LIST_PARAMETER;
 import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
-import static net.kosto.configuration.model.DatabaseObjectType.SCHEMA;
 
 /**
  * {@code OracleSchema} represents Oracle schema configuration.
@@ -37,7 +36,6 @@ import static net.kosto.configuration.model.DatabaseObjectType.SCHEMA;
  * Default values for missing attributes:
  * <ul>
  * <li>{@link OracleSchema#sourceDirectory} = {@link OracleSchema#name}</li>
- * <li>{@link OracleSchema#type} = {@link net.kosto.configuration.model.DatabaseObjectType#SCHEMA}</li>
  * <li>{@link OracleSchema#ignoreDirectory} = {@link Boolean#FALSE}</li>
  * </ul>
  */
@@ -102,11 +100,10 @@ public class OracleSchema extends DatabaseObject implements ValidateAction {
      * Sets default values for {@code OracleSchema} configuration.
      */
     private void setDefaultValues() {
-        setType(SCHEMA);
         if (getIgnoreDirectory() == null)
             setIgnoreDirectory(FALSE);
         if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory())
             setSourceDirectory(getIgnoreDirectory() ? "" : getName());
-        amendDirectories();
+        postProcessDirectories();
     }
 }

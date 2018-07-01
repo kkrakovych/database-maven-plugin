@@ -14,36 +14,32 @@
  * limitations under the License.
  */
 
-package net.kosto.configuration.model;
+package net.kosto.configuration.oracle;
 
 /**
- * {@code DatabaseObjectType} provides list of all supported database object types.
+ * {@code OracleObjectType} provides list of all supported database object types.
  * <p>
- * Each database object type has default value for relative {@link DatabaseObject#sourceDirectory} path.
+ * Each database object type has default value for relative {@link OracleObject#sourceDirectory} path.
  */
-public enum DatabaseObjectType {
-    DATABASE("databases"),
+public enum OracleObjectType {
     FUNCTION("functions"),
     PACKAGE_BODY("package_bodies"),
     PACKAGE_SPEC("package_specs"),
     PROCEDURE("procedures"),
-    SCHEMA("schemes"),
-    SCRIPT_ONE_TIME("script_one_time"),
-    SCRIPT_REUSABLE("script_reusable"),
     TRIGGER("triggers"),
     TYPE_BODY("type_bodies"),
     TYPE_SPEC("type_specs"),
     VIEW("views");
 
-    /** Default relative {@link DatabaseObject#sourceDirectory} path. */
+    /** Default relative {@link OracleObject#sourceDirectory} path. */
     private String sourceDirectory;
 
     /**
-     * Constructs {@code DatabaseObjectType} with default relative path.
+     * Constructs {@code OracleObjectType} with default relative path.
      *
      * @param sourceDirectory Default relative path.
      */
-    DatabaseObjectType(String sourceDirectory) {
+    OracleObjectType(String sourceDirectory) {
         this.sourceDirectory = sourceDirectory;
     }
 

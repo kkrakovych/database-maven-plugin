@@ -31,8 +31,6 @@ public abstract class DatabaseObject {
     private Integer index;
     /** Database object's name. */
     private String name;
-    /** Database object's type. */
-    private DatabaseObjectType type;
     /** Database object's relative source directory path. */
     private String sourceDirectory;
     /** Whether to ignore specified {@link #sourceDirectory} path. */
@@ -61,14 +59,6 @@ public abstract class DatabaseObject {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public DatabaseObjectType getType() {
-        return type;
-    }
-
-    public void setType(DatabaseObjectType type) {
-        this.type = type;
     }
 
     public String getSourceDirectory() {
@@ -120,10 +110,10 @@ public abstract class DatabaseObject {
     }
 
     /**
-     * Amends paths to full source and output, and execute directories
+     * Post processes paths to full source and output, and execute directories
      * taking into account specified parameters and {@link #ignoreDirectory} option.
      */
-    protected void amendDirectories() {
+    protected void postProcessDirectories() {
         if (!getIgnoreDirectory()) {
             this.executeDirectory = (UNIX_SEPARATOR + getExecuteDirectory() + UNIX_SEPARATOR + getSourceDirectory() + UNIX_SEPARATOR).replaceAll(UNIX_SEPARATOR + "{2,}", UNIX_SEPARATOR);
             this.sourceDirectoryFull = Paths.get(getSourceDirectoryFull(), getSourceDirectory()).toString();
@@ -136,7 +126,6 @@ public abstract class DatabaseObject {
         return "DatabaseObject{" +
             "index=" + index +
             ", name=" + name +
-            ", type=" + type +
             ", sourceDirectory=" + sourceDirectory +
             ", ignoreDirectory=" + ignoreDirectory +
             ", fileMask=" + fileMask +
