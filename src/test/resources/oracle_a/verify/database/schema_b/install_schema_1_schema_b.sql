@@ -5,7 +5,8 @@ connect &usr_schema_b/&pwd_schema_b@&tns_name
 @./.service/sqlplus_setup.sql
 @./.service/check_deploy_tables.sql
 @./.service/deploy_start.sql
-@./.service/drop_all_objects.sql
+@./.service/drop_source_code.sql
+prompt Deploy source code.
 @./database/schema_b/fncs/install_object_1_schema_b_1_FUNCTION.sql
 @./database/schema_b/prcs/install_object_1_schema_b_2_PROCEDURE.sql
 @./database/schema_b/vws/install_object_1_schema_b_3_VIEW.sql

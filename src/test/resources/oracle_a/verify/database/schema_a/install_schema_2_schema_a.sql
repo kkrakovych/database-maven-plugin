@@ -5,7 +5,9 @@ connect &usr_schema_a/&pwd_schema_a@&tns_name
 @./.service/sqlplus_setup.sql
 @./.service/check_deploy_tables.sql
 @./.service/deploy_start.sql
-@./.service/drop_all_objects.sql
+@./database/schema_a/scripts/delta/install_script_2_schema_a_BEFORE_1.sql
+@./.service/drop_source_code.sql
+prompt Deploy source code.
 @./database/schema_a/type_specs/install_object_2_schema_a_1_TYPE_SPEC.sql
 @./database/schema_a/type_bodies/install_object_2_schema_a_2_TYPE_BODY.sql
 @./database/schema_a/functions/install_object_2_schema_a_3_FUNCTION.sql

@@ -17,7 +17,7 @@
 
 prompt Execute ${script.type} scripts with ${script.condition} condition.
 
-<#list files as file>
+<#list files as file, checksum>
   <#if script.type = "REUSABLE">
 prompt Execute ${script.executeDirectory}${file}
 @.${script.executeDirectory}${file}
@@ -26,7 +26,7 @@ prompt Execute ${script.executeDirectory}${file}
 define script_directory = '${script.executeDirectory}'
 define script_name      = '${file}'
 define script_name_full = '@.${script.executeDirectory}${file}'
-define script_checksum  = '${script.chechsum}'
+define script_checksum  = '${checksum}'
 @./${serviceDirectory}/one_time_control.sql
   </#if>
 </#list>

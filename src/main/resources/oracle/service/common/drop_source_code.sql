@@ -15,7 +15,7 @@
   -->
 <#compress>
 
-prompt Drop all objects.
+prompt Drop source code.
 
 begin
    for rec in

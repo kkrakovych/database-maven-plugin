@@ -33,7 +33,9 @@ connect &usr_${schema.name}/&pwd_${schema.name}@&tns_name
   </#list>
 </#if>
 
-@./${serviceDirectory}/drop_all_objects.sql
+@./${serviceDirectory}/drop_source_code.sql
+
+prompt Deploy source code.
 
 <#list schema.objects as object>
 @.${object.executeDirectory}install_object_${schema.index}_${schema.name}_${object.index}_${object.type}.sql

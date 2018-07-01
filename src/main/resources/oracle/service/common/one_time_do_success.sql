@@ -15,6 +15,6 @@
   -->
 <#compress>
 
-prompt SUCCESS - Script &script_name was already applied.
+prompt [SUCCESS] - Script &script_name was already applied.
 
 </#compress>

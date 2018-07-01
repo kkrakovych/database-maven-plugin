@@ -76,6 +76,13 @@
                                 </objects>
                                 <scripts>
                                     <script>
+                                        <type>ONE_TIME</type>
+                                        <condition>BEFORE</condition>
+                                        <index>1</index>
+                                        <sourceDirectory>scripts/delta</sourceDirectory>
+                                        <fileMask>*.sql</fileMask>
+                                    </script>
+                                    <script>
                                         <type>REUSABLE</type>
                                         <condition>AFTER</condition>
                                         <index>1</index>

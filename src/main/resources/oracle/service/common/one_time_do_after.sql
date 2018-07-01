@@ -26,6 +26,6 @@ update deploy$scripts            s
 commit
 /
 
-prompt SUCCESS - Script &script_name was applied.
+prompt [SUCCESS] - Script &script_name was applied.
 
 </#compress>

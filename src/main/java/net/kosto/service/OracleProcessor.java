@@ -127,7 +127,10 @@ public class OracleProcessor implements Processor {
         Path source = Paths.get(item.getSourceDirectoryFull());
         Path directory = FileUtils.createDirectories(item.getOutputDirectoryFull());
         templateParameters.put(itemType, item);
-        templateParameters.put(FILES, FileUtils.getFileNames(source, item.getFileMask()));
+        if (itemType.equals(SCRIPT))
+            templateParameters.put(FILES, FileUtils.getFileNamesWithCheckSum(source, item.getFileMask()));
+        else
+            templateParameters.put(FILES, FileUtils.getFileNames(source, item.getFileMask()));
         processTemplateFiles(directory, ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, DEFAULT_SERVICE_DIRECTORY, itemType));
         processSourceFiles(directory, FileUtils.getFiles(source, item.getFileMask()));
     }

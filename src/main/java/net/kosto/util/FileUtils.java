@@ -18,13 +18,18 @@ package net.kosto.util;
 
 import org.apache.maven.plugin.MojoExecutionException;
 
+import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class FileUtils {
@@ -64,5 +69,24 @@ public class FileUtils {
     public static List<String> getFileNames(Path sourceDirectory, String fileExtension) throws MojoExecutionException {
         List<Path> files = getFiles(sourceDirectory, fileExtension);
         return files.stream().map(Path::getFileName).map(Path::toString).sorted(String::compareTo).collect(Collectors.toList());
+    }
+
+    public static String getFileChecksum(String fileName) throws MojoExecutionException {
+        try {
+            byte[] file = Files.readAllBytes(Paths.get(fileName));
+            byte[] hash = MessageDigest.getInstance("MD5").digest(file);
+            return DatatypeConverter.printHexBinary(hash);
+        } catch (IOException | NoSuchAlgorithmException x) {
+            throw new MojoExecutionException("Failed to calculate checksum for file.", x);
+        }
+    }
+
+    public static Map<String, String> getFileNamesWithCheckSum(Path sourceDirectory, String fileExtension) throws MojoExecutionException {
+        Map<String, String> result = new HashMap<>();
+        List<String> files = getFileNames(sourceDirectory, fileExtension);
+        for (String file : files) {
+            result.put(file, getFileChecksum(Paths.get(sourceDirectory.toString(), file).toString()));
+        }
+        return result;
     }
 }
