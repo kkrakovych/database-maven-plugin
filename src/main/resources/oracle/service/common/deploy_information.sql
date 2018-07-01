@@ -13,6 +13,7 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
+<#compress>
 
 prompt === Deploy Information
 prompt
@@ -27,3 +28,5 @@ prompt * ${schema.name} -> &usr_${schema.name}
 </#list>
 
 prompt
+
+</#compress>

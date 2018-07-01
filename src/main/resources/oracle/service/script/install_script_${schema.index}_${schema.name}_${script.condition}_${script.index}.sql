@@ -13,9 +13,22 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
+<#compress>
 
-prompt === Deploy Database [${database.name}]
+prompt Execute ${script.type} scripts with ${script.condition} condition.
 
-<#list database.schemes as schema>
-@.${schema.executeDirectory}install_${schema.index}_${schema.name}.sql
+<#list files as file>
+  <#if script.type = "REUSABLE">
+prompt Execute ${script.executeDirectory}${file}
+@.${script.executeDirectory}${file}
+  <#else>
+prompt Execute ${script.executeDirectory}${file}
+define script_directory = '${script.executeDirectory}'
+define script_name      = '${file}'
+define script_name_full = '@.${script.executeDirectory}${file}'
+define script_checksum  = '${script.chechsum}'
+@./${serviceDirectory}/one_time_control.sql
+  </#if>
 </#list>
+
+</#compress>

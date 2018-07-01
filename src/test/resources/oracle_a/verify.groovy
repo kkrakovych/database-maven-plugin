@@ -49,14 +49,14 @@ output = target + "install_manual.sql"
 sample = verify + "install_manual.sql"
 checkFile(output, sample, 1)
 
-output = target + "database" + sep + "install_database.sql"
-sample = verify + "database" + sep + "install_database.sql"
+output = target + "database" + sep + "install_database_database.sql"
+sample = verify + "database" + sep + "install_database_database.sql"
 checkFile(output, sample, 0)
 
-output = target + "database" + sep + "schema_a" + sep + "install_2_schema_a.sql"
-sample = verify + "database" + sep + "schema_a" + sep + "install_2_schema_a.sql"
+output = target + "database" + sep + "schema_a" + sep + "install_schema_2_schema_a.sql"
+sample = verify + "database" + sep + "schema_a" + sep + "install_schema_2_schema_a.sql"
 checkFile(output, sample, 0)
 
-output = target + "database" + sep + "schema_b" + sep + "install_1_schema_b.sql"
-sample = verify + "database" + sep + "schema_b" + sep + "install_1_schema_b.sql"
+output = target + "database" + sep + "schema_b" + sep + "install_schema_1_schema_b.sql"
+sample = verify + "database" + sep + "schema_b" + sep + "install_schema_1_schema_b.sql"
 checkFile(output, sample, 0)

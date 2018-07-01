@@ -35,8 +35,8 @@ import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
  * <p>
  * Default values for missing attributes:
  * <ul>
- * <li>{@link OracleDatabase#sourceDirectory} = {@link OracleDatabase#name}</li>
  * <li>{@link OracleDatabase#ignoreDirectory} = {@link Boolean#FALSE}</li>
+ * <li>{@link OracleDatabase#sourceDirectory} = {@link OracleDatabase#name}</li>
  * </ul>
  */
 public class OracleDatabase extends DatabaseObject implements ValidateAction {

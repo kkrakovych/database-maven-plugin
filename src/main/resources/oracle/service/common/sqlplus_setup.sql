@@ -13,6 +13,7 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
+<#compress>
 
 set echo off
 set feedback off
@@ -21,3 +22,5 @@ set linesize 150
 set serveroutput on
 set verify off
 whenever sqlerror exit sql.sqlcode
+
+</#compress>

@@ -14,54 +14,49 @@
  * limitations under the License.
  */
 
-package net.kosto.configuration.oracle;
+package net.kosto.configuration.model;
 
 import net.kosto.configuration.ValidateAction;
-import net.kosto.configuration.model.DatabaseObject;
 import org.apache.maven.plugin.MojoExecutionException;
 
 import static java.lang.Boolean.FALSE;
 import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
 import static net.kosto.util.FileUtils.FILE_MASK_SQL;
 
-/**
- * {@code OracleObject} represents Oracle object configuration.
- * <p>
- * Provides access to object index, type, source directory, whether to ignore source directory,
- * file mask, full paths to source and output directories.
- * <p>
- * Default values for missing attributes:
- * <ul>
- * <li>{@link OracleObject#ignoreDirectory} = {@link Boolean#FALSE}</li>
- * <li>{@link OracleObject#fileMask} = {@code "*.sql"}</li>
- * <li>{@link OracleObject#sourceDirectory} = {@link OracleObjectType#getSourceDirectory()}</li>
- * </ul>
- */
-public class OracleObject extends DatabaseObject implements ValidateAction {
+public class DatabaseScript extends DatabaseObject implements ValidateAction {
 
-    /** Database object's type. */
-    private OracleObjectType type;
+    private DatabaseScriptType type;
+    private DatabaseScriptCondition condition;
 
-    public OracleObjectType getType() {
+    public DatabaseScriptType getType() {
         return type;
     }
 
-    public void setType(OracleObjectType type) {
+    public void setType(DatabaseScriptType type) {
         this.type = type;
+    }
+
+    public DatabaseScriptCondition getCondition() {
+        return condition;
+    }
+
+    public void setCondition(DatabaseScriptCondition condition) {
+        this.condition = condition;
     }
 
     @Override
     public String toString() {
-        return "OracleObject{" +
-            "index=" + getIndex() +
-            ", type=" + getType() +
+        return "DatabaseObject{" +
+            "type=" + getType() +
+            ", condition=" + getCondition() +
+            ", index=" + getIndex() +
             ", sourceDirectory=" + getSourceDirectory() +
             ", ignoreDirectory=" + getIgnoreDirectory() +
             ", fileMask=" + getFileMask() +
             ", executeDirectory=" + getExecuteDirectory() +
             ", sourceDirectoryFull=" + getSourceDirectoryFull() +
             ", outputDirectoryFull=" + getOutputDirectoryFull() +
-            "}";
+            '}';
     }
 
     @Override
@@ -71,19 +66,21 @@ public class OracleObject extends DatabaseObject implements ValidateAction {
     }
 
     /**
-     * Checks {@code OracleObject} configuration for mandatory values.
+     * Checks {@code DatabaseScript} configuration for mandatory values.
      *
      * @throws MojoExecutionException If a validation exception occurred.
      */
     private void checkMandatoryValues() throws MojoExecutionException {
-        if (getIndex() == null)
-            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.object.index"));
         if (getType() == null)
-            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.object.type"));
+            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.script.type"));
+        if (getCondition() == null)
+            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.script.condition"));
+        if (getIndex() == null)
+            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.script.index"));
     }
 
     /**
-     * Sets default values for {@code OracleObject} configuration.
+     * Sets default values for {@code OracleDatabase} configuration.
      */
     private void setDefaultValues() {
         if (getIgnoreDirectory() == null)

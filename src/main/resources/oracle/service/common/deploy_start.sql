@@ -13,6 +13,7 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
+<#compress>
 
 prompt Start deploy version.
 
@@ -40,3 +41,5 @@ values
 /
 commit
 /
+
+</#compress>

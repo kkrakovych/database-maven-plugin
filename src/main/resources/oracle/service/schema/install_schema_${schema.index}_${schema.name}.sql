@@ -13,6 +13,7 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
+<#compress>
 
 prompt
 prompt === Deploy Schema [${schema.name}]
@@ -23,12 +24,32 @@ connect &usr_${schema.name}/&pwd_${schema.name}@&tns_name
 @./${serviceDirectory}/sqlplus_setup.sql
 @./${serviceDirectory}/check_deploy_tables.sql
 @./${serviceDirectory}/deploy_start.sql
+
+<#if schema.scripts??>
+  <#list schema.scripts as script>
+    <#if script.condition = "BEFORE">
+@.${script.executeDirectory}install_script_${schema.index}_${schema.name}_${script.condition}_${script.index}.sql
+    </#if>
+  </#list>
+</#if>
+
 @./${serviceDirectory}/drop_all_objects.sql
 
 <#list schema.objects as object>
-@.${object.executeDirectory}install_${object.index}_${object.type}.sql
+@.${object.executeDirectory}install_object_${schema.index}_${schema.name}_${object.index}_${object.type}.sql
 </#list>
 
 @./${serviceDirectory}/compile_schema.sql
 @./${serviceDirectory}/check_objects.sql
+
+<#if schema.scripts??>
+  <#list schema.scripts as script>
+    <#if script.condition = "AFTER">
+@.${script.executeDirectory}install_script_${schema.index}_${schema.name}_${script.condition}_${script.index}.sql
+    </#if>
+  </#list>
+</#if>
+
 @./${serviceDirectory}/deploy_finish.sql
+
+</#compress>

@@ -13,7 +13,8 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
+<#compress>
 
-<#list files as file>
-@.${object.executeDirectory}${file}
-</#list>
+prompt SUCCESS - Script &script_name was already applied.
+
+</#compress>

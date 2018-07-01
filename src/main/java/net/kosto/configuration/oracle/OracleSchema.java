@@ -18,6 +18,7 @@ package net.kosto.configuration.oracle;
 
 import net.kosto.configuration.ValidateAction;
 import net.kosto.configuration.model.DatabaseObject;
+import net.kosto.configuration.model.DatabaseScript;
 import org.apache.maven.plugin.MojoExecutionException;
 
 import java.util.Comparator;
@@ -35,13 +36,14 @@ import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
  * <p>
  * Default values for missing attributes:
  * <ul>
- * <li>{@link OracleSchema#sourceDirectory} = {@link OracleSchema#name}</li>
  * <li>{@link OracleSchema#ignoreDirectory} = {@link Boolean#FALSE}</li>
+ * <li>{@link OracleSchema#sourceDirectory} = {@link OracleSchema#name}</li>
  * </ul>
  */
 public class OracleSchema extends DatabaseObject implements ValidateAction {
 
     private List<OracleObject> objects;
+    private List<DatabaseScript> scripts;
 
     public List<OracleObject> getObjects() {
         return objects;
@@ -49,6 +51,14 @@ public class OracleSchema extends DatabaseObject implements ValidateAction {
 
     public void setObjects(List<OracleObject> objects) {
         this.objects = objects;
+    }
+
+    public List<DatabaseScript> getScripts() {
+        return scripts;
+    }
+
+    public void setScripts(List<DatabaseScript> scripts) {
+        this.scripts = scripts;
     }
 
     @Override
@@ -62,6 +72,7 @@ public class OracleSchema extends DatabaseObject implements ValidateAction {
             ", sourceDirectoryFull=" + getSourceDirectoryFull() +
             ", outputDirectoryFull=" + getOutputDirectoryFull() +
             ", objects=" + getObjects() +
+            ", scripts=" + getScripts() +
             "}";
     }
 
@@ -78,6 +89,14 @@ public class OracleSchema extends DatabaseObject implements ValidateAction {
             object.setOutputDirectoryFull(getOutputDirectoryFull());
             object.validate();
         }
+
+        if (scripts != null)
+            for (DatabaseScript script : scripts) {
+                script.setExecuteDirectory(getExecuteDirectory());
+                script.setSourceDirectoryFull(getSourceDirectoryFull());
+                script.setOutputDirectoryFull(getOutputDirectoryFull());
+                script.validate();
+            }
     }
 
     /**
@@ -94,6 +113,8 @@ public class OracleSchema extends DatabaseObject implements ValidateAction {
             throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.objects"));
         if (getObjects().isEmpty())
             throw new MojoExecutionException(EMPTY_LIST_PARAMETER.getFormattedMessage("oracle.schema.objects", "object"));
+        if (getScripts() != null && getScripts().isEmpty())
+            throw new MojoExecutionException(EMPTY_LIST_PARAMETER.getFormattedMessage("oracle.schema.scripts", "script"));
     }
 
     /**

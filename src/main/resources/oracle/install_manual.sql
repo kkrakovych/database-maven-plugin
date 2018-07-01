@@ -13,6 +13,7 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
+<#compress>
 
 prompt
 prompt === DATABASE-MAVEN-PLUGIN
@@ -27,10 +28,12 @@ select to_char(sysdate, 'yyyymmddhh24miss') dt from dual;
 spool install_manual_${database.name}_${buildVersion}_&timestamp..log
 
 @./${serviceDirectory}/deploy_information.sql
-@.${database.executeDirectory}install_${database.name}.sql
+@.${database.executeDirectory}install_database_${database.name}.sql
 
 prompt
 
 spool off
 
 exit
+
+</#compress>

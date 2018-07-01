@@ -13,6 +13,7 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
+<#compress>
 
 prompt Finish deploy version.
 
@@ -23,3 +24,5 @@ update deploy$version            v
 /
 commit
 /
+
+</#compress>

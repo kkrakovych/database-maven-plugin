@@ -13,11 +13,13 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
+<#compress>
 
 prompt Check deploy tables.
 
 declare
    c_msg_service_table  constant varchar2(1000 char) := 'Service table ';
+   c_msg_triple_dot     constant varchar2(1000 char) := '... ';
    c_tbl_deploy_version constant varchar2(1000 char) := 'deploy$version';
    c_tbl_deploy_scripts constant varchar2(1000 char) := 'deploy$scripts';
    c_msg_was_created    constant varchar2(1000 char) := 'was created.';
@@ -34,7 +36,7 @@ declare
       return l_result;
    end table_exists;
 begin
-   dbms_output.put(c_msg_service_table || c_tbl_deploy_version || '... ');
+   dbms_output.put(c_msg_service_table || c_tbl_deploy_version || c_msg_triple_dot);
    if table_exists(c_tbl_deploy_version) = 0
    then
       execute immediate
@@ -50,7 +52,7 @@ begin
    else
       dbms_output.put_line(c_msg_already_exists);
    end if;
-   dbms_output.put(c_msg_service_table || c_tbl_deploy_scripts || '... ');
+   dbms_output.put(c_msg_service_table || c_tbl_deploy_scripts || c_msg_triple_dot);
    if table_exists(c_tbl_deploy_scripts) = 0
    then
       execute immediate
@@ -77,3 +79,5 @@ begin
    end if;
 end;
 /
+
+</#compress>

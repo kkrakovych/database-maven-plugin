@@ -74,6 +74,15 @@
                                         <type>PACKAGE_BODY</type>
                                     </object>
                                 </objects>
+                                <scripts>
+                                    <script>
+                                        <type>REUSABLE</type>
+                                        <condition>AFTER</condition>
+                                        <index>1</index>
+                                        <sourceDirectory>scripts/dictionaries</sourceDirectory>
+                                        <fileMask>*.sql</fileMask>
+                                    </script>
+                                </scripts>
                             </schema>
                             <schema>
                                 <index>1</index>

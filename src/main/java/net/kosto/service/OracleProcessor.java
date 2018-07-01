@@ -19,6 +19,8 @@ package net.kosto.service;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import net.kosto.configuration.Configuration;
+import net.kosto.configuration.model.DatabaseObject;
+import net.kosto.configuration.model.DatabaseScript;
 import net.kosto.configuration.oracle.OracleDatabase;
 import net.kosto.configuration.oracle.OracleObject;
 import net.kosto.configuration.oracle.OracleSchema;
@@ -51,6 +53,7 @@ public class OracleProcessor implements Processor {
     private static final String DATABASE = "database";
     private static final String SCHEMA = "schema";
     private static final String OBJECT = "object";
+    private static final String SCRIPT = "script";
     private static final String FILES = "files";
 
     /** Full configuration object. */
@@ -70,7 +73,7 @@ public class OracleProcessor implements Processor {
         templateParameters.put("buildVersion", configuration.getBuildVersion());
         templateParameters.put("buildTimestamp", configuration.getBuildTimestamp().format(FORMATTER_DATE_TIME));
         templateParameters.put("serviceDirectory", configuration.getServiceDirectory());
-        templateParameters.put("database", configuration.getOracle());
+        templateParameters.put(DATABASE, configuration.getOracle());
     }
 
     @Override
@@ -104,20 +107,29 @@ public class OracleProcessor implements Processor {
             templateParameters.put(SCHEMA, schema);
             processTemplateFiles(directory, ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, DEFAULT_SERVICE_DIRECTORY, SCHEMA));
 
-            processSchemaObjects(schema);
+            processObjects(schema);
+            processScripts(schema);
         }
     }
 
-    private void processSchemaObjects(OracleSchema schema) throws MojoExecutionException {
-        for (OracleObject object : schema.getObjects()) {
-            Path source = Paths.get(object.getSourceDirectoryFull());
-            Path directory = FileUtils.createDirectories(object.getOutputDirectoryFull());
-            templateParameters.put(OBJECT, object);
-            templateParameters.put(FILES, FileUtils.getFileNames(source, object.getFileMask()));
-            processTemplateFiles(directory, ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, DEFAULT_SERVICE_DIRECTORY, OBJECT));
+    private void processObjects(OracleSchema schema) throws MojoExecutionException {
+        for (OracleObject object : schema.getObjects())
+            processItem(object, OBJECT);
+    }
 
-            processSourceFiles(directory, FileUtils.getFiles(source, object.getFileMask()));
-        }
+    private void processScripts(OracleSchema schema) throws MojoExecutionException {
+        if (schema.getScripts() != null)
+            for (DatabaseScript script : schema.getScripts())
+                processItem(script, SCRIPT);
+    }
+
+    private <T extends DatabaseObject> void processItem(T item, String itemType) throws MojoExecutionException {
+        Path source = Paths.get(item.getSourceDirectoryFull());
+        Path directory = FileUtils.createDirectories(item.getOutputDirectoryFull());
+        templateParameters.put(itemType, item);
+        templateParameters.put(FILES, FileUtils.getFileNames(source, item.getFileMask()));
+        processTemplateFiles(directory, ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, DEFAULT_SERVICE_DIRECTORY, itemType));
+        processSourceFiles(directory, FileUtils.getFiles(source, item.getFileMask()));
     }
 
     private void processTemplateFiles(Path directory, List<Path> files) throws MojoExecutionException {

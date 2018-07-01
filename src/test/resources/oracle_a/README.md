@@ -29,6 +29,12 @@ create table test_a
 , text varchar2(100 char)
 )
 /
+
+create table test_b
+( id    number
+, value varchar2(100 char)
+)
+/
 ```
 
 After tests please use script below to get rid of all previously created objects. The script should be done under schema with dba privileges.
