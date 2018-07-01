@@ -46,23 +46,31 @@
                                 <name>schema_a</name>
                                 <objects>
                                     <object>
+                                        <index>1</index>
+                                        <type>TYPE_SPEC</type>
+                                    </object>
+                                    <object>
+                                        <index>2</index>
+                                        <type>TYPE_BODY</type>
+                                    </object>
+                                    <object>
                                         <index>3</index>
                                         <type>VIEW</type>
                                     </object>
                                     <object>
-                                        <index>2</index>
+                                        <index>4</index>
                                         <type>PROCEDURE</type>
                                     </object>
                                     <object>
-                                        <index>1</index>
+                                        <index>3</index>
                                         <type>FUNCTION</type>
                                     </object>
                                     <object>
-                                        <index>4</index>
+                                        <index>5</index>
                                         <type>PACKAGE_SPEC</type>
                                     </object>
                                     <object>
-                                        <index>5</index>
+                                        <index>6</index>
                                         <type>PACKAGE_BODY</type>
                                     </object>
                                 </objects>
@@ -86,7 +94,8 @@
                                     <object>
                                         <index>3</index>
                                         <type>VIEW</type>
-                                        <sourceDirectory>view</sourceDirectory>
+                                        <sourceDirectory>vws</sourceDirectory>
+                                        <fileMask>*.vw</fileMask>
                                     </object>
                                     <object>
                                         <index>4</index>

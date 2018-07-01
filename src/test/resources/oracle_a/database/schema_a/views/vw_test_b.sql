@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-create or replace force view view_d
+create or replace force view vw_test_b
 as
- select rownum as id
-   from dual
-connect by level <= 10;
+select a.id   as id
+     , a.text as text
+  from test_a a
 /

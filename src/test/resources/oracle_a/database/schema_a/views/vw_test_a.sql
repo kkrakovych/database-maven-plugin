@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-create or replace force view view_a
+create or replace force view vw_test_a
 as
 select 1           as id
      , 'something' as text

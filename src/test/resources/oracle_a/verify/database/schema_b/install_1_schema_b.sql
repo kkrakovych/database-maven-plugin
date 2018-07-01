@@ -12,7 +12,7 @@ connect &usr_schema_b/&pwd_schema_b@&tns_name
 
 @./database/schema_b/fncs/install_1_FUNCTION.sql
 @./database/schema_b/prcs/install_2_PROCEDURE.sql
-@./database/schema_b/view/install_3_VIEW.sql
+@./database/schema_b/vws/install_3_VIEW.sql
 @./database/schema_b/pkgs/install_4_PACKAGE_SPEC.sql
 @./database/schema_b/pkgs/install_5_PACKAGE_BODY.sql
 

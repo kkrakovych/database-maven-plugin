@@ -14,21 +14,9 @@
  * limitations under the License.
  */
 
-create or replace force view view_c
+create or replace force view vw_test_d
 as
-select 1           as id
-     , 'something' as text
-  from dual
- union all
-select 2           as id
-     , 'in'        as text
-  from dual
- union all
-select 3           as id
-     , 'the'       as text
-  from dual
- union all
-select 3           as id
-     , 'air'       as text
-  from dual
+ select rownum as id
+   from dual
+connect by level <= 10;
 /

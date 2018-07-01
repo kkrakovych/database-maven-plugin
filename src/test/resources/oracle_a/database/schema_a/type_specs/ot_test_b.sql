@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-create or replace force view view_b
-as
- select rownum as id
-   from dual
-connect by level <= 10;
+create or replace type ot_test_b force as object
+(
+  id   number
+, text varchar2(10)
+, member function fnc_test_a
+     return varchar2
+)
 /
