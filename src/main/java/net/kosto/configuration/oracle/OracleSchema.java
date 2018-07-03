@@ -95,8 +95,7 @@ public class OracleSchema extends DatabaseObject implements ValidateAction {
             object.validate();
         }
 
-        if (scripts != null)
-
+        if (scripts != null) {
             getScripts()
                 .sort(
                     Comparator
@@ -104,11 +103,12 @@ public class OracleSchema extends DatabaseObject implements ValidateAction {
                         .thenComparingInt(DatabaseScript::getIndex)
                 );
 
-        for (DatabaseScript script : scripts) {
-            script.setExecuteDirectory(getExecuteDirectory());
-            script.setSourceDirectoryFull(getSourceDirectoryFull());
-            script.setOutputDirectoryFull(getOutputDirectoryFull());
-            script.validate();
+            for (DatabaseScript script : scripts) {
+                script.setExecuteDirectory(getExecuteDirectory());
+                script.setSourceDirectoryFull(getSourceDirectoryFull());
+                script.setOutputDirectoryFull(getOutputDirectoryFull());
+                script.validate();
+            }
         }
     }
 
