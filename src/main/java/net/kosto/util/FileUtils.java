@@ -19,7 +19,9 @@ package net.kosto.util;
 import org.apache.maven.plugin.MojoExecutionException;
 
 import javax.xml.bind.DatatypeConverter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -32,8 +34,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static java.lang.System.lineSeparator;
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
+
 public class FileUtils {
 
+    public static final String EMPTY = "";
+    public static final String UTF8_BOM = "\uFEFF";
+    public static final String ORACLE_COMMAND_END = "/";
     public static final String UNIX_SEPARATOR = "/";
     public static final String FILE_MASK_SQL = "*.sql";
 
@@ -87,6 +95,45 @@ public class FileUtils {
         for (String file : files) {
             result.put(file, getFileChecksum(Paths.get(sourceDirectory.toString(), file).toString()));
         }
+        return result;
+    }
+
+    public static List<String> readFileSourceCode(Path file) throws MojoExecutionException {
+        try {
+            return Files.readAllLines(file);
+        } catch (IOException x) {
+            try {
+                // fallback from UTF-8 to ISO-8859-1 charset
+                return Files.readAllLines(file, ISO_8859_1);
+            } catch (IOException xx) {
+                throw new MojoExecutionException("Failed to read file.", xx);
+            }
+        }
+    }
+
+    public static void writeFileSourceCode(Path file, List<String> lines) throws MojoExecutionException {
+        try (
+            FileOutputStream fos = new FileOutputStream(file.toString(), true);
+            OutputStreamWriter osw = new OutputStreamWriter(fos)
+        ) {
+            if (lines != null && !lines.isEmpty())
+                for (int i = 0; i < lines.size(); i++)
+                    osw.write(postProcessSourceCodeLine(lines.get(i), (i == 0), (i == lines.size() - 1)));
+            osw.flush();
+        } catch (IOException x) {
+            throw new MojoExecutionException("Failed to write file.", x);
+        }
+    }
+
+    private static String postProcessSourceCodeLine(String line, boolean firstLine, boolean lastLine) {
+        String result = line + lineSeparator();
+        // remove UTF-8 BOM symbol at first line if any
+        if (firstLine && result.contains(UTF8_BOM)) {
+            result = result.replace(UTF8_BOM, EMPTY);
+        }
+        // add oracle command end symbol if last line misses it
+        if (lastLine && !result.contains(ORACLE_COMMAND_END))
+            result = result + ORACLE_COMMAND_END;
         return result;
     }
 }

@@ -176,11 +176,20 @@ public class OracleProcessor implements Processor {
 
     private void processSourceFiles(Path directory, List<Path> files) throws MojoExecutionException {
         for (Path file : files) {
-            try {
-                Path target = Paths.get(directory.toString(), file.getFileName().toString());
-                Files.copy(file, target, REPLACE_EXISTING, COPY_ATTRIBUTES);
-            } catch (IOException x) {
-                throw new MojoExecutionException("Failed to copy source file.", x);
+            Path target = Paths.get(directory.toString(), file.getFileName().toString());
+            // TODO: add new options - select how we process source code
+            //       1. BOM symbol remover
+            //       2. End of SQL command checks
+            //       3. & symbol processing
+            if (true) {
+                List<String> source = FileUtils.readFileSourceCode(file);
+                FileUtils.writeFileSourceCode(target, source);
+            } else {
+                try {
+                    Files.copy(file, target, REPLACE_EXISTING, COPY_ATTRIBUTES);
+                } catch (IOException x) {
+                    throw new MojoExecutionException("Failed to copy source file.", x);
+                }
             }
         }
     }

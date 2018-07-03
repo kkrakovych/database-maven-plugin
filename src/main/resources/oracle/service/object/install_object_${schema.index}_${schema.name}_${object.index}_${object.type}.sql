@@ -15,8 +15,14 @@
   -->
 <#compress>
 
+<#-- TODO: add new options - select how we process source code -->
+set define off
+
 <#list files as file>
+prompt Execute ${object.executeDirectory}${file}
 @.${object.executeDirectory}${file}
 </#list>
+
+set define on
 
 </#compress>
