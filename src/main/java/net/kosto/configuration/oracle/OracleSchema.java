@@ -81,7 +81,12 @@ public class OracleSchema extends DatabaseObject implements ValidateAction {
         checkMandatoryValues();
         setDefaultValues();
 
-        getObjects().sort(Comparator.comparingInt(OracleObject::getIndex).thenComparing(OracleObject::getType));
+        getObjects()
+            .sort(
+                Comparator
+                    .comparingInt(OracleObject::getIndex)
+                    .thenComparing(OracleObject::getType)
+            );
 
         for (OracleObject object : objects) {
             object.setExecuteDirectory(getExecuteDirectory());
@@ -91,12 +96,20 @@ public class OracleSchema extends DatabaseObject implements ValidateAction {
         }
 
         if (scripts != null)
-            for (DatabaseScript script : scripts) {
-                script.setExecuteDirectory(getExecuteDirectory());
-                script.setSourceDirectoryFull(getSourceDirectoryFull());
-                script.setOutputDirectoryFull(getOutputDirectoryFull());
-                script.validate();
-            }
+
+            getScripts()
+                .sort(
+                    Comparator
+                        .comparing(DatabaseScript::getCondition, Comparator.reverseOrder())
+                        .thenComparingInt(DatabaseScript::getIndex)
+                );
+
+        for (DatabaseScript script : scripts) {
+            script.setExecuteDirectory(getExecuteDirectory());
+            script.setSourceDirectoryFull(getSourceDirectoryFull());
+            script.setOutputDirectoryFull(getOutputDirectoryFull());
+            script.validate();
+        }
     }
 
     /**

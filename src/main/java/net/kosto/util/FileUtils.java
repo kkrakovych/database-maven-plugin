@@ -118,22 +118,19 @@ public class FileUtils {
         ) {
             if (lines != null && !lines.isEmpty())
                 for (int i = 0; i < lines.size(); i++)
-                    osw.write(postProcessSourceCodeLine(lines.get(i), (i == 0), (i == lines.size() - 1)));
+                    osw.write(postProcessSourceCodeLine(lines.get(i), (i == 0)));
             osw.flush();
         } catch (IOException x) {
             throw new MojoExecutionException("Failed to write file.", x);
         }
     }
 
-    private static String postProcessSourceCodeLine(String line, boolean firstLine, boolean lastLine) {
+    private static String postProcessSourceCodeLine(String line, boolean firstLine) {
         String result = line + lineSeparator();
         // remove UTF-8 BOM symbol at first line if any
         if (firstLine && result.contains(UTF8_BOM)) {
             result = result.replace(UTF8_BOM, EMPTY);
         }
-        // add oracle command end symbol if last line misses it
-        if (lastLine && !result.contains(ORACLE_COMMAND_END))
-            result = result + ORACLE_COMMAND_END;
         return result;
     }
 }
