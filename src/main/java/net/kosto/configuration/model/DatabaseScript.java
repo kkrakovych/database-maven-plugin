@@ -46,7 +46,7 @@ public class DatabaseScript extends DatabaseObject implements ValidateAction {
 
     @Override
     public String toString() {
-        return "DatabaseObject{" +
+        return "DatabaseScript{" +
             "type=" + getType() +
             ", condition=" + getCondition() +
             ", index=" + getIndex() +
