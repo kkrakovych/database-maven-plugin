@@ -16,7 +16,12 @@
 
 package net.kosto.configuration.model;
 
+/**
+ * {@code DatabaseScriptCondition} provides list of all supported database script execution conditions.
+ */
 public enum DatabaseScriptCondition {
+    /** Database script should be executed after source code deploy. */
     AFTER,
+    /** Database script should be executed before source code deploy. */
     BEFORE
 }

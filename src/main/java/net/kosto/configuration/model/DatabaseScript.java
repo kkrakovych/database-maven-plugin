@@ -23,9 +23,14 @@ import static java.lang.Boolean.FALSE;
 import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
 import static net.kosto.util.FileUtils.FILE_MASK_SQL;
 
+/**
+ * {@code DatabaseScript} represents database script configuration.
+ */
 public class DatabaseScript extends DatabaseObject implements ValidateAction {
 
+    /** Database script's type. */
     private DatabaseScriptType type;
+    /** Database script's condition. */
     private DatabaseScriptCondition condition;
 
     public DatabaseScriptType getType() {
@@ -80,7 +85,7 @@ public class DatabaseScript extends DatabaseObject implements ValidateAction {
     }
 
     /**
-     * Sets default values for {@code OracleDatabase} configuration.
+     * Sets default values for {@code DatabaseScript} configuration.
      */
     private void setDefaultValues() {
         if (getIgnoreDirectory() == null)

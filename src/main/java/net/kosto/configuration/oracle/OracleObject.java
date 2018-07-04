@@ -28,12 +28,12 @@ import static net.kosto.util.FileUtils.FILE_MASK_SQL;
  * {@code OracleObject} represents Oracle object configuration.
  * <p>
  * Provides access to object index, type, source directory, whether to ignore source directory,
- * file mask, full paths to source and output directories.
+ * file mask, execute directory and full paths to source and output directories.
  * <p>
  * Default values for missing attributes:
  * <ul>
  * <li>{@link OracleObject#ignoreDirectory} = {@link Boolean#FALSE}</li>
- * <li>{@link OracleObject#fileMask} = {@code "*.sql"}</li>
+ * <li>{@link OracleObject#fileMask} = {@link net.kosto.util.FileUtils#FILE_MASK_SQL}</li>
  * <li>{@link OracleObject#sourceDirectory} = {@link OracleObjectType#getSourceDirectory()}</li>
  * </ul>
  */

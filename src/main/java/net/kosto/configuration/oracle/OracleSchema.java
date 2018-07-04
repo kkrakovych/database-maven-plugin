@@ -32,7 +32,7 @@ import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
  * {@code OracleSchema} represents Oracle schema configuration.
  * <p>
  * Provides access to schema index, name, source directory, whether to ignore source directory,
- * list of objects, full paths to source and output directories.
+ * lists of objects and scripts, execute directory and full paths to source and output directories.
  * <p>
  * Default values for missing attributes:
  * <ul>
@@ -42,7 +42,9 @@ import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
  */
 public class OracleSchema extends DatabaseObject implements ValidateAction {
 
+    /** List of objects for deploy. */
     private List<OracleObject> objects;
+    /** List of scripts for deploy. */
     private List<DatabaseScript> scripts;
 
     public List<OracleObject> getObjects() {

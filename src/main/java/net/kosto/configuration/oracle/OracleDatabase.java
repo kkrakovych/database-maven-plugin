@@ -31,7 +31,7 @@ import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
  * {@code OracleDatabase} represents Oracle database configuration.
  * <p>
  * Provides access to database name, type, source directory, whether to ignore source directory,
- * list of schemes, full paths to source and output directories.
+ * list of schemes, execute directory and full paths to source and output directories.
  * <p>
  * Default values for missing attributes:
  * <ul>
@@ -41,7 +41,7 @@ import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
  */
 public class OracleDatabase extends DatabaseObject implements ValidateAction {
 
-    /** List of schemes. */
+    /** List of schemes for deploy. */
     private List<OracleSchema> schemes;
 
     public List<OracleSchema> getSchemes() {
