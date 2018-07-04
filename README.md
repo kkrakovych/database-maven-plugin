@@ -93,7 +93,7 @@ Other depends on database type.
 | `name`            | Database name. |
 | `sourceDirectory` | Source directory for all database's objects. By default database name is used as source directory. |
 | `ignoreDirectory` | If `true` source directory will be ignored. By default set as `false`. |
-| `schemes`         | List of database's schemes. |
+| `schemes`         | List of database's schemes for deploy. |
 
 ###### `schemes` Tag
 
@@ -103,8 +103,8 @@ Other depends on database type.
 | `name`            | Schema name. |
 | `sourceDirectory` | Source directory for all schema's objects. By default schema name is used as source directory. |
 | `ignoreDirectory` | If `true` source directory will be ignored. By default set as `false`. |
-| `objects`         | List of schema's objects. |
-| `scripts`         | List of scripts for the schema. |
+| `objects`         | List of schema's objects for deploy. |
+| `scripts`         | List of schema's scripts for deploy. |
 
 ###### `objects` Tag
 
