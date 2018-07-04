@@ -46,6 +46,7 @@ import static net.kosto.util.DateUtils.FORMATTER_DATE_TIME;
 import static net.kosto.util.FileUtils.FILE_MASK_SQL;
 import static net.kosto.util.FileUtils.UNIX_SEPARATOR;
 
+// TODO: Move all generated service scripts into service directory
 public class OracleProcessor implements Processor {
 
     private static final String ORACLE = "oracle";
