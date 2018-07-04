@@ -18,7 +18,15 @@ package net.kosto.service;
 
 import org.apache.maven.plugin.MojoExecutionException;
 
+/**
+ * {@code Processor} provides interface for configuration processing.
+ */
 public interface Processor {
 
+    /**
+     * Processes current configuration.
+     *
+     * @throws MojoExecutionException If a validation exception occurred.
+     */
     void process() throws MojoExecutionException;
 }
