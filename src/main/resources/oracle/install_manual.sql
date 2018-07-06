@@ -28,7 +28,7 @@ select to_char(sysdate, 'yyyymmddhh24miss') dt from dual;
 spool install_manual_${database.name}_${buildVersion}_&timestamp..log
 
 @./${serviceDirectory}/deploy_information.sql
-@.${database.executeDirectory}install_database_${database.name}.sql
+@./${serviceDirectory}/install_database_${database.name}.sql
 
 prompt
 

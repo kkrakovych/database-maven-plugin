@@ -46,7 +46,6 @@ import static net.kosto.util.DateUtils.FORMATTER_DATE_TIME;
 import static net.kosto.util.FileUtils.FILE_MASK_SQL;
 import static net.kosto.util.FileUtils.UNIX_SEPARATOR;
 
-// TODO: Move all generated service scripts into service directory
 public class OracleProcessor implements Processor {
 
     private static final String ORACLE = "oracle";
@@ -90,23 +89,23 @@ public class OracleProcessor implements Processor {
     }
 
     private void processServiceScripts() throws MojoExecutionException {
-        Path directory = FileUtils.createDirectories(configuration.getOutputDirectory(), configuration.getServiceDirectory());
-        processTemplateFiles(directory, ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, DEFAULT_SERVICE_DIRECTORY, COMMON));
+        FileUtils.createDirectories(configuration.getOutputDirectory(), configuration.getServiceDirectory());
+        processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, DEFAULT_SERVICE_DIRECTORY, COMMON));
     }
 
     private void processDatabase() throws MojoExecutionException {
         OracleDatabase database = configuration.getOracle();
-        Path directory = FileUtils.createDirectories(database.getOutputDirectoryFull());
-        processTemplateFiles(directory, ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, DEFAULT_SERVICE_DIRECTORY, DATABASE));
+        FileUtils.createDirectories(database.getOutputDirectoryFull());
+        processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, DEFAULT_SERVICE_DIRECTORY, DATABASE));
 
         processSchemes();
     }
 
     private void processSchemes() throws MojoExecutionException {
         for (OracleSchema schema : configuration.getOracle().getSchemes()) {
-            Path directory = FileUtils.createDirectories(schema.getOutputDirectoryFull());
+            FileUtils.createDirectories(schema.getOutputDirectoryFull());
             templateParameters.put(SCHEMA, schema);
-            processTemplateFiles(directory, ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, DEFAULT_SERVICE_DIRECTORY, SCHEMA));
+            processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, DEFAULT_SERVICE_DIRECTORY, SCHEMA));
 
             processObjects(schema);
             processScripts(schema);
@@ -132,8 +131,13 @@ public class OracleProcessor implements Processor {
             templateParameters.put(FILES, FileUtils.getFileNamesWithCheckSum(source, item.getFileMask()));
         else
             templateParameters.put(FILES, FileUtils.getFileNames(source, item.getFileMask()));
-        processTemplateFiles(directory, ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, DEFAULT_SERVICE_DIRECTORY, itemType));
+        processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, DEFAULT_SERVICE_DIRECTORY, itemType));
         processSourceFiles(directory, FileUtils.getFiles(source, item.getFileMask()));
+    }
+
+    private void processTemplateFiles(List<Path> files) throws MojoExecutionException {
+        Path directory = FileUtils.createDirectories(configuration.getOutputDirectory(), configuration.getServiceDirectory());
+        processTemplateFiles(directory, files);
     }
 
     private void processTemplateFiles(Path directory, List<Path> files) throws MojoExecutionException {

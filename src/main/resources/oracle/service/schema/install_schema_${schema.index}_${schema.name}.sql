@@ -28,7 +28,7 @@ connect &usr_${schema.name}/&pwd_${schema.name}@&tns_name
 <#if schema.scripts??>
   <#list schema.scripts as script>
     <#if script.condition = "BEFORE">
-@.${script.executeDirectory}install_script_${schema.index}_${schema.name}_${script.condition}_${script.index}.sql
+@./${serviceDirectory}/install_script_${schema.index}_${schema.name}_${script.condition}_${script.index}.sql
     </#if>
   </#list>
 </#if>
@@ -38,7 +38,7 @@ connect &usr_${schema.name}/&pwd_${schema.name}@&tns_name
 prompt Deploy source code.
 
 <#list schema.objects as object>
-@.${object.executeDirectory}install_object_${schema.index}_${schema.name}_${object.index}_${object.type}.sql
+@./${serviceDirectory}/install_object_${schema.index}_${schema.name}_${object.index}_${object.type}.sql
 </#list>
 
 @./${serviceDirectory}/compile_schema.sql
@@ -47,7 +47,7 @@ prompt Deploy source code.
 <#if schema.scripts??>
   <#list schema.scripts as script>
     <#if script.condition = "AFTER">
-@.${script.executeDirectory}install_script_${schema.index}_${schema.name}_${script.condition}_${script.index}.sql
+@./${serviceDirectory}/install_script_${schema.index}_${schema.name}_${script.condition}_${script.index}.sql
     </#if>
   </#list>
 </#if>

@@ -22,6 +22,7 @@ import java.nio.file.Files
 def sep = File.separator
 def target = "$basedir" + sep + "target" + sep
 def verify = "$basedir" + sep + "verify" + sep
+def service = ".service" + sep
 String output
 String sample
 
@@ -49,14 +50,14 @@ output = target + "install_manual.sql"
 sample = verify + "install_manual.sql"
 checkFile(output, sample, 1)
 
-output = target + "database" + sep + "install_database_database.sql"
-sample = verify + "database" + sep + "install_database_database.sql"
+output = target + service + "install_database_database.sql"
+sample = verify + service + "install_database_database.sql"
 checkFile(output, sample, 0)
 
-output = target + "database" + sep + "schema_a" + sep + "install_schema_2_schema_a.sql"
-sample = verify + "database" + sep + "schema_a" + sep + "install_schema_2_schema_a.sql"
+output = target + service + "install_schema_2_schema_a.sql"
+sample = verify + service + "install_schema_2_schema_a.sql"
 checkFile(output, sample, 0)
 
-output = target + "database" + sep + "schema_b" + sep + "install_schema_1_schema_b.sql"
-sample = verify + "database" + sep + "schema_b" + sep + "install_schema_1_schema_b.sql"
+output = target + service + "install_schema_1_schema_b.sql"
+sample = verify + service + "install_schema_1_schema_b.sql"
 checkFile(output, sample, 0)
