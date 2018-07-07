@@ -37,9 +37,9 @@
     </licenses>
 
     <scm>
+        <url>https://github.com/kkrakovych/database-maven-plugin</url>
         <connection>scm:git:https://github.com/kkrakovych/database-maven-plugin.git</connection>
         <developerConnection>scm:git:git@github.com:kkrakovych/database-maven-plugin.git</developerConnection>
-        <url>https://github.com/kkrakovych/database-maven-plugin</url>
     </scm>
 
     <developers>
