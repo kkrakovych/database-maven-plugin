@@ -24,9 +24,42 @@
     <groupId>net.kosto</groupId>
     <artifactId>database-maven-plugin</artifactId>
     <packaging>maven-plugin</packaging>
-    <name>database-maven-plugin</name>
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>The plugin helps to create database delta scripts for automated deploy.</description>
     <url>https://github.com/kkrakovych/database-maven-plugin</url>
     <version>1.0-SNAPSHOT</version>
+
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:https://github.com/kkrakovych/database-maven-plugin.git</connection>
+        <developerConnection>scm:git:git@github.com:kkrakovych/database-maven-plugin.git</developerConnection>
+        <url>https://github.com/kkrakovych/database-maven-plugin</url>
+    </scm>
+
+    <developers>
+        <developer>
+            <name>Kostyantyn Krakovych</name>
+            <email>kkrakovych@icloud.com</email>
+            <url>https://github.com/kkrakovych</url>
+        </developer>
+    </developers>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -35,6 +68,9 @@
         <maven-plugin-api.version>3.5.4</maven-plugin-api.version>
         <maven-plugin-annotations.version>3.5.2</maven-plugin-annotations.version>
         <maven-plugin-plugin.version>3.5.2</maven-plugin-plugin.version>
+        <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
+        <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
+        <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <maven-invoker-plugin.version>3.1.0</maven-invoker-plugin.version>
         <freemarker.version>2.3.28</freemarker.version>
         <junit-vintage-engine.version>5.2.0</junit-vintage-engine.version>
@@ -74,6 +110,32 @@
                 <version>${maven-plugin-plugin.version}</version>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${maven-source-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <artifactId>maven-invoker-plugin</artifactId>
                 <version>${maven-invoker-plugin.version}</version>
                 <configuration>
@@ -88,6 +150,20 @@
                         <goals>
                             <goal>install</goal>
                             <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>${maven-gpg-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
                         </goals>
                     </execution>
                 </executions>
