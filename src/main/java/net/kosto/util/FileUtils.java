@@ -63,7 +63,9 @@ public class FileUtils {
     public static List<Path> getFiles(Path sourceDirectory, String fileExtension) throws MojoExecutionException {
         List<Path> files = new ArrayList<>();
         if (sourceDirectory.toFile().exists()) {
-            try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(sourceDirectory, fileExtension)) {
+            try (
+                DirectoryStream<Path> directoryStream = Files.newDirectoryStream(sourceDirectory, fileExtension)
+            ) {
                 for (Path path : directoryStream) {
                     files.add(path);
                 }

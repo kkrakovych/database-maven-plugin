@@ -26,6 +26,7 @@ import net.kosto.configuration.oracle.OracleObject;
 import net.kosto.configuration.oracle.OracleSchema;
 import net.kosto.util.FileUtils;
 import net.kosto.util.ResourceUtils;
+import net.kosto.util.ZipUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 
 import java.io.BufferedWriter;
@@ -34,6 +35,7 @@ import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +45,7 @@ import static java.nio.file.StandardCopyOption.COPY_ATTRIBUTES;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static net.kosto.configuration.Configuration.DEFAULT_SERVICE_DIRECTORY;
 import static net.kosto.util.DateUtils.FORMATTER_DATE_TIME;
+import static net.kosto.util.DateUtils.FORMATTER_DATE_TIME_STRING;
 import static net.kosto.util.FileUtils.FILE_MASK_SQL;
 import static net.kosto.util.FileUtils.UNIX_SEPARATOR;
 
@@ -62,6 +65,8 @@ public class OracleProcessor implements Processor {
     private final freemarker.template.Configuration templateConfiguration;
     /** Template configuration parameters. */
     private final Map<String, Object> templateParameters;
+    /** List of files for packing in result zip file. */
+    private List<String> zipFiles = new ArrayList<>();
 
     OracleProcessor(Configuration configuration) {
         this.configuration = configuration;
@@ -81,6 +86,16 @@ public class OracleProcessor implements Processor {
         processMainScripts();
         processServiceScripts();
         processDatabase();
+
+        StringBuilder sb = new StringBuilder()
+            .append(configuration.getOracle().getName())
+            .append("-")
+            .append(configuration.getBuildVersion())
+            .append("-")
+            .append(configuration.getBuildTimestamp().format(FORMATTER_DATE_TIME_STRING))
+            .append(".zip");
+        Path zipFile = Paths.get(configuration.getOutputDirectory(), sb.toString());
+        ZipUtils.zipIt(zipFile.toString(), configuration.getOutputDirectory(), zipFiles);
     }
 
     private void processMainScripts() throws MojoExecutionException {
@@ -142,60 +157,79 @@ public class OracleProcessor implements Processor {
 
     private void processTemplateFiles(Path directory, List<Path> files) throws MojoExecutionException {
         for (Path file : files) {
-            Path fileName = file.getFileName();
-            if (fileName == null)
+            if (file.getFileName() == null)
                 continue;
-            // Process file name via template
-            String name = fileName.toString();
-            if (name.contains("${")) {
-                StringWriter writer = new StringWriter();
-                try {
-                    Template template = new Template(name, name, templateConfiguration);
-                    template.process(templateParameters, writer);
-                    name = writer.toString();
-                } catch (IOException x) {
-                    throw new MojoExecutionException("Failed to get template file name.", x);
-                } catch (TemplateException x) {
-                    throw new MojoExecutionException("Failed to process template file name.", x);
-                }
-            }
-            // Process file via template
-            Path output = Paths.get(directory.toString(), name);
+            String fileName = processTemplateFileName(file.getFileName());
+            Path output = Paths.get(directory.toString(), fileName);
+            addZipFile(output);
+            processTemplateFile(file, output);
+        }
+    }
+
+    private String processTemplateFileName(Path fileName) throws MojoExecutionException {
+        String name = fileName.toString();
+        if (name.contains("${")) {
+            StringWriter writer = new StringWriter();
             try {
-                // Line below is for defence against execution on OS Windows
-                String templateName = file.toString().replaceAll("\\\\", UNIX_SEPARATOR);
-                Template template = templateConfiguration.getTemplate(templateName);
-                try (
-                    BufferedWriter writer = Files.newBufferedWriter(output, UTF_8)
-                ) {
-                    template.process(templateParameters, writer);
-                    writer.flush();
-                }
+                Template template = new Template(name, name, templateConfiguration);
+                template.process(templateParameters, writer);
+                name = writer.toString();
             } catch (IOException x) {
-                throw new MojoExecutionException("Failed to get template file.", x);
+                throw new MojoExecutionException("Failed to get template file name.", x);
             } catch (TemplateException x) {
-                throw new MojoExecutionException("Failed to process template file.", x);
+                throw new MojoExecutionException("Failed to process template file name.", x);
             }
+        }
+        return name;
+    }
+
+    private void processTemplateFile(Path fileName, Path output) throws MojoExecutionException {
+        try {
+            // Line below is for defence against execution on OS Windows
+            String templateName = fileName.toString().replaceAll("\\\\", UNIX_SEPARATOR);
+            Template template = templateConfiguration.getTemplate(templateName);
+            try (
+                BufferedWriter writer = Files.newBufferedWriter(output, UTF_8)
+            ) {
+                template.process(templateParameters, writer);
+                writer.flush();
+            }
+        } catch (IOException x) {
+            throw new MojoExecutionException("Failed to get template file.", x);
+        } catch (TemplateException x) {
+            throw new MojoExecutionException("Failed to process template file.", x);
         }
     }
 
     private void processSourceFiles(Path directory, List<Path> files) throws MojoExecutionException {
         for (Path file : files) {
-            Path target = Paths.get(directory.toString(), file.getFileName().toString());
-            // TODO: add new options - select how we process source code
-            //       1. BOM symbol remover
-            //       2. End of SQL command checks
-            //       3. & symbol processing
-            if (true) {
-                List<String> source = FileUtils.readFileSourceCode(file);
-                FileUtils.writeFileSourceCode(target, source);
-            } else {
-                try {
-                    Files.copy(file, target, REPLACE_EXISTING, COPY_ATTRIBUTES);
-                } catch (IOException x) {
-                    throw new MojoExecutionException("Failed to copy source file.", x);
-                }
+            Path output = Paths.get(directory.toString(), file.getFileName().toString());
+            addZipFile(output);
+            processSourceFile(file, output);
+
+        }
+    }
+
+    // TODO: add new options - select how we process source code
+    //       1. BOM symbol remover
+    //       2. End of SQL command checks
+    //       3. & symbol processing
+    private void processSourceFile(Path file, Path output) throws MojoExecutionException {
+        if (true) {
+            List<String> source = FileUtils.readFileSourceCode(file);
+            FileUtils.writeFileSourceCode(output, source);
+        } else {
+            try {
+                Files.copy(file, output, REPLACE_EXISTING, COPY_ATTRIBUTES);
+            } catch (IOException x) {
+                throw new MojoExecutionException("Failed to copy source file.", x);
             }
         }
+    }
+
+    private void addZipFile(Path output) {
+        Path basePath = Paths.get(configuration.getOutputDirectory());
+        Path relativePath = basePath.relativize(output);
+        zipFiles.add(relativePath.toString());
     }
 }

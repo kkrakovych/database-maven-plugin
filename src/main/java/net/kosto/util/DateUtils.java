@@ -21,6 +21,7 @@ import java.time.format.DateTimeFormatter;
 public class DateUtils {
 
     public static final DateTimeFormatter FORMATTER_DATE_TIME = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    public static final DateTimeFormatter FORMATTER_DATE_TIME_STRING = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 
     private DateUtils() {
     }
