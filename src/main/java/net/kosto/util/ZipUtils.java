@@ -26,18 +26,21 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import static java.util.zip.Deflater.BEST_COMPRESSION;
+
 public class ZipUtils {
 
     private ZipUtils() {
     }
 
-    public static void zipIt(String zipFile, String baseDirectory, List<String> files) throws MojoExecutionException {
+    public static void compress(String zipFile, String baseDirectory, List<String> files) throws MojoExecutionException {
         byte[] buffer = new byte[1024];
 
         try (
             FileOutputStream fos = new FileOutputStream(zipFile);
             ZipOutputStream zos = new ZipOutputStream(fos)
         ) {
+            zos.setLevel(BEST_COMPRESSION);
             for (String file : files) {
                 ZipEntry ze = new ZipEntry(file);
                 zos.putNextEntry(ze);

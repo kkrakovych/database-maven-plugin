@@ -95,7 +95,7 @@ public class OracleProcessor implements Processor {
             .append(configuration.getBuildTimestamp().format(FORMATTER_DATE_TIME_STRING))
             .append(".zip");
         Path zipFile = Paths.get(configuration.getOutputDirectory(), sb.toString());
-        ZipUtils.zipIt(zipFile.toString(), configuration.getOutputDirectory(), zipFiles);
+        ZipUtils.compress(zipFile.toString(), configuration.getOutputDirectory(), zipFiles);
     }
 
     private void processMainScripts() throws MojoExecutionException {
