@@ -26,7 +26,7 @@ import static net.kosto.util.FileUtils.FILE_MASK_SQL;
 /**
  * {@code DatabaseScript} represents database script configuration.
  */
-public class DatabaseScript extends DatabaseBaseObject implements ValidateAction {
+public class DatabaseScript extends DatabaseObject implements ValidateAction {
 
     /** Database script's type. */
     private DatabaseScriptType type;

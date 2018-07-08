@@ -35,9 +35,6 @@ public abstract class DatabaseBaseObject {
     private String sourceDirectory;
     /** Whether to ignore specified {@link #sourceDirectory} path. */
     private Boolean ignoreDirectory;
-    /** Database object's file mask. */
-    private String fileMask;
-
     /** Relative path to execute directory. */
     private String executeDirectory = UNIX_SEPARATOR;
     /** Full path to object's source directory. */
@@ -75,14 +72,6 @@ public abstract class DatabaseBaseObject {
 
     public void setIgnoreDirectory(Boolean ignoreDirectory) {
         this.ignoreDirectory = ignoreDirectory;
-    }
-
-    public String getFileMask() {
-        return fileMask;
-    }
-
-    public void setFileMask(String fileMask) {
-        this.fileMask = fileMask;
     }
 
     public String getExecuteDirectory() {
@@ -124,14 +113,13 @@ public abstract class DatabaseBaseObject {
     @Override
     public String toString() {
         return "DatabaseBaseObject{" +
-            "index=" + index +
-            ", name=" + name +
-            ", sourceDirectory=" + sourceDirectory +
-            ", ignoreDirectory=" + ignoreDirectory +
-            ", fileMask=" + fileMask +
-            ", executeDirectory=" + executeDirectory +
-            ", sourceDirectoryFull=" + sourceDirectoryFull +
-            ", outputDirectoryFull=" + outputDirectoryFull +
+            "index=" + getIndex() +
+            ", name=" + getName() +
+            ", sourceDirectory=" + getSourceDirectory() +
+            ", ignoreDirectory=" + getIgnoreDirectory() +
+            ", executeDirectory=" + getExecuteDirectory() +
+            ", sourceDirectoryFull=" + getSourceDirectoryFull() +
+            ", outputDirectoryFull=" + getOutputDirectoryFull() +
             '}';
     }
 }
