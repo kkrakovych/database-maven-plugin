@@ -21,11 +21,11 @@ import java.nio.file.Paths;
 import static net.kosto.util.FileUtils.UNIX_SEPARATOR;
 
 /**
- * {@code DatabaseObject} represents basic database object configuration.
+ * {@code DatabaseBaseObject} represents basic database object configuration.
  * <p>
  * Provides access to basic database object's attributes and methods.
  */
-public abstract class DatabaseObject {
+public abstract class DatabaseBaseObject {
 
     /** Database object's index in a list. Affects processing order. */
     private Integer index;
@@ -123,7 +123,7 @@ public abstract class DatabaseObject {
 
     @Override
     public String toString() {
-        return "DatabaseObject{" +
+        return "DatabaseBaseObject{" +
             "index=" + index +
             ", name=" + name +
             ", sourceDirectory=" + sourceDirectory +
