@@ -17,7 +17,7 @@
 package net.kosto.configuration.oracle;
 
 import net.kosto.configuration.ValidateAction;
-import net.kosto.configuration.model.DatabaseObject;
+import net.kosto.configuration.model.DatabaseBaseObject;
 import org.apache.maven.plugin.MojoExecutionException;
 
 import static java.lang.Boolean.FALSE;
@@ -37,7 +37,7 @@ import static net.kosto.util.FileUtils.FILE_MASK_SQL;
  * <li>{@link OracleObject#sourceDirectory} = {@link OracleObjectType#getSourceDirectory()}</li>
  * </ul>
  */
-public class OracleObject extends DatabaseObject implements ValidateAction {
+public class OracleObject extends DatabaseBaseObject implements ValidateAction {
 
     /** Database object's type. */
     private OracleObjectType type;

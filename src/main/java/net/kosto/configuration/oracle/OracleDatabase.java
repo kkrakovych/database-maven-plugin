@@ -17,7 +17,7 @@
 package net.kosto.configuration.oracle;
 
 import net.kosto.configuration.ValidateAction;
-import net.kosto.configuration.model.DatabaseObject;
+import net.kosto.configuration.model.DatabaseBaseObject;
 import org.apache.maven.plugin.MojoExecutionException;
 
 import java.util.Comparator;
@@ -39,7 +39,7 @@ import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
  * <li>{@link OracleDatabase#sourceDirectory} = {@link OracleDatabase#name}</li>
  * </ul>
  */
-public class OracleDatabase extends DatabaseObject implements ValidateAction {
+public class OracleDatabase extends DatabaseBaseObject implements ValidateAction {
 
     /** List of schemes for deploy. */
     private List<OracleSchema> schemes;
