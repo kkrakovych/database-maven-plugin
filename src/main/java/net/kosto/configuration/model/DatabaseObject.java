@@ -16,6 +16,8 @@
 
 package net.kosto.configuration.model;
 
+import static net.kosto.util.FileUtils.FILE_MASK_SQL;
+
 /**
  * {@code DatabaseObject} represents database object specific configuration.
  * <p>
@@ -24,7 +26,7 @@ package net.kosto.configuration.model;
 public abstract class DatabaseObject extends DatabaseBaseObject {
 
     /** Database object's file mask. */
-    private String fileMask;
+    private String fileMask = FILE_MASK_SQL;
 
     public String getFileMask() {
         return fileMask;
