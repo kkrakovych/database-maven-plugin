@@ -210,10 +210,6 @@ public class OracleProcessor implements Processor {
         }
     }
 
-    // TODO: add new options - select how we process source code
-    //       1. BOM symbol remover
-    //       2. End of SQL command checks
-    //       3. & symbol processing
     private void processSourceFile(Path file, Path output) throws MojoExecutionException {
         if (true) {
             List<String> source = FileUtils.readFileSourceCode(file);

@@ -15,7 +15,6 @@
   -->
 <#compress>
 
-<#-- TODO: add new options - select how we process source code -->
 set define off
 
 <#list files as file>
