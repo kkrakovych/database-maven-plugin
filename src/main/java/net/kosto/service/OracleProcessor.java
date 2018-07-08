@@ -19,7 +19,7 @@ package net.kosto.service;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import net.kosto.configuration.Configuration;
-import net.kosto.configuration.model.DatabaseBaseObject;
+import net.kosto.configuration.model.DatabaseObject;
 import net.kosto.configuration.model.DatabaseScript;
 import net.kosto.configuration.oracle.OracleDatabase;
 import net.kosto.configuration.oracle.OracleObject;
@@ -139,7 +139,7 @@ public class OracleProcessor implements Processor {
                 processItem(script, SCRIPT);
     }
 
-    private <T extends DatabaseBaseObject> void processItem(T item, String itemType) throws MojoExecutionException {
+    private <T extends DatabaseObject> void processItem(T item, String itemType) throws MojoExecutionException {
         Path source = Paths.get(item.getSourceDirectoryFull());
         Path directory = FileUtils.createDirectories(item.getOutputDirectoryFull());
         templateParameters.put(itemType, item);
