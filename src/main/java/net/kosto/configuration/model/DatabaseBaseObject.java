@@ -18,6 +18,7 @@ package net.kosto.configuration.model;
 
 import java.nio.file.Paths;
 
+import static java.lang.Boolean.FALSE;
 import static net.kosto.util.FileUtils.UNIX_SEPARATOR;
 
 /**
@@ -34,7 +35,7 @@ public abstract class DatabaseBaseObject {
     /** Database object's relative source directory path. */
     private String sourceDirectory;
     /** Whether to ignore specified {@link #sourceDirectory} path. */
-    private Boolean ignoreDirectory;
+    private Boolean ignoreDirectory = FALSE;
     /** Relative path to execute directory. */
     private String executeDirectory = UNIX_SEPARATOR;
     /** Full path to object's source directory. */

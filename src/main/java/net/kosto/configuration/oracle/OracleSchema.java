@@ -24,7 +24,6 @@ import org.apache.maven.plugin.MojoExecutionException;
 import java.util.Comparator;
 import java.util.List;
 
-import static java.lang.Boolean.FALSE;
 import static net.kosto.configuration.ValidateError.EMPTY_LIST_PARAMETER;
 import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
 
@@ -136,8 +135,6 @@ public class OracleSchema extends DatabaseBaseObject implements ValidateAction {
      * Sets default values for {@code OracleSchema} configuration.
      */
     private void setDefaultValues() {
-        if (getIgnoreDirectory() == null)
-            setIgnoreDirectory(FALSE);
         if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory())
             setSourceDirectory(getIgnoreDirectory() ? "" : getName());
         postProcessDirectories();
