@@ -22,9 +22,9 @@ import java.nio.file.Files
 def sep = File.separator
 def target = "$basedir" + sep + "target" + sep
 def verify = "$basedir" + sep + "verify" + sep
-def service = ".service" + sep
-String output
-String sample
+def target_service = target + ".service" + sep
+def verify_service = verify + ".service" + sep
+String file
 
 static void checkFile(output, sample, diffCountLimit) {
     def outputFile = new File(output.toString())
@@ -46,10 +46,20 @@ static void checkFile(output, sample, diffCountLimit) {
     assert (diffCount <= diffCountLimit): output + " file has wrong content"
 }
 
-output = target + "install_manual.sql"
-sample = verify + "install_manual.sql"
-checkFile(output, sample, 1)
+file = "install_manual.sql"
+checkFile(target + file, verify + file, 1)
 
-output = target + "install_auto.sql"
-sample = verify + "install_auto.sql"
-checkFile(output, sample, 1)
+file = "install_auto.sql"
+checkFile(target + file, verify + file, 1)
+
+file = "install_database_database.sql"
+checkFile(target_service + file, verify_service + file, 0)
+
+file = "install_schema_1_schema.sql"
+checkFile(target_service + file, verify_service + file, 0)
+
+file = "install_object_1_schema_1_FUNCTION.sql"
+checkFile(target_service + file, verify_service + file, 0)
+
+file = "install_object_1_schema_2_PROCEDURE.sql"
+checkFile(target_service + file, verify_service + file, 0)

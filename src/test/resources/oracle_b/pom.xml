@@ -37,13 +37,12 @@
                 <artifactId>database-maven-plugin</artifactId>
                 <version>1.0-SNAPSHOT</version>
                 <configuration>
-                    <serviceDirectory>.service</serviceDirectory>
                     <oracle>
                         <name>database</name>
                         <ignoreDirectory>true</ignoreDirectory>
                         <schemes>
                             <schema>
-                                <index>2</index>
+                                <index>1</index>
                                 <name>schema</name>
                                 <ignoreDirectory>true</ignoreDirectory>
                                 <objects>
