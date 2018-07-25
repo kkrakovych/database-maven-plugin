@@ -23,6 +23,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import java.util.Comparator;
 import java.util.List;
 
+import static java.lang.Boolean.FALSE;
 import static net.kosto.configuration.ValidateError.EMPTY_LIST_PARAMETER;
 import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
 
@@ -57,6 +58,8 @@ public class OracleDatabase extends DatabaseBaseObject implements ValidateAction
             "name=" + getName() +
             ", sourceDirectory=" + getSourceDirectory() +
             ", ignoreDirectory=" + getIgnoreDirectory() +
+            ", defineSymbol=" + getDefineSymbol() +
+            ", ignoreDefine=" + getIgnoreDefine() +
             ", executeDirectory=" + getExecuteDirectory() +
             ", sourceDirectoryFull=" + getSourceDirectoryFull() +
             ", outputDirectoryFull=" + getOutputDirectoryFull() +
@@ -77,6 +80,10 @@ public class OracleDatabase extends DatabaseBaseObject implements ValidateAction
             );
 
         for (OracleSchema schema : schemes) {
+            if (schema.getDefineSymbol() == null)
+                schema.setDefineSymbol(getDefineSymbol());
+            if (schema.getIgnoreDefine() == null)
+                schema.setIgnoreDefine(getIgnoreDefine());
             schema.setExecuteDirectory(getExecuteDirectory());
             schema.setSourceDirectoryFull(getSourceDirectoryFull());
             schema.setOutputDirectoryFull(getOutputDirectoryFull());
@@ -102,6 +109,10 @@ public class OracleDatabase extends DatabaseBaseObject implements ValidateAction
      * Sets default values for {@code OracleDatabase} configuration.
      */
     private void setDefaultValues() {
+        if (getDefineSymbol() == null)
+            setDefineSymbol("&");
+        if (getIgnoreDefine() == null)
+            setIgnoreDefine(FALSE);
         if (getSourceDirectory() == null || getSourceDirectory().isEmpty())
             setSourceDirectory(getIgnoreDirectory() ? "" : getName());
         postProcessDirectories();

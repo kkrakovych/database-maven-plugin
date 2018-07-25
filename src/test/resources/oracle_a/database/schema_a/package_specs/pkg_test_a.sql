@@ -16,6 +16,8 @@
 
 create or replace package pkg_test_a as
 
+   c_string constant varchar2(100 char) := 'Text with & (ampersand)';
+
    procedure prc_test_a;
 
    procedure prc_test_b;

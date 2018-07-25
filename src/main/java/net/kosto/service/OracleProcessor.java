@@ -20,10 +20,10 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import net.kosto.configuration.Configuration;
 import net.kosto.configuration.model.DatabaseObject;
-import net.kosto.configuration.model.DatabaseScript;
 import net.kosto.configuration.oracle.OracleDatabase;
 import net.kosto.configuration.oracle.OracleObject;
 import net.kosto.configuration.oracle.OracleSchema;
+import net.kosto.configuration.oracle.OracleScript;
 import net.kosto.util.FileUtils;
 import net.kosto.util.ResourceUtils;
 import net.kosto.util.ZipUtils;
@@ -135,7 +135,7 @@ public class OracleProcessor implements Processor {
 
     private void processScripts(OracleSchema schema) throws MojoExecutionException {
         if (schema.getScripts() != null)
-            for (DatabaseScript script : schema.getScripts())
+            for (OracleScript script : schema.getScripts())
                 processItem(script, SCRIPT);
     }
 
