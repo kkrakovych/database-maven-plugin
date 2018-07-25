@@ -150,11 +150,12 @@ mvn database:package
 ```
 
 In output directory you will find next things:
-1. Script install_manual.sql - Main SQL script for manual deploy.
-2. Service directory - All service scripts required for deploy.
+1. Script install_auto.sql - Main SQL script for deploy via script.
+2. Script install_manual.sql - Main SQL script for deploy with manual input.
+3. Service directory - All service scripts required for deploy.
 The directory name by default is `service`.
 The name can be changed with `serviceDirectory` parameter in `configuration` section of the plugin.
-3. Database directory and sub directories - All database source code and scripts required for deploy.
+4. Database directory and sub directories - All database source code and scripts required for deploy.
 Content of the directory may vary dependent on configuration of the plugin.
 
 ## How to deploy result script
@@ -162,10 +163,19 @@ Content of the directory may vary dependent on configuration of the plugin.
 Please take into account before the script execution you will need to install and setup:
 1. [Oracle Instant Client](http://www.oracle.com/technetwork/database/database-technologies/instant-client/overview/index.html) with Oracle SQL*Plus;
 2. `tnsnames.ora` [configuration file](https://docs.oracle.com/database/121/NETRF/tnsnames.htm#NETRF007);
-3. Both `ORACLE_HOME` and `TNS_ADMIN` system variables should be set properly;
+3. `ORACLE_HOME`, `TNS_ADMIN` and `NLS_LANG` system variables should be set properly;
 4. Oracle SQL*Plus should be available for execution via `PATH` system variable.
 
-The main script for manual deploy can be executed with Oracle SQL*Plus.
+#### Automatically
+
+The main script for deploy via script can be executed with Oracle SQL*Plus
+```bash
+sqlplus /nolog @install_auto.sql [tns_name] [user_schema_1] [user_password_1] [user_schema_2] [user_password_2] ...
+```
+
+#### Manually
+
+The main script for deploy with manual input can be executed with Oracle SQL*Plus.
 ```bash
 sqlplus /nolog @install_manual.sql
 ```

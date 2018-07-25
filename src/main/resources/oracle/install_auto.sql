@@ -19,13 +19,13 @@ prompt
 prompt === DATABASE-MAVEN-PLUGIN
 prompt Oracle database [${database.name}] version [${buildVersion}] created at [${buildTimestamp}]
 
-@./${serviceDirectory}/input_parameters_manual.sql
+@./${serviceDirectory}/input_parameters_auto.sql
 @./${serviceDirectory}/sqlplus_setup.sql
 @./${serviceDirectory}/check_connections.sql
 
 column dt new_value timestamp noprint
 select to_char(sysdate, 'yyyymmddhh24miss') dt from dual;
-spool install_manual_${database.name}_${buildVersion}_&timestamp..log
+spool install_auto_${database.name}_${buildVersion}_&timestamp..log
 
 @./${serviceDirectory}/deploy_information.sql
 @./${serviceDirectory}/install_database_${database.name}.sql

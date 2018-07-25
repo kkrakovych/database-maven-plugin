@@ -50,6 +50,10 @@ output = target + "install_manual.sql"
 sample = verify + "install_manual.sql"
 checkFile(output, sample, 1)
 
+output = target + "install_auto.sql"
+sample = verify + "install_auto.sql"
+checkFile(output, sample, 1)
+
 output = target + service + "install_database_database.sql"
 sample = verify + service + "install_database_database.sql"
 checkFile(output, sample, 0)
