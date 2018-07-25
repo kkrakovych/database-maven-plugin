@@ -18,12 +18,12 @@ package net.kosto.configuration.oracle;
 
 import net.kosto.configuration.ValidateAction;
 import net.kosto.configuration.model.DatabaseBaseObject;
-import net.kosto.configuration.model.DatabaseScript;
 import org.apache.maven.plugin.MojoExecutionException;
 
 import java.util.Comparator;
 import java.util.List;
 
+import static java.lang.Boolean.FALSE;
 import static net.kosto.configuration.ValidateError.EMPTY_LIST_PARAMETER;
 import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
 
@@ -44,7 +44,7 @@ public class OracleSchema extends DatabaseBaseObject implements ValidateAction {
     /** List of objects for deploy. */
     private List<OracleObject> objects;
     /** List of scripts for deploy. */
-    private List<DatabaseScript> scripts;
+    private List<OracleScript> scripts;
 
     public List<OracleObject> getObjects() {
         return objects;
@@ -54,11 +54,11 @@ public class OracleSchema extends DatabaseBaseObject implements ValidateAction {
         this.objects = objects;
     }
 
-    public List<DatabaseScript> getScripts() {
+    public List<OracleScript> getScripts() {
         return scripts;
     }
 
-    public void setScripts(List<DatabaseScript> scripts) {
+    public void setScripts(List<OracleScript> scripts) {
         this.scripts = scripts;
     }
 
@@ -69,6 +69,8 @@ public class OracleSchema extends DatabaseBaseObject implements ValidateAction {
             ", name=" + getName() +
             ", sourceDirectory=" + getSourceDirectory() +
             ", ignoreDirectory=" + getIgnoreDirectory() +
+            ", defineSymbol=" + getDefineSymbol() +
+            ", ignoreDefine=" + getIgnoreDefine() +
             ", executeDirectory=" + getExecuteDirectory() +
             ", sourceDirectoryFull=" + getSourceDirectoryFull() +
             ", outputDirectoryFull=" + getOutputDirectoryFull() +
@@ -91,6 +93,10 @@ public class OracleSchema extends DatabaseBaseObject implements ValidateAction {
                 );
 
             for (OracleObject object : objects) {
+                if (object.getDefineSymbol() == null)
+                    object.setDefineSymbol(getDefineSymbol());
+                if (object.getIgnoreDefine() == null)
+                    object.setIgnoreDefine(getIgnoreDefine());
                 object.setExecuteDirectory(getExecuteDirectory());
                 object.setSourceDirectoryFull(getSourceDirectoryFull());
                 object.setOutputDirectoryFull(getOutputDirectoryFull());
@@ -102,11 +108,15 @@ public class OracleSchema extends DatabaseBaseObject implements ValidateAction {
             getScripts()
                 .sort(
                     Comparator
-                        .comparing(DatabaseScript::getCondition, Comparator.reverseOrder())
-                        .thenComparingInt(DatabaseScript::getIndex)
+                        .comparing(OracleScript::getCondition, Comparator.reverseOrder())
+                        .thenComparingInt(OracleScript::getIndex)
                 );
 
-            for (DatabaseScript script : scripts) {
+            for (OracleScript script : scripts) {
+                if (script.getDefineSymbol() == null)
+                    script.setDefineSymbol(getDefineSymbol());
+                if (script.getIgnoreDefine() == null)
+                    script.setIgnoreDefine(getIgnoreDefine());
                 script.setExecuteDirectory(getExecuteDirectory());
                 script.setSourceDirectoryFull(getSourceDirectoryFull());
                 script.setOutputDirectoryFull(getOutputDirectoryFull());
@@ -135,6 +145,10 @@ public class OracleSchema extends DatabaseBaseObject implements ValidateAction {
      * Sets default values for {@code OracleSchema} configuration.
      */
     private void setDefaultValues() {
+        if (getDefineSymbol() == null)
+            setDefineSymbol("&");
+        if (getIgnoreDefine() == null)
+            setIgnoreDefine(FALSE);
         if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory())
             setSourceDirectory(getIgnoreDirectory() ? "" : getName());
         postProcessDirectories();

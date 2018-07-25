@@ -36,6 +36,10 @@ public abstract class DatabaseBaseObject {
     private String sourceDirectory;
     /** Whether to ignore specified {@link #sourceDirectory} path. */
     private Boolean ignoreDirectory = FALSE;
+    /** Symbol to define variable. */
+    private String defineSymbol;
+    /** Whether to ignore define variable symbol. */
+    private Boolean ignoreDefine;
     /** Relative path to execute directory. */
     private String executeDirectory = UNIX_SEPARATOR;
     /** Full path to object's source directory. */
@@ -73,6 +77,22 @@ public abstract class DatabaseBaseObject {
 
     public void setIgnoreDirectory(Boolean ignoreDirectory) {
         this.ignoreDirectory = ignoreDirectory;
+    }
+
+    public String getDefineSymbol() {
+        return defineSymbol;
+    }
+
+    public void setDefineSymbol(String defineSymbol) {
+        this.defineSymbol = defineSymbol;
+    }
+
+    public Boolean getIgnoreDefine() {
+        return ignoreDefine;
+    }
+
+    public void setIgnoreDefine(Boolean ignoreDefine) {
+        this.ignoreDefine = ignoreDefine;
     }
 
     public String getExecuteDirectory() {
@@ -118,6 +138,8 @@ public abstract class DatabaseBaseObject {
             ", name=" + getName() +
             ", sourceDirectory=" + getSourceDirectory() +
             ", ignoreDirectory=" + getIgnoreDirectory() +
+            ", defineSymbol=" + getDefineSymbol() +
+            ", ignoreDefine=" + getIgnoreDefine() +
             ", executeDirectory=" + getExecuteDirectory() +
             ", sourceDirectoryFull=" + getSourceDirectoryFull() +
             ", outputDirectoryFull=" + getOutputDirectoryFull() +

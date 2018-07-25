@@ -40,6 +40,7 @@
                     <serviceDirectory>.service</serviceDirectory>
                     <oracle>
                         <name>database</name>
+                        <ignoreDefine>true</ignoreDefine>
                         <schemes>
                             <schema>
                                 <index>2</index>

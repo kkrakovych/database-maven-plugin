@@ -20,6 +20,7 @@ import net.kosto.configuration.ValidateAction;
 import net.kosto.configuration.model.DatabaseObject;
 import org.apache.maven.plugin.MojoExecutionException;
 
+import static java.lang.Boolean.FALSE;
 import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
 
 /**
@@ -55,6 +56,8 @@ public class OracleObject extends DatabaseObject implements ValidateAction {
             ", type=" + getType() +
             ", sourceDirectory=" + getSourceDirectory() +
             ", ignoreDirectory=" + getIgnoreDirectory() +
+            ", defineSymbol=" + getDefineSymbol() +
+            ", ignoreDefine=" + getIgnoreDefine() +
             ", fileMask=" + getFileMask() +
             ", executeDirectory=" + getExecuteDirectory() +
             ", sourceDirectoryFull=" + getSourceDirectoryFull() +
@@ -84,6 +87,10 @@ public class OracleObject extends DatabaseObject implements ValidateAction {
      * Sets default values for {@code OracleObject} configuration.
      */
     private void setDefaultValues() {
+        if (getDefineSymbol() == null)
+            setDefineSymbol("&");
+        if (getIgnoreDefine() == null)
+            setIgnoreDefine(FALSE);
         if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory())
             setSourceDirectory(getIgnoreDirectory() ? "" : getType().getSourceDirectory());
         postProcessDirectories();

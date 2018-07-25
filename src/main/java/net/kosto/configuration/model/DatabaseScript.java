@@ -16,15 +16,10 @@
 
 package net.kosto.configuration.model;
 
-import net.kosto.configuration.ValidateAction;
-import org.apache.maven.plugin.MojoExecutionException;
-
-import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
-
 /**
  * {@code DatabaseScript} represents database script configuration.
  */
-public class DatabaseScript extends DatabaseObject implements ValidateAction {
+public class DatabaseScript extends DatabaseObject {
 
     /** Database script's type. */
     private DatabaseScriptType type;
@@ -55,39 +50,12 @@ public class DatabaseScript extends DatabaseObject implements ValidateAction {
             ", index=" + getIndex() +
             ", sourceDirectory=" + getSourceDirectory() +
             ", ignoreDirectory=" + getIgnoreDirectory() +
+            ", defineSymbol=" + getDefineSymbol() +
+            ", ignoreDefine=" + getIgnoreDefine() +
             ", fileMask=" + getFileMask() +
             ", executeDirectory=" + getExecuteDirectory() +
             ", sourceDirectoryFull=" + getSourceDirectoryFull() +
             ", outputDirectoryFull=" + getOutputDirectoryFull() +
             '}';
-    }
-
-    @Override
-    public void validate() throws MojoExecutionException {
-        checkMandatoryValues();
-        setDefaultValues();
-    }
-
-    /**
-     * Checks {@code DatabaseScript} configuration for mandatory values.
-     *
-     * @throws MojoExecutionException If a validation exception occurred.
-     */
-    private void checkMandatoryValues() throws MojoExecutionException {
-        if (getType() == null)
-            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.script.type"));
-        if (getCondition() == null)
-            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.script.condition"));
-        if (getIndex() == null)
-            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.script.index"));
-    }
-
-    /**
-     * Sets default values for {@code DatabaseScript} configuration.
-     */
-    private void setDefaultValues() {
-        if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory())
-            setSourceDirectory(getIgnoreDirectory() ? "" : getType().getSourceDirectory());
-        postProcessDirectories();
     }
 }

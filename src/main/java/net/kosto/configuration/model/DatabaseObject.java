@@ -43,6 +43,8 @@ public abstract class DatabaseObject extends DatabaseBaseObject {
             ", name=" + getName() +
             ", sourceDirectory=" + getSourceDirectory() +
             ", ignoreDirectory=" + getIgnoreDirectory() +
+            ", defineSymbol=" + getDefineSymbol() +
+            ", ignoreDefine=" + getIgnoreDefine() +
             ", fileMask=" + getFileMask() +
             ", executeDirectory=" + getExecuteDirectory() +
             ", sourceDirectoryFull=" + getSourceDirectoryFull() +
