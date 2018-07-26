@@ -126,7 +126,7 @@ public class OracleSchema extends DatabaseObject implements ValidateAction {
             throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.index"));
         if (getName() == null)
             throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.name"));
-        if (getObjects().isEmpty())
+        if (getObjects() != null && getObjects().isEmpty())
             throw new MojoExecutionException(EMPTY_LIST_PARAMETER.getFormattedMessage("oracle.schema.objects", "object"));
         if (getScripts() != null && getScripts().isEmpty())
             throw new MojoExecutionException(EMPTY_LIST_PARAMETER.getFormattedMessage("oracle.schema.scripts", "script"));
