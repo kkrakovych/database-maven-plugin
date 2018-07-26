@@ -37,9 +37,11 @@ connect &usr_${schema.name}/&pwd_${schema.name}@&tns_name
 
 prompt Deploy source code.
 
-<#list schema.objects as object>
+<#if schema.objects??>
+  <#list schema.objects as object>
 @./${serviceDirectory}/install_object_${schema.index}_${schema.name}_${object.index}_${object.type}.sql
-</#list>
+  </#list>
+</#if>
 
 @./${serviceDirectory}/compile_schema.sql
 @./${serviceDirectory}/check_objects.sql
