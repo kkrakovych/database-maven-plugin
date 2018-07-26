@@ -29,9 +29,9 @@ import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import static java.lang.System.lineSeparator;
@@ -92,7 +92,7 @@ public class FileUtils {
     }
 
     public static Map<String, String> getFileNamesWithCheckSum(Path sourceDirectory, String fileExtension) throws MojoExecutionException {
-        Map<String, String> result = new HashMap<>();
+        Map<String, String> result = new TreeMap<>();
         List<String> files = getFileNames(sourceDirectory, fileExtension);
         for (String file : files) {
             result.put(file, getFileChecksum(Paths.get(sourceDirectory.toString(), file).toString()));
