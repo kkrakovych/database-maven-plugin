@@ -128,8 +128,9 @@ public class OracleProcessor implements Processor {
     }
 
     private void processObjects(OracleSchema schema) throws MojoExecutionException {
-        for (OracleObject object : schema.getObjects())
-            processItem(object, OBJECT);
+        if (schema.getObjects() != null)
+            for (OracleObject object : schema.getObjects())
+                processItem(object, OBJECT);
     }
 
     private void processScripts(OracleSchema schema) throws MojoExecutionException {
