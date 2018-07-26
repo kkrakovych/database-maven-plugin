@@ -41,10 +41,10 @@ prompt Deploy source code.
   <#list schema.objects as object>
 @./${serviceDirectory}/install_object_${schema.index}_${schema.name}_${object.index}_${object.type}.sql
   </#list>
-</#if>
 
 @./${serviceDirectory}/compile_schema.sql
 @./${serviceDirectory}/check_objects.sql
+</#if>
 
 <#if schema.scripts??>
   <#list schema.scripts as script>
