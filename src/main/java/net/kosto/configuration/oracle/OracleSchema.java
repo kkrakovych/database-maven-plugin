@@ -83,18 +83,20 @@ public class OracleSchema extends DatabaseObject implements ValidateAction {
         checkMandatoryValues();
         setDefaultValues();
 
-        getObjects()
-            .sort(
-                Comparator
-                    .comparingInt(OracleObject::getIndex)
-                    .thenComparing(OracleObject::getType)
-            );
+        if (objects != null) {
+            getObjects()
+                .sort(
+                    Comparator
+                        .comparingInt(OracleObject::getIndex)
+                        .thenComparing(OracleObject::getType)
+                );
 
-        for (OracleObject object : objects) {
-            object.setExecuteDirectory(getExecuteDirectory());
-            object.setSourceDirectoryFull(getSourceDirectoryFull());
-            object.setOutputDirectoryFull(getOutputDirectoryFull());
-            object.validate();
+            for (OracleObject object : objects) {
+                object.setExecuteDirectory(getExecuteDirectory());
+                object.setSourceDirectoryFull(getSourceDirectoryFull());
+                object.setOutputDirectoryFull(getOutputDirectoryFull());
+                object.validate();
+            }
         }
 
         if (scripts != null) {
