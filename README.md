@@ -118,8 +118,8 @@ Other depends on database type.
 | `name`            | Schema name. |
 | `sourceDirectory` | Source directory for all schema's objects. By default schema name is used as source directory. |
 | `ignoreDirectory` | If `true` source directory will be ignored. By default set as `false`. |
-| `objects`         | List of schema's objects for deploy. |
-| `scripts`         | List of schema's scripts for deploy. |
+| `objects`         | List of schema's objects for deploy if any. |
+| `scripts`         | List of schema's scripts for deploy if any. |
 
 ###### `objects` Tag
 
