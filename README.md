@@ -2,6 +2,10 @@
 
 ## Main idea of the plugin
 
+The plugin helps to create delta scripts to update database from version to version.
+
+The result delta script may be deployed either manually or automatically.
+
 1. All database objects, source code, data definition and delta scripts should be under version source control.
 2. Any release is a set of previously mentioned objects packed in a single compressed zip file.
 3. The release can be deployed into target database by a single script execution.
