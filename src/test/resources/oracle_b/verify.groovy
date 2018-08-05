@@ -22,8 +22,8 @@ import java.nio.file.Files
 def sep = File.separator
 def target = "$basedir" + sep + "target" + sep
 def verify = "$basedir" + sep + "verify" + sep
-def target_service = target + ".service" + sep
-def verify_service = verify + ".service" + sep
+def target_service = target + "service" + sep
+def verify_service = verify + "service" + sep
 String file
 
 static void checkFile(output, sample, diffCountLimit) {
