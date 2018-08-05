@@ -1,14 +1,14 @@
 prompt
 prompt === DATABASE-MAVEN-PLUGIN
-prompt Oracle database [database] version [test] created at [2018-07-26 15:03:16]
-@./.service/input_parameters_auto.sql
-@./.service/sqlplus_setup.sql
-@./.service/check_connections.sql
+prompt Oracle database [database] version [test] created at [2018-08-05 12:04:27]
+@./service/input_parameters_auto.sql
+@./service/sqlplus_setup.sql
+@./service/check_connections.sql
 column dt new_value start_timestamp noprint
 select to_char(sysdate, 'yyyymmddhh24miss') dt from dual;
 spool install_auto_database_test_&start_timestamp..log
-@./.service/deploy_information.sql
-@./.service/install_database_database.sql
+@./service/deploy_information.sql
+@./service/install_database_database.sql
 prompt
 column script_runtime new_value script_runtime noprint
 column script_info new_value script_info noprint
