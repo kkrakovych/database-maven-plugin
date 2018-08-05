@@ -20,9 +20,27 @@ import net.kosto.configuration.ValidateAction;
 import net.kosto.configuration.model.DatabaseScript;
 import org.apache.maven.plugin.MojoExecutionException;
 
+import static java.lang.Boolean.FALSE;
 import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
 
 public class OracleScript extends DatabaseScript implements ValidateAction {
+
+    @Override
+    public String toString() {
+        return "OracleScript{" +
+            "type=" + getType() +
+            ", condition=" + getCondition() +
+            ", index=" + getIndex() +
+            ", sourceDirectory=" + getSourceDirectory() +
+            ", ignoreDirectory=" + getIgnoreDirectory() +
+            ", defineSymbol=" + getDefineSymbol() +
+            ", ignoreDefine=" + getIgnoreDefine() +
+            ", fileMask=" + getFileMask() +
+            ", executeDirectory=" + getExecuteDirectory() +
+            ", sourceDirectoryFull=" + getSourceDirectoryFull() +
+            ", outputDirectoryFull=" + getOutputDirectoryFull() +
+            '}';
+    }
 
     @Override
     public void validate() throws MojoExecutionException {
@@ -48,25 +66,12 @@ public class OracleScript extends DatabaseScript implements ValidateAction {
      * Sets default values for {@code OracleScript} configuration.
      */
     private void setDefaultValues() {
+        if (getDefineSymbol() == null)
+            setDefineSymbol("&");
+        if (getIgnoreDefine() == null)
+            setIgnoreDefine(FALSE);
         if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory())
             setSourceDirectory(getIgnoreDirectory() ? "" : getType().getSourceDirectory());
         postProcessDirectories();
-    }
-
-    @Override
-    public String toString() {
-        return "OracleScript{" +
-            "type=" + getType() +
-            ", condition=" + getCondition() +
-            ", index=" + getIndex() +
-            ", sourceDirectory=" + getSourceDirectory() +
-            ", ignoreDirectory=" + getIgnoreDirectory() +
-            ", defineSymbol=" + getDefineSymbol() +
-            ", ignoreDefine=" + getIgnoreDefine() +
-            ", fileMask=" + getFileMask() +
-            ", executeDirectory=" + getExecuteDirectory() +
-            ", sourceDirectoryFull=" + getSourceDirectoryFull() +
-            ", outputDirectoryFull=" + getOutputDirectoryFull() +
-            '}';
     }
 }
