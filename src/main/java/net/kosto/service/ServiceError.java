@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package net.kosto.configuration.model;
+package net.kosto.service;
 
-/**
- * {@code DatabaseType} provides list of all supported databases.
- */
-public enum DatabaseType {
-    ORACLE,
-    POSTGRESQL
+public class ServiceError {
+
+    public static final String UNKNOWN_DATABASE_TYPE = "Unknown database type.";
+
+    private ServiceError() {}
 }

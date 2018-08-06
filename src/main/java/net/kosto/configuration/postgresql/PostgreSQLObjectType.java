@@ -14,12 +14,25 @@
  * limitations under the License.
  */
 
-package net.kosto.configuration.model;
+package net.kosto.configuration.postgresql;
 
-/**
- * {@code DatabaseType} provides list of all supported databases.
- */
-public enum DatabaseType {
-    ORACLE,
-    POSTGRESQL
+public enum PostgreSQLObjectType {
+    FUNCTION("functions"),
+    PACKAGE_BODY("package_bodies"),
+    PACKAGE_SPEC("package_specs"),
+    PROCEDURE("procedures"),
+    TRIGGER("triggers"),
+    TYPE_BODY("type_bodies"),
+    TYPE_SPEC("type_specs"),
+    VIEW("views");
+
+    private String sourceDirectory;
+
+    PostgreSQLObjectType(String sourceDirectory) {
+        this.sourceDirectory = sourceDirectory;
+    }
+
+    public String getSourceDirectory() {
+        return sourceDirectory;
+    }
 }

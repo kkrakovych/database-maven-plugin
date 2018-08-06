@@ -17,9 +17,9 @@
 package net.kosto.service;
 
 import net.kosto.configuration.Configuration;
-import net.kosto.configuration.oracle.OracleObject;
-import net.kosto.configuration.oracle.OracleSchema;
-import net.kosto.configuration.oracle.OracleScript;
+import net.kosto.configuration.postgresql.PostgreSQLObject;
+import net.kosto.configuration.postgresql.PostgreSQLSchema;
+import net.kosto.configuration.postgresql.PostgreSQLScript;
 import net.kosto.util.FileUtils;
 import net.kosto.util.ResourceUtils;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -30,13 +30,13 @@ import static net.kosto.configuration.Configuration.DEFAULT_SERVICE_DIRECTORY;
 import static net.kosto.util.DateUtils.FORMATTER_DATE_TIME_STRING;
 import static net.kosto.util.FileUtils.FILE_MASK_SQL;
 
-public class OracleProcessor extends AbstractProcessor implements Processor {
+public class PostgreSQLProcessor extends AbstractProcessor implements Processor {
 
-    private static final String ORACLE = "oracle";
+    private static final String POSTGRESQL = "postgresql";
 
-    OracleProcessor(Configuration configuration) {
+    PostgreSQLProcessor(Configuration configuration) {
         super(configuration);
-        getTemplateParameters().put(DATABASE, configuration.getOracle());
+        getTemplateParameters().put(DATABASE, configuration.getPostgreSQL());
     }
 
     @Override
@@ -46,7 +46,7 @@ public class OracleProcessor extends AbstractProcessor implements Processor {
         processDatabase();
 
         StringBuilder zipFileName = new StringBuilder()
-            .append(getConfiguration().getOracle().getName())
+            .append(getConfiguration().getPostgreSQL().getName())
             .append("-")
             .append(getConfiguration().getBuildVersion())
             .append("-")
@@ -57,38 +57,38 @@ public class OracleProcessor extends AbstractProcessor implements Processor {
 
     private void processInstallScripts() throws MojoExecutionException {
         Path directory = FileUtils.createDirectories(getConfiguration().getOutputDirectory());
-        processTemplateFiles(directory, ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE));
+        processTemplateFiles(directory, ResourceUtils.getFiles(FILE_MASK_SQL, POSTGRESQL));
     }
 
     private void processServiceScripts() throws MojoExecutionException {
-        processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, DEFAULT_SERVICE_DIRECTORY, COMMON));
+        processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, POSTGRESQL, DEFAULT_SERVICE_DIRECTORY, COMMON));
     }
 
     private void processDatabase() throws MojoExecutionException {
-        processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, DEFAULT_SERVICE_DIRECTORY, DATABASE));
+        processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, POSTGRESQL, DEFAULT_SERVICE_DIRECTORY, DATABASE));
 
         processSchemes();
     }
 
     private void processSchemes() throws MojoExecutionException {
-        for (OracleSchema schema : getConfiguration().getOracle().getSchemes()) {
+        for (PostgreSQLSchema schema : getConfiguration().getPostgreSQL().getSchemes()) {
             getTemplateParameters().put(SCHEMA, schema);
-            processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, DEFAULT_SERVICE_DIRECTORY, SCHEMA));
+            processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, POSTGRESQL, DEFAULT_SERVICE_DIRECTORY, SCHEMA));
 
             processObjects(schema);
             processScripts(schema);
         }
     }
 
-    private void processObjects(OracleSchema schema) throws MojoExecutionException {
+    private void processObjects(PostgreSQLSchema schema) throws MojoExecutionException {
         if (schema.getObjects() != null)
-            for (OracleObject object : schema.getObjects())
-                processItem(object, ORACLE, OBJECT);
+            for (PostgreSQLObject object : schema.getObjects())
+                processItem(object, POSTGRESQL, OBJECT);
     }
 
-    private void processScripts(OracleSchema schema) throws MojoExecutionException {
+    private void processScripts(PostgreSQLSchema schema) throws MojoExecutionException {
         if (schema.getScripts() != null)
-            for (OracleScript script : schema.getScripts())
-                processItem(script, ORACLE, SCRIPT);
+            for (PostgreSQLScript script : schema.getScripts())
+                processItem(script, POSTGRESQL, SCRIPT);
     }
 }

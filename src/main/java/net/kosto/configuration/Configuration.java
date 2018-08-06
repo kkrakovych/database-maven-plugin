@@ -18,12 +18,14 @@ package net.kosto.configuration;
 
 import net.kosto.configuration.model.DatabaseType;
 import net.kosto.configuration.oracle.OracleDatabase;
+import net.kosto.configuration.postgresql.PostgreSQLDatabase;
 import org.apache.maven.plugin.MojoExecutionException;
 
 import java.time.LocalDateTime;
 
-import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
 import static net.kosto.configuration.model.DatabaseType.ORACLE;
+import static net.kosto.configuration.model.DatabaseType.POSTGRESQL;
+import static net.kosto.service.ServiceError.UNKNOWN_DATABASE_TYPE;
 
 /**
  * {@code Configuration} represents main configuration.
@@ -46,6 +48,8 @@ public class Configuration implements ValidateAction {
     private final DatabaseType databaseType;
     /** Oracle database configuration. */
     private OracleDatabase oracle;
+    /** PostgreSQL database configuration. */
+    private PostgreSQLDatabase postgresql;
 
     /**
      * Constructs {@code Configuration} with {@link Builder} parameters.
@@ -60,6 +64,7 @@ public class Configuration implements ValidateAction {
         this.serviceDirectory = builder.serviceDirectory;
         this.databaseType = builder.databaseType;
         this.oracle = builder.oracle;
+        this.postgresql = builder.postgresql;
     }
 
     public String getBuildVersion() {
@@ -90,6 +95,10 @@ public class Configuration implements ValidateAction {
         return oracle;
     }
 
+    public PostgreSQLDatabase getPostgreSQL() {
+        return postgresql;
+    }
+
     @Override
     public String toString() {
         return "Configuration{" +
@@ -100,6 +109,7 @@ public class Configuration implements ValidateAction {
             ", serviceDirectory=" + serviceDirectory +
             ", databaseType=" + databaseType +
             ", oracle=" + oracle +
+            ", postgresql=" + postgresql +
             '}';
     }
 
@@ -111,8 +121,13 @@ public class Configuration implements ValidateAction {
                 oracle.setOutputDirectoryFull(getOutputDirectory());
                 oracle.validate();
                 break;
+            case POSTGRESQL:
+                postgresql.setSourceDirectoryFull(getSourceDirectory());
+                postgresql.setOutputDirectoryFull(getOutputDirectory());
+                postgresql.validate();
+                break;
             default:
-                throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle"));
+                throw new MojoExecutionException(UNKNOWN_DATABASE_TYPE);
         }
     }
 
@@ -135,6 +150,8 @@ public class Configuration implements ValidateAction {
         private DatabaseType databaseType;
         /** Oracle database configuration. */
         private OracleDatabase oracle;
+        /** PostgreSQL database configuration */
+        private PostgreSQLDatabase postgresql;
 
         public Builder buildVersion(String buildVersion) {
             this.buildVersion = buildVersion;
@@ -171,6 +188,11 @@ public class Configuration implements ValidateAction {
             return this;
         }
 
+        public Builder postgresql(PostgreSQLDatabase postgresql) {
+            this.postgresql = postgresql;
+            return this;
+        }
+
         /**
          * Creates new {@code Configuration} based on previously specified parameters.
          *
@@ -190,6 +212,8 @@ public class Configuration implements ValidateAction {
                 serviceDirectory = DEFAULT_SERVICE_DIRECTORY;
             if (oracle != null)
                 databaseType = ORACLE;
+            if (postgresql != null)
+                databaseType = POSTGRESQL;
         }
     }
 }

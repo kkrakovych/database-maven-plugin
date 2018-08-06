@@ -17,18 +17,23 @@
 package net.kosto.service;
 
 import net.kosto.configuration.Configuration;
+import org.apache.maven.plugin.MojoExecutionException;
+
+import static net.kosto.service.ServiceError.UNKNOWN_DATABASE_TYPE;
 
 public class ProcessorFactory {
 
     private ProcessorFactory() {
     }
 
-    public static Processor getProcessor(Configuration configuration) {
+    public static Processor getProcessor(Configuration configuration) throws MojoExecutionException {
         switch (configuration.getDatabaseType()) {
             case ORACLE:
                 return new OracleProcessor(configuration);
+            case POSTGRESQL:
+                return new PostgreSQLProcessor(configuration);
             default:
-                return null;
+                throw new MojoExecutionException(UNKNOWN_DATABASE_TYPE);
         }
     }
 }

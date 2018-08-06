@@ -18,6 +18,7 @@ package net.kosto;
 
 import net.kosto.configuration.Configuration;
 import net.kosto.configuration.oracle.OracleDatabase;
+import net.kosto.configuration.postgresql.PostgreSQLDatabase;
 import net.kosto.service.Processor;
 import net.kosto.service.ProcessorFactory;
 import org.apache.maven.plugin.AbstractMojo;
@@ -52,6 +53,9 @@ public class Package extends AbstractMojo {
     @Parameter
     private OracleDatabase oracle;
 
+    @Parameter
+    private PostgreSQLDatabase postgresql;
+
     public void execute() throws MojoExecutionException {
         Configuration configuration = new Configuration.Builder()
             .buildVersion(buildVersion)
@@ -60,6 +64,7 @@ public class Package extends AbstractMojo {
             .outputDirectory(outputDirectory)
             .serviceDirectory(serviceDirectory)
             .oracle(oracle)
+            .postgresql(postgresql)
             .build();
         configuration.validate();
 
