@@ -65,18 +65,12 @@ public class OracleObject extends DatabaseObject implements ValidateAction {
             "}";
     }
 
-    @Override
-    public void validate() throws MojoExecutionException {
-        checkMandatoryValues();
-        setDefaultValues();
-    }
-
     /**
      * Checks {@code OracleObject} configuration for mandatory values.
      *
      * @throws MojoExecutionException If a validation exception occurred.
      */
-    private void checkMandatoryValues() throws MojoExecutionException {
+    protected void checkMandatoryValues() throws MojoExecutionException {
         if (getIndex() == null)
             throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.object.index"));
         if (getType() == null)
@@ -86,13 +80,12 @@ public class OracleObject extends DatabaseObject implements ValidateAction {
     /**
      * Sets default values for {@code OracleObject} configuration.
      */
-    private void setDefaultValues() {
+    protected void setDefaultValues() {
         if (getDefineSymbol() == null)
             setDefineSymbol("&");
         if (getIgnoreDefine() == null)
             setIgnoreDefine(FALSE);
         if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory())
             setSourceDirectory(getIgnoreDirectory() ? "" : getType().getSourceDirectory());
-        postProcessDirectories();
     }
 }

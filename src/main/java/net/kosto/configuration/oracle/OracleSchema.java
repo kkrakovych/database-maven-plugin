@@ -79,11 +79,36 @@ public class OracleSchema extends DatabaseBaseObject implements ValidateAction {
             "}";
     }
 
-    @Override
-    public void validate() throws MojoExecutionException {
-        checkMandatoryValues();
-        setDefaultValues();
+    /**
+     * Checks {@code OracleSchema} configuration for mandatory values.
+     *
+     * @throws MojoExecutionException If a validation exception occurred.
+     */
+    protected void checkMandatoryValues() throws MojoExecutionException {
+        if (getIndex() == null)
+            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.index"));
+        if (getName() == null)
+            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.name"));
+        if (getObjects() != null && getObjects().isEmpty())
+            throw new MojoExecutionException(EMPTY_LIST_PARAMETER.getFormattedMessage("oracle.schema.objects", "object"));
+        if (getScripts() != null && getScripts().isEmpty())
+            throw new MojoExecutionException(EMPTY_LIST_PARAMETER.getFormattedMessage("oracle.schema.scripts", "script"));
+    }
 
+    /**
+     * Sets default values for {@code OracleSchema} configuration.
+     */
+    protected void setDefaultValues() {
+        if (getDefineSymbol() == null)
+            setDefineSymbol("&");
+        if (getIgnoreDefine() == null)
+            setIgnoreDefine(FALSE);
+        if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory())
+            setSourceDirectory(getIgnoreDirectory() ? "" : getName());
+    }
+
+    @Override
+    protected void processAttributes() throws MojoExecutionException {
         if (objects != null) {
             getObjects()
                 .sort(
@@ -123,34 +148,5 @@ public class OracleSchema extends DatabaseBaseObject implements ValidateAction {
                 script.validate();
             }
         }
-    }
-
-    /**
-     * Checks {@code OracleSchema} configuration for mandatory values.
-     *
-     * @throws MojoExecutionException If a validation exception occurred.
-     */
-    private void checkMandatoryValues() throws MojoExecutionException {
-        if (getIndex() == null)
-            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.index"));
-        if (getName() == null)
-            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.name"));
-        if (getObjects() != null && getObjects().isEmpty())
-            throw new MojoExecutionException(EMPTY_LIST_PARAMETER.getFormattedMessage("oracle.schema.objects", "object"));
-        if (getScripts() != null && getScripts().isEmpty())
-            throw new MojoExecutionException(EMPTY_LIST_PARAMETER.getFormattedMessage("oracle.schema.scripts", "script"));
-    }
-
-    /**
-     * Sets default values for {@code OracleSchema} configuration.
-     */
-    private void setDefaultValues() {
-        if (getDefineSymbol() == null)
-            setDefineSymbol("&");
-        if (getIgnoreDefine() == null)
-            setIgnoreDefine(FALSE);
-        if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory())
-            setSourceDirectory(getIgnoreDirectory() ? "" : getName());
-        postProcessDirectories();
     }
 }

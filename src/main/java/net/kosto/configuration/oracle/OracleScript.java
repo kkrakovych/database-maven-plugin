@@ -42,18 +42,12 @@ public class OracleScript extends DatabaseScript implements ValidateAction {
             '}';
     }
 
-    @Override
-    public void validate() throws MojoExecutionException {
-        checkMandatoryValues();
-        setDefaultValues();
-    }
-
     /**
      * Checks {@code OracleScript} configuration for mandatory values.
      *
      * @throws MojoExecutionException If a validation exception occurred.
      */
-    private void checkMandatoryValues() throws MojoExecutionException {
+    protected void checkMandatoryValues() throws MojoExecutionException {
         if (getType() == null)
             throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.script.type"));
         if (getCondition() == null)
@@ -65,13 +59,12 @@ public class OracleScript extends DatabaseScript implements ValidateAction {
     /**
      * Sets default values for {@code OracleScript} configuration.
      */
-    private void setDefaultValues() {
+    protected void setDefaultValues() {
         if (getDefineSymbol() == null)
             setDefineSymbol("&");
         if (getIgnoreDefine() == null)
             setIgnoreDefine(FALSE);
         if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory())
             setSourceDirectory(getIgnoreDirectory() ? "" : getType().getSourceDirectory());
-        postProcessDirectories();
     }
 }

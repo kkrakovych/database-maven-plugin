@@ -51,26 +51,19 @@ public class PostgreSQLObject extends DatabaseObject implements ValidateAction {
             "}";
     }
 
-    @Override
-    public void validate() throws MojoExecutionException {
-        checkMandatoryValues();
-        setDefaultValues();
-    }
-
-    private void checkMandatoryValues() throws MojoExecutionException {
+    protected void checkMandatoryValues() throws MojoExecutionException {
         if (getIndex() == null)
             throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("postgresql.schema.object.index"));
         if (getType() == null)
             throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("postgresql.schema.object.type"));
     }
 
-    private void setDefaultValues() {
+    protected void setDefaultValues() {
         if (getDefineSymbol() == null)
             setDefineSymbol(":");
         if (getIgnoreDefine() == null)
             setIgnoreDefine(FALSE);
         if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory())
             setSourceDirectory(getIgnoreDirectory() ? "" : getType().getSourceDirectory());
-        postProcessDirectories();
     }
 }

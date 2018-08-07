@@ -67,11 +67,34 @@ public class OracleDatabase extends DatabaseBaseObject implements ValidateAction
             '}';
     }
 
-    @Override
-    public void validate() throws MojoExecutionException {
-        checkMandatoryValues();
-        setDefaultValues();
+    /**
+     * Checks {@code OracleDatabase} configuration for mandatory values.
+     *
+     * @throws MojoExecutionException If a validation exception occurred.
+     */
+    protected void checkMandatoryValues() throws MojoExecutionException {
+        if (getName() == null)
+            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.name"));
+        if (getSchemes() == null)
+            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schemes"));
+        if (getSchemes().isEmpty())
+            throw new MojoExecutionException(EMPTY_LIST_PARAMETER.getFormattedMessage("oracle.schemes", "schema"));
+    }
 
+    /**
+     * Sets default values for {@code OracleDatabase} configuration.
+     */
+    protected void setDefaultValues() {
+        if (getDefineSymbol() == null)
+            setDefineSymbol("&");
+        if (getIgnoreDefine() == null)
+            setIgnoreDefine(FALSE);
+        if (getSourceDirectory() == null || getSourceDirectory().isEmpty())
+            setSourceDirectory(getIgnoreDirectory() ? "" : getName());
+    }
+
+    @Override
+    protected void processAttributes() throws MojoExecutionException {
         getSchemes()
             .sort(
                 Comparator
@@ -89,32 +112,5 @@ public class OracleDatabase extends DatabaseBaseObject implements ValidateAction
             schema.setOutputDirectoryFull(getOutputDirectoryFull());
             schema.validate();
         }
-    }
-
-    /**
-     * Checks {@code OracleDatabase} configuration for mandatory values.
-     *
-     * @throws MojoExecutionException If a validation exception occurred.
-     */
-    private void checkMandatoryValues() throws MojoExecutionException {
-        if (getName() == null)
-            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.name"));
-        if (getSchemes() == null)
-            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schemes"));
-        if (getSchemes().isEmpty())
-            throw new MojoExecutionException(EMPTY_LIST_PARAMETER.getFormattedMessage("oracle.schemes", "schema"));
-    }
-
-    /**
-     * Sets default values for {@code OracleDatabase} configuration.
-     */
-    private void setDefaultValues() {
-        if (getDefineSymbol() == null)
-            setDefineSymbol("&");
-        if (getIgnoreDefine() == null)
-            setIgnoreDefine(FALSE);
-        if (getSourceDirectory() == null || getSourceDirectory().isEmpty())
-            setSourceDirectory(getIgnoreDirectory() ? "" : getName());
-        postProcessDirectories();
     }
 }

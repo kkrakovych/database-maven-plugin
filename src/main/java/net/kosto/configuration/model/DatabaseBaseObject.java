@@ -16,6 +16,9 @@
 
 package net.kosto.configuration.model;
 
+import net.kosto.configuration.ValidateAction;
+import org.apache.maven.plugin.MojoExecutionException;
+
 import java.nio.file.Paths;
 
 import static java.lang.Boolean.FALSE;
@@ -26,7 +29,7 @@ import static net.kosto.util.FileUtils.UNIX_SEPARATOR;
  * <p>
  * Provides access to basic database object's attributes and methods.
  */
-public abstract class DatabaseBaseObject {
+public abstract class DatabaseBaseObject implements ValidateAction {
 
     /** Database object's index in a list. Affects processing order. */
     private Integer index;
@@ -122,27 +125,41 @@ public abstract class DatabaseBaseObject {
     @Override
     public String toString() {
         return "DatabaseBaseObject{" +
-            "index=" + getIndex() +
-            ", name=" + getName() +
-            ", sourceDirectory=" + getSourceDirectory() +
-            ", ignoreDirectory=" + getIgnoreDirectory() +
-            ", defineSymbol=" + getDefineSymbol() +
-            ", ignoreDefine=" + getIgnoreDefine() +
-            ", executeDirectory=" + getExecuteDirectory() +
-            ", sourceDirectoryFull=" + getSourceDirectoryFull() +
-            ", outputDirectoryFull=" + getOutputDirectoryFull() +
+            "index=" + index +
+            ", name=" + name +
+            ", sourceDirectory=" + sourceDirectory +
+            ", ignoreDirectory=" + ignoreDirectory +
+            ", defineSymbol=" + defineSymbol +
+            ", ignoreDefine=" + ignoreDefine +
+            ", executeDirectory=" + executeDirectory +
+            ", sourceDirectoryFull=" + sourceDirectoryFull +
+            ", outputDirectoryFull=" + outputDirectoryFull +
             '}';
+    }
+
+    public void validate() throws MojoExecutionException {
+        checkMandatoryValues();
+        setDefaultValues();
+        processDirectoryAttributes();
+        processAttributes();
+    }
+
+    protected abstract void checkMandatoryValues() throws MojoExecutionException;
+
+    protected abstract void setDefaultValues();
+
+    protected void processAttributes() throws MojoExecutionException {
     }
 
     /**
      * Post processes paths to full source and output, and execute directories
      * taking into account specified parameters and {@link #ignoreDirectory} option.
      */
-    protected void postProcessDirectories() {
+    private void processDirectoryAttributes() {
         if (!getIgnoreDirectory()) {
-            this.executeDirectory = (UNIX_SEPARATOR + getExecuteDirectory() + UNIX_SEPARATOR + getSourceDirectory() + UNIX_SEPARATOR).replaceAll(UNIX_SEPARATOR + "{2,}", UNIX_SEPARATOR);
-            this.sourceDirectoryFull = Paths.get(getSourceDirectoryFull(), getSourceDirectory()).toString();
-            this.outputDirectoryFull = Paths.get(getOutputDirectoryFull(), getSourceDirectory()).toString();
+            this.executeDirectory = (UNIX_SEPARATOR + executeDirectory + UNIX_SEPARATOR + sourceDirectory + UNIX_SEPARATOR).replaceAll(UNIX_SEPARATOR + "{2,}", UNIX_SEPARATOR);
+            this.sourceDirectoryFull = Paths.get(sourceDirectoryFull, sourceDirectory).toString();
+            this.outputDirectoryFull = Paths.get(outputDirectoryFull, sourceDirectory).toString();
         }
     }
 }

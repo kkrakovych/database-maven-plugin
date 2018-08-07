@@ -42,13 +42,7 @@ public class PostgreSQLScript extends DatabaseScript implements ValidateAction {
             '}';
     }
 
-    @Override
-    public void validate() throws MojoExecutionException {
-        checkMandatoryValues();
-        setDefaultValues();
-    }
-
-    private void checkMandatoryValues() throws MojoExecutionException {
+    protected void checkMandatoryValues() throws MojoExecutionException {
         if (getType() == null)
             throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("postgresql.schema.script.type"));
         if (getCondition() == null)
@@ -57,13 +51,12 @@ public class PostgreSQLScript extends DatabaseScript implements ValidateAction {
             throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("postgresql.schema.script.index"));
     }
 
-    private void setDefaultValues() {
+    protected void setDefaultValues() {
         if (getDefineSymbol() == null)
             setDefineSymbol(":");
         if (getIgnoreDefine() == null)
             setIgnoreDefine(FALSE);
         if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory())
             setSourceDirectory(getIgnoreDirectory() ? "" : getType().getSourceDirectory());
-        postProcessDirectories();
     }
 }

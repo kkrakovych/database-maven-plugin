@@ -19,7 +19,7 @@ package net.kosto.configuration.model;
 /**
  * {@code DatabaseScript} represents database script configuration.
  */
-public class DatabaseScript extends DatabaseObject {
+public abstract class DatabaseScript extends DatabaseObject {
 
     /** Database script's type. */
     private DatabaseScriptType type;

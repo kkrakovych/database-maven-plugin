@@ -77,11 +77,28 @@ public class PostgreSQLDatabase extends DatabaseBaseObject implements ValidateAc
             "}";
     }
 
-    @Override
-    public void validate() throws MojoExecutionException {
-        checkMandatoryValues();
-        setDefaultValues();
+    protected void checkMandatoryValues() throws MojoExecutionException {
+        if (getName() == null)
+            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("postgresql.name"));
+        if (getObjects() != null && getObjects().isEmpty())
+            throw new MojoExecutionException(EMPTY_LIST_PARAMETER.getFormattedMessage("postgresql.objects", "object"));
+        if (getScripts() != null && getScripts().isEmpty())
+            throw new MojoExecutionException(EMPTY_LIST_PARAMETER.getFormattedMessage("postgresql.scripts", "script"));
+        if (getSchemes() != null && getSchemes().isEmpty())
+            throw new MojoExecutionException(EMPTY_LIST_PARAMETER.getFormattedMessage("postgresql.schemes", "schema"));
+    }
 
+    protected void setDefaultValues() {
+        if (getDefineSymbol() == null)
+            setDefineSymbol(":");
+        if (getIgnoreDefine() == null)
+            setIgnoreDefine(FALSE);
+        if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory())
+            setSourceDirectory(getIgnoreDirectory() ? "" : getName());
+    }
+
+    @Override
+    protected void processAttributes() throws MojoExecutionException {
         if (objects != null) {
             getObjects()
                 .sort(
@@ -162,26 +179,5 @@ public class PostgreSQLDatabase extends DatabaseBaseObject implements ValidateAc
                         .thenComparing(PostgreSQLSchema::getName)
                 );
         }
-    }
-
-    private void checkMandatoryValues() throws MojoExecutionException {
-        if (getName() == null)
-            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("postgresql.name"));
-        if (getObjects() != null && getObjects().isEmpty())
-            throw new MojoExecutionException(EMPTY_LIST_PARAMETER.getFormattedMessage("postgresql.objects", "object"));
-        if (getScripts() != null && getScripts().isEmpty())
-            throw new MojoExecutionException(EMPTY_LIST_PARAMETER.getFormattedMessage("postgresql.scripts", "script"));
-        if (getSchemes() != null && getSchemes().isEmpty())
-            throw new MojoExecutionException(EMPTY_LIST_PARAMETER.getFormattedMessage("postgresql.schemes", "schema"));
-    }
-
-    private void setDefaultValues() {
-        if (getDefineSymbol() == null)
-            setDefineSymbol(":");
-        if (getIgnoreDefine() == null)
-            setIgnoreDefine(FALSE);
-        if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory())
-            setSourceDirectory(getIgnoreDirectory() ? "" : getName());
-        postProcessDirectories();
     }
 }
