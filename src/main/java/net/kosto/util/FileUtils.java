@@ -36,6 +36,7 @@ import java.util.stream.Collectors;
 
 import static java.lang.System.lineSeparator;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class FileUtils {
 
@@ -116,7 +117,7 @@ public class FileUtils {
     public static void writeFileSourceCode(Path file, List<String> lines) throws MojoExecutionException {
         try (
             FileOutputStream fos = new FileOutputStream(file.toString(), true);
-            OutputStreamWriter osw = new OutputStreamWriter(fos)
+            OutputStreamWriter osw = new OutputStreamWriter(fos, UTF_8)
         ) {
             if (lines != null && !lines.isEmpty())
                 for (int i = 0; i < lines.size(); i++)
