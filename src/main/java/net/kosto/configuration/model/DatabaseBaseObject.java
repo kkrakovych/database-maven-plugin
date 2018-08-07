@@ -119,18 +119,6 @@ public abstract class DatabaseBaseObject {
         this.outputDirectoryFull = outputDirectoryFull;
     }
 
-    /**
-     * Post processes paths to full source and output, and execute directories
-     * taking into account specified parameters and {@link #ignoreDirectory} option.
-     */
-    protected void postProcessDirectories() {
-        if (!getIgnoreDirectory()) {
-            this.executeDirectory = (UNIX_SEPARATOR + getExecuteDirectory() + UNIX_SEPARATOR + getSourceDirectory() + UNIX_SEPARATOR).replaceAll(UNIX_SEPARATOR + "{2,}", UNIX_SEPARATOR);
-            this.sourceDirectoryFull = Paths.get(getSourceDirectoryFull(), getSourceDirectory()).toString();
-            this.outputDirectoryFull = Paths.get(getOutputDirectoryFull(), getSourceDirectory()).toString();
-        }
-    }
-
     @Override
     public String toString() {
         return "DatabaseBaseObject{" +
@@ -144,5 +132,17 @@ public abstract class DatabaseBaseObject {
             ", sourceDirectoryFull=" + getSourceDirectoryFull() +
             ", outputDirectoryFull=" + getOutputDirectoryFull() +
             '}';
+    }
+
+    /**
+     * Post processes paths to full source and output, and execute directories
+     * taking into account specified parameters and {@link #ignoreDirectory} option.
+     */
+    protected void postProcessDirectories() {
+        if (!getIgnoreDirectory()) {
+            this.executeDirectory = (UNIX_SEPARATOR + getExecuteDirectory() + UNIX_SEPARATOR + getSourceDirectory() + UNIX_SEPARATOR).replaceAll(UNIX_SEPARATOR + "{2,}", UNIX_SEPARATOR);
+            this.sourceDirectoryFull = Paths.get(getSourceDirectoryFull(), getSourceDirectory()).toString();
+            this.outputDirectoryFull = Paths.get(getOutputDirectoryFull(), getSourceDirectory()).toString();
+        }
     }
 }
