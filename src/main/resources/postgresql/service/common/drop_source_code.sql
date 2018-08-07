@@ -15,6 +15,29 @@
   -->
 <#compress>
 
--- Not supported as yet
+start transaction;
+
+do $$
+declare
+  item record;
+  items_for_drop cursor for
+    select 'drop view ' || v.table_name || ';' as txt
+      from information_schema.views v
+     where v.table_schema not in ('pg_catalog', 'information_schema')
+       and v.table_name !~ '^pg_';
+begin
+  open items_for_drop;
+
+  loop
+    fetch items_for_drop into item;
+    exit when not found;
+
+    execute item.txt;
+  end loop;
+
+  close items_for_drop;
+end$$;
+
+commit;
 
 </#compress>

@@ -40,6 +40,12 @@
                     <postgresql>
                         <name>database</name>
                         <ignoreDirectory>true</ignoreDirectory>
+                        <objects>
+                            <object>
+                                <index>1</index>
+                                <type>VIEW</type>
+                            </object>
+                        </objects>
                         <scripts>
                             <script>
                                 <type>ONE_TIME</type>

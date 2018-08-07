@@ -17,13 +17,13 @@
 package net.kosto.configuration.postgresql;
 
 public enum PostgreSQLObjectType {
-    FUNCTION("functions"),
-    PACKAGE_BODY("package_bodies"),
-    PACKAGE_SPEC("package_specs"),
-    PROCEDURE("procedures"),
-    TRIGGER("triggers"),
-    TYPE_BODY("type_bodies"),
-    TYPE_SPEC("type_specs"),
+//    FUNCTION("functions"),
+//    PACKAGE_BODY("package_bodies"),
+//    PACKAGE_SPEC("package_specs"),
+//    PROCEDURE("procedures"),
+//    TRIGGER("triggers"),
+//    TYPE_BODY("type_bodies"),
+//    TYPE_SPEC("type_specs"),
     VIEW("views");
 
     private String sourceDirectory;
