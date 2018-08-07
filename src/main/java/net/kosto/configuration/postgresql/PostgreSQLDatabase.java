@@ -100,56 +100,32 @@ public class PostgreSQLDatabase extends DatabaseBaseObject implements ValidateAc
     @Override
     protected void processAttributes() throws MojoExecutionException {
         if (objects != null) {
-            getObjects()
+            objects
                 .sort(
                     Comparator
                         .comparingInt(PostgreSQLObject::getIndex)
                         .thenComparing(PostgreSQLObject::getType)
                 );
 
-            for (PostgreSQLObject object : objects) {
-                if (object.getDefineSymbol() == null)
-                    object.setDefineSymbol(getDefineSymbol());
-                if (object.getIgnoreDefine() == null)
-                    object.setIgnoreDefine(getIgnoreDefine());
-                object.setExecuteDirectory(getExecuteDirectory());
-                object.setSourceDirectoryFull(getSourceDirectoryFull());
-                object.setOutputDirectoryFull(getOutputDirectoryFull());
-                object.validate();
-            }
+            for (PostgreSQLObject object : objects)
+                validateAttribute(object);
         }
 
         if (scripts != null) {
-            getScripts()
+            scripts
                 .sort(
                     Comparator
                         .comparing(PostgreSQLScript::getCondition, Comparator.reverseOrder())
                         .thenComparingInt(PostgreSQLScript::getIndex)
                 );
 
-            for (PostgreSQLScript script : scripts) {
-                if (script.getDefineSymbol() == null)
-                    script.setDefineSymbol(getDefineSymbol());
-                if (script.getIgnoreDefine() == null)
-                    script.setIgnoreDefine(getIgnoreDefine());
-                script.setExecuteDirectory(getExecuteDirectory());
-                script.setSourceDirectoryFull(getSourceDirectoryFull());
-                script.setOutputDirectoryFull(getOutputDirectoryFull());
-                script.validate();
-            }
+            for (PostgreSQLScript script : scripts)
+                validateAttribute(script);
         }
 
         if (schemes != null) {
-            for (PostgreSQLSchema schema : schemes) {
-                if (schema.getDefineSymbol() == null)
-                    schema.setDefineSymbol(getDefineSymbol());
-                if (schema.getIgnoreDefine() == null)
-                    schema.setIgnoreDefine(getIgnoreDefine());
-                schema.setExecuteDirectory(getExecuteDirectory());
-                schema.setSourceDirectoryFull(getSourceDirectoryFull());
-                schema.setOutputDirectoryFull(getOutputDirectoryFull());
-                schema.validate();
-            }
+            for (PostgreSQLSchema schema : schemes)
+                validateAttribute(schema);
         }
 
         // Public schema
@@ -172,7 +148,7 @@ public class PostgreSQLDatabase extends DatabaseBaseObject implements ValidateAc
         }
 
         if (schemes != null) {
-            getSchemes()
+            schemes
                 .sort(
                     Comparator
                         .comparingInt(PostgreSQLSchema::getIndex)

@@ -148,9 +148,6 @@ public abstract class DatabaseBaseObject implements ValidateAction {
 
     protected abstract void setDefaultValues();
 
-    protected void processAttributes() throws MojoExecutionException {
-    }
-
     /**
      * Post processes paths to full source and output, and execute directories
      * taking into account specified parameters and {@link #ignoreDirectory} option.
@@ -161,5 +158,19 @@ public abstract class DatabaseBaseObject implements ValidateAction {
             this.sourceDirectoryFull = Paths.get(sourceDirectoryFull, sourceDirectory).toString();
             this.outputDirectoryFull = Paths.get(outputDirectoryFull, sourceDirectory).toString();
         }
+    }
+
+    protected void processAttributes() throws MojoExecutionException {
+    }
+
+    protected <T extends DatabaseBaseObject> void validateAttribute(T attribute) throws MojoExecutionException {
+        if (attribute.getDefineSymbol() == null)
+            attribute.setDefineSymbol(defineSymbol);
+        if (attribute.getIgnoreDefine() == null)
+            attribute.setIgnoreDefine(ignoreDefine);
+        attribute.setExecuteDirectory(executeDirectory);
+        attribute.setSourceDirectoryFull(sourceDirectoryFull);
+        attribute.setOutputDirectoryFull(outputDirectoryFull);
+        attribute.validate();
     }
 }

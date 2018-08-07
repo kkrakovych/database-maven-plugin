@@ -110,43 +110,27 @@ public class OracleSchema extends DatabaseBaseObject implements ValidateAction {
     @Override
     protected void processAttributes() throws MojoExecutionException {
         if (objects != null) {
-            getObjects()
+            objects
                 .sort(
                     Comparator
                         .comparingInt(OracleObject::getIndex)
                         .thenComparing(OracleObject::getType)
                 );
 
-            for (OracleObject object : objects) {
-                if (object.getDefineSymbol() == null)
-                    object.setDefineSymbol(getDefineSymbol());
-                if (object.getIgnoreDefine() == null)
-                    object.setIgnoreDefine(getIgnoreDefine());
-                object.setExecuteDirectory(getExecuteDirectory());
-                object.setSourceDirectoryFull(getSourceDirectoryFull());
-                object.setOutputDirectoryFull(getOutputDirectoryFull());
-                object.validate();
-            }
+            for (OracleObject object : objects)
+                validateAttribute(object);
         }
 
         if (scripts != null) {
-            getScripts()
+            scripts
                 .sort(
                     Comparator
                         .comparing(OracleScript::getCondition, Comparator.reverseOrder())
                         .thenComparingInt(OracleScript::getIndex)
                 );
 
-            for (OracleScript script : scripts) {
-                if (script.getDefineSymbol() == null)
-                    script.setDefineSymbol(getDefineSymbol());
-                if (script.getIgnoreDefine() == null)
-                    script.setIgnoreDefine(getIgnoreDefine());
-                script.setExecuteDirectory(getExecuteDirectory());
-                script.setSourceDirectoryFull(getSourceDirectoryFull());
-                script.setOutputDirectoryFull(getOutputDirectoryFull());
-                script.validate();
-            }
+            for (OracleScript script : scripts)
+                validateAttribute(script);
         }
     }
 }

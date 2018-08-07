@@ -95,22 +95,14 @@ public class OracleDatabase extends DatabaseBaseObject implements ValidateAction
 
     @Override
     protected void processAttributes() throws MojoExecutionException {
-        getSchemes()
+        schemes
             .sort(
                 Comparator
                     .comparingInt(OracleSchema::getIndex)
                     .thenComparing(OracleSchema::getName)
             );
 
-        for (OracleSchema schema : schemes) {
-            if (schema.getDefineSymbol() == null)
-                schema.setDefineSymbol(getDefineSymbol());
-            if (schema.getIgnoreDefine() == null)
-                schema.setIgnoreDefine(getIgnoreDefine());
-            schema.setExecuteDirectory(getExecuteDirectory());
-            schema.setSourceDirectoryFull(getSourceDirectoryFull());
-            schema.setOutputDirectoryFull(getOutputDirectoryFull());
-            schema.validate();
-        }
+        for (OracleSchema schema : schemes)
+            validateAttribute(schema);
     }
 }
