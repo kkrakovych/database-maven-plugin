@@ -10,6 +10,33 @@ The result delta script may be deployed either manually or automatically.
 2. Any release is a set of previously mentioned objects packed in a single compressed zip file.
 3. The release can be deployed into target database by a single script execution.
 
+## Strategies for delta scripts
+
+Configuration in pom.xml defines:
+- database
+- schemes if any
+- groups of database objects
+  - type of objects within a group
+  - location of the group in repository
+  
+- location of database objects within repository;
+- location of DDL (Data Definition Language) and DML (Data Manipulation Language) scripts;
+- order for execution of groups of scripts;
+
+#### Oracle
+
+0. Fail fast in case of any issue
+1. Execute scripts before source code processing
+2. Execute source code processing
+3. Execute scripts after source code processing
+
+#### PostgreSQL
+
+N.B. Support for PostgreSQL is very limited at the moment.
+
+0. Fail fast in case of any issue
+1. Execute scripts processing
+
 ## How to add the plugin to database maven build
 
 Add new plugin to build section and set up configuration.
@@ -98,7 +125,7 @@ Other depends on database type.
                         <ignoreDirectory>false</ignoreDirectory>
                         <fileMask>*.sql</fileMask>
                     </script>
-                `   ...
+                    ...
                 </scripts>
             </schema>
             ...
@@ -154,6 +181,70 @@ Other depends on database type.
 | `ignoreDirectory` | If `true` source directory will be ignored. By default set as `false`. |
 | `fileMask`        | File mask for objects. By default set as `*.sql`. |
 
+#### PostgreSQL database configuration section
+
+```xml
+<configuration>
+    ...
+    <postgresql>
+        <name>[database name]</name>
+        <sourceDirectory>[database source code directory]</sourceDirectory>
+        <ignoreDirectory>false</ignoreDirectory>
+        <objects>
+            <object>
+                <index>1</index>
+                <type>[object type]</type>
+                <sourceDirectory>[object type source directory]</sourceDirectory>
+                <ignoreDirectory>false</ignoreDirectory>
+                <fileMask>*.sql</fileMask>
+            </object>
+            ...
+        </objects>
+        <scripts>
+            <script>
+                <type>ONE_TIME</type>
+                <condition>BEFORE</condition>
+                <index>1</index>
+                <sourceDirectory>[script source directory]</sourceDirectory>
+                <ignoreDirectory>false</ignoreDirectory>
+                <fileMask>*.sql</fileMask>
+            </script>
+            ...
+        </scripts>
+        <schemes>
+            <schema>
+                <index>1</index>
+                <name>[schema name]</name>
+                <sourceDirectory>[schema source directory]</sourceDirectory>
+                <ignoreDirectory>false</ignoreDirectory>
+                <objects>
+                    <object>
+                        <index>1</index>
+                        <type>[object type]</type>
+                        <sourceDirectory>[object type source directory]</sourceDirectory>
+                        <ignoreDirectory>false</ignoreDirectory>
+                        <fileMask>*.sql</fileMask>
+                    </object>
+                    ...
+                </objects>
+                <scripts>
+                    <script>
+                        <type>ONE_TIME</type>
+                        <condition>BEFORE</condition>
+                        <index>1</index>
+                        <sourceDirectory>[script source directory]</sourceDirectory>
+                        <ignoreDirectory>false</ignoreDirectory>
+                        <fileMask>*.sql</fileMask>
+                    </script>
+                `   ...
+                </scripts>
+            </schema>
+            ...
+        </schemes>
+    </postgresql>
+</configuration>
+```
+
 ## How to make database build with the plugin
 
 Execute next command and check output directory.
@@ -180,9 +271,27 @@ Please take into account before the script execution you will need to install an
 
 #### Automatically
 
-The main script for deploy via script can be executed with Oracle SQL*Plus
+###### Oracle
+
+The main script for automatic deploy can be executed with Oracle SQL*Plus.
 ```bash
-sqlplus /nolog @install_auto.sql [tns_name] [user_schema_1] [user_password_1] [user_schema_2] [user_password_2] ...
+sqlplus /nolog @install_auto.sql [tns-name] [user-schema-1] [user-password-1] [user-schema-2] [user-password-2] ...
+```
+
+###### PostgreSQL
+
+The main script for automatic deploy can be executed with PostgreSQL interactive terminal.
+```bash
+psql -h [host] -p [port] -U [user-name] -W [user-password] -d [database-name] -f install.sql
+```
+
+If SSH tunnel is required, first session to create it
+```bash
+ssh -L [port]:localhost:[port-remote] [user-remote]@[host-remote]
+```
+second session to connect database
+```bash
+psql -h localhost -p [port] -U [user-name] -W [user-password] -d [database-name] -f install.sql
 ```
 
 #### Manually
