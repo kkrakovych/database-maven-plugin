@@ -28,7 +28,7 @@ public enum DatabaseScriptType {
     REUSABLE("script_reusable");
 
     /** Default relative {@link DatabaseScript#sourceDirectory} path. */
-    private String sourceDirectory;
+    private final String sourceDirectory;
 
     /**
      * Constructs {@code DatabaseScriptType} with default relative path.

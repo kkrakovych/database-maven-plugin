@@ -47,9 +47,9 @@ public class Configuration implements ValidateAction {
     /** Database type. */
     private final DatabaseType databaseType;
     /** Oracle database configuration. */
-    private OracleDatabase oracle;
+    private final OracleDatabase oracle;
     /** PostgreSQL database configuration. */
-    private PostgreSQLDatabase postgresql;
+    private final PostgreSQLDatabase postgresql;
 
     /**
      * Constructs {@code Configuration} with {@link Builder} parameters.

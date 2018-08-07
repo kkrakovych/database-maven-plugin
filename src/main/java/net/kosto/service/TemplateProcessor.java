@@ -30,7 +30,7 @@ public class TemplateProcessor {
 
     private static TemplateProcessor instance;
 
-    private Configuration configuration;
+    private final Configuration configuration;
 
     private TemplateProcessor() {
         configuration = new Configuration(DEFAULT_INCOMPATIBLE_IMPROVEMENTS);

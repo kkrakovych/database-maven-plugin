@@ -60,7 +60,7 @@ public class AbstractProcessor {
     /** Template configuration parameters. */
     private final Map<String, Object> templateParameters;
     /** List of files for packing in result zip file. */
-    private List<String> zipFiles = new ArrayList<>();
+    private final List<String> zipFiles = new ArrayList<>();
 
     public Configuration getConfiguration() {
         return configuration;

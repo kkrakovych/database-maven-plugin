@@ -26,7 +26,7 @@ public enum ValidateError {
     EMPTY_LIST_PARAMETER("Parameter \"{0}\" should contain at least one \"{1}\".");
 
     /** Validate error message. */
-    private String message;
+    private final String message;
 
     /**
      * Constructs {@code ValidateError} with associated message.

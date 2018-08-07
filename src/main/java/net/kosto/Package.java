@@ -39,7 +39,7 @@ public class Package extends AbstractMojo {
     @Parameter(property = "project.version", required = true)
     private String buildVersion;
 
-    private LocalDateTime buildTimestamp = LocalDateTime.now();
+    private final LocalDateTime buildTimestamp = LocalDateTime.now();
 
     @Parameter(property = "basedir", required = true)
     private String sourceDirectory;

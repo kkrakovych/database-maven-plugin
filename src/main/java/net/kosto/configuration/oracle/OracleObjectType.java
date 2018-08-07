@@ -32,7 +32,7 @@ public enum OracleObjectType {
     VIEW("views");
 
     /** Default relative {@link OracleObject#sourceDirectory} path. */
-    private String sourceDirectory;
+    private final String sourceDirectory;
 
     /**
      * Constructs {@code OracleObjectType} with default relative path.

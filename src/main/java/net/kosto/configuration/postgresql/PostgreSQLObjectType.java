@@ -26,7 +26,7 @@ public enum PostgreSQLObjectType {
 //    TYPE_SPEC("type_specs"),
     VIEW("views");
 
-    private String sourceDirectory;
+    private final String sourceDirectory;
 
     PostgreSQLObjectType(String sourceDirectory) {
         this.sourceDirectory = sourceDirectory;
