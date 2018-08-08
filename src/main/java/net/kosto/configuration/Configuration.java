@@ -153,42 +153,42 @@ public class Configuration implements ValidateAction {
         /** PostgreSQL database configuration */
         private PostgreSQLDatabase postgresql;
 
-        public Builder buildVersion(String buildVersion) {
+        public Builder setBuildVersion(String buildVersion) {
             this.buildVersion = buildVersion;
             return this;
         }
 
-        public Builder buildTimestamp(LocalDateTime buildTimestamp) {
+        public Builder setBuildTimestamp(LocalDateTime buildTimestamp) {
             this.buildTimestamp = buildTimestamp;
             return this;
         }
 
-        public Builder sourceDirectory(String sourceDirectory) {
+        public Builder setSourceDirectory(String sourceDirectory) {
             this.sourceDirectory = sourceDirectory;
             return this;
         }
 
-        public Builder outputDirectory(String outputDirectory) {
+        public Builder setOutputDirectory(String outputDirectory) {
             this.outputDirectory = outputDirectory;
             return this;
         }
 
-        public Builder serviceDirectory(String serviceDirectory) {
+        public Builder setServiceDirectory(String serviceDirectory) {
             this.serviceDirectory = serviceDirectory;
             return this;
         }
 
-        public Builder databaseType(DatabaseType databaseType) {
+        public Builder setDatabaseType(DatabaseType databaseType) {
             this.databaseType = databaseType;
             return this;
         }
 
-        public Builder oracle(OracleDatabase oracle) {
+        public Builder setOracle(OracleDatabase oracle) {
             this.oracle = oracle;
             return this;
         }
 
-        public Builder postgresql(PostgreSQLDatabase postgresql) {
+        public Builder setPostgresql(PostgreSQLDatabase postgresql) {
             this.postgresql = postgresql;
             return this;
         }

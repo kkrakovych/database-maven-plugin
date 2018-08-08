@@ -58,13 +58,13 @@ public class Package extends AbstractMojo {
 
     public void execute() throws MojoExecutionException {
         Configuration configuration = new Configuration.Builder()
-            .buildVersion(buildVersion)
-            .buildTimestamp(buildTimestamp)
-            .sourceDirectory(sourceDirectory)
-            .outputDirectory(outputDirectory)
-            .serviceDirectory(serviceDirectory)
-            .oracle(oracle)
-            .postgresql(postgresql)
+            .setBuildVersion(buildVersion)
+            .setBuildTimestamp(buildTimestamp)
+            .setSourceDirectory(sourceDirectory)
+            .setOutputDirectory(outputDirectory)
+            .setServiceDirectory(serviceDirectory)
+            .setOracle(oracle)
+            .setPostgresql(postgresql)
             .build();
         configuration.validate();
 
