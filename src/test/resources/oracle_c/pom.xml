@@ -35,7 +35,7 @@
             <plugin>
                 <groupId>net.kosto</groupId>
                 <artifactId>database-maven-plugin</artifactId>
-                <version>1.0-SNAPSHOT</version>
+                <version>1.0</version>
                 <configuration>
                     <serviceDirectory>.service</serviceDirectory>
                     <oracle>
