@@ -21,7 +21,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 
 import static net.kosto.service.ServiceError.UNKNOWN_DATABASE_TYPE;
 
-public class ProcessorFactory {
+public final class ProcessorFactory {
 
     private ProcessorFactory() {
     }

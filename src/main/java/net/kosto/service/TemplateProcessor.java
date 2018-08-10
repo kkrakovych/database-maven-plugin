@@ -26,7 +26,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Locale.US;
 import static net.kosto.util.FileUtils.UNIX_SEPARATOR;
 
-public class TemplateProcessor {
+public final class TemplateProcessor {
 
     private static TemplateProcessor instance;
 

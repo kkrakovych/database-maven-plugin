@@ -28,7 +28,7 @@ import java.util.zip.ZipOutputStream;
 
 import static java.util.zip.Deflater.BEST_COMPRESSION;
 
-public class ZipUtils {
+public final class ZipUtils {
 
     private ZipUtils() {
     }

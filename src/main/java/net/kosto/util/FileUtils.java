@@ -38,7 +38,7 @@ import static java.lang.System.lineSeparator;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-public class FileUtils {
+public final class FileUtils {
 
     public static final String EMPTY = "";
     public static final String UTF8_BOM = "\uFEFF";
