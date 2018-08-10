@@ -94,14 +94,16 @@ public class OracleDatabase extends DatabaseBaseObject {
 
     @Override
     protected void processAttributes() throws MojoExecutionException {
-        schemes
-            .sort(
-                Comparator
-                    .comparingInt(OracleSchema::getIndex)
-                    .thenComparing(OracleSchema::getName)
-            );
+        if (schemes != null) {
+            schemes
+                .sort(
+                    Comparator
+                        .comparingInt(OracleSchema::getIndex)
+                        .thenComparing(OracleSchema::getName)
+                );
 
-        for (OracleSchema schema : schemes)
-            validateAttribute(schema);
+            for (OracleSchema schema : schemes)
+                validateAttribute(schema);
+        }
     }
 }
