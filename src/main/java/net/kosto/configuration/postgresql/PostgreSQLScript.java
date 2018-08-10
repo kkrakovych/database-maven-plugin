@@ -16,14 +16,13 @@
 
 package net.kosto.configuration.postgresql;
 
-import net.kosto.configuration.ValidateAction;
 import net.kosto.configuration.model.DatabaseScript;
 import org.apache.maven.plugin.MojoExecutionException;
 
 import static java.lang.Boolean.FALSE;
 import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
 
-public class PostgreSQLScript extends DatabaseScript implements ValidateAction {
+public class PostgreSQLScript extends DatabaseScript {
 
     @Override
     public String toString() {

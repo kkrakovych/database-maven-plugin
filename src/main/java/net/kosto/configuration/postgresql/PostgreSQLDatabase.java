@@ -16,7 +16,6 @@
 
 package net.kosto.configuration.postgresql;
 
-import net.kosto.configuration.ValidateAction;
 import net.kosto.configuration.model.DatabaseBaseObject;
 import org.apache.maven.plugin.MojoExecutionException;
 
@@ -29,7 +28,7 @@ import static java.lang.Boolean.TRUE;
 import static net.kosto.configuration.ValidateError.EMPTY_LIST_PARAMETER;
 import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
 
-public class PostgreSQLDatabase extends DatabaseBaseObject implements ValidateAction {
+public class PostgreSQLDatabase extends DatabaseBaseObject {
 
     private List<PostgreSQLObject> objects;
     private List<PostgreSQLScript> scripts;
