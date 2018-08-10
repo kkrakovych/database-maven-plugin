@@ -105,7 +105,7 @@ public class AbstractProcessor {
             if (file.getFileName() == null)
                 continue;
             String fileName = processTemplateFileName(file.getFileName());
-            Path output = Paths.get(directory.toString(), fileName);
+            Path output = directory.resolve(fileName);
             addZipFile(output);
             processTemplateFile(file, output);
         }
@@ -148,7 +148,7 @@ public class AbstractProcessor {
 
     private void processSourceFiles(Path directory, List<Path> files) throws MojoExecutionException {
         for (Path file : files) {
-            Path output = Paths.get(directory.toString(), file.getFileName().toString());
+            Path output = directory.resolve(file.getFileName());
             addZipFile(output);
             processSourceFile(file, output);
         }

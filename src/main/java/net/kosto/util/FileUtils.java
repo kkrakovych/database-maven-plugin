@@ -42,9 +42,9 @@ public class FileUtils {
 
     public static final String EMPTY = "";
     public static final String UTF8_BOM = "\uFEFF";
-    public static final String ORACLE_COMMAND_END = "/";
     public static final String UNIX_SEPARATOR = "/";
     public static final String FILE_MASK_SQL = "*.sql";
+    public static final String MD5 = "MD5";
 
     private FileUtils() {
     }
@@ -82,10 +82,10 @@ public class FileUtils {
         return files.stream().map(Path::getFileName).map(Path::toString).sorted(String::compareTo).collect(Collectors.toList());
     }
 
-    public static String getFileChecksum(String fileName) throws MojoExecutionException {
+    public static String getFileChecksum(Path file) throws MojoExecutionException {
         try {
-            byte[] file = Files.readAllBytes(Paths.get(fileName));
-            byte[] hash = MessageDigest.getInstance("MD5").digest(file);
+            byte[] bytes = Files.readAllBytes(file);
+            byte[] hash = MessageDigest.getInstance(MD5).digest(bytes);
             return DatatypeConverter.printHexBinary(hash);
         } catch (IOException | NoSuchAlgorithmException x) {
             throw new MojoExecutionException("Failed to calculate checksum for file.", x);
@@ -96,7 +96,7 @@ public class FileUtils {
         Map<String, String> result = new TreeMap<>();
         List<String> files = getFileNames(sourceDirectory, fileExtension);
         for (String file : files) {
-            result.put(file, getFileChecksum(Paths.get(sourceDirectory.toString(), file).toString()));
+            result.put(file, getFileChecksum(sourceDirectory.resolve(file)));
         }
         return result;
     }
