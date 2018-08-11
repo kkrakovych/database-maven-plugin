@@ -29,7 +29,7 @@ import static net.kosto.util.FileUtils.UNIX_SEPARATOR;
  * <p>
  * Provides access to basic database object's attributes and methods.
  */
-public abstract class DatabaseBaseObject implements ValidateAction {
+public abstract class AbstractDatabaseBaseObject implements ValidateAction {
 
     /** Database object's index in a list. Affects processing order. */
     private Integer index;
@@ -163,7 +163,7 @@ public abstract class DatabaseBaseObject implements ValidateAction {
     protected void processAttributes() throws MojoExecutionException {
     }
 
-    protected <T extends DatabaseBaseObject> void validateAttribute(T attribute) throws MojoExecutionException {
+    protected <T extends AbstractDatabaseBaseObject> void validateAttribute(T attribute) throws MojoExecutionException {
         if (attribute.getDefineSymbol() == null)
             attribute.setDefineSymbol(defineSymbol);
         if (attribute.getIgnoreDefine() == null)

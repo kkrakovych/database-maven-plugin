@@ -19,7 +19,7 @@ package net.kosto.service;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import net.kosto.configuration.Configuration;
-import net.kosto.configuration.model.DatabaseObject;
+import net.kosto.configuration.model.AbstractDatabaseObject;
 import net.kosto.util.FileUtils;
 import net.kosto.util.ResourceUtils;
 import net.kosto.util.ZipUtils;
@@ -45,7 +45,7 @@ import static net.kosto.util.DateUtils.FORMATTER_DATE_TIME;
 import static net.kosto.util.FileUtils.FILE_MASK_SQL;
 import static net.kosto.util.FileUtils.UNIX_SEPARATOR;
 
-public class AbstractProcessor {
+public abstract class AbstractProcessor {
 
     protected static final String COMMON = "common";
     protected static final String DATABASE = "database";
@@ -83,14 +83,15 @@ public class AbstractProcessor {
         templateParameters.put("serviceDirectory", configuration.getServiceDirectory());
     }
 
-    protected <T extends DatabaseObject> void processItem(T item, String baseDirectory, String itemType) throws MojoExecutionException {
+    protected <T extends AbstractDatabaseObject> void processItem(T item, String baseDirectory, String itemType) throws MojoExecutionException {
         Path source = Paths.get(item.getSourceDirectoryFull());
         Path directory = FileUtils.createDirectories(item.getOutputDirectoryFull());
         templateParameters.put(itemType, item);
-        if (itemType.equals(SCRIPT))
+        if (itemType.equals(SCRIPT)) {
             templateParameters.put(FILES, FileUtils.getFileNamesWithCheckSum(source, item.getFileMask()));
-        else
+        } else {
             templateParameters.put(FILES, FileUtils.getFileNames(source, item.getFileMask()));
+        }
         processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, baseDirectory, DEFAULT_SERVICE_DIRECTORY, itemType));
         processSourceFiles(directory, FileUtils.getFiles(source, item.getFileMask()));
     }
@@ -102,8 +103,9 @@ public class AbstractProcessor {
 
     protected void processTemplateFiles(Path directory, List<Path> files) throws MojoExecutionException {
         for (Path file : files) {
-            if (file.getFileName() == null)
+            if (file.getFileName() == null) {
                 continue;
+            }
             String fileName = processTemplateFileName(file.getFileName());
             Path output = directory.resolve(fileName);
             addZipFile(output);

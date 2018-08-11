@@ -16,38 +16,31 @@
 
 package net.kosto.configuration.model;
 
+import static net.kosto.util.FileUtils.FILE_MASK_SQL;
+
 /**
- * {@code DatabaseScript} represents database script configuration.
+ * {@code DatabaseObject} represents database object specific configuration.
+ * <p>
+ * Provides access to database object's specific attributes and methods.
  */
-public abstract class DatabaseScript extends DatabaseObject {
+public abstract class AbstractDatabaseObject extends AbstractDatabaseBaseObject {
 
-    /** Database script's type. */
-    private DatabaseScriptType type;
-    /** Database script's condition. */
-    private DatabaseScriptCondition condition;
+    /** Database object's file mask. */
+    private String fileMask = FILE_MASK_SQL;
 
-    public DatabaseScriptType getType() {
-        return type;
+    public String getFileMask() {
+        return fileMask;
     }
 
-    public void setType(DatabaseScriptType type) {
-        this.type = type;
-    }
-
-    public DatabaseScriptCondition getCondition() {
-        return condition;
-    }
-
-    public void setCondition(DatabaseScriptCondition condition) {
-        this.condition = condition;
+    public void setFileMask(String fileMask) {
+        this.fileMask = fileMask;
     }
 
     @Override
     public String toString() {
-        return "DatabaseScript{" +
-            "type=" + getType() +
-            ", condition=" + getCondition() +
-            ", index=" + getIndex() +
+        return "DatabaseObject{" +
+            "index=" + getIndex() +
+            ", name=" + getName() +
             ", sourceDirectory=" + getSourceDirectory() +
             ", ignoreDirectory=" + getIgnoreDirectory() +
             ", defineSymbol=" + getDefineSymbol() +

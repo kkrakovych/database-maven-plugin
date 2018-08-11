@@ -16,13 +16,13 @@
 
 package net.kosto.configuration.oracle;
 
-import net.kosto.configuration.model.DatabaseScript;
+import net.kosto.configuration.model.AbstractDatabaseScript;
 import org.apache.maven.plugin.MojoExecutionException;
 
 import static java.lang.Boolean.FALSE;
 import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
 
-public class OracleScript extends DatabaseScript {
+public class OracleScript extends AbstractDatabaseScript {
 
     @Override
     public String toString() {

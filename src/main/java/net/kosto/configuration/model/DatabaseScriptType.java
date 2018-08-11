@@ -19,7 +19,7 @@ package net.kosto.configuration.model;
 /**
  * {@code DatabaseScriptType} provides list of all supported database script types.
  * <p>
- * Each database script type has default value for relative {@link DatabaseScript#sourceDirectory} path.
+ * Each database script type has default value for relative {@link AbstractDatabaseScript#sourceDirectory} path.
  */
 public enum DatabaseScriptType {
     /** Database script should be executed one time only. */
@@ -27,7 +27,7 @@ public enum DatabaseScriptType {
     /** Database script should be executed on every deploy. */
     REUSABLE("script_reusable");
 
-    /** Default relative {@link DatabaseScript#sourceDirectory} path. */
+    /** Default relative {@link AbstractDatabaseScript#sourceDirectory} path. */
     private final String sourceDirectory;
 
     /**

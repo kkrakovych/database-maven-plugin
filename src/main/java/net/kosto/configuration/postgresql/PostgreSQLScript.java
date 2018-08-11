@@ -16,13 +16,13 @@
 
 package net.kosto.configuration.postgresql;
 
-import net.kosto.configuration.model.DatabaseScript;
+import net.kosto.configuration.model.AbstractDatabaseScript;
 import org.apache.maven.plugin.MojoExecutionException;
 
 import static java.lang.Boolean.FALSE;
 import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
 
-public class PostgreSQLScript extends DatabaseScript {
+public class PostgreSQLScript extends AbstractDatabaseScript {
 
     @Override
     public String toString() {

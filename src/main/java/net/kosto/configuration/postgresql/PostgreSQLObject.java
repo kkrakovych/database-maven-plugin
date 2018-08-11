@@ -16,13 +16,13 @@
 
 package net.kosto.configuration.postgresql;
 
-import net.kosto.configuration.model.DatabaseObject;
+import net.kosto.configuration.model.AbstractDatabaseObject;
 import org.apache.maven.plugin.MojoExecutionException;
 
 import static java.lang.Boolean.FALSE;
 import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
 
-public class PostgreSQLObject extends DatabaseObject {
+public class PostgreSQLObject extends AbstractDatabaseObject {
 
     private PostgreSQLObjectType type;
 
