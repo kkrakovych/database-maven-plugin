@@ -17,8 +17,8 @@
 package net.kosto.configuration;
 
 import net.kosto.configuration.model.DatabaseType;
-import net.kosto.configuration.oracle.OracleDatabase;
-import net.kosto.configuration.postgresql.PostgreSQLDatabase;
+import net.kosto.configuration.model.oracle.OracleDatabase;
+import net.kosto.configuration.model.postgresql.PostgreSQLDatabase;
 import org.apache.maven.plugin.MojoExecutionException;
 
 import java.time.LocalDateTime;

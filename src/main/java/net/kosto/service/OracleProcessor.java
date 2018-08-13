@@ -17,9 +17,9 @@
 package net.kosto.service;
 
 import net.kosto.configuration.Configuration;
-import net.kosto.configuration.oracle.OracleObject;
-import net.kosto.configuration.oracle.OracleSchema;
-import net.kosto.configuration.oracle.OracleScript;
+import net.kosto.configuration.model.oracle.OracleObject;
+import net.kosto.configuration.model.oracle.OracleSchema;
+import net.kosto.configuration.model.oracle.OracleScript;
 import net.kosto.util.FileUtils;
 import net.kosto.util.ResourceUtils;
 import org.apache.maven.plugin.MojoExecutionException;

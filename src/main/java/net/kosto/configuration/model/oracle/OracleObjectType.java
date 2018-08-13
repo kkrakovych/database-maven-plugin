@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.kosto.configuration.oracle;
+package net.kosto.configuration.model.oracle;
 
 /**
  * {@code OracleObjectType} provides list of all supported database object types.

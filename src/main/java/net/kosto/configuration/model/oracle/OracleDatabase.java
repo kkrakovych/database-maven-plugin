@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.kosto.configuration.oracle;
+package net.kosto.configuration.model.oracle;
 
 import net.kosto.configuration.model.AbstractDatabaseBaseObject;
 import org.apache.maven.plugin.MojoExecutionException;

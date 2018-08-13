@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.kosto.configuration.postgresql;
+package net.kosto.configuration.model.postgresql;
 
 public enum PostgreSQLObjectType {
 //    FUNCTION("functions"),

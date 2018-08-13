@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.kosto.configuration.postgresql;
+package net.kosto.configuration.model.postgresql;
 
 import net.kosto.configuration.model.AbstractDatabaseObject;
 import org.apache.maven.plugin.MojoExecutionException;

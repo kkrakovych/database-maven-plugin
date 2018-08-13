@@ -17,8 +17,8 @@
 package net.kosto;
 
 import net.kosto.configuration.Configuration;
-import net.kosto.configuration.oracle.OracleDatabase;
-import net.kosto.configuration.postgresql.PostgreSQLDatabase;
+import net.kosto.configuration.model.oracle.OracleDatabase;
+import net.kosto.configuration.model.postgresql.PostgreSQLDatabase;
 import net.kosto.service.Processor;
 import net.kosto.service.ProcessorFactory;
 import org.apache.maven.plugin.AbstractMojo;

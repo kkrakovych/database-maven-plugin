@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.kosto.configuration.postgresql;
+package net.kosto.configuration.model.oracle;
 
 import net.kosto.configuration.model.AbstractDatabaseBaseObject;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -26,30 +26,44 @@ import static java.lang.Boolean.FALSE;
 import static net.kosto.configuration.ValidateError.EMPTY_LIST_PARAMETER;
 import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
 
-public class PostgreSQLSchema extends AbstractDatabaseBaseObject {
+/**
+ * {@code OracleSchema} represents Oracle schema configuration.
+ * <p>
+ * Provides access to schema index, name, source directory, whether to ignore source directory,
+ * lists of objects and scripts, execute directory and full paths to source and output directories.
+ * <p>
+ * Default values for missing attributes:
+ * <ul>
+ * <li>{@link OracleSchema#ignoreDirectory} = {@link Boolean#FALSE}</li>
+ * <li>{@link OracleSchema#sourceDirectory} = {@link OracleSchema#name}</li>
+ * </ul>
+ */
+public class OracleSchema extends AbstractDatabaseBaseObject {
 
-    private List<PostgreSQLObject> objects;
-    private List<PostgreSQLScript> scripts;
+    /** List of objects for deploy. */
+    private List<OracleObject> objects;
+    /** List of scripts for deploy. */
+    private List<OracleScript> scripts;
 
-    public List<PostgreSQLObject> getObjects() {
+    public List<OracleObject> getObjects() {
         return objects;
     }
 
-    public void setObjects(List<PostgreSQLObject> objects) {
+    public void setObjects(List<OracleObject> objects) {
         this.objects = objects;
     }
 
-    public List<PostgreSQLScript> getScripts() {
+    public List<OracleScript> getScripts() {
         return scripts;
     }
 
-    public void setScripts(List<PostgreSQLScript> scripts) {
+    public void setScripts(List<OracleScript> scripts) {
         this.scripts = scripts;
     }
 
     @Override
     public String toString() {
-        return "PostgreSQLSchema{" +
+        return "OracleSchema{" +
             "index=" + getIndex() +
             ", name=" + getName() +
             ", sourceDirectory=" + getSourceDirectory() +
@@ -64,20 +78,28 @@ public class PostgreSQLSchema extends AbstractDatabaseBaseObject {
             "}";
     }
 
+    /**
+     * Checks {@code OracleSchema} configuration for mandatory values.
+     *
+     * @throws MojoExecutionException If a validation exception occurred.
+     */
     protected void checkMandatoryValues() throws MojoExecutionException {
         if (getIndex() == null)
-            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("postgresql.schema.index"));
+            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.index"));
         if (getName() == null)
-            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("postgresql.schema.name"));
+            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.name"));
         if (getObjects() != null && getObjects().isEmpty())
-            throw new MojoExecutionException(EMPTY_LIST_PARAMETER.getFormattedMessage("postgresql.schema.objects", "object"));
+            throw new MojoExecutionException(EMPTY_LIST_PARAMETER.getFormattedMessage("oracle.schema.objects", "object"));
         if (getScripts() != null && getScripts().isEmpty())
-            throw new MojoExecutionException(EMPTY_LIST_PARAMETER.getFormattedMessage("postgresql.schema.scripts", "script"));
+            throw new MojoExecutionException(EMPTY_LIST_PARAMETER.getFormattedMessage("oracle.schema.scripts", "script"));
     }
 
+    /**
+     * Sets default values for {@code OracleSchema} configuration.
+     */
     protected void setDefaultValues() {
         if (getDefineSymbol() == null)
-            setDefineSymbol(":");
+            setDefineSymbol("&");
         if (getIgnoreDefine() == null)
             setIgnoreDefine(FALSE);
         if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory())
@@ -90,11 +112,11 @@ public class PostgreSQLSchema extends AbstractDatabaseBaseObject {
             objects
                 .sort(
                     Comparator
-                        .comparingInt(PostgreSQLObject::getIndex)
-                        .thenComparing(PostgreSQLObject::getType)
+                        .comparingInt(OracleObject::getIndex)
+                        .thenComparing(OracleObject::getType)
                 );
 
-            for (PostgreSQLObject object : objects)
+            for (OracleObject object : objects)
                 validateAttribute(object);
         }
 
@@ -102,11 +124,11 @@ public class PostgreSQLSchema extends AbstractDatabaseBaseObject {
             scripts
                 .sort(
                     Comparator
-                        .comparing(PostgreSQLScript::getCondition, Comparator.reverseOrder())
-                        .thenComparingInt(PostgreSQLScript::getIndex)
+                        .comparing(OracleScript::getCondition, Comparator.reverseOrder())
+                        .thenComparingInt(OracleScript::getIndex)
                 );
 
-            for (PostgreSQLScript script : scripts)
+            for (OracleScript script : scripts)
                 validateAttribute(script);
         }
     }

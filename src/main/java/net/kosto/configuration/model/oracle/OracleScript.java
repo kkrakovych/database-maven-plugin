@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.kosto.configuration.postgresql;
+package net.kosto.configuration.model.oracle;
 
 import net.kosto.configuration.model.AbstractDatabaseScript;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -22,11 +22,11 @@ import org.apache.maven.plugin.MojoExecutionException;
 import static java.lang.Boolean.FALSE;
 import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
 
-public class PostgreSQLScript extends AbstractDatabaseScript {
+public class OracleScript extends AbstractDatabaseScript {
 
     @Override
     public String toString() {
-        return "PostgreSQLScript{" +
+        return "OracleScript{" +
             "type=" + getType() +
             ", condition=" + getCondition() +
             ", index=" + getIndex() +
@@ -41,18 +41,26 @@ public class PostgreSQLScript extends AbstractDatabaseScript {
             '}';
     }
 
+    /**
+     * Checks {@code OracleScript} configuration for mandatory values.
+     *
+     * @throws MojoExecutionException If a validation exception occurred.
+     */
     protected void checkMandatoryValues() throws MojoExecutionException {
         if (getType() == null)
-            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("postgresql.schema.script.type"));
+            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.script.type"));
         if (getCondition() == null)
-            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("postgresql.schema.script.condition"));
+            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.script.condition"));
         if (getIndex() == null)
-            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("postgresql.schema.script.index"));
+            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.script.index"));
     }
 
+    /**
+     * Sets default values for {@code OracleScript} configuration.
+     */
     protected void setDefaultValues() {
         if (getDefineSymbol() == null)
-            setDefineSymbol(":");
+            setDefineSymbol("&");
         if (getIgnoreDefine() == null)
             setIgnoreDefine(FALSE);
         if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory())

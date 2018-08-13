@@ -17,9 +17,9 @@
 package net.kosto.service;
 
 import net.kosto.configuration.Configuration;
-import net.kosto.configuration.postgresql.PostgreSQLObject;
-import net.kosto.configuration.postgresql.PostgreSQLSchema;
-import net.kosto.configuration.postgresql.PostgreSQLScript;
+import net.kosto.configuration.model.postgresql.PostgreSQLObject;
+import net.kosto.configuration.model.postgresql.PostgreSQLSchema;
+import net.kosto.configuration.model.postgresql.PostgreSQLScript;
 import net.kosto.util.FileUtils;
 import net.kosto.util.ResourceUtils;
 import org.apache.maven.plugin.MojoExecutionException;
