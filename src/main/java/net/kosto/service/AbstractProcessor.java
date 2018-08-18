@@ -39,7 +39,7 @@ import java.util.Map;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.StandardCopyOption.COPY_ATTRIBUTES;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
-import static net.kosto.configuration.Configuration.DEFAULT_SERVICE_DIRECTORY;
+import static net.kosto.Package.SERVICE_DIRECTORY;
 import static net.kosto.configuration.model.DatabaseType.ORACLE;
 import static net.kosto.util.DateUtils.FORMATTER_DATE_TIME;
 import static net.kosto.util.FileUtils.FILE_MASK_SQL;
@@ -92,7 +92,7 @@ public abstract class AbstractProcessor {
         } else {
             templateParameters.put(FILES, FileUtils.getFileNames(source, item.getFileMask()));
         }
-        processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, baseDirectory, DEFAULT_SERVICE_DIRECTORY, itemType));
+        processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, baseDirectory, SERVICE_DIRECTORY, itemType));
         processSourceFiles(directory, FileUtils.getFiles(source, item.getFileMask()));
     }
 

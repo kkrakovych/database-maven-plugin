@@ -26,7 +26,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 
 import java.nio.file.Path;
 
-import static net.kosto.configuration.Configuration.DEFAULT_SERVICE_DIRECTORY;
+import static net.kosto.Package.SERVICE_DIRECTORY;
 import static net.kosto.util.DateUtils.FORMATTER_DATE_TIME_STRING;
 import static net.kosto.util.FileUtils.FILE_MASK_SQL;
 
@@ -61,11 +61,11 @@ public class OracleProcessor extends AbstractProcessor implements Processor {
     }
 
     private void processServiceScripts() throws MojoExecutionException {
-        processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, DEFAULT_SERVICE_DIRECTORY, COMMON));
+        processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, SERVICE_DIRECTORY, COMMON));
     }
 
     private void processDatabase() throws MojoExecutionException {
-        processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, DEFAULT_SERVICE_DIRECTORY, DATABASE));
+        processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, SERVICE_DIRECTORY, DATABASE));
 
         processSchemes();
     }
@@ -73,7 +73,7 @@ public class OracleProcessor extends AbstractProcessor implements Processor {
     private void processSchemes() throws MojoExecutionException {
         for (OracleSchema schema : getConfiguration().getOracle().getSchemes()) {
             getTemplateParameters().put(SCHEMA, schema);
-            processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, DEFAULT_SERVICE_DIRECTORY, SCHEMA));
+            processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, SERVICE_DIRECTORY, SCHEMA));
 
             processObjects(schema);
             processScripts(schema);

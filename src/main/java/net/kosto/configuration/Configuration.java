@@ -32,8 +32,6 @@ import static net.kosto.service.ServiceError.UNKNOWN_DATABASE_TYPE;
  */
 public class Configuration implements ValidateAction {
 
-    public static final String DEFAULT_SERVICE_DIRECTORY = "service";
-
     /** Current build version. */
     private final String buildVersion;
     /** Current build timestamp. */
@@ -208,8 +206,6 @@ public class Configuration implements ValidateAction {
          * Sets default values for {@code Configuration}.
          */
         private void setDefaultValues() {
-            if (serviceDirectory == null || serviceDirectory.isEmpty())
-                serviceDirectory = DEFAULT_SERVICE_DIRECTORY;
             if (oracle != null)
                 databaseType = ORACLE;
             if (postgresql != null)
