@@ -41,7 +41,7 @@ import static java.nio.file.StandardCopyOption.COPY_ATTRIBUTES;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static net.kosto.Package.SERVICE_DIRECTORY;
 import static net.kosto.configuration.model.DatabaseType.ORACLE;
-import static net.kosto.util.DateUtils.FORMATTER_DATE_TIME;
+import static net.kosto.util.DateUtils.DTF_DATE_TIME;
 import static net.kosto.util.FileUtils.FILE_MASK_SQL;
 import static net.kosto.util.FileUtils.UNIX_SEPARATOR;
 
@@ -79,7 +79,7 @@ public abstract class AbstractProcessor {
         // Set up template processor configuration
         templateParameters = new HashMap<>();
         templateParameters.put("buildVersion", configuration.getBuildVersion());
-        templateParameters.put("buildTimestamp", configuration.getBuildTimestamp().format(FORMATTER_DATE_TIME));
+        templateParameters.put("buildTimestamp", configuration.getBuildTimestamp().format(DTF_DATE_TIME));
         templateParameters.put("serviceDirectory", configuration.getServiceDirectory());
     }
 

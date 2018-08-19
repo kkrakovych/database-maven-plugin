@@ -75,10 +75,14 @@ public class Package extends AbstractMojo {
    */
   @Parameter(property = "service.directory")
   private final String serviceDirectory;
-  /** Oracle database configuration. */
+  /**
+   * Oracle database configuration.
+   */
   @Parameter
   private OracleDatabase oracle;
-  /** PostgreSQL database configuration. */
+  /**
+   * PostgreSQL database configuration.
+   */
   @Parameter
   private PostgreSQLDatabase postgresql;
 
