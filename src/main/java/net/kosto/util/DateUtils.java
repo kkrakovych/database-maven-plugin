@@ -26,11 +26,11 @@ public final class DateUtils {
   /**
    * Standard date time mask.
    */
-  private static final String DATE_TIME = "yyyy-MM-dd HH:mm:ss";
+  public static final String DATE_TIME = "yyyy-MM-dd HH:mm:ss";
   /**
    * Seamless date time mask without separators.
    */
-  private static final String DATE_TIME_SEAMLESS = "yyyyMMddHHmmss";
+  public static final String DATE_TIME_SEAMLESS = "yyyyMMddHHmmss";
 
   /**
    * Date time formatter for standard mask {@value DATE_TIME}.
