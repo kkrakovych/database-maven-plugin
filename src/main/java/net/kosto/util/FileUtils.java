@@ -21,6 +21,7 @@ import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.StandardOpenOption.APPEND;
 import static java.nio.file.StandardOpenOption.CREATE;
+import static java.nio.file.StandardOpenOption.WRITE;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -84,12 +85,12 @@ public final class FileUtils {
   }
 
   /**
-   * Creates base directory with all additional subdirectories
-   * and returns full path.
+   * Creates base directory with all additional subdirectories within
+   * and returns full path to it.
    *
-   * @param baseDirectory Base directory.
-   * @param directories   Additional subdirectories.
-   * @return Full directory path.
+   * @param baseDirectory Full path to base directory.
+   * @param directories   Relative paths to additional subdirectories.
+   * @return Full path to created directory.
    * @throws MojoExecutionException If expected exception occurs.
    */
   public static Path createDirectories(final String baseDirectory, final String... directories) throws MojoExecutionException {
@@ -107,11 +108,11 @@ public final class FileUtils {
   }
 
   /**
-   * Returns full file paths in base directory matched with file mask.
+   * Returns full paths to files in base directory matched with file mask.
    *
-   * @param baseDirectory Base directory for files look up.
+   * @param baseDirectory Full path fo base directory for files look up.
    * @param fileMask      File mask for files look up.
-   * @return Full file paths.
+   * @return Full paths to files.
    * @throws MojoExecutionException If expected exception occurs.
    */
   public static List<Path> getFiles(final Path baseDirectory, final String fileMask) throws MojoExecutionException {
@@ -135,7 +136,7 @@ public final class FileUtils {
   /**
    * Returns full file names in base directory matched with file mask.
    *
-   * @param baseDirectory Base directory for files look up.
+   * @param baseDirectory Full path to base directory for files look up.
    * @param fileMask      File mask for files look up.
    * @return Full file names.
    * @throws MojoExecutionException If expected exception occurs.
@@ -172,7 +173,7 @@ public final class FileUtils {
    * Returns full file names and calculates their {@value MD5} checksums
    * in base directory matched with file mask.
    *
-   * @param baseDirectory Base directory for files look up.
+   * @param baseDirectory Full path to base directory for files look up.
    * @param fileMask      File mask for files look up.
    * @return Map where key is full path to file, and value - file checksum.
    * @throws MojoExecutionException If expected exception occurs.
@@ -192,7 +193,7 @@ public final class FileUtils {
   /**
    * Reads source code lines from file.
    *
-   * @param file Input file.
+   * @param file Full path to source file.
    * @return Source code lines.
    * @throws MojoExecutionException If expected exception occurs.
    */
@@ -216,13 +217,13 @@ public final class FileUtils {
   /**
    * Writes source code lines into file.
    *
-   * @param file  Output file.
+   * @param file  Full path to target file.
    * @param lines Source code lines.
    * @throws MojoExecutionException If expected exception occurs.
    */
   public static void writeFileSourceCode(final Path file, final List<String> lines) throws MojoExecutionException {
     try (
-        OutputStream os = Files.newOutputStream(file, CREATE, APPEND);
+        OutputStream os = Files.newOutputStream(file, CREATE, WRITE, APPEND);
         OutputStreamWriter osw = new OutputStreamWriter(os, UTF_8)
     ) {
       if (lines != null && !lines.isEmpty()) {

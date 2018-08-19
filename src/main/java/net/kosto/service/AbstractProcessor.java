@@ -177,6 +177,7 @@ public abstract class AbstractProcessor {
 
     protected void processZipFile(String zipFileName) throws MojoExecutionException {
         Path zipFile = Paths.get(configuration.getOutputDirectory(), zipFileName);
-        ZipUtils.compress(zipFile.toString(), configuration.getOutputDirectory(), zipFiles);
+        Path baseDirectory = Paths.get(configuration.getOutputDirectory());
+        ZipUtils.compress(zipFile, baseDirectory, zipFiles);
     }
 }
