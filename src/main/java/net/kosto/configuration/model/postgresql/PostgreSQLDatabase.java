@@ -16,7 +16,7 @@
 
 package net.kosto.configuration.model.postgresql;
 
-import net.kosto.configuration.model.AbstractDatabaseBaseObject;
+import net.kosto.configuration.model.AbstractDatabaseItem;
 import org.apache.maven.plugin.MojoExecutionException;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ import static java.lang.Boolean.TRUE;
 import static net.kosto.configuration.ValidateError.EMPTY_LIST_PARAMETER;
 import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
 
-public class PostgreSQLDatabase extends AbstractDatabaseBaseObject {
+public class PostgreSQLDatabase extends AbstractDatabaseItem {
 
     private List<PostgreSQLObject> objects;
     private List<PostgreSQLScript> scripts;

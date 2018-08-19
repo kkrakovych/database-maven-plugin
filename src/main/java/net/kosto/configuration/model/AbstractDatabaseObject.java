@@ -23,7 +23,7 @@ import static net.kosto.util.FileUtils.FILE_MASK_SQL;
  * <p>
  * Provides access to database object's specific attributes and methods.
  */
-public abstract class AbstractDatabaseObject extends AbstractDatabaseBaseObject {
+public abstract class AbstractDatabaseObject extends AbstractDatabaseItem {
 
     /** Database object's file mask. */
     private String fileMask = FILE_MASK_SQL;

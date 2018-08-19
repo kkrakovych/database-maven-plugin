@@ -16,7 +16,7 @@
 
 package net.kosto.configuration.model.oracle;
 
-import net.kosto.configuration.model.AbstractDatabaseBaseObject;
+import net.kosto.configuration.model.AbstractDatabaseItem;
 import org.apache.maven.plugin.MojoExecutionException;
 
 import java.util.Comparator;
@@ -38,7 +38,7 @@ import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
  * <li>{@link OracleDatabase#sourceDirectory} = {@link OracleDatabase#name}</li>
  * </ul>
  */
-public class OracleDatabase extends AbstractDatabaseBaseObject {
+public class OracleDatabase extends AbstractDatabaseItem {
 
     /** List of schemes for deploy. */
     private List<OracleSchema> schemes;
