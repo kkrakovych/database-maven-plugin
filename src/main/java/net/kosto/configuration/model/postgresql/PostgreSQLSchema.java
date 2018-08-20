@@ -82,16 +82,16 @@ public class PostgreSQLSchema extends AbstractDatabaseItem {
   @Override
   protected void checkMandatoryValues() throws MojoExecutionException {
     if (getIndex() == null) {
-      throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("postgresql.schema.index"));
+      throw new MojoExecutionException(MISSING_PARAMETER.message("postgresql.schema.index"));
     }
     if (getName() == null) {
-      throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("postgresql.schema.name"));
+      throw new MojoExecutionException(MISSING_PARAMETER.message("postgresql.schema.name"));
     }
     if (objects != null && objects.isEmpty()) {
-      throw new MojoExecutionException(EMPTY_LIST_PARAMETER.getFormattedMessage("postgresql.schema.objects", "object"));
+      throw new MojoExecutionException(EMPTY_LIST_PARAMETER.message("postgresql.schema.objects", "object"));
     }
     if (scripts != null && scripts.isEmpty()) {
-      throw new MojoExecutionException(EMPTY_LIST_PARAMETER.getFormattedMessage("postgresql.schema.scripts", "script"));
+      throw new MojoExecutionException(EMPTY_LIST_PARAMETER.message("postgresql.schema.scripts", "script"));
     }
   }
 

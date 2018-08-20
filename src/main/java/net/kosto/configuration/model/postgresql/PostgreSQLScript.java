@@ -51,13 +51,13 @@ public class PostgreSQLScript extends AbstractDatabaseScript {
   @Override
   protected void checkMandatoryValues() throws MojoExecutionException {
     if (getType() == null) {
-      throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("postgresql.schema.script.type"));
+      throw new MojoExecutionException(MISSING_PARAMETER.message("postgresql.schema.script.type"));
     }
     if (getCondition() == null) {
-      throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("postgresql.schema.script.condition"));
+      throw new MojoExecutionException(MISSING_PARAMETER.message("postgresql.schema.script.condition"));
     }
     if (getIndex() == null) {
-      throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("postgresql.schema.script.index"));
+      throw new MojoExecutionException(MISSING_PARAMETER.message("postgresql.schema.script.index"));
     }
   }
 

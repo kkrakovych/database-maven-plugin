@@ -66,10 +66,10 @@ public class PostgreSQLObject extends AbstractDatabaseObject {
   @Override
   protected void checkMandatoryValues() throws MojoExecutionException {
     if (getIndex() == null) {
-      throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("postgresql.schema.object.index"));
+      throw new MojoExecutionException(MISSING_PARAMETER.message("postgresql.schema.object.index"));
     }
     if (type == null) {
-      throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("postgresql.schema.object.type"));
+      throw new MojoExecutionException(MISSING_PARAMETER.message("postgresql.schema.object.type"));
     }
   }
 

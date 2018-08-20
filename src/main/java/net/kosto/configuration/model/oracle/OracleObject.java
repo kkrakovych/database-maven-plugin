@@ -66,10 +66,10 @@ public class OracleObject extends AbstractDatabaseObject {
   @Override
   protected void checkMandatoryValues() throws MojoExecutionException {
     if (getIndex() == null) {
-      throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.object.index"));
+      throw new MojoExecutionException(MISSING_PARAMETER.message("oracle.schema.object.index"));
     }
     if (type == null) {
-      throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.object.type"));
+      throw new MojoExecutionException(MISSING_PARAMETER.message("oracle.schema.object.type"));
     }
   }
 

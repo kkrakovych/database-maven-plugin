@@ -69,13 +69,13 @@ public class OracleDatabase extends AbstractDatabaseItem {
   @Override
   protected void checkMandatoryValues() throws MojoExecutionException {
     if (getName() == null) {
-      throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.name"));
+      throw new MojoExecutionException(MISSING_PARAMETER.message("oracle.name"));
     }
     if (schemes == null) {
-      throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schemes"));
+      throw new MojoExecutionException(MISSING_PARAMETER.message("oracle.schemes"));
     }
     if (schemes.isEmpty()) {
-      throw new MojoExecutionException(EMPTY_LIST_PARAMETER.getFormattedMessage("oracle.schemes", "schema"));
+      throw new MojoExecutionException(EMPTY_LIST_PARAMETER.message("oracle.schemes", "schema"));
     }
   }
 

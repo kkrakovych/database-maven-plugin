@@ -97,16 +97,16 @@ public class PostgreSQLDatabase extends AbstractDatabaseItem {
   @Override
   protected void checkMandatoryValues() throws MojoExecutionException {
     if (getName() == null) {
-      throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("postgresql.name"));
+      throw new MojoExecutionException(MISSING_PARAMETER.message("postgresql.name"));
     }
     if (objects != null && objects.isEmpty()) {
-      throw new MojoExecutionException(EMPTY_LIST_PARAMETER.getFormattedMessage("postgresql.objects", "object"));
+      throw new MojoExecutionException(EMPTY_LIST_PARAMETER.message("postgresql.objects", "object"));
     }
     if (scripts != null && scripts.isEmpty()) {
-      throw new MojoExecutionException(EMPTY_LIST_PARAMETER.getFormattedMessage("postgresql.scripts", "script"));
+      throw new MojoExecutionException(EMPTY_LIST_PARAMETER.message("postgresql.scripts", "script"));
     }
     if (schemes != null && schemes.isEmpty()) {
-      throw new MojoExecutionException(EMPTY_LIST_PARAMETER.getFormattedMessage("postgresql.schemes", "schema"));
+      throw new MojoExecutionException(EMPTY_LIST_PARAMETER.message("postgresql.schemes", "schema"));
     }
   }
 

@@ -82,16 +82,16 @@ public class OracleSchema extends AbstractDatabaseItem {
   @Override
   protected void checkMandatoryValues() throws MojoExecutionException {
     if (getIndex() == null) {
-      throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.index"));
+      throw new MojoExecutionException(MISSING_PARAMETER.message("oracle.schema.index"));
     }
     if (getName() == null) {
-      throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.name"));
+      throw new MojoExecutionException(MISSING_PARAMETER.message("oracle.schema.name"));
     }
     if (objects != null && objects.isEmpty()) {
-      throw new MojoExecutionException(EMPTY_LIST_PARAMETER.getFormattedMessage("oracle.schema.objects", "object"));
+      throw new MojoExecutionException(EMPTY_LIST_PARAMETER.message("oracle.schema.objects", "object"));
     }
     if (scripts != null && scripts.isEmpty()) {
-      throw new MojoExecutionException(EMPTY_LIST_PARAMETER.getFormattedMessage("oracle.schema.scripts", "script"));
+      throw new MojoExecutionException(EMPTY_LIST_PARAMETER.message("oracle.schema.scripts", "script"));
     }
   }
 
