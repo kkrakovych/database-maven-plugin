@@ -54,13 +54,13 @@ public class Package extends AbstractMojo {
    */
   private final LocalDateTime buildTimestamp;
   /**
-   * Root source directory.
+   * Full path name for root source directory.
    * Represents directory containing pom.xml file.
    */
   @Parameter(property = "basedir", required = true)
   private String sourceDirectory;
   /**
-   * Root output directory.
+   * Full path name for root output directory.
    * Represents top level output directory.
    * <p>
    * Default value is {@code "target"}.
@@ -68,7 +68,7 @@ public class Package extends AbstractMojo {
   @Parameter(property = "project.build.directory", required = true)
   private String outputDirectory;
   /**
-   * Service directory.
+   * Relative path name for service directory.
    * Represents directory for service scripts required by database deploy script.
    * <p>
    * Default value is {@value SERVICE_DIRECTORY}.
@@ -87,7 +87,7 @@ public class Package extends AbstractMojo {
   private PostgreSQLDatabase postgresql;
 
   /**
-   * Sets default values for instance.
+   * Constructs instance and sets default values.
    */
   public Package() {
     super();

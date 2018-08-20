@@ -17,9 +17,20 @@
 package net.kosto.configuration.model;
 
 /**
- * {@code DatabaseType} provides list of all supported databases.
+ * Provides list of all supported databases.
  */
 public enum DatabaseType {
-    ORACLE,
-    POSTGRESQL
+
+  /**
+   * Oracle database
+   *
+   * @see <a href="https://en.wikipedia.org/wiki/Oracle_Database">Oracle Database</a>
+   */
+  ORACLE,
+  /**
+   * PostgreSQL database
+   *
+   * @see <a href="https://en.wikipedia.org/wiki/PostgreSQL">PostgreSQL Database</a>
+   */
+  POSTGRESQL
 }

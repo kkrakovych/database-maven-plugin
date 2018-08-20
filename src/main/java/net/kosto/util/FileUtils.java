@@ -93,8 +93,8 @@ public final class FileUtils {
    * @return Full path to created directory.
    * @throws MojoExecutionException If expected exception occurs.
    */
-  public static Path createDirectories(final String baseDirectory, final String... directories) throws MojoExecutionException {
-    final Path result = Paths.get(baseDirectory, directories);
+  public static Path createDirectories(final Path baseDirectory, final String... directories) throws MojoExecutionException {
+    final Path result = Paths.get(baseDirectory.toString(), directories);
 
     if (!result.toFile().exists()) {
       try {

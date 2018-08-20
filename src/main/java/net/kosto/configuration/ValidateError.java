@@ -19,32 +19,34 @@ package net.kosto.configuration;
 import java.text.MessageFormat;
 
 /**
- * {@code ValidateError} represents all possible validation errors with associated messages.
+ * Represents all possible validation errors with associated messages.
  */
 public enum ValidateError {
-    MISSING_PARAMETER("Parameter \"{0}\" should be specified."),
-    EMPTY_LIST_PARAMETER("Parameter \"{0}\" should contain at least one \"{1}\".");
 
-    /** Validate error message. */
-    private final String message;
+  MISSING_PARAMETER("Parameter \"{0}\" should be specified."),
+  EMPTY_LIST_PARAMETER("Parameter \"{0}\" should contain at least one \"{1}\".");
 
-    /**
-     * Constructs {@code ValidateError} with associated message.
-     *
-     * @param message Message.
-     */
-    ValidateError(String message) {
-        this.message = message;
-    }
+  /**
+   * Validate message format.
+   */
+  private final MessageFormat messageFormat;
 
-    /**
-     * Returns formatted error validation message.
-     *
-     * @param parameters Optional parameters for formatted message.
-     * @return Formatted message.
-     */
-    public String getFormattedMessage(String... parameters) {
-        MessageFormat mf = new MessageFormat(message);
-        return mf.format(parameters);
-    }
+  /**
+   * Constructs instance and sets default values.
+   *
+   * @param message Message.
+   */
+  ValidateError(final String message) {
+    this.messageFormat = new MessageFormat(message);
+  }
+
+  /**
+   * Returns formatted error validation message.
+   *
+   * @param parameters Optional parameters for formatted message.
+   * @return Formatted message.
+   */
+  public String getFormattedMessage(final String... parameters) {
+    return messageFormat.format(parameters);
+  }
 }

@@ -19,14 +19,14 @@ package net.kosto.configuration;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
- * {@code ValidateAction} provides interface for configuration object validation.
+ * Provides interface for item validation.
  */
-public interface ValidateAction {
+public interface ValidateItem {
 
-    /**
-     * Validate configuration object.
-     *
-     * @throws MojoExecutionException If a validation exception occurred.
-     */
-    void validate() throws MojoExecutionException;
+  /**
+   * Validate item.
+   *
+   * @throws MojoExecutionException If expected exception occurs.
+   */
+  void validate() throws MojoExecutionException;
 }

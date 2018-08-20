@@ -16,200 +16,217 @@
 
 package net.kosto.configuration;
 
+import static net.kosto.configuration.model.DatabaseType.ORACLE;
+import static net.kosto.configuration.model.DatabaseType.POSTGRESQL;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+
+import net.kosto.configuration.model.DatabaseItem;
 import net.kosto.configuration.model.DatabaseType;
 import net.kosto.configuration.model.oracle.OracleDatabase;
 import net.kosto.configuration.model.postgresql.PostgreSQLDatabase;
 import org.apache.maven.plugin.MojoExecutionException;
 
-import java.time.LocalDateTime;
-
-import static net.kosto.configuration.model.DatabaseType.ORACLE;
-import static net.kosto.configuration.model.DatabaseType.POSTGRESQL;
-import static net.kosto.service.ServiceError.UNKNOWN_DATABASE_TYPE;
-
 /**
- * {@code Configuration} represents main configuration.
+ * Represents main configuration.
  */
-public class Configuration implements ValidateAction {
+public class Configuration implements ValidateItem {
 
-    /** Current build version. */
-    private final String buildVersion;
-    /** Current build timestamp. */
-    private final LocalDateTime buildTimestamp;
-    /** Root source directory. */
-    private final String sourceDirectory;
-    /** Root output directory. */
-    private final String outputDirectory;
-    /** Service directory. */
-    private final String serviceDirectory;
-    /** Database type. */
-    private final DatabaseType databaseType;
-    /** Oracle database configuration. */
-    private final OracleDatabase oracle;
-    /** PostgreSQL database configuration. */
-    private final PostgreSQLDatabase postgresql;
+  /**
+   * Current build version.
+   * Represents project version defined in pom.xml file.
+   */
+  private String buildVersion;
+  /**
+   * Current build timestamp.
+   * Represents timestamp of source code packaging start.
+   */
+  private LocalDateTime buildTimestamp;
+  /**
+   * Full path for root source directory.
+   * Represents directory containing pom.xml file.
+   */
+  private Path sourceDirectory;
+  /**
+   * Full path for root output directory.
+   * Represents top level output directory.
+   */
+  private Path outputDirectory;
+  /**
+   * Relative path name for service directory.
+   * Represents directory for service scripts required by database deploy script.
+   */
+  private String serviceDirectory;
+  /**
+   * Database type.
+   * Value depends on database configuration.
+   */
+  private DatabaseType databaseType;
+  /**
+   * Database configuration.
+   */
+  private DatabaseItem database;
+
+  private Configuration() {
+    super();
+  }
+
+  public String getBuildVersion() {
+    return buildVersion;
+  }
+
+  public LocalDateTime getBuildTimestamp() {
+    return buildTimestamp;
+  }
+
+  public Path getSourceDirectory() {
+    return sourceDirectory;
+  }
+
+  public Path getOutputDirectory() {
+    return outputDirectory;
+  }
+
+  public String getServiceDirectory() {
+    return serviceDirectory;
+  }
+
+  public DatabaseType getDatabaseType() {
+    return databaseType;
+  }
+
+  public DatabaseItem getDatabase() {
+    return database;
+  }
+
+  @Override
+  public String toString() {
+    return "Configuration{" +
+        "buildVersion='" + buildVersion + '\'' +
+        ", buildTimestamp=" + buildTimestamp +
+        ", sourceDirectory=" + sourceDirectory +
+        ", outputDirectory=" + outputDirectory +
+        ", serviceDirectory='" + serviceDirectory + '\'' +
+        ", databaseType=" + databaseType +
+        ", database=" + database +
+        '}';
+  }
+
+  @Override
+  public void validate() throws MojoExecutionException {
+    database.setSourceDirectoryFull(getSourceDirectory());
+    database.setOutputDirectoryFull(getOutputDirectory());
+    database.validate();
+  }
+
+  /**
+   * Supports creation of {@link Configuration} object.
+   */
+  public static class Builder {
+
+    /** Support instance for main configuration. */
+    final private Configuration configuration;
 
     /**
-     * Constructs {@code Configuration} with {@link Builder} parameters.
+     * Constructs instance and sets default values.
+     */
+    public Builder() {
+      super();
+      configuration = new Configuration();
+    }
+
+    /**
+     * Sets build version.
      *
-     * @param builder
+     * @param buildVersion Build version.
+     * @return {@link Builder} instance.
      */
-    private Configuration(Builder builder) {
-        this.buildVersion = builder.buildVersion;
-        this.buildTimestamp = builder.buildTimestamp;
-        this.sourceDirectory = builder.sourceDirectory;
-        this.outputDirectory = builder.outputDirectory;
-        this.serviceDirectory = builder.serviceDirectory;
-        this.databaseType = builder.databaseType;
-        this.oracle = builder.oracle;
-        this.postgresql = builder.postgresql;
-    }
-
-    public String getBuildVersion() {
-        return buildVersion;
-    }
-
-    public LocalDateTime getBuildTimestamp() {
-        return buildTimestamp;
-    }
-
-    public String getSourceDirectory() {
-        return sourceDirectory;
-    }
-
-    public String getOutputDirectory() {
-        return outputDirectory;
-    }
-
-    public String getServiceDirectory() {
-        return serviceDirectory;
-    }
-
-    public DatabaseType getDatabaseType() {
-        return databaseType;
-    }
-
-    public OracleDatabase getOracle() {
-        return oracle;
-    }
-
-    public PostgreSQLDatabase getPostgreSQL() {
-        return postgresql;
-    }
-
-    @Override
-    public String toString() {
-        return "Configuration{" +
-            "buildVersion=" + buildVersion +
-            ", buildTimestamp=" + buildTimestamp +
-            ", sourceDirectory=" + sourceDirectory +
-            ", outputDirectory=" + outputDirectory +
-            ", serviceDirectory=" + serviceDirectory +
-            ", databaseType=" + databaseType +
-            ", oracle=" + oracle +
-            ", postgresql=" + postgresql +
-            '}';
-    }
-
-    @Override
-    public void validate() throws MojoExecutionException {
-        switch (databaseType) {
-            case ORACLE:
-                oracle.setSourceDirectoryFull(getSourceDirectory());
-                oracle.setOutputDirectoryFull(getOutputDirectory());
-                oracle.validate();
-                break;
-            case POSTGRESQL:
-                postgresql.setSourceDirectoryFull(getSourceDirectory());
-                postgresql.setOutputDirectoryFull(getOutputDirectory());
-                postgresql.validate();
-                break;
-            default:
-                throw new MojoExecutionException(UNKNOWN_DATABASE_TYPE);
-        }
+    public Builder setBuildVersion(final String buildVersion) {
+      configuration.buildVersion = buildVersion;
+      return this;
     }
 
     /**
-     * {@code Builder} supports creation of {@link Configuration} object.
+     * Sets build timestamp.
+     *
+     * @param buildTimestamp Build timestamp.
+     * @return {@link Builder} instance.
      */
-    public static class Builder {
-
-        /** Current build version. */
-        private String buildVersion;
-        /** Current build timestamp. */
-        private LocalDateTime buildTimestamp;
-        /** Root source directory. */
-        private String sourceDirectory;
-        /** Root output directory. */
-        private String outputDirectory;
-        /** Service directory. */
-        private String serviceDirectory;
-        /** Database type. */
-        private DatabaseType databaseType;
-        /** Oracle database configuration. */
-        private OracleDatabase oracle;
-        /** PostgreSQL database configuration */
-        private PostgreSQLDatabase postgresql;
-
-        public Builder setBuildVersion(String buildVersion) {
-            this.buildVersion = buildVersion;
-            return this;
-        }
-
-        public Builder setBuildTimestamp(LocalDateTime buildTimestamp) {
-            this.buildTimestamp = buildTimestamp;
-            return this;
-        }
-
-        public Builder setSourceDirectory(String sourceDirectory) {
-            this.sourceDirectory = sourceDirectory;
-            return this;
-        }
-
-        public Builder setOutputDirectory(String outputDirectory) {
-            this.outputDirectory = outputDirectory;
-            return this;
-        }
-
-        public Builder setServiceDirectory(String serviceDirectory) {
-            this.serviceDirectory = serviceDirectory;
-            return this;
-        }
-
-        public Builder setDatabaseType(DatabaseType databaseType) {
-            this.databaseType = databaseType;
-            return this;
-        }
-
-        public Builder setOracle(OracleDatabase oracle) {
-            this.oracle = oracle;
-            return this;
-        }
-
-        public Builder setPostgresql(PostgreSQLDatabase postgresql) {
-            this.postgresql = postgresql;
-            return this;
-        }
-
-        /**
-         * Creates new {@code Configuration} based on previously specified parameters.
-         *
-         * @return {@code Configuration} object.
-         */
-        public Configuration build() {
-            setDefaultValues();
-
-            return new Configuration(this);
-        }
-
-        /**
-         * Sets default values for {@code Configuration}.
-         */
-        private void setDefaultValues() {
-            if (oracle != null)
-                databaseType = ORACLE;
-            if (postgresql != null)
-                databaseType = POSTGRESQL;
-        }
+    public Builder setBuildTimestamp(final LocalDateTime buildTimestamp) {
+      configuration.buildTimestamp = buildTimestamp;
+      return this;
     }
+
+    /**
+     * Sets full path name for root source directory.
+     *
+     * @param sourceDirectory Full path name for root source directory.
+     * @return {@link Builder} instance.
+     */
+    public Builder setSourceDirectory(final String sourceDirectory) {
+      configuration.sourceDirectory = Paths.get(sourceDirectory);
+      return this;
+    }
+
+    /**
+     * Sets full path name for root output directory.
+     *
+     * @param outputDirectory Full path name for root output directory.
+     * @return {@link Builder} instance.
+     */
+    public Builder setOutputDirectory(final String outputDirectory) {
+      configuration.outputDirectory = Paths.get(outputDirectory);
+      return this;
+    }
+
+    /**
+     * Sets relative path name for service directory.
+     *
+     * @param serviceDirectory Relative path name to service directory.
+     * @return {@link Builder} instance.
+     */
+    public Builder setServiceDirectory(final String serviceDirectory) {
+      configuration.serviceDirectory = serviceDirectory;
+      return this;
+    }
+
+    /**
+     * Sets database as Oracle if it has set up in plugin configuration.
+     *
+     * @param oracle Oracle database configuration.
+     * @return {@link Builder} instance.
+     */
+    public Builder setOracle(final OracleDatabase oracle) {
+      if (oracle != null && configuration.databaseType == null) {
+        configuration.databaseType = ORACLE;
+        configuration.database = oracle;
+      }
+      return this;
+    }
+
+    /**
+     * Sets database as PostgreSQL if it has set up in plugin configuration.
+     *
+     * @param postgresql PostgreSQL database configuration.
+     * @return {@link Builder} instance.
+     */
+    public Builder setPostgresql(final PostgreSQLDatabase postgresql) {
+      if (postgresql != null && configuration.databaseType == null) {
+        configuration.databaseType = POSTGRESQL;
+        configuration.database = postgresql;
+      }
+      return this;
+    }
+
+    /**
+     * Returns {@link Configuration} instance based on parameters.
+     *
+     * @return {@link Configuration} instance.
+     */
+    public Configuration build() {
+      return configuration;
+    }
+  }
 }

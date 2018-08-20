@@ -17,6 +17,7 @@
 package net.kosto.service;
 
 import net.kosto.configuration.Configuration;
+import net.kosto.configuration.model.oracle.OracleDatabase;
 import net.kosto.configuration.model.oracle.OracleObject;
 import net.kosto.configuration.model.oracle.OracleSchema;
 import net.kosto.configuration.model.oracle.OracleScript;
@@ -36,7 +37,7 @@ public class OracleProcessor extends AbstractProcessor implements Processor {
 
     OracleProcessor(Configuration configuration) {
         super(configuration);
-        getTemplateParameters().put(DATABASE, configuration.getOracle());
+        getTemplateParameters().put(DATABASE, configuration.getDatabase());
     }
 
     @Override
@@ -46,7 +47,7 @@ public class OracleProcessor extends AbstractProcessor implements Processor {
         processDatabase();
 
         StringBuilder zipFileName = new StringBuilder()
-            .append(getConfiguration().getOracle().getName())
+            .append(getConfiguration().getDatabase().getName())
             .append("-")
             .append(getConfiguration().getBuildVersion())
             .append("-")
@@ -71,7 +72,7 @@ public class OracleProcessor extends AbstractProcessor implements Processor {
     }
 
     private void processSchemes() throws MojoExecutionException {
-        for (OracleSchema schema : getConfiguration().getOracle().getSchemes()) {
+        for (OracleSchema schema : ((OracleDatabase) getConfiguration().getDatabase()).getSchemes()) {
             getTemplateParameters().put(SCHEMA, schema);
             processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, SERVICE_DIRECTORY, SCHEMA));
 

@@ -17,45 +17,49 @@
 package net.kosto.configuration.model;
 
 /**
- * {@code DatabaseScript} represents database script configuration.
+ * Represents database script.
+ * <p>
+ * Provides access to database script's attributes and methods.
  */
 public abstract class AbstractDatabaseScript extends AbstractDatabaseObject {
 
-    /** Database script's type. */
-    private DatabaseScriptType type;
-    /** Database script's condition. */
-    private DatabaseScriptCondition condition;
+  /**
+   * Database script's type.
+   */
+  private DatabaseScriptType type;
+  /**
+   * Database script's condition.
+   */
+  private DatabaseScriptCondition condition;
 
-    public DatabaseScriptType getType() {
-        return type;
-    }
+  /**
+   * Constructs instance and sets default values.
+   */
+  public AbstractDatabaseScript() {
+    super();
+  }
 
-    public void setType(DatabaseScriptType type) {
-        this.type = type;
-    }
+  public DatabaseScriptType getType() {
+    return type;
+  }
 
-    public DatabaseScriptCondition getCondition() {
-        return condition;
-    }
+  public void setType(final DatabaseScriptType type) {
+    this.type = type;
+  }
 
-    public void setCondition(DatabaseScriptCondition condition) {
-        this.condition = condition;
-    }
+  public DatabaseScriptCondition getCondition() {
+    return condition;
+  }
 
-    @Override
-    public String toString() {
-        return "DatabaseScript{" +
-            "type=" + getType() +
-            ", condition=" + getCondition() +
-            ", index=" + getIndex() +
-            ", sourceDirectory=" + getSourceDirectory() +
-            ", ignoreDirectory=" + getIgnoreDirectory() +
-            ", defineSymbol=" + getDefineSymbol() +
-            ", ignoreDefine=" + getIgnoreDefine() +
-            ", fileMask=" + getFileMask() +
-            ", executeDirectory=" + getExecuteDirectory() +
-            ", sourceDirectoryFull=" + getSourceDirectoryFull() +
-            ", outputDirectoryFull=" + getOutputDirectoryFull() +
-            '}';
-    }
+  public void setCondition(final DatabaseScriptCondition condition) {
+    this.condition = condition;
+  }
+
+  @Override
+  public String toString() {
+    return "AbstractDatabaseScript{" +
+        "type=" + type +
+        ", condition=" + condition +
+        "} " + super.toString();
+  }
 }

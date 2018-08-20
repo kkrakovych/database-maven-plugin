@@ -19,36 +19,37 @@ package net.kosto.configuration.model;
 import static net.kosto.util.FileUtils.FILE_MASK_SQL;
 
 /**
- * {@code DatabaseObject} represents database object specific configuration.
+ * Represents database object.
  * <p>
- * Provides access to database object's specific attributes and methods.
+ * Provides access to database object's attributes and methods.
  */
 public abstract class AbstractDatabaseObject extends AbstractDatabaseItem {
 
-    /** Database object's file mask. */
-    private String fileMask = FILE_MASK_SQL;
+  /**
+   * Database object's file mask.
+   */
+  private String fileMask;
 
-    public String getFileMask() {
-        return fileMask;
-    }
+  /**
+   * Constructs instance and sets default values.
+   */
+  public AbstractDatabaseObject() {
+    super();
+    this.fileMask = FILE_MASK_SQL;
+  }
 
-    public void setFileMask(String fileMask) {
-        this.fileMask = fileMask;
-    }
+  public String getFileMask() {
+    return fileMask;
+  }
 
-    @Override
-    public String toString() {
-        return "DatabaseObject{" +
-            "index=" + getIndex() +
-            ", name=" + getName() +
-            ", sourceDirectory=" + getSourceDirectory() +
-            ", ignoreDirectory=" + getIgnoreDirectory() +
-            ", defineSymbol=" + getDefineSymbol() +
-            ", ignoreDefine=" + getIgnoreDefine() +
-            ", fileMask=" + getFileMask() +
-            ", executeDirectory=" + getExecuteDirectory() +
-            ", sourceDirectoryFull=" + getSourceDirectoryFull() +
-            ", outputDirectoryFull=" + getOutputDirectoryFull() +
-            '}';
-    }
+  public void setFileMask(final String fileMask) {
+    this.fileMask = fileMask;
+  }
+
+  @Override
+  public String toString() {
+    return "AbstractDatabaseObject{" +
+        "fileMask='" + fileMask + '\'' +
+        "} " + super.toString();
+  }
 }

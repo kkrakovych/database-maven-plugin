@@ -4,6 +4,7 @@
 4. Add checks for schema, scripts and etc indexes.
 5. Add option to disable timing output.
 6. Review and amend service scripts. 
+7. Review .toString() calls - in scope of Paths actions.
 
 
 Oracle levels     : database / schema / object

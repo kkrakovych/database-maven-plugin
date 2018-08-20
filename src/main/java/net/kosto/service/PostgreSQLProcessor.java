@@ -17,6 +17,7 @@
 package net.kosto.service;
 
 import net.kosto.configuration.Configuration;
+import net.kosto.configuration.model.postgresql.PostgreSQLDatabase;
 import net.kosto.configuration.model.postgresql.PostgreSQLObject;
 import net.kosto.configuration.model.postgresql.PostgreSQLSchema;
 import net.kosto.configuration.model.postgresql.PostgreSQLScript;
@@ -36,7 +37,7 @@ public class PostgreSQLProcessor extends AbstractProcessor implements Processor 
 
     PostgreSQLProcessor(Configuration configuration) {
         super(configuration);
-        getTemplateParameters().put(DATABASE, configuration.getPostgreSQL());
+        getTemplateParameters().put(DATABASE, configuration.getDatabase());
     }
 
     @Override
@@ -46,7 +47,7 @@ public class PostgreSQLProcessor extends AbstractProcessor implements Processor 
         processDatabase();
 
         StringBuilder zipFileName = new StringBuilder()
-            .append(getConfiguration().getPostgreSQL().getName())
+            .append(getConfiguration().getDatabase().getName())
             .append("-")
             .append(getConfiguration().getBuildVersion())
             .append("-")
@@ -71,7 +72,7 @@ public class PostgreSQLProcessor extends AbstractProcessor implements Processor 
     }
 
     private void processSchemes() throws MojoExecutionException {
-        for (PostgreSQLSchema schema : getConfiguration().getPostgreSQL().getSchemes()) {
+        for (PostgreSQLSchema schema : ((PostgreSQLDatabase) getConfiguration().getDatabase()).getSchemes()) {
             getTemplateParameters().put(SCHEMA, schema);
             processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, POSTGRESQL, SERVICE_DIRECTORY, SCHEMA));
 

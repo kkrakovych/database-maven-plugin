@@ -84,7 +84,7 @@ public abstract class AbstractProcessor {
     }
 
     protected <T extends AbstractDatabaseObject> void processItem(T item, String baseDirectory, String itemType) throws MojoExecutionException {
-        Path source = Paths.get(item.getSourceDirectoryFull());
+        Path source = item.getSourceDirectoryFull();
         Path directory = FileUtils.createDirectories(item.getOutputDirectoryFull());
         templateParameters.put(itemType, item);
         if (itemType.equals(SCRIPT)) {
@@ -170,14 +170,14 @@ public abstract class AbstractProcessor {
     }
 
     private void addZipFile(Path output) {
-        Path basePath = Paths.get(configuration.getOutputDirectory());
+        Path basePath = configuration.getOutputDirectory();
         Path relativePath = basePath.relativize(output);
         zipFiles.add(relativePath.toString());
     }
 
     protected void processZipFile(String zipFileName) throws MojoExecutionException {
-        Path zipFile = Paths.get(configuration.getOutputDirectory(), zipFileName);
-        Path baseDirectory = Paths.get(configuration.getOutputDirectory());
+        Path baseDirectory = configuration.getOutputDirectory();
+        Path zipFile = baseDirectory.resolve(zipFileName);
         ZipUtils.compress(zipFile, baseDirectory, zipFiles);
     }
 }
