@@ -16,75 +16,73 @@
 
 package net.kosto.configuration.model.oracle;
 
+import static java.lang.Boolean.FALSE;
+import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
+import static net.kosto.util.StringUtils.AMPERSAND;
+import static net.kosto.util.StringUtils.EMPTY_STRING;
+
 import net.kosto.configuration.model.AbstractDatabaseObject;
 import org.apache.maven.plugin.MojoExecutionException;
 
-import static java.lang.Boolean.FALSE;
-import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
-
 /**
- * {@code OracleObject} represents Oracle object configuration.
+ * Represents Oracle database schema's object configuration.
  * <p>
- * Provides access to object index, type, source directory, whether to ignore source directory,
- * file mask, execute directory and full paths to source and output directories.
- * <p>
- * Default values for missing attributes:
- * <ul>
+ * Default values for missing attributes' values:
  * <li>{@link OracleObject#ignoreDirectory} = {@link Boolean#FALSE}</li>
- * <li>{@link OracleObject#fileMask} = {@link net.kosto.util.FileUtils#FILE_MASK_SQL}</li>
  * <li>{@link OracleObject#sourceDirectory} = {@link OracleObjectType#getSourceDirectory()}</li>
- * </ul>
+ * <li>{@link OracleObject#defineSymbol} = {@link net.kosto.util.StringUtils#AMPERSAND}</li>
+ * <li>{@link OracleObject#ignoreDefine} = {@link Boolean#FALSE}</li>
+ * <li>{@link OracleObject#fileMask} = {@link net.kosto.util.FileUtils#FILE_MASK_SQL}</li>
  */
 public class OracleObject extends AbstractDatabaseObject {
 
-    /** Database object's type. */
-    private OracleObjectType type;
+  /**
+   * Oracle database schema object's type.
+   */
+  private OracleObjectType type;
 
-    public OracleObjectType getType() {
-        return type;
-    }
+  /**
+   * Constructs instance and sets default values.
+   */
+  public OracleObject() {
+    super();
+  }
 
-    public void setType(OracleObjectType type) {
-        this.type = type;
-    }
+  public OracleObjectType getType() {
+    return type;
+  }
 
-    @Override
-    public String toString() {
-        return "OracleObject{" +
-            "index=" + getIndex() +
-            ", type=" + getType() +
-            ", sourceDirectory=" + getSourceDirectory() +
-            ", ignoreDirectory=" + getIgnoreDirectory() +
-            ", defineSymbol=" + getDefineSymbol() +
-            ", ignoreDefine=" + getIgnoreDefine() +
-            ", fileMask=" + getFileMask() +
-            ", executeDirectory=" + getExecuteDirectory() +
-            ", sourceDirectoryFull=" + getSourceDirectoryFull() +
-            ", outputDirectoryFull=" + getOutputDirectoryFull() +
-            "}";
-    }
+  public void setType(final OracleObjectType type) {
+    this.type = type;
+  }
 
-    /**
-     * Checks {@code OracleObject} configuration for mandatory values.
-     *
-     * @throws MojoExecutionException If a validation exception occurred.
-     */
-    protected void checkMandatoryValues() throws MojoExecutionException {
-        if (getIndex() == null)
-            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.object.index"));
-        if (getType() == null)
-            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.object.type"));
-    }
+  @Override
+  public String toString() {
+    return "OracleObject{" +
+        "type=" + type +
+        "} " + super.toString();
+  }
 
-    /**
-     * Sets default values for {@code OracleObject} configuration.
-     */
-    protected void setDefaultValues() {
-        if (getDefineSymbol() == null)
-            setDefineSymbol("&");
-        if (getIgnoreDefine() == null)
-            setIgnoreDefine(FALSE);
-        if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory())
-            setSourceDirectory(getIgnoreDirectory() ? "" : getType().getSourceDirectory());
+  @Override
+  protected void checkMandatoryValues() throws MojoExecutionException {
+    if (getIndex() == null) {
+      throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.object.index"));
     }
+    if (type == null) {
+      throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.object.type"));
+    }
+  }
+
+  @Override
+  protected void setDefaultValues() {
+    if (getDefineSymbol() == null) {
+      setDefineSymbol(AMPERSAND);
+    }
+    if (getIgnoreDefine() == null) {
+      setIgnoreDefine(FALSE);
+    }
+    if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory()) {
+      setSourceDirectory(getIgnoreDirectory() ? EMPTY_STRING : type.getSourceDirectory());
+    }
+  }
 }

@@ -16,94 +16,95 @@
 
 package net.kosto.configuration.model.oracle;
 
-import net.kosto.configuration.model.AbstractDatabaseItem;
-import org.apache.maven.plugin.MojoExecutionException;
+import static java.lang.Boolean.FALSE;
+import static net.kosto.configuration.ValidateError.EMPTY_LIST_PARAMETER;
+import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
+import static net.kosto.util.StringUtils.AMPERSAND;
+import static net.kosto.util.StringUtils.EMPTY_STRING;
 
 import java.util.Comparator;
 import java.util.List;
 
-import static java.lang.Boolean.FALSE;
-import static net.kosto.configuration.ValidateError.EMPTY_LIST_PARAMETER;
-import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
+import net.kosto.configuration.model.AbstractDatabaseItem;
+import org.apache.maven.plugin.MojoExecutionException;
 
 /**
- * {@code OracleDatabase} represents Oracle database configuration.
+ * Represents Oracle database configuration.
  * <p>
- * Provides access to database name, type, source directory, whether to ignore source directory,
- * list of schemes, execute directory and full paths to source and output directories.
- * <p>
- * Default values for missing attributes:
- * <ul>
+ * Default values for missing attributes' values:
  * <li>{@link OracleDatabase#ignoreDirectory} = {@link Boolean#FALSE}</li>
  * <li>{@link OracleDatabase#sourceDirectory} = {@link OracleDatabase#name}</li>
- * </ul>
+ * <li>{@link OracleDatabase#defineSymbol} = {@link net.kosto.util.StringUtils#AMPERSAND}</li>
+ * <li>{@link OracleDatabase#ignoreDefine} = {@link Boolean#FALSE}</li>
  */
 public class OracleDatabase extends AbstractDatabaseItem {
 
-    /** List of schemes for deploy. */
-    private List<OracleSchema> schemes;
+  /**
+   * Oracle database schemes' configurations.
+   */
+  private List<OracleSchema> schemes;
 
-    public List<OracleSchema> getSchemes() {
-        return schemes;
+  /**
+   * Constructs instance and sets default values.
+   */
+  public OracleDatabase() {
+    super();
+  }
+
+  public List<OracleSchema> getSchemes() {
+    return schemes;
+  }
+
+  public void setSchemes(final List<OracleSchema> schemes) {
+    this.schemes = schemes;
+  }
+
+  @Override
+  public String toString() {
+    return "OracleDatabase{" +
+        "schemes=" + schemes +
+        "} " + super.toString();
+  }
+
+  @Override
+  protected void checkMandatoryValues() throws MojoExecutionException {
+    if (getName() == null) {
+      throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.name"));
     }
-
-    public void setSchemes(List<OracleSchema> schemes) {
-        this.schemes = schemes;
+    if (schemes == null) {
+      throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schemes"));
     }
-
-    @Override
-    public String toString() {
-        return "OracleDatabase{" +
-            "name=" + getName() +
-            ", sourceDirectory=" + getSourceDirectory() +
-            ", ignoreDirectory=" + getIgnoreDirectory() +
-            ", defineSymbol=" + getDefineSymbol() +
-            ", ignoreDefine=" + getIgnoreDefine() +
-            ", executeDirectory=" + getExecuteDirectory() +
-            ", sourceDirectoryFull=" + getSourceDirectoryFull() +
-            ", outputDirectoryFull=" + getOutputDirectoryFull() +
-            ", schemes=" + getSchemes() +
-            '}';
+    if (schemes.isEmpty()) {
+      throw new MojoExecutionException(EMPTY_LIST_PARAMETER.getFormattedMessage("oracle.schemes", "schema"));
     }
+  }
 
-    /**
-     * Checks {@code OracleDatabase} configuration for mandatory values.
-     *
-     * @throws MojoExecutionException If a validation exception occurred.
-     */
-    protected void checkMandatoryValues() throws MojoExecutionException {
-        if (getName() == null)
-            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.name"));
-        if (getSchemes() == null)
-            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schemes"));
-        if (getSchemes().isEmpty())
-            throw new MojoExecutionException(EMPTY_LIST_PARAMETER.getFormattedMessage("oracle.schemes", "schema"));
+  @Override
+  protected void setDefaultValues() {
+    if (getDefineSymbol() == null) {
+      setDefineSymbol(AMPERSAND);
     }
-
-    /**
-     * Sets default values for {@code OracleDatabase} configuration.
-     */
-    protected void setDefaultValues() {
-        if (getDefineSymbol() == null)
-            setDefineSymbol("&");
-        if (getIgnoreDefine() == null)
-            setIgnoreDefine(FALSE);
-        if (getSourceDirectory() == null || getSourceDirectory().isEmpty())
-            setSourceDirectory(getIgnoreDirectory() ? "" : getName());
+    if (getIgnoreDefine() == null) {
+      setIgnoreDefine(FALSE);
     }
-
-    @Override
-    protected void processAttributes() throws MojoExecutionException {
-        if (schemes != null) {
-            schemes
-                .sort(
-                    Comparator
-                        .comparingInt(OracleSchema::getIndex)
-                        .thenComparing(OracleSchema::getName)
-                );
-
-            for (OracleSchema schema : schemes)
-                validateAttribute(schema);
-        }
+    if (getSourceDirectory() == null || getSourceDirectory().isEmpty()) {
+      setSourceDirectory(getIgnoreDirectory() ? EMPTY_STRING : getName());
     }
+  }
+
+  @Override
+  protected void processAttributes() throws MojoExecutionException {
+    if (schemes != null) {
+      schemes
+          .sort(
+              Comparator
+                  .comparingInt(OracleSchema::getIndex)
+                  .thenComparing(OracleSchema::getName)
+          );
+
+      for (final OracleSchema schema : schemes) {
+        validateAttribute(schema);
+      }
+    }
+  }
 }

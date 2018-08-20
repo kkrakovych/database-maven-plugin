@@ -22,6 +22,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.StandardOpenOption.APPEND;
 import static java.nio.file.StandardOpenOption.CREATE;
 import static java.nio.file.StandardOpenOption.WRITE;
+import static net.kosto.util.StringUtils.EMPTY_STRING;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -52,10 +53,6 @@ public final class FileUtils {
   private static final String FAILED_READ_FILE = "Failed to read file.";
   private static final String FAILED_WRITE_FILE = "Failed to write file.";
 
-  /**
-   * Not null empty string.
-   */
-  public static final String EMPTY_STRING = "";
   /**
    * {@code UTF-8 BOM} (Byte Order Mask) symbol.
    *
@@ -144,7 +141,12 @@ public final class FileUtils {
   public static List<String> getFileNames(final Path baseDirectory, final String fileMask) throws MojoExecutionException {
     final List<Path> files = getFiles(baseDirectory, fileMask);
 
-    return files.stream().map(Path::getFileName).map(Path::toString).sorted(String::compareTo).collect(Collectors.toList());
+    return files
+        .stream()
+        .map(Path::getFileName)
+        .map(Path::toString)
+        .sorted(String::compareTo)
+        .collect(Collectors.toList());
   }
 
   /**

@@ -16,54 +16,61 @@
 
 package net.kosto.configuration.model.oracle;
 
+import static java.lang.Boolean.FALSE;
+import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
+import static net.kosto.util.StringUtils.AMPERSAND;
+import static net.kosto.util.StringUtils.EMPTY_STRING;
+
 import net.kosto.configuration.model.AbstractDatabaseScript;
 import org.apache.maven.plugin.MojoExecutionException;
 
-import static java.lang.Boolean.FALSE;
-import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
-
+/**
+ * Represents Oracle database schema's script configuration.
+ * <p>
+ * Default values for missing attributes' values:
+ * <li>{@link OracleScript#ignoreDirectory} = {@link Boolean#FALSE}</li>
+ * <li>{@link OracleScript#sourceDirectory} = {@link net.kosto.configuration.model.DatabaseScriptType#getSourceDirectory()}</li>
+ * <li>{@link OracleScript#defineSymbol} = {@link net.kosto.util.StringUtils#AMPERSAND}</li>
+ * <li>{@link OracleScript#ignoreDefine} = {@link Boolean#FALSE}</li>
+ * <li>{@link OracleScript#fileMask} = {@link net.kosto.util.FileUtils#FILE_MASK_SQL}</li>
+ */
 public class OracleScript extends AbstractDatabaseScript {
 
-    @Override
-    public String toString() {
-        return "OracleScript{" +
-            "type=" + getType() +
-            ", condition=" + getCondition() +
-            ", index=" + getIndex() +
-            ", sourceDirectory=" + getSourceDirectory() +
-            ", ignoreDirectory=" + getIgnoreDirectory() +
-            ", defineSymbol=" + getDefineSymbol() +
-            ", ignoreDefine=" + getIgnoreDefine() +
-            ", fileMask=" + getFileMask() +
-            ", executeDirectory=" + getExecuteDirectory() +
-            ", sourceDirectoryFull=" + getSourceDirectoryFull() +
-            ", outputDirectoryFull=" + getOutputDirectoryFull() +
-            '}';
-    }
+  /**
+   * Constructs instance and sets default values.
+   */
+  public OracleScript() {
+    super();
+  }
 
-    /**
-     * Checks {@code OracleScript} configuration for mandatory values.
-     *
-     * @throws MojoExecutionException If a validation exception occurred.
-     */
-    protected void checkMandatoryValues() throws MojoExecutionException {
-        if (getType() == null)
-            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.script.type"));
-        if (getCondition() == null)
-            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.script.condition"));
-        if (getIndex() == null)
-            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.script.index"));
-    }
+  @Override
+  public String toString() {
+    return "OracleScript{} " + super.toString();
+  }
 
-    /**
-     * Sets default values for {@code OracleScript} configuration.
-     */
-    protected void setDefaultValues() {
-        if (getDefineSymbol() == null)
-            setDefineSymbol("&");
-        if (getIgnoreDefine() == null)
-            setIgnoreDefine(FALSE);
-        if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory())
-            setSourceDirectory(getIgnoreDirectory() ? "" : getType().getSourceDirectory());
+  @Override
+  protected void checkMandatoryValues() throws MojoExecutionException {
+    if (getType() == null) {
+      throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.script.type"));
     }
+    if (getCondition() == null) {
+      throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.script.condition"));
+    }
+    if (getIndex() == null) {
+      throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("oracle.schema.script.index"));
+    }
+  }
+
+  @Override
+  protected void setDefaultValues() {
+    if (getDefineSymbol() == null) {
+      setDefineSymbol(AMPERSAND);
+    }
+    if (getIgnoreDefine() == null) {
+      setIgnoreDefine(FALSE);
+    }
+    if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory()) {
+      setSourceDirectory(getIgnoreDirectory() ? EMPTY_STRING : getType().getSourceDirectory());
+    }
+  }
 }
