@@ -26,6 +26,10 @@ public class StringUtils {
    */
   public static final String EMPTY_STRING = "";
   /**
+   * Colon symbol.
+   */
+  public static final String COLON = ":";
+  /**
    * Ampersand symbol.
    */
   public static final String AMPERSAND = "&";

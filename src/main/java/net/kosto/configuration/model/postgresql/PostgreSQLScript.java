@@ -16,46 +16,61 @@
 
 package net.kosto.configuration.model.postgresql;
 
+import static java.lang.Boolean.FALSE;
+import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
+import static net.kosto.util.StringUtils.COLON;
+import static net.kosto.util.StringUtils.EMPTY_STRING;
+
 import net.kosto.configuration.model.AbstractDatabaseScript;
 import org.apache.maven.plugin.MojoExecutionException;
 
-import static java.lang.Boolean.FALSE;
-import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
-
+/**
+ * Represents PostgreSQL database schema's script configuration.
+ * <p>
+ * Default values for missing attributes' values:
+ * <li>{@link PostgreSQLScript#ignoreDirectory} = {@link Boolean#FALSE}</li>
+ * <li>{@link PostgreSQLScript#sourceDirectory} = {@link net.kosto.configuration.model.DatabaseScriptType#getSourceDirectory()}</li>
+ * <li>{@link PostgreSQLScript#defineSymbol} = {@link net.kosto.util.StringUtils#COLON}</li>
+ * <li>{@link PostgreSQLScript#ignoreDefine} = {@link Boolean#FALSE}</li>
+ * <li>{@link PostgreSQLScript#fileMask} = {@link net.kosto.util.FileUtils#FILE_MASK_SQL}</li>
+ */
 public class PostgreSQLScript extends AbstractDatabaseScript {
 
-    @Override
-    public String toString() {
-        return "PostgreSQLScript{" +
-            "type=" + getType() +
-            ", condition=" + getCondition() +
-            ", index=" + getIndex() +
-            ", sourceDirectory=" + getSourceDirectory() +
-            ", ignoreDirectory=" + getIgnoreDirectory() +
-            ", defineSymbol=" + getDefineSymbol() +
-            ", ignoreDefine=" + getIgnoreDefine() +
-            ", fileMask=" + getFileMask() +
-            ", executeDirectory=" + getExecuteDirectory() +
-            ", sourceDirectoryFull=" + getSourceDirectoryFull() +
-            ", outputDirectoryFull=" + getOutputDirectoryFull() +
-            '}';
-    }
+  /**
+   * Constructs instance and sets default values.
+   */
+  public PostgreSQLScript() {
+    super();
+  }
 
-    protected void checkMandatoryValues() throws MojoExecutionException {
-        if (getType() == null)
-            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("postgresql.schema.script.type"));
-        if (getCondition() == null)
-            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("postgresql.schema.script.condition"));
-        if (getIndex() == null)
-            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("postgresql.schema.script.index"));
-    }
+  @Override
+  public String toString() {
+    return "PostgreSQLScript{} " + super.toString();
+  }
 
-    protected void setDefaultValues() {
-        if (getDefineSymbol() == null)
-            setDefineSymbol(":");
-        if (getIgnoreDefine() == null)
-            setIgnoreDefine(FALSE);
-        if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory())
-            setSourceDirectory(getIgnoreDirectory() ? "" : getType().getSourceDirectory());
+  @Override
+  protected void checkMandatoryValues() throws MojoExecutionException {
+    if (getType() == null) {
+      throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("postgresql.schema.script.type"));
     }
+    if (getCondition() == null) {
+      throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("postgresql.schema.script.condition"));
+    }
+    if (getIndex() == null) {
+      throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("postgresql.schema.script.index"));
+    }
+  }
+
+  @Override
+  protected void setDefaultValues() {
+    if (getDefineSymbol() == null) {
+      setDefineSymbol(COLON);
+    }
+    if (getIgnoreDefine() == null) {
+      setIgnoreDefine(FALSE);
+    }
+    if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory()) {
+      setSourceDirectory(getIgnoreDirectory() ? EMPTY_STRING : getType().getSourceDirectory());
+    }
+  }
 }

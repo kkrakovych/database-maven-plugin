@@ -44,7 +44,7 @@ public class OracleSchema extends AbstractDatabaseItem {
    */
   private List<OracleObject> objects;
   /**
-   * Oracle database schem scripts' configuration.
+   * Oracle database schema scripts' configuration.
    */
   private List<OracleScript> scripts;
 

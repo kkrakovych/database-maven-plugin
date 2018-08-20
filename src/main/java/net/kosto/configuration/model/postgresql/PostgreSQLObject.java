@@ -16,53 +16,73 @@
 
 package net.kosto.configuration.model.postgresql;
 
+import static java.lang.Boolean.FALSE;
+import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
+import static net.kosto.util.StringUtils.COLON;
+import static net.kosto.util.StringUtils.EMPTY_STRING;
+
 import net.kosto.configuration.model.AbstractDatabaseObject;
 import org.apache.maven.plugin.MojoExecutionException;
 
-import static java.lang.Boolean.FALSE;
-import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
-
+/**
+ * Represents PostgreSQL database schema's object configuration.
+ * <p>
+ * Default values for missing attributes' values:
+ * <li>{@link PostgreSQLObject#ignoreDirectory} = {@link Boolean#FALSE}</li>
+ * <li>{@link PostgreSQLObject#sourceDirectory} = {@link PostgreSQLObjectType#getSourceDirectory()}</li>
+ * <li>{@link PostgreSQLObject#defineSymbol} = {@link net.kosto.util.StringUtils#COLON}</li>
+ * <li>{@link PostgreSQLObject#ignoreDefine} = {@link Boolean#FALSE}</li>
+ * <li>{@link PostgreSQLObject#fileMask} = {@link net.kosto.util.FileUtils#FILE_MASK_SQL}</li>
+ */
 public class PostgreSQLObject extends AbstractDatabaseObject {
 
-    private PostgreSQLObjectType type;
+  /**
+   * PostgreSQL database schema object's type.
+   */
+  private PostgreSQLObjectType type;
 
-    public PostgreSQLObjectType getType() {
-        return type;
-    }
+  /**
+   * Constructs instance and sets default values.
+   */
+  public PostgreSQLObject() {
+    super();
+  }
 
-    public void setType(PostgreSQLObjectType type) {
-        this.type = type;
-    }
+  public PostgreSQLObjectType getType() {
+    return type;
+  }
 
-    @Override
-    public String toString() {
-        return "PostgreSQLObject{" +
-            "index=" + getIndex() +
-            ", type=" + getType() +
-            ", sourceDirectory=" + getSourceDirectory() +
-            ", ignoreDirectory=" + getIgnoreDirectory() +
-            ", defineSymbol=" + getDefineSymbol() +
-            ", ignoreDefine=" + getIgnoreDefine() +
-            ", fileMask=" + getFileMask() +
-            ", executeDirectory=" + getExecuteDirectory() +
-            ", sourceDirectoryFull=" + getSourceDirectoryFull() +
-            ", outputDirectoryFull=" + getOutputDirectoryFull() +
-            "}";
-    }
+  public void setType(final PostgreSQLObjectType type) {
+    this.type = type;
+  }
 
-    protected void checkMandatoryValues() throws MojoExecutionException {
-        if (getIndex() == null)
-            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("postgresql.schema.object.index"));
-        if (getType() == null)
-            throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("postgresql.schema.object.type"));
-    }
+  @Override
+  public String toString() {
+    return "PostgreSQLObject{" +
+        "type=" + type +
+        "} " + super.toString();
+  }
 
-    protected void setDefaultValues() {
-        if (getDefineSymbol() == null)
-            setDefineSymbol(":");
-        if (getIgnoreDefine() == null)
-            setIgnoreDefine(FALSE);
-        if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory())
-            setSourceDirectory(getIgnoreDirectory() ? "" : getType().getSourceDirectory());
+  @Override
+  protected void checkMandatoryValues() throws MojoExecutionException {
+    if (getIndex() == null) {
+      throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("postgresql.schema.object.index"));
     }
+    if (type == null) {
+      throw new MojoExecutionException(MISSING_PARAMETER.getFormattedMessage("postgresql.schema.object.type"));
+    }
+  }
+
+  @Override
+  protected void setDefaultValues() {
+    if (getDefineSymbol() == null) {
+      setDefineSymbol(COLON);
+    }
+    if (getIgnoreDefine() == null) {
+      setIgnoreDefine(FALSE);
+    }
+    if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory()) {
+      setSourceDirectory(getIgnoreDirectory() ? EMPTY_STRING : getType().getSourceDirectory());
+    }
+  }
 }
