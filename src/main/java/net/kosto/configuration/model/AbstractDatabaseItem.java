@@ -244,7 +244,7 @@ public abstract class AbstractDatabaseItem implements DatabaseItem {
    * @param <T>       Attribute type.
    * @throws MojoExecutionException If expected exception occurs.
    */
-  protected <T extends AbstractDatabaseItem> void validateAttribute(final T attribute) throws MojoExecutionException {
+  protected <T extends DatabaseItem> void validateAttribute(final T attribute) throws MojoExecutionException {
     // Attributes for propagation from parent database item to child one.
     if (attribute.getDefineSymbol() == null) {
       attribute.setDefineSymbol(defineSymbol);

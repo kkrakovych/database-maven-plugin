@@ -18,12 +18,12 @@ package net.kosto.configuration.model;
 
 import java.nio.file.Path;
 
-import net.kosto.configuration.ValidateItem;
+import net.kosto.configuration.Validator;
 
 /**
  * Provides interface required by any database item.
  */
-public interface DatabaseItem extends ValidateItem {
+public interface DatabaseItem extends Validator {
 
   /**
    * Returns database item's index in a list.

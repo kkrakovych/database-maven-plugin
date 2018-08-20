@@ -14,19 +14,24 @@
  * limitations under the License.
  */
 
-package net.kosto.service;
-
-import org.apache.maven.plugin.MojoExecutionException;
+package net.kosto.configuration.model;
 
 /**
- * Provides interface for object processing.
+ * Provides interface required by any database object.
  */
-public interface Processor {
+public interface DatabaseObject extends DatabaseItem {
 
   /**
-   * Processes object configuration.
+   * Returns database object's file mask.
    *
-   * @throws MojoExecutionException If expected exception occurs.
+   * @return File mask.
    */
-  void process() throws MojoExecutionException;
+  String getFileMask();
+
+  /**
+   * Sets database object's file mask.
+   *
+   * @param fileMask File mask.
+   */
+  void setFileMask(final String fileMask);
 }

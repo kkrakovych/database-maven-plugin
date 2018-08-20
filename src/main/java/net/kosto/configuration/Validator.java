@@ -19,12 +19,12 @@ package net.kosto.configuration;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
- * Provides interface for item validation.
+ * Provides interface for object validation.
  */
-public interface ValidateItem {
+public interface Validator {
 
   /**
-   * Validate item.
+   * Validate object.
    *
    * @throws MojoExecutionException If expected exception occurs.
    */

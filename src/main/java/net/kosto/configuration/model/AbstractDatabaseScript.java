@@ -21,7 +21,7 @@ package net.kosto.configuration.model;
  * <p>
  * Provides access to database script's attributes and methods.
  */
-public abstract class AbstractDatabaseScript extends AbstractDatabaseObject {
+public abstract class AbstractDatabaseScript extends AbstractDatabaseObject implements DatabaseScript {
 
   /**
    * Database script's type.
@@ -39,18 +39,22 @@ public abstract class AbstractDatabaseScript extends AbstractDatabaseObject {
     super();
   }
 
+  @Override
   public DatabaseScriptType getType() {
     return type;
   }
 
+  @Override
   public void setType(final DatabaseScriptType type) {
     this.type = type;
   }
 
+  @Override
   public DatabaseScriptCondition getCondition() {
     return condition;
   }
 
+  @Override
   public void setCondition(final DatabaseScriptCondition condition) {
     this.condition = condition;
   }

@@ -16,6 +16,12 @@
 
 package net.kosto.service;
 
+import static net.kosto.Package.SERVICE_DIRECTORY;
+import static net.kosto.util.DateUtils.DTF_DATE_TIME_SEAMLESS;
+import static net.kosto.util.FileUtils.FILE_MASK_SQL;
+
+import java.nio.file.Path;
+
 import net.kosto.configuration.Configuration;
 import net.kosto.configuration.model.postgresql.PostgreSQLDatabase;
 import net.kosto.configuration.model.postgresql.PostgreSQLObject;
@@ -25,71 +31,69 @@ import net.kosto.util.FileUtils;
 import net.kosto.util.ResourceUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 
-import java.nio.file.Path;
-
-import static net.kosto.Package.SERVICE_DIRECTORY;
-import static net.kosto.util.DateUtils.DTF_DATE_TIME_SEAMLESS;
-import static net.kosto.util.FileUtils.FILE_MASK_SQL;
-
 public class PostgreSQLProcessor extends AbstractProcessor implements Processor {
 
-    private static final String POSTGRESQL = "postgresql";
+  private static final String POSTGRESQL = "postgresql";
 
-    PostgreSQLProcessor(Configuration configuration) {
-        super(configuration);
-        getTemplateParameters().put(DATABASE, configuration.getDatabase());
+  PostgreSQLProcessor(final Configuration configuration) {
+    super(configuration);
+    getTemplateParameters().put(DATABASE, configuration.getDatabase());
+  }
+
+  @Override
+  public void process() throws MojoExecutionException {
+    processInstallScripts();
+    processServiceScripts();
+    processDatabase();
+
+    final StringBuilder zipFileName = new StringBuilder()
+        .append(getConfiguration().getDatabase().getName())
+        .append("-")
+        .append(getConfiguration().getBuildVersion())
+        .append("-")
+        .append(getConfiguration().getBuildTimestamp().format(DTF_DATE_TIME_SEAMLESS))
+        .append(".zip");
+    processZipFile(zipFileName.toString());
+  }
+
+  private void processInstallScripts() throws MojoExecutionException {
+    final Path directory = FileUtils.createDirectories(getConfiguration().getOutputDirectory());
+    processTemplateFiles(directory, ResourceUtils.getFiles(FILE_MASK_SQL, POSTGRESQL));
+  }
+
+  private void processServiceScripts() throws MojoExecutionException {
+    processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, POSTGRESQL, SERVICE_DIRECTORY, COMMON));
+  }
+
+  private void processDatabase() throws MojoExecutionException {
+    processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, POSTGRESQL, SERVICE_DIRECTORY, DATABASE));
+
+    processSchemes();
+  }
+
+  private void processSchemes() throws MojoExecutionException {
+    for (final PostgreSQLSchema schema : ((PostgreSQLDatabase) getConfiguration().getDatabase()).getSchemes()) {
+      getTemplateParameters().put(SCHEMA, schema);
+      processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, POSTGRESQL, SERVICE_DIRECTORY, SCHEMA));
+
+      processObjects(schema);
+      processScripts(schema);
     }
+  }
 
-    @Override
-    public void process() throws MojoExecutionException {
-        processInstallScripts();
-        processServiceScripts();
-        processDatabase();
-
-        StringBuilder zipFileName = new StringBuilder()
-            .append(getConfiguration().getDatabase().getName())
-            .append("-")
-            .append(getConfiguration().getBuildVersion())
-            .append("-")
-            .append(getConfiguration().getBuildTimestamp().format(DTF_DATE_TIME_SEAMLESS))
-            .append(".zip");
-        processZipFile(zipFileName.toString());
+  private void processObjects(final PostgreSQLSchema schema) throws MojoExecutionException {
+    if (schema.getObjects() != null) {
+      for (final PostgreSQLObject object : schema.getObjects()) {
+        processItem(object, POSTGRESQL, OBJECT);
+      }
     }
+  }
 
-    private void processInstallScripts() throws MojoExecutionException {
-        Path directory = FileUtils.createDirectories(getConfiguration().getOutputDirectory());
-        processTemplateFiles(directory, ResourceUtils.getFiles(FILE_MASK_SQL, POSTGRESQL));
+  private void processScripts(final PostgreSQLSchema schema) throws MojoExecutionException {
+    if (schema.getScripts() != null) {
+      for (final PostgreSQLScript script : schema.getScripts()) {
+        processItem(script, POSTGRESQL, SCRIPT);
+      }
     }
-
-    private void processServiceScripts() throws MojoExecutionException {
-        processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, POSTGRESQL, SERVICE_DIRECTORY, COMMON));
-    }
-
-    private void processDatabase() throws MojoExecutionException {
-        processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, POSTGRESQL, SERVICE_DIRECTORY, DATABASE));
-
-        processSchemes();
-    }
-
-    private void processSchemes() throws MojoExecutionException {
-        for (PostgreSQLSchema schema : ((PostgreSQLDatabase) getConfiguration().getDatabase()).getSchemes()) {
-            getTemplateParameters().put(SCHEMA, schema);
-            processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, POSTGRESQL, SERVICE_DIRECTORY, SCHEMA));
-
-            processObjects(schema);
-            processScripts(schema);
-        }
-    }
-
-    private void processObjects(PostgreSQLSchema schema) throws MojoExecutionException {
-        if (schema.getObjects() != null)
-            for (PostgreSQLObject object : schema.getObjects())
-                processItem(object, POSTGRESQL, OBJECT);
-    }
-
-    private void processScripts(PostgreSQLSchema schema) throws MojoExecutionException {
-        if (schema.getScripts() != null)
-            for (PostgreSQLScript script : schema.getScripts())
-                processItem(script, POSTGRESQL, SCRIPT);
-    }
+  }
 }
