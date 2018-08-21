@@ -187,7 +187,7 @@ public abstract class AbstractProcessor implements Processor {
     zipFiles.add(relativePath.toString());
   }
 
-  protected void processZipFile(final String zipFileName) throws MojoExecutionException {
+  private void processZipFile(final String zipFileName) throws MojoExecutionException {
     final Path baseDirectory = configuration.getOutputDirectory();
     final Path zipFile = baseDirectory.resolve(zipFileName);
     ZipUtils.compress(zipFile, baseDirectory, zipFiles);
