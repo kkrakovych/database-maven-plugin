@@ -19,7 +19,7 @@ package net.kosto.util;
 /**
  * Contains support constants and methods to work with strings.
  */
-public class StringUtils {
+public final class StringUtils {
 
   /**
    * Not null empty string.
@@ -33,4 +33,7 @@ public class StringUtils {
    * Ampersand symbol.
    */
   public static final String AMPERSAND = "&";
+
+  private StringUtils() {
+  }
 }
