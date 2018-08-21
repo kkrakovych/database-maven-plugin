@@ -17,7 +17,6 @@
 package net.kosto.service;
 
 import static net.kosto.Package.SERVICE_DIRECTORY;
-import static net.kosto.util.DateUtils.DTF_DATE_TIME_SEAMLESS;
 import static net.kosto.util.FileUtils.FILE_MASK_SQL;
 
 import java.nio.file.Path;
@@ -35,37 +34,26 @@ public class PostgreSQLProcessor extends AbstractProcessor implements Processor 
 
   private static final String POSTGRESQL = "postgresql";
 
-  PostgreSQLProcessor(final Configuration configuration) {
+  /**
+   * Constructs instance and sets default values.
+   */
+  /* package */ PostgreSQLProcessor(final Configuration configuration) {
     super(configuration);
-    getTemplateParameters().put(DATABASE, configuration.getDatabase());
   }
 
   @Override
-  public void process() throws MojoExecutionException {
-    processInstallScripts();
-    processServiceScripts();
-    processDatabase();
-
-    final StringBuilder zipFileName = new StringBuilder()
-        .append(getConfiguration().getDatabase().getName())
-        .append("-")
-        .append(getConfiguration().getBuildVersion())
-        .append("-")
-        .append(getConfiguration().getBuildTimestamp().format(DTF_DATE_TIME_SEAMLESS))
-        .append(".zip");
-    processZipFile(zipFileName.toString());
-  }
-
-  private void processInstallScripts() throws MojoExecutionException {
+  protected void processInstallScripts() throws MojoExecutionException {
     final Path directory = FileUtils.createDirectories(getConfiguration().getOutputDirectory());
     processTemplateFiles(directory, ResourceUtils.getFiles(FILE_MASK_SQL, POSTGRESQL));
   }
 
-  private void processServiceScripts() throws MojoExecutionException {
+  @Override
+  protected void processServiceScripts() throws MojoExecutionException {
     processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, POSTGRESQL, SERVICE_DIRECTORY, COMMON));
   }
 
-  private void processDatabase() throws MojoExecutionException {
+  @Override
+  protected void processDatabase() throws MojoExecutionException {
     processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, POSTGRESQL, SERVICE_DIRECTORY, DATABASE));
 
     processSchemes();

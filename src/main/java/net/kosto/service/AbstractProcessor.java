@@ -22,6 +22,7 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static net.kosto.Package.SERVICE_DIRECTORY;
 import static net.kosto.configuration.model.DatabaseType.ORACLE;
 import static net.kosto.util.DateUtils.DTF_DATE_TIME;
+import static net.kosto.util.DateUtils.DTF_DATE_TIME_SEAMLESS;
 import static net.kosto.util.FileUtils.FILE_MASK_SQL;
 import static net.kosto.util.FileUtils.UNIX_SEPARATOR;
 
@@ -44,7 +45,7 @@ import net.kosto.util.ResourceUtils;
 import net.kosto.util.ZipUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 
-public abstract class AbstractProcessor {
+public abstract class AbstractProcessor implements Processor {
 
   protected static final String COMMON = "common";
   protected static final String DATABASE = "database";
@@ -70,7 +71,10 @@ public abstract class AbstractProcessor {
    */
   private final List<String> zipFiles = new ArrayList<>();
 
-  AbstractProcessor(final Configuration configuration) {
+  /**
+   * Constructs instance and sets default values.
+   */
+  /* package */ AbstractProcessor(final Configuration configuration) {
     this.configuration = configuration;
     // Create template processor configuration
     final TemplateProcessor templateProcessor = TemplateProcessor.getInstance();
@@ -80,6 +84,7 @@ public abstract class AbstractProcessor {
     templateParameters.put("buildVersion", configuration.getBuildVersion());
     templateParameters.put("buildTimestamp", configuration.getBuildTimestamp().format(DTF_DATE_TIME));
     templateParameters.put("serviceDirectory", configuration.getServiceDirectory());
+    templateParameters.put(DATABASE, configuration.getDatabase());
   }
 
   public Configuration getConfiguration() {
@@ -187,4 +192,41 @@ public abstract class AbstractProcessor {
     final Path zipFile = baseDirectory.resolve(zipFileName);
     ZipUtils.compress(zipFile, baseDirectory, zipFiles);
   }
+
+  @Override
+  public void process() throws MojoExecutionException {
+    processInstallScripts();
+    processServiceScripts();
+    processDatabase();
+
+    final StringBuilder zipFileName = new StringBuilder()
+        .append(getConfiguration().getDatabase().getName())
+        .append("-")
+        .append(getConfiguration().getBuildVersion())
+        .append("-")
+        .append(getConfiguration().getBuildTimestamp().format(DTF_DATE_TIME_SEAMLESS))
+        .append(".zip");
+    processZipFile(zipFileName.toString());
+  }
+
+  /**
+   * Processes all files related to install scripts.
+   *
+   * @throws MojoExecutionException If expected exception occurs.
+   */
+  protected abstract void processInstallScripts() throws MojoExecutionException;
+
+  /**
+   * Processes all files related to service scripts.
+   *
+   * @throws MojoExecutionException If expected exception occurs.
+   */
+  protected abstract void processServiceScripts() throws MojoExecutionException;
+
+  /**
+   * Processes all files related to database itself.
+   *
+   * @throws MojoExecutionException If expected exception occurs.
+   */
+  protected abstract void processDatabase() throws MojoExecutionException;
 }

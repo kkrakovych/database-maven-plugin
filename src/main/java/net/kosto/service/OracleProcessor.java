@@ -17,7 +17,6 @@
 package net.kosto.service;
 
 import static net.kosto.Package.SERVICE_DIRECTORY;
-import static net.kosto.util.DateUtils.DTF_DATE_TIME_SEAMLESS;
 import static net.kosto.util.FileUtils.FILE_MASK_SQL;
 
 import java.nio.file.Path;
@@ -31,41 +30,30 @@ import net.kosto.util.FileUtils;
 import net.kosto.util.ResourceUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 
-public class OracleProcessor extends AbstractProcessor implements Processor {
+public class OracleProcessor extends AbstractProcessor {
 
   private static final String ORACLE = "oracle";
 
-  OracleProcessor(final Configuration configuration) {
+  /**
+   * Constructs instance and sets default values.
+   */
+  /* package */ OracleProcessor(final Configuration configuration) {
     super(configuration);
-    getTemplateParameters().put(DATABASE, configuration.getDatabase());
   }
 
   @Override
-  public void process() throws MojoExecutionException {
-    processInstallScripts();
-    processServiceScripts();
-    processDatabase();
-
-    final StringBuilder zipFileName = new StringBuilder()
-        .append(getConfiguration().getDatabase().getName())
-        .append("-")
-        .append(getConfiguration().getBuildVersion())
-        .append("-")
-        .append(getConfiguration().getBuildTimestamp().format(DTF_DATE_TIME_SEAMLESS))
-        .append(".zip");
-    processZipFile(zipFileName.toString());
-  }
-
-  private void processInstallScripts() throws MojoExecutionException {
+  protected void processInstallScripts() throws MojoExecutionException {
     final Path directory = FileUtils.createDirectories(getConfiguration().getOutputDirectory());
     processTemplateFiles(directory, ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE));
   }
 
-  private void processServiceScripts() throws MojoExecutionException {
+  @Override
+  protected void processServiceScripts() throws MojoExecutionException {
     processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, SERVICE_DIRECTORY, COMMON));
   }
 
-  private void processDatabase() throws MojoExecutionException {
+  @Override
+  protected void processDatabase() throws MojoExecutionException {
     processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, SERVICE_DIRECTORY, DATABASE));
 
     processSchemes();
