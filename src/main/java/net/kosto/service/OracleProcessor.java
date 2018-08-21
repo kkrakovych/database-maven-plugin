@@ -30,6 +30,9 @@ import net.kosto.util.FileUtils;
 import net.kosto.util.ResourceUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 
+/**
+ * Controls packaging into database deploy script for Oracle database configuration.
+ */
 public class OracleProcessor extends AbstractProcessor {
 
   private static final String ORACLE = "oracle";
@@ -59,6 +62,11 @@ public class OracleProcessor extends AbstractProcessor {
     processSchemes();
   }
 
+  /**
+   * Processes all database schemes.
+   *
+   * @throws MojoExecutionException If expected exception occurs.
+   */
   private void processSchemes() throws MojoExecutionException {
     for (final OracleSchema schema : ((OracleDatabase) getConfiguration().getDatabase()).getSchemes()) {
       getTemplateParameters().put(SCHEMA, schema);
@@ -69,6 +77,12 @@ public class OracleProcessor extends AbstractProcessor {
     }
   }
 
+  /**
+   * Processes database object files in database schema.
+   *
+   * @param schema Database schema.
+   * @throws MojoExecutionException If expected exception occurs.
+   */
   private void processObjects(final OracleSchema schema) throws MojoExecutionException {
     if (schema.getObjects() != null) {
       for (final OracleObject object : schema.getObjects()) {
@@ -77,6 +91,12 @@ public class OracleProcessor extends AbstractProcessor {
     }
   }
 
+  /**
+   * Processes script files in schema.
+   *
+   * @param schema Database schema.
+   * @throws MojoExecutionException If expected exception occurs.
+   */
   private void processScripts(final OracleSchema schema) throws MojoExecutionException {
     if (schema.getScripts() != null) {
       for (final OracleScript script : schema.getScripts()) {

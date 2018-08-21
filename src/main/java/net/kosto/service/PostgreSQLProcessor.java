@@ -30,6 +30,9 @@ import net.kosto.util.FileUtils;
 import net.kosto.util.ResourceUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 
+/**
+ * Controls packaging into database deploy script for PostgreSQL database configuration.
+ */
 public class PostgreSQLProcessor extends AbstractProcessor implements Processor {
 
   private static final String POSTGRESQL = "postgresql";
@@ -59,6 +62,11 @@ public class PostgreSQLProcessor extends AbstractProcessor implements Processor 
     processSchemes();
   }
 
+  /**
+   * Processes all database schemes.
+   *
+   * @throws MojoExecutionException If expected exception occurs.
+   */
   private void processSchemes() throws MojoExecutionException {
     for (final PostgreSQLSchema schema : ((PostgreSQLDatabase) getConfiguration().getDatabase()).getSchemes()) {
       getTemplateParameters().put(SCHEMA, schema);
@@ -69,6 +77,12 @@ public class PostgreSQLProcessor extends AbstractProcessor implements Processor 
     }
   }
 
+  /**
+   * Processes database object files in database schema.
+   *
+   * @param schema Database schema.
+   * @throws MojoExecutionException If expected exception occurs.
+   */
   private void processObjects(final PostgreSQLSchema schema) throws MojoExecutionException {
     if (schema.getObjects() != null) {
       for (final PostgreSQLObject object : schema.getObjects()) {
@@ -77,6 +91,12 @@ public class PostgreSQLProcessor extends AbstractProcessor implements Processor 
     }
   }
 
+  /**
+   * Processes script files in schema.
+   *
+   * @param schema Database schema.
+   * @throws MojoExecutionException If expected exception occurs.
+   */
   private void processScripts(final PostgreSQLSchema schema) throws MojoExecutionException {
     if (schema.getScripts() != null) {
       for (final PostgreSQLScript script : schema.getScripts()) {

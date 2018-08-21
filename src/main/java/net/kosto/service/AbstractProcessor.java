@@ -45,6 +45,9 @@ import net.kosto.util.ResourceUtils;
 import net.kosto.util.ZipUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 
+/**
+ * Represents basic database configuration processor.
+ */
 public abstract class AbstractProcessor implements Processor {
 
   protected static final String COMMON = "common";
