@@ -16,23 +16,30 @@
 
 package net.kosto.configuration.model.postgresql;
 
+/**
+ * Provides list of all supported PostgreSQL database object types.
+ * <p>
+ * Each database object type has default value
+ * for relative {@link PostgreSQLObject#sourceDirectory} path.
+ */
 public enum PostgreSQLObjectType {
-//    FUNCTION("functions"),
-//    PACKAGE_BODY("package_bodies"),
-//    PACKAGE_SPEC("package_specs"),
-//    PROCEDURE("procedures"),
-//    TRIGGER("triggers"),
-//    TYPE_BODY("type_bodies"),
-//    TYPE_SPEC("type_specs"),
-    VIEW("views");
+  VIEW("views");
 
-    private final String sourceDirectory;
+  /**
+   * Default relative {@link PostgreSQLObject#sourceDirectory} path.
+   */
+  private final String sourceDirectory;
 
-    PostgreSQLObjectType(String sourceDirectory) {
-        this.sourceDirectory = sourceDirectory;
-    }
+  /**
+   * Constructs instance and sets default values.
+   *
+   * @param sourceDirectory Default relative path.
+   */
+  PostgreSQLObjectType(final String sourceDirectory) {
+    this.sourceDirectory = sourceDirectory;
+  }
 
-    public String getSourceDirectory() {
-        return sourceDirectory;
-    }
+  public String getSourceDirectory() {
+    return sourceDirectory;
+  }
 }

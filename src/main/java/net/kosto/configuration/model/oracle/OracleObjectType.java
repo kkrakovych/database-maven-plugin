@@ -17,33 +17,36 @@
 package net.kosto.configuration.model.oracle;
 
 /**
- * {@code OracleObjectType} provides list of all supported database object types.
+ * Provides list of all supported Oracle database object types.
  * <p>
- * Each database object type has default value for relative {@link OracleObject#sourceDirectory} path.
+ * Each database object type has default value
+ * for relative {@link OracleObject#sourceDirectory} path.
  */
 public enum OracleObjectType {
-    FUNCTION("functions"),
-    PACKAGE_BODY("package_bodies"),
-    PACKAGE_SPEC("package_specs"),
-    PROCEDURE("procedures"),
-    TRIGGER("triggers"),
-    TYPE_BODY("type_bodies"),
-    TYPE_SPEC("type_specs"),
-    VIEW("views");
+  FUNCTION("functions"),
+  PACKAGE_BODY("package_bodies"),
+  PACKAGE_SPEC("package_specs"),
+  PROCEDURE("procedures"),
+  TRIGGER("triggers"),
+  TYPE_BODY("type_bodies"),
+  TYPE_SPEC("type_specs"),
+  VIEW("views");
 
-    /** Default relative {@link OracleObject#sourceDirectory} path. */
-    private final String sourceDirectory;
+  /**
+   * Default relative {@link OracleObject#sourceDirectory} path.
+   */
+  private final String sourceDirectory;
 
-    /**
-     * Constructs {@code OracleObjectType} with default relative path.
-     *
-     * @param sourceDirectory Default relative path.
-     */
-    OracleObjectType(String sourceDirectory) {
-        this.sourceDirectory = sourceDirectory;
-    }
+  /**
+   * Constructs instance and sets default values.
+   *
+   * @param sourceDirectory Default relative path.
+   */
+  OracleObjectType(final String sourceDirectory) {
+    this.sourceDirectory = sourceDirectory;
+  }
 
-    public String getSourceDirectory() {
-        return sourceDirectory;
-    }
+  public String getSourceDirectory() {
+    return sourceDirectory;
+  }
 }
