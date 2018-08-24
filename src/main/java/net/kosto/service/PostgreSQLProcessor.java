@@ -33,7 +33,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 /**
  * Controls packaging into database deploy script for PostgreSQL database configuration.
  */
-public class PostgreSQLProcessor extends AbstractProcessor implements Processor {
+public class PostgreSQLProcessor extends AbstractProcessor {
 
   private static final String POSTGRESQL = "postgresql";
 

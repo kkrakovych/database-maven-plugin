@@ -126,8 +126,10 @@ public class Configuration implements Validator {
    */
   public static class Builder {
 
-    /** Support instance for main configuration. */
-    final private Configuration configuration;
+    /**
+     * Supports instance creation for main configuration.
+     */
+    private final Configuration configuration;
 
     /**
      * Constructs instance and sets default values.

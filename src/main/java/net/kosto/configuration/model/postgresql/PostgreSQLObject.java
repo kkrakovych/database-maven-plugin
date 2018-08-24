@@ -81,8 +81,8 @@ public class PostgreSQLObject extends AbstractDatabaseObject {
     if (getIgnoreDefine() == null) {
       setIgnoreDefine(FALSE);
     }
-    if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory()) {
-      setSourceDirectory(getIgnoreDirectory() ? EMPTY_STRING : getType().getSourceDirectory());
+    if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory() && type != null) {
+      setSourceDirectory(getIgnoreDirectory() ? EMPTY_STRING : type.getSourceDirectory());
     }
   }
 }
