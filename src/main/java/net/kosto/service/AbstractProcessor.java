@@ -27,14 +27,12 @@ import static net.kosto.util.FileUtils.FILE_MASK_SQL;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 
 import net.kosto.configuration.Configuration;
 import net.kosto.configuration.model.DatabaseObject;
 import net.kosto.util.FileUtils;
 import net.kosto.util.ResourceUtils;
-import net.kosto.util.ZipUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
@@ -58,9 +56,9 @@ public abstract class AbstractProcessor implements Processor {
    */
   private final TemplateService templateService;
   /**
-   * Files for packing into result zip file.
+   * Zip service.
    */
-  private final List<String> zipFiles = new ArrayList<>();
+  private final ZipService zipService;
 
   /**
    * Constructs instance and sets default values.
@@ -73,6 +71,11 @@ public abstract class AbstractProcessor implements Processor {
     templateService.putParameter("buildTimestamp", configuration.getBuildTimestamp(DTF_DATE_TIME));
     templateService.putParameter("serviceDirectory", configuration.getServiceDirectory());
     templateService.putParameter(DATABASE, configuration.getDatabase());
+
+    final String zipFileName = configuration.getDatabase().getName() + "-" +
+        configuration.getBuildVersion() + "-" +
+        configuration.getBuildTimestamp(DTF_DATE_TIME_SEAMLESS) + ".zip";
+    zipService = new ZipService(zipFileName, configuration.getOutputDirectory());
   }
 
   public Configuration getConfiguration() {
@@ -108,7 +111,7 @@ public abstract class AbstractProcessor implements Processor {
       }
       final String fileName = templateService.process(file.getFileName().toString());
       final Path output = directory.resolve(fileName);
-      addZipFile(output);
+      zipService.add(output);
       templateService.process(file, output);
     }
   }
@@ -116,7 +119,7 @@ public abstract class AbstractProcessor implements Processor {
   private void processSourceFiles(final Path directory, final List<Path> files) throws MojoExecutionException {
     for (final Path file : files) {
       final Path output = directory.resolve(file.getFileName());
-      addZipFile(output);
+      zipService.add(output);
       processSourceFile(file, output);
     }
   }
@@ -134,32 +137,12 @@ public abstract class AbstractProcessor implements Processor {
     }
   }
 
-  private void addZipFile(final Path output) {
-    final Path basePath = configuration.getOutputDirectory();
-    final Path relativePath = basePath.relativize(output);
-    zipFiles.add(relativePath.toString());
-  }
-
-  private void processZipFile(final String zipFileName) throws MojoExecutionException {
-    final Path baseDirectory = configuration.getOutputDirectory();
-    final Path zipFile = baseDirectory.resolve(zipFileName);
-    ZipUtils.compress(zipFile, baseDirectory, zipFiles);
-  }
-
   @Override
   public void process() throws MojoExecutionException {
     processInstallScripts();
     processServiceScripts();
     processDatabase();
-
-    final StringBuilder zipFileName = new StringBuilder()
-        .append(configuration.getDatabase().getName())
-        .append("-")
-        .append(configuration.getBuildVersion())
-        .append("-")
-        .append(configuration.getBuildTimestamp(DTF_DATE_TIME_SEAMLESS))
-        .append(".zip");
-    processZipFile(zipFileName.toString());
+    zipService.compress();
   }
 
   /**

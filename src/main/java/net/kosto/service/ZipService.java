@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.kosto.util;
+package net.kosto.service;
 
 import static java.nio.file.StandardOpenOption.APPEND;
 import static java.nio.file.StandardOpenOption.CREATE;
@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -34,9 +35,9 @@ import java.util.zip.ZipOutputStream;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
- * Contains support constants and methods to work with zip files.
+ * Controls zip file creation.
  */
-public final class ZipUtils {
+public class ZipService {
 
   private static final String FAILED_CREATE_FILE = "Failed to create zip file.";
 
@@ -45,29 +46,58 @@ public final class ZipUtils {
    */
   private static final int BUFFER_SIZE = 1024;
 
-  private ZipUtils() {
+  /**
+   * Zip file name.
+   */
+  private final String name;
+  /**
+   * Full path to base directory with files for compressing.
+   */
+  private final Path directory;
+  /**
+   * Relative paths to files for compression.
+   */
+  private final List<Path> files;
+
+  /**
+   * Constructs instance and sets default values.
+   *
+   * @param name      Zip file name.
+   * @param directory Full path to base directory with files for compressing.
+   */
+  public ZipService(final String name, final Path directory) {
+    super();
+    this.name = name;
+    this.directory = directory;
+    this.files = new ArrayList<>();
   }
 
   /**
-   * Compresses files located in directory into output zip file.
+   * Adds file to list for further zip compression.
    *
-   * @param zipFile       Full path to output zip file.
-   * @param baseDirectory Full path to base directory with files for compressing.
-   * @param files         Relative file paths to files for compressing.
+   * @param file Full path to file.
+   */
+  public void add(final Path file) {
+    files.add(directory.relativize(file));
+  }
+
+  /**
+   * Compresses files into output zip file.
+   *
    * @throws MojoExecutionException If expected exception occurs.
    */
-  public static void compress(final Path zipFile, final Path baseDirectory, final List<String> files) throws MojoExecutionException {
+  public void compress() throws MojoExecutionException {
     try (
-        OutputStream os = Files.newOutputStream(zipFile, CREATE, WRITE, APPEND);
+        OutputStream os = Files.newOutputStream(directory.resolve(name), CREATE, WRITE, APPEND);
         ZipOutputStream zos = new ZipOutputStream(os)
     ) {
       final byte[] buffer = new byte[BUFFER_SIZE];
       zos.setLevel(BEST_COMPRESSION);
-      for (final String file : files) {
-        final ZipEntry ze = new ZipEntry(file);
+      for (final Path file : files) {
+        final ZipEntry ze = new ZipEntry(file.toString());
         zos.putNextEntry(ze);
         try (
-            InputStream is = Files.newInputStream(baseDirectory.resolve(file), READ)
+            InputStream is = Files.newInputStream(directory.resolve(file), READ)
         ) {
           int length;
           while ((length = is.read(buffer)) > 0) {
