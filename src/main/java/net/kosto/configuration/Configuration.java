@@ -22,6 +22,7 @@ import static net.kosto.configuration.model.DatabaseType.POSTGRESQL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import net.kosto.configuration.model.DatabaseItem;
 import net.kosto.configuration.model.DatabaseType;
@@ -79,6 +80,10 @@ public class Configuration implements Validator {
 
   public LocalDateTime getBuildTimestamp() {
     return buildTimestamp;
+  }
+
+  public String getBuildTimestamp(DateTimeFormatter dtf) {
+    return buildTimestamp.format(dtf);
   }
 
   public Path getSourceDirectory() {

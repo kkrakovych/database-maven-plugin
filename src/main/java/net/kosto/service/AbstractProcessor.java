@@ -70,7 +70,7 @@ public abstract class AbstractProcessor implements Processor {
 
     templateService = TemplateService.getInstance();
     templateService.putParameter("buildVersion", configuration.getBuildVersion());
-    templateService.putParameter("buildTimestamp", configuration.getBuildTimestamp().format(DTF_DATE_TIME));
+    templateService.putParameter("buildTimestamp", configuration.getBuildTimestamp(DTF_DATE_TIME));
     templateService.putParameter("serviceDirectory", configuration.getServiceDirectory());
     templateService.putParameter(DATABASE, configuration.getDatabase());
   }
@@ -157,7 +157,7 @@ public abstract class AbstractProcessor implements Processor {
         .append("-")
         .append(configuration.getBuildVersion())
         .append("-")
-        .append(configuration.getBuildTimestamp().format(DTF_DATE_TIME_SEAMLESS))
+        .append(configuration.getBuildTimestamp(DTF_DATE_TIME_SEAMLESS))
         .append(".zip");
     processZipFile(zipFileName.toString());
   }
