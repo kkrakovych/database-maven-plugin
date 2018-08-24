@@ -16,7 +16,6 @@
 
 package net.kosto.service;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.StandardCopyOption.COPY_ATTRIBUTES;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static net.kosto.Package.SERVICE_DIRECTORY;
@@ -24,20 +23,13 @@ import static net.kosto.configuration.model.DatabaseType.ORACLE;
 import static net.kosto.util.DateUtils.DTF_DATE_TIME;
 import static net.kosto.util.DateUtils.DTF_DATE_TIME_SEAMLESS;
 import static net.kosto.util.FileUtils.FILE_MASK_SQL;
-import static net.kosto.util.FileUtils.UNIX_SEPARATOR;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
 import net.kosto.configuration.Configuration;
 import net.kosto.configuration.model.DatabaseObject;
 import net.kosto.util.FileUtils;
@@ -58,17 +50,13 @@ public abstract class AbstractProcessor implements Processor {
   private static final String FILES = "files";
 
   /**
-   * Configuration object.
+   * Database configuration.
    */
   private final Configuration configuration;
   /**
-   * Template configuration.
+   * Template processor.
    */
-  private final freemarker.template.Configuration templateConfiguration;
-  /**
-   * Template configuration parameters.
-   */
-  private final Map<String, Object> templateParameters;
+  private final TemplateProcessor templateProcessor;
   /**
    * Files for packing into result zip file.
    */
@@ -79,33 +67,31 @@ public abstract class AbstractProcessor implements Processor {
    */
   /* package */ AbstractProcessor(final Configuration configuration) {
     this.configuration = configuration;
-    // Create template processor configuration
-    final TemplateProcessor templateProcessor = TemplateProcessor.getInstance();
-    templateConfiguration = templateProcessor.getConfiguration();
-    // Set up template processor configuration
-    templateParameters = new HashMap<>();
-    templateParameters.put("buildVersion", configuration.getBuildVersion());
-    templateParameters.put("buildTimestamp", configuration.getBuildTimestamp().format(DTF_DATE_TIME));
-    templateParameters.put("serviceDirectory", configuration.getServiceDirectory());
-    templateParameters.put(DATABASE, configuration.getDatabase());
+
+    templateProcessor = TemplateProcessor.getInstance();
+
+    templateProcessor.putParameter("buildVersion", configuration.getBuildVersion());
+    templateProcessor.putParameter("buildTimestamp", configuration.getBuildTimestamp().format(DTF_DATE_TIME));
+    templateProcessor.putParameter("serviceDirectory", configuration.getServiceDirectory());
+    templateProcessor.putParameter(DATABASE, configuration.getDatabase());
   }
 
   public Configuration getConfiguration() {
     return configuration;
   }
 
-  protected Map<String, Object> getTemplateParameters() {
-    return templateParameters;
+  protected TemplateProcessor getTemplateProcessor() {
+    return templateProcessor;
   }
 
   protected <T extends DatabaseObject> void processItem(final T item, final String baseDirectory, final String itemType) throws MojoExecutionException {
     final Path source = item.getSourceDirectoryFull();
     final Path directory = FileUtils.createDirectories(item.getOutputDirectoryFull());
-    templateParameters.put(itemType, item);
+    templateProcessor.putParameter(itemType, item);
     if (itemType.equals(SCRIPT)) {
-      templateParameters.put(FILES, FileUtils.getFileNamesWithCheckSum(source, item.getFileMask()));
+      templateProcessor.putParameter(FILES, FileUtils.getFileNamesWithCheckSum(source, item.getFileMask()));
     } else {
-      templateParameters.put(FILES, FileUtils.getFileNames(source, item.getFileMask()));
+      templateProcessor.putParameter(FILES, FileUtils.getFileNames(source, item.getFileMask()));
     }
     processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, baseDirectory, SERVICE_DIRECTORY, itemType));
     processSourceFiles(directory, FileUtils.getFiles(source, item.getFileMask()));
@@ -121,45 +107,10 @@ public abstract class AbstractProcessor implements Processor {
       if (file.getFileName() == null) {
         continue;
       }
-      final String fileName = processTemplateFileName(file.getFileName());
+      final String fileName = templateProcessor.process(file.getFileName().toString());
       final Path output = directory.resolve(fileName);
       addZipFile(output);
-      processTemplateFile(file, output);
-    }
-  }
-
-  private String processTemplateFileName(final Path fileName) throws MojoExecutionException {
-    String name = fileName.toString();
-    if (name.contains("${")) {
-      final StringWriter writer = new StringWriter();
-      try {
-        final Template template = new Template(name, name, templateConfiguration);
-        template.process(templateParameters, writer);
-        name = writer.toString();
-      } catch (IOException x) {
-        throw new MojoExecutionException("Failed to get template file name.", x);
-      } catch (TemplateException x) {
-        throw new MojoExecutionException("Failed to process template file name.", x);
-      }
-    }
-    return name;
-  }
-
-  private void processTemplateFile(final Path fileName, final Path output) throws MojoExecutionException {
-    try {
-      // Line below is for defence against execution on OS Windows
-      final String templateName = fileName.toString().replaceAll("\\\\", UNIX_SEPARATOR);
-      final Template template = templateConfiguration.getTemplate(templateName);
-      try (
-          BufferedWriter writer = Files.newBufferedWriter(output, UTF_8)
-      ) {
-        template.process(templateParameters, writer);
-        writer.flush();
-      }
-    } catch (IOException x) {
-      throw new MojoExecutionException("Failed to get template file.", x);
-    } catch (TemplateException x) {
-      throw new MojoExecutionException("Failed to process template file.", x);
+      templateProcessor.process(file, output);
     }
   }
 
@@ -203,11 +154,11 @@ public abstract class AbstractProcessor implements Processor {
     processDatabase();
 
     final StringBuilder zipFileName = new StringBuilder()
-        .append(getConfiguration().getDatabase().getName())
+        .append(configuration.getDatabase().getName())
         .append("-")
-        .append(getConfiguration().getBuildVersion())
+        .append(configuration.getBuildVersion())
         .append("-")
-        .append(getConfiguration().getBuildTimestamp().format(DTF_DATE_TIME_SEAMLESS))
+        .append(configuration.getBuildTimestamp().format(DTF_DATE_TIME_SEAMLESS))
         .append(".zip");
     processZipFile(zipFileName.toString());
   }
