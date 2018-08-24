@@ -40,7 +40,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 /**
  * Controls template processing.
  */
-public final class TemplateProcessor {
+public final class TemplateService {
 
   private static final String FAILED_TEMPLATE_FILE_NAME = "Failed to get template file name.";
   private static final String FAILED_PROCESS_FILE_NAME = "Failed to process template file name.";
@@ -48,22 +48,22 @@ public final class TemplateProcessor {
   private static final String FAILED_PROCESS_FILE = "Failed to process template file.";
 
   /**
-   * Template processor instance.
+   * Template service instance.
    */
-  private static TemplateProcessor instance;
+  private static TemplateService instance;
   /**
-   * Template configuration.
+   * Template service configuration.
    */
   private final Configuration configuration;
   /**
-   * Template configuration parameters.
+   * Template service configuration parameters.
    */
   private final Map<String, Object> parameters;
 
   /**
    * Constructs instance and sets default values.
    */
-  private TemplateProcessor() {
+  private TemplateService() {
     configuration = new Configuration(DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
     configuration.setClassForTemplateLoading(Package.class, UNIX_SEPARATOR);
     configuration.setIncompatibleImprovements(VERSION_2_3_28);
@@ -75,19 +75,19 @@ public final class TemplateProcessor {
   }
 
   /**
-   * Returns template processor instance.
+   * Returns template service instance.
    *
-   * @return Template processor instance.
+   * @return Template service instance.
    */
-  public static synchronized TemplateProcessor getInstance() {
+  public static synchronized TemplateService getInstance() {
     if (instance == null) {
-      instance = new TemplateProcessor();
+      instance = new TemplateService();
     }
     return instance;
   }
 
   /**
-   * Puts key-value pair to parameters' list.
+   * Puts key-value pair to template service parameters' list.
    *
    * @param key   Parameter's key.
    * @param value Parameter's value.

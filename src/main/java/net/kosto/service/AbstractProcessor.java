@@ -54,9 +54,9 @@ public abstract class AbstractProcessor implements Processor {
    */
   private final Configuration configuration;
   /**
-   * Template processor.
+   * Template service.
    */
-  private final TemplateProcessor templateProcessor;
+  private final TemplateService templateService;
   /**
    * Files for packing into result zip file.
    */
@@ -68,30 +68,29 @@ public abstract class AbstractProcessor implements Processor {
   /* package */ AbstractProcessor(final Configuration configuration) {
     this.configuration = configuration;
 
-    templateProcessor = TemplateProcessor.getInstance();
-
-    templateProcessor.putParameter("buildVersion", configuration.getBuildVersion());
-    templateProcessor.putParameter("buildTimestamp", configuration.getBuildTimestamp().format(DTF_DATE_TIME));
-    templateProcessor.putParameter("serviceDirectory", configuration.getServiceDirectory());
-    templateProcessor.putParameter(DATABASE, configuration.getDatabase());
+    templateService = TemplateService.getInstance();
+    templateService.putParameter("buildVersion", configuration.getBuildVersion());
+    templateService.putParameter("buildTimestamp", configuration.getBuildTimestamp().format(DTF_DATE_TIME));
+    templateService.putParameter("serviceDirectory", configuration.getServiceDirectory());
+    templateService.putParameter(DATABASE, configuration.getDatabase());
   }
 
   public Configuration getConfiguration() {
     return configuration;
   }
 
-  protected TemplateProcessor getTemplateProcessor() {
-    return templateProcessor;
+  protected TemplateService getTemplateService() {
+    return templateService;
   }
 
   protected <T extends DatabaseObject> void processItem(final T item, final String baseDirectory, final String itemType) throws MojoExecutionException {
     final Path source = item.getSourceDirectoryFull();
     final Path directory = FileUtils.createDirectories(item.getOutputDirectoryFull());
-    templateProcessor.putParameter(itemType, item);
+    templateService.putParameter(itemType, item);
     if (itemType.equals(SCRIPT)) {
-      templateProcessor.putParameter(FILES, FileUtils.getFileNamesWithCheckSum(source, item.getFileMask()));
+      templateService.putParameter(FILES, FileUtils.getFileNamesWithCheckSum(source, item.getFileMask()));
     } else {
-      templateProcessor.putParameter(FILES, FileUtils.getFileNames(source, item.getFileMask()));
+      templateService.putParameter(FILES, FileUtils.getFileNames(source, item.getFileMask()));
     }
     processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, baseDirectory, SERVICE_DIRECTORY, itemType));
     processSourceFiles(directory, FileUtils.getFiles(source, item.getFileMask()));
@@ -107,10 +106,10 @@ public abstract class AbstractProcessor implements Processor {
       if (file.getFileName() == null) {
         continue;
       }
-      final String fileName = templateProcessor.process(file.getFileName().toString());
+      final String fileName = templateService.process(file.getFileName().toString());
       final Path output = directory.resolve(fileName);
       addZipFile(output);
-      templateProcessor.process(file, output);
+      templateService.process(file, output);
     }
   }
 

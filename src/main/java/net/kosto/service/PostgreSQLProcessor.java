@@ -69,7 +69,7 @@ public class PostgreSQLProcessor extends AbstractProcessor {
    */
   private void processSchemes() throws MojoExecutionException {
     for (final PostgreSQLSchema schema : ((PostgreSQLDatabase) getConfiguration().getDatabase()).getSchemes()) {
-      getTemplateProcessor().putParameter(SCHEMA, schema);
+      getTemplateService().putParameter(SCHEMA, schema);
       processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, POSTGRESQL, SERVICE_DIRECTORY, SCHEMA));
 
       processObjects(schema);

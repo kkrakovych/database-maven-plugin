@@ -69,7 +69,7 @@ public class OracleProcessor extends AbstractProcessor {
    */
   private void processSchemes() throws MojoExecutionException {
     for (final OracleSchema schema : ((OracleDatabase) getConfiguration().getDatabase()).getSchemes()) {
-      getTemplateProcessor().putParameter(SCHEMA, schema);
+      getTemplateService().putParameter(SCHEMA, schema);
       processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, SERVICE_DIRECTORY, SCHEMA));
 
       processObjects(schema);
