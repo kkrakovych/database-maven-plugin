@@ -85,13 +85,13 @@ public final class FileUtils {
    * Creates base directory with all additional subdirectories within
    * and returns full path to it.
    *
-   * @param baseDirectory Full path to base directory.
-   * @param directories   Relative paths to additional subdirectories.
+   * @param directory   Full path to base directory.
+   * @param directories Relative paths to additional subdirectories.
    * @return Full path to created directory.
    * @throws MojoExecutionException If expected exception occurs.
    */
-  public static Path createDirectories(final Path baseDirectory, final String... directories) throws MojoExecutionException {
-    final Path result = Paths.get(baseDirectory.toString(), directories);
+  public static Path createDirectories(final Path directory, final String... directories) throws MojoExecutionException {
+    final Path result = Paths.get(directory.toString(), directories);
 
     if (!result.toFile().exists()) {
       try {
@@ -107,17 +107,17 @@ public final class FileUtils {
   /**
    * Returns full paths to files in base directory matched with file mask.
    *
-   * @param baseDirectory Full path fo base directory for files look up.
-   * @param fileMask      File mask for files look up.
+   * @param directory Full path fo base directory for files look up.
+   * @param fileMask  File mask for files look up.
    * @return Full paths to files.
    * @throws MojoExecutionException If expected exception occurs.
    */
-  public static List<Path> getFiles(final Path baseDirectory, final String fileMask) throws MojoExecutionException {
+  public static List<Path> getFiles(final Path directory, final String fileMask) throws MojoExecutionException {
     final List<Path> result = new ArrayList<>();
 
-    if (baseDirectory.toFile().exists()) {
+    if (directory.toFile().exists()) {
       try (
-          DirectoryStream<Path> directoryStream = Files.newDirectoryStream(baseDirectory, fileMask)
+          DirectoryStream<Path> directoryStream = Files.newDirectoryStream(directory, fileMask)
       ) {
         for (final Path path : directoryStream) {
           result.add(path);
@@ -133,13 +133,13 @@ public final class FileUtils {
   /**
    * Returns full file names in base directory matched with file mask.
    *
-   * @param baseDirectory Full path to base directory for files look up.
-   * @param fileMask      File mask for files look up.
+   * @param directory Full path to base directory for files look up.
+   * @param fileMask  File mask for files look up.
    * @return Full file names.
    * @throws MojoExecutionException If expected exception occurs.
    */
-  public static List<String> getFileNames(final Path baseDirectory, final String fileMask) throws MojoExecutionException {
-    final List<Path> files = getFiles(baseDirectory, fileMask);
+  public static List<String> getFileNames(final Path directory, final String fileMask) throws MojoExecutionException {
+    final List<Path> files = getFiles(directory, fileMask);
 
     return files
         .stream()
@@ -175,18 +175,18 @@ public final class FileUtils {
    * Returns full file names and calculates their {@value MD5} checksums
    * in base directory matched with file mask.
    *
-   * @param baseDirectory Full path to base directory for files look up.
-   * @param fileMask      File mask for files look up.
+   * @param directory Full path to base directory for files look up.
+   * @param fileMask  File mask for files look up.
    * @return Map where key is full path to file, and value - file checksum.
    * @throws MojoExecutionException If expected exception occurs.
    */
-  public static Map<String, String> getFileNamesWithCheckSum(final Path baseDirectory, final String fileMask) throws MojoExecutionException {
+  public static Map<String, String> getFileNamesWithCheckSum(final Path directory, final String fileMask) throws MojoExecutionException {
     // TreeMap is in use to make map sorting possible.
     final Map<String, String> result = new TreeMap<>();
 
-    final List<String> files = getFileNames(baseDirectory, fileMask);
+    final List<String> files = getFileNames(directory, fileMask);
     for (final String file : files) {
-      result.put(file, getFileChecksum(baseDirectory.resolve(file)));
+      result.put(file, getFileChecksum(directory.resolve(file)));
     }
 
     return result;
