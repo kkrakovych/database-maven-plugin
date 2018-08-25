@@ -111,26 +111,33 @@ public abstract class AbstractProcessor implements Processor {
       }
       final String fileName = templateService.process(file.getFileName().toString());
       final Path output = directory.resolve(fileName);
-      zipService.add(output);
       templateService.process(file, output);
+      zipService.add(output);
     }
   }
 
   private void processSourceFiles(final Path directory, final List<Path> files) throws MojoExecutionException {
     for (final Path file : files) {
       final Path output = directory.resolve(file.getFileName());
-      zipService.add(output);
       processSourceFile(file, output);
+      zipService.add(output);
     }
   }
 
-  private void processSourceFile(final Path file, final Path output) throws MojoExecutionException {
+  /**
+   * Copies source file with additional processing if required.
+   *
+   * @param source Full path to source file.
+   * @param target Full path to target file.
+   * @throws MojoExecutionException If expected exception occurs.
+   */
+  private void processSourceFile(final Path source, final Path target) throws MojoExecutionException {
     if (configuration.getDatabaseType().equals(ORACLE)) {
-      final List<String> source = FileUtils.readFileSourceCode(file);
-      FileUtils.writeFileSourceCode(output, source);
+      final List<String> lines = FileUtils.readFileSourceCode(source);
+      FileUtils.writeFileSourceCode(target, lines);
     } else {
       try {
-        Files.copy(file, output, REPLACE_EXISTING, COPY_ATTRIBUTES);
+        Files.copy(source, target, REPLACE_EXISTING, COPY_ATTRIBUTES);
       } catch (IOException x) {
         throw new MojoExecutionException("Failed to copy source file.", x);
       }
