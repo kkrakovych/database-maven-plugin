@@ -23,6 +23,7 @@ import static net.kosto.configuration.model.DatabaseType.ORACLE;
 import static net.kosto.util.DateUtils.DTF_DATE_TIME;
 import static net.kosto.util.DateUtils.DTF_DATE_TIME_SEAMLESS;
 import static net.kosto.util.FileUtils.FILE_MASK_SQL;
+import static net.kosto.util.StringUtils.DATABASE;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -41,7 +42,6 @@ import org.apache.maven.plugin.MojoExecutionException;
 public abstract class AbstractProcessor implements Processor {
 
   protected static final String COMMON = "common";
-  protected static final String DATABASE = "database";
   protected static final String SCHEMA = "schema";
   protected static final String OBJECT = "object";
   protected static final String SCRIPT = "script";

@@ -20,6 +20,7 @@ import static java.lang.Boolean.FALSE;
 import static net.kosto.configuration.ValidateError.EMPTY_LIST_PARAMETER;
 import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
 import static net.kosto.util.StringUtils.AMPERSAND;
+import static net.kosto.util.StringUtils.DATABASE;
 import static net.kosto.util.StringUtils.EMPTY_STRING;
 
 import java.util.Comparator;
@@ -68,9 +69,6 @@ public class OracleDatabase extends AbstractDatabaseItem {
 
   @Override
   protected void checkMandatoryValues() throws MojoExecutionException {
-    if (getName() == null) {
-      throw new MojoExecutionException(MISSING_PARAMETER.message("oracle.name"));
-    }
     if (schemes == null) {
       throw new MojoExecutionException(MISSING_PARAMETER.message("oracle.schemes"));
     }
@@ -81,6 +79,9 @@ public class OracleDatabase extends AbstractDatabaseItem {
 
   @Override
   protected void setDefaultValues() {
+    if (getName() == null) {
+      setName(DATABASE);
+    }
     if (getDefineSymbol() == null) {
       setDefineSymbol(AMPERSAND);
     }

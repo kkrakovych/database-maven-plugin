@@ -138,7 +138,7 @@ Other depends on database type.
 
 | Tag Name          | Description |
 | ----------------- | ----------- |
-| `name`            | Database name. |
+| `name`            | Database name. By default set as `database`. |
 | `sourceDirectory` | Source directory for all database's objects. By default database name is used as source directory. |
 | `ignoreDirectory` | If `true` source directory will be ignored. By default set as `false`. |
 | `defineSymbol`    | Define symbol for variable substitution. By default set as `&`. |

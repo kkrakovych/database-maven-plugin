@@ -18,6 +18,7 @@ package net.kosto.service;
 
 import static net.kosto.Package.SERVICE_DIRECTORY;
 import static net.kosto.util.FileUtils.FILE_MASK_SQL;
+import static net.kosto.util.StringUtils.DATABASE;
 
 import java.nio.file.Path;
 

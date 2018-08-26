@@ -33,6 +33,10 @@ public final class StringUtils {
    * Ampersand symbol.
    */
   public static final String AMPERSAND = "&";
+  /**
+   * Keyword value for database.
+   */
+  public static final String DATABASE = "database";
 
   private StringUtils() {
   }
