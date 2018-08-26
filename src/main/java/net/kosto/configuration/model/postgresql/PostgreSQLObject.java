@@ -28,8 +28,8 @@ import org.apache.maven.plugin.MojoExecutionException;
  * Represents PostgreSQL database schema's object configuration.
  * <p>
  * Default values for missing attributes' values:
- * <li>{@link PostgreSQLObject#ignoreDirectory} = {@link Boolean#FALSE}</li>
  * <li>{@link PostgreSQLObject#sourceDirectory} = {@link PostgreSQLObjectType#getSourceDirectory()}</li>
+ * <li>{@link PostgreSQLObject#ignoreDirectory} = {@link Boolean#FALSE}</li>
  * <li>{@link PostgreSQLObject#defineSymbol} = {@link net.kosto.util.StringUtils#COLON}</li>
  * <li>{@link PostgreSQLObject#ignoreDefine} = {@link Boolean#FALSE}</li>
  * <li>{@link PostgreSQLObject#fileMask} = {@link net.kosto.util.FileUtils#FILE_MASK_SQL}</li>

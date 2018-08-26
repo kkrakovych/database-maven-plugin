@@ -34,8 +34,8 @@ import org.apache.maven.plugin.MojoExecutionException;
  * Represents PostgreSQL database configuration.
  * <p>
  * Default values for missing attributes' values:
- * <li>{@link PostgreSQLDatabase#ignoreDirectory} = {@link Boolean#FALSE}</li>
  * <li>{@link PostgreSQLDatabase#sourceDirectory} = {@link PostgreSQLDatabase#name}</li>
+ * <li>{@link PostgreSQLDatabase#ignoreDirectory} = {@link Boolean#FALSE}</li>
  * <li>{@link PostgreSQLDatabase#defineSymbol} = {@link net.kosto.util.StringUtils#COLON}</li>
  * <li>{@link PostgreSQLDatabase#ignoreDefine} = {@link Boolean#FALSE}</li>
  */

@@ -28,8 +28,8 @@ import org.apache.maven.plugin.MojoExecutionException;
  * Represents Oracle database schema's object configuration.
  * <p>
  * Default values for missing attributes' values:
- * <li>{@link OracleObject#ignoreDirectory} = {@link Boolean#FALSE}</li>
  * <li>{@link OracleObject#sourceDirectory} = {@link OracleObjectType#getSourceDirectory()}</li>
+ * <li>{@link OracleObject#ignoreDirectory} = {@link Boolean#FALSE}</li>
  * <li>{@link OracleObject#defineSymbol} = {@link net.kosto.util.StringUtils#AMPERSAND}</li>
  * <li>{@link OracleObject#ignoreDefine} = {@link Boolean#FALSE}</li>
  * <li>{@link OracleObject#fileMask} = {@link net.kosto.util.FileUtils#FILE_MASK_SQL}</li>

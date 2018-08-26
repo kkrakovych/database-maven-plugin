@@ -141,9 +141,9 @@ Other depends on database type.
 | `name`            | Database name. |
 | `sourceDirectory` | Source directory for all database's objects. By default database name is used as source directory. |
 | `ignoreDirectory` | If `true` source directory will be ignored. By default set as `false`. |
-| `schemes`         | List of database's schemes for deploy. |
 | `defineSymbol`    | Define symbol for variable substitution. By default set as `&`. |
 | `ignoreDefine`    | If `true` variable substitution will be disabled. By default set as `true`. |
+| `schemes`         | List of database's schemes for deploy. |
 
 ###### `schemes` Tag
 
@@ -153,10 +153,10 @@ Other depends on database type.
 | `name`            | Schema name. |
 | `sourceDirectory` | Source directory for all schema's objects. By default schema name is used as source directory. |
 | `ignoreDirectory` | If `true` source directory will be ignored. By default set as `false`. |
-| `objects`         | List of schema's objects for deploy if any. |
-| `scripts`         | List of schema's scripts for deploy if any. |
 | `defineSymbol`    | Define symbol for variable substitution. By default takes value set for database. |
 | `ignoreDefine`    | If `true` variable substitution will be disabled. By default takes value set for database. |
+| `objects`         | List of schema's objects for deploy if any. |
+| `scripts`         | List of schema's scripts for deploy if any. |
 
 ###### `objects` Tag
 
@@ -166,9 +166,9 @@ Other depends on database type.
 | `type`            | Objects' type. Possible values are: `FUNCTION`, `PACKAGE_BODY`, `PACKAGE_SPEC`, `PROCEDURE`, `TRIGGER`, `TYPE_BODY`, `TYPE_SPEC`, `VIEW`.  |
 | `sourceDirectory` | Source directory for all objects' type. By default objects' types have next associated directories: `FUNCTION` - `functions`, `PACKAGE_BODY` - `package_bodies`, `PACKAGE_SPEC` - `package_specs`, `PROCEDURE` - `procedures`, `TRIGGER` - `triggers`, `TYPE_BODY` - `type_bodies`, `TYPE_SPEC` - `type_specs`, and `VIEW` - `views`. |
 | `ignoreDirectory` | If `true` source directory will be ignored. By default set as `false`. |
-| `fileMask`        | File mask for objects. By default set as `*.sql`. |
 | `defineSymbol`    | Define symbol for variable substitution. By default takes value set for schema. |
 | `ignoreDefine`    | If `true` variable substitution will be disabled. By default takes value set for schema. |
+| `fileMask`        | File mask for objects. By default set as `*.sql`. |
 
 ###### `scripts` Tag
 
@@ -179,6 +179,8 @@ Other depends on database type.
 | `index`           | Scripts' index (integer). Affects scripts processing order. |
 | `sourceDirectory` | Source directory for all scripts. By default scripts' type have next associated directories: `ONE_TIME` - `script_one_time` and `REUSABLE` - `script_reusable`. |
 | `ignoreDirectory` | If `true` source directory will be ignored. By default set as `false`. |
+| `defineSymbol`    | Define symbol for variable substitution. By default takes value set for schema. |
+| `ignoreDefine`    | If `true` variable substitution will be disabled. By default takes value set for schema. |
 | `fileMask`        | File mask for objects. By default set as `*.sql`. |
 
 #### PostgreSQL database configuration section

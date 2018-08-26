@@ -32,8 +32,8 @@ import org.apache.maven.plugin.MojoExecutionException;
  * Represents Oracle database schema configuration.
  * <p>
  * Default values for missing attributes' values:
- * <li>{@link OracleSchema#ignoreDirectory} = {@link Boolean#FALSE}</li>
  * <li>{@link OracleSchema#sourceDirectory} = {@link OracleSchema#name}</li>
+ * <li>{@link OracleSchema#ignoreDirectory} = {@link Boolean#FALSE}</li>
  * <li>{@link OracleSchema#defineSymbol} = {@link net.kosto.util.StringUtils#AMPERSAND}</li>
  * <li>{@link OracleSchema#ignoreDefine} = {@link Boolean#FALSE}</li>
  */

@@ -28,8 +28,8 @@ import org.apache.maven.plugin.MojoExecutionException;
  * Represents PostgreSQL database schema's script configuration.
  * <p>
  * Default values for missing attributes' values:
- * <li>{@link PostgreSQLScript#ignoreDirectory} = {@link Boolean#FALSE}</li>
  * <li>{@link PostgreSQLScript#sourceDirectory} = {@link net.kosto.configuration.model.DatabaseScriptType#getSourceDirectory()}</li>
+ * <li>{@link PostgreSQLScript#ignoreDirectory} = {@link Boolean#FALSE}</li>
  * <li>{@link PostgreSQLScript#defineSymbol} = {@link net.kosto.util.StringUtils#COLON}</li>
  * <li>{@link PostgreSQLScript#ignoreDefine} = {@link Boolean#FALSE}</li>
  * <li>{@link PostgreSQLScript#fileMask} = {@link net.kosto.util.FileUtils#FILE_MASK_SQL}</li>
