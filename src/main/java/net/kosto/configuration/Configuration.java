@@ -18,6 +18,7 @@ package net.kosto.configuration;
 
 import static net.kosto.configuration.model.DatabaseType.ORACLE;
 import static net.kosto.configuration.model.DatabaseType.POSTGRESQL;
+import static net.kosto.service.ProcessorError.UNKNOWN_DATABASE_TYPE;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -121,8 +122,8 @@ public class Configuration implements Validator {
 
   @Override
   public void validate() throws MojoExecutionException {
-    database.setSourceDirectoryFull(getSourceDirectory());
-    database.setOutputDirectoryFull(getOutputDirectory());
+    database.setSourceDirectoryFull(sourceDirectory);
+    database.setOutputDirectoryFull(outputDirectory);
     database.validate();
   }
 
@@ -232,7 +233,11 @@ public class Configuration implements Validator {
      *
      * @return {@link Configuration} instance.
      */
-    public Configuration build() {
+    public Configuration build() throws MojoExecutionException {
+      if (configuration.databaseType == null) {
+        throw new MojoExecutionException(UNKNOWN_DATABASE_TYPE.message());
+      }
+
       return configuration;
     }
   }
