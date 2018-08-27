@@ -17,11 +17,11 @@
 package net.kosto.configuration.model.oracle;
 
 import static java.lang.Boolean.FALSE;
-import static net.kosto.configuration.ValidateError.EMPTY_LIST_PARAMETER;
-import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
+import static net.kosto.configuration.ValidateError.MISSING_ATTRIBUTE;
 import static net.kosto.util.StringUtils.AMPERSAND;
 import static net.kosto.util.StringUtils.DATABASE;
 import static net.kosto.util.StringUtils.EMPTY_STRING;
+import static net.kosto.util.StringUtils.ORACLE_SCHEMES;
 
 import java.util.Comparator;
 import java.util.List;
@@ -70,11 +70,9 @@ public class OracleDatabase extends AbstractDatabaseItem {
   @Override
   protected void checkMandatoryValues() throws MojoExecutionException {
     if (schemes == null) {
-      throw new MojoExecutionException(MISSING_PARAMETER.message("oracle.schemes"));
+      throw new MojoExecutionException(MISSING_ATTRIBUTE.message(ORACLE_SCHEMES));
     }
-    if (schemes.isEmpty()) {
-      throw new MojoExecutionException(EMPTY_LIST_PARAMETER.message("oracle.schemes", "schema"));
-    }
+    checkMandatory(schemes, ORACLE_SCHEMES);
   }
 
   @Override
@@ -96,12 +94,7 @@ public class OracleDatabase extends AbstractDatabaseItem {
   @Override
   protected void processAttributes() throws MojoExecutionException {
     if (schemes != null) {
-      schemes
-          .sort(
-              Comparator
-                  .comparingInt(OracleSchema::getIndex)
-                  .thenComparing(OracleSchema::getName)
-          );
+      schemes.sort(Comparator.comparingInt(OracleSchema::getOrder));
 
       for (final OracleSchema schema : schemes) {
         validateAttribute(schema);

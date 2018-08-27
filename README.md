@@ -149,8 +149,8 @@ Other depends on database type.
 
 | Tag Name          | Description |
 | ----------------- | ----------- |
-| `index`           | Schema's index (integer). Affects schema processing order. |
-| `name`            | Schema name. |
+| `index`           | Schema's index (integer). Affects schema processing order. It should be either set for every `schema` and unique or missing. If it is missing for every `schema`, natural order of schemes in configuration will be used. |
+| `name`            | Schema name. By default set as `schema`. |
 | `sourceDirectory` | Source directory for all schema's objects. By default schema name is used as source directory. |
 | `ignoreDirectory` | If `true` source directory will be ignored. By default set as `false`. |
 | `defineSymbol`    | Define symbol for variable substitution. By default takes value set for database. |
@@ -162,7 +162,7 @@ Other depends on database type.
 
 | Tag Name          | Description |
 | ----------------- | ----------- |
-| `index`           | Objects' index (integer). Affects objects processing order. |
+| `index`           | Objects' index (integer). Affects objects processing order. It should be either set for every `object` and unique or missing. If it is missing for every `object`, natural order of objects in configuration will be used. |
 | `type`            | Objects' type. Possible values are: `FUNCTION`, `PACKAGE_BODY`, `PACKAGE_SPEC`, `PROCEDURE`, `TRIGGER`, `TYPE_BODY`, `TYPE_SPEC`, `VIEW`.  |
 | `sourceDirectory` | Source directory for all objects' type. By default objects' types have next associated directories: `FUNCTION` - `functions`, `PACKAGE_BODY` - `package_bodies`, `PACKAGE_SPEC` - `package_specs`, `PROCEDURE` - `procedures`, `TRIGGER` - `triggers`, `TYPE_BODY` - `type_bodies`, `TYPE_SPEC` - `type_specs`, and `VIEW` - `views`. |
 | `ignoreDirectory` | If `true` source directory will be ignored. By default set as `false`. |
@@ -176,7 +176,7 @@ Other depends on database type.
 | ----------------- | ----------- |
 | `type`            | Scripts' type. Possible values are: `ONE_TIME` and `REUSABLE`. Affects how scripts will be used, one time only or every time during deploy. |
 | `condition`       | Scripts' condition. Possible values are: `BEFORE` and `AFTER`. Affects when scripts will be executed, before or after source code deploy. |
-| `index`           | Scripts' index (integer). Affects scripts processing order. |
+| `index`           | Scripts' index (integer). Affects scripts processing order. It should be either set for every `script` and unique within script `type` or missing. If it is missing for every `script`, natural order of scripts in configuration will be used. |
 | `sourceDirectory` | Source directory for all scripts. By default scripts' type have next associated directories: `ONE_TIME` - `script_one_time` and `REUSABLE` - `script_reusable`. |
 | `ignoreDirectory` | If `true` source directory will be ignored. By default set as `false`. |
 | `defineSymbol`    | Define symbol for variable substitution. By default takes value set for schema. |

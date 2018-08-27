@@ -85,9 +85,6 @@ checkFile(target_service + file, verify_service + file, 0)
 file = "install_object_2_schema_a_2_TYPE_BODY.sql"
 checkFile(target_service + file, verify_service + file, 0)
 
-file = "install_object_2_schema_a_3_FUNCTION.sql"
-checkFile(target_service + file, verify_service + file, 0)
-
 file = "install_object_2_schema_a_3_VIEW.sql"
 checkFile(target_service + file, verify_service + file, 0)
 
@@ -98,6 +95,9 @@ file = "install_object_2_schema_a_5_PACKAGE_SPEC.sql"
 checkFile(target_service + file, verify_service + file, 0)
 
 file = "install_object_2_schema_a_6_PACKAGE_BODY.sql"
+checkFile(target_service + file, verify_service + file, 0)
+
+file = "install_object_2_schema_a_7_FUNCTION.sql"
 checkFile(target_service + file, verify_service + file, 0)
 
 file = "install_script_2_schema_a_AFTER_1.sql"

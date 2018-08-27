@@ -17,10 +17,11 @@
 package net.kosto.configuration.model.oracle;
 
 import static java.lang.Boolean.FALSE;
-import static net.kosto.configuration.ValidateError.EMPTY_LIST_PARAMETER;
-import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
 import static net.kosto.util.StringUtils.AMPERSAND;
 import static net.kosto.util.StringUtils.EMPTY_STRING;
+import static net.kosto.util.StringUtils.ORACLE_SCHEMA_OBJECTS;
+import static net.kosto.util.StringUtils.ORACLE_SCHEMA_SCRIPTS;
+import static net.kosto.util.StringUtils.SCHEMA;
 
 import java.util.Comparator;
 import java.util.List;
@@ -81,22 +82,15 @@ public class OracleSchema extends AbstractDatabaseItem {
 
   @Override
   protected void checkMandatoryValues() throws MojoExecutionException {
-    if (getIndex() == null) {
-      throw new MojoExecutionException(MISSING_PARAMETER.message("oracle.schema.index"));
-    }
-    if (getName() == null) {
-      throw new MojoExecutionException(MISSING_PARAMETER.message("oracle.schema.name"));
-    }
-    if (objects != null && objects.isEmpty()) {
-      throw new MojoExecutionException(EMPTY_LIST_PARAMETER.message("oracle.schema.objects", "object"));
-    }
-    if (scripts != null && scripts.isEmpty()) {
-      throw new MojoExecutionException(EMPTY_LIST_PARAMETER.message("oracle.schema.scripts", "script"));
-    }
+    checkMandatory(objects, ORACLE_SCHEMA_OBJECTS);
+    checkMandatory(scripts, ORACLE_SCHEMA_SCRIPTS);
   }
 
   @Override
   protected void setDefaultValues() {
+    if (getName() == null) {
+      setName(SCHEMA);
+    }
     if (getDefineSymbol() == null) {
       setDefineSymbol(AMPERSAND);
     }
@@ -111,12 +105,7 @@ public class OracleSchema extends AbstractDatabaseItem {
   @Override
   protected void processAttributes() throws MojoExecutionException {
     if (objects != null) {
-      objects
-          .sort(
-              Comparator
-                  .comparingInt(OracleObject::getIndex)
-                  .thenComparing(OracleObject::getType)
-          );
+      objects.sort(Comparator.comparingInt(OracleObject::getOrder));
 
       for (final OracleObject object : objects) {
         validateAttribute(object);
@@ -124,12 +113,7 @@ public class OracleSchema extends AbstractDatabaseItem {
     }
 
     if (scripts != null) {
-      scripts
-          .sort(
-              Comparator
-                  .comparing(OracleScript::getCondition, Comparator.reverseOrder())
-                  .thenComparingInt(OracleScript::getIndex)
-          );
+      scripts.sort(Comparator.comparingInt(OracleScript::getOrder));
 
       for (final OracleScript script : scripts) {
         validateAttribute(script);

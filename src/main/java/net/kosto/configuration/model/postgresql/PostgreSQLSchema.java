@@ -17,10 +17,11 @@
 package net.kosto.configuration.model.postgresql;
 
 import static java.lang.Boolean.FALSE;
-import static net.kosto.configuration.ValidateError.EMPTY_LIST_PARAMETER;
-import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
 import static net.kosto.util.StringUtils.COLON;
 import static net.kosto.util.StringUtils.EMPTY_STRING;
+import static net.kosto.util.StringUtils.POSTGRESQL_SCHEMA_OBJECTS;
+import static net.kosto.util.StringUtils.POSTGRESQL_SCHEMA_SCRIPTS;
+import static net.kosto.util.StringUtils.SCHEMA;
 
 import java.util.Comparator;
 import java.util.List;
@@ -81,18 +82,11 @@ public class PostgreSQLSchema extends AbstractDatabaseItem {
 
   @Override
   protected void checkMandatoryValues() throws MojoExecutionException {
-    if (getIndex() == null) {
-      throw new MojoExecutionException(MISSING_PARAMETER.message("postgresql.schema.index"));
-    }
     if (getName() == null) {
-      throw new MojoExecutionException(MISSING_PARAMETER.message("postgresql.schema.name"));
+      setName(SCHEMA);
     }
-    if (objects != null && objects.isEmpty()) {
-      throw new MojoExecutionException(EMPTY_LIST_PARAMETER.message("postgresql.schema.objects", "object"));
-    }
-    if (scripts != null && scripts.isEmpty()) {
-      throw new MojoExecutionException(EMPTY_LIST_PARAMETER.message("postgresql.schema.scripts", "script"));
-    }
+    checkMandatory(objects, POSTGRESQL_SCHEMA_OBJECTS);
+    checkMandatory(scripts, POSTGRESQL_SCHEMA_SCRIPTS);
   }
 
   @Override
@@ -111,12 +105,7 @@ public class PostgreSQLSchema extends AbstractDatabaseItem {
   @Override
   protected void processAttributes() throws MojoExecutionException {
     if (objects != null) {
-      objects
-          .sort(
-              Comparator
-                  .comparingInt(PostgreSQLObject::getIndex)
-                  .thenComparing(PostgreSQLObject::getType)
-          );
+      objects.sort(Comparator.comparingInt(PostgreSQLObject::getOrder));
 
       for (final PostgreSQLObject object : objects) {
         validateAttribute(object);
@@ -124,12 +113,7 @@ public class PostgreSQLSchema extends AbstractDatabaseItem {
     }
 
     if (scripts != null) {
-      scripts
-          .sort(
-              Comparator
-                  .comparing(PostgreSQLScript::getCondition, Comparator.reverseOrder())
-                  .thenComparingInt(PostgreSQLScript::getIndex)
-          );
+      scripts.sort(Comparator.comparingInt(PostgreSQLScript::getOrder));
 
       for (final PostgreSQLScript script : scripts) {
         validateAttribute(script);

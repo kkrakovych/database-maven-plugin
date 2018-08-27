@@ -40,6 +40,23 @@ public abstract class AbstractDatabaseScript extends AbstractDatabaseObject impl
   }
 
   @Override
+  public Integer getOrder() {
+    Integer result = 0;
+
+    switch (condition) {
+      case BEFORE:
+        result = 1000;
+        break;
+      case AFTER:
+        result = 2000;
+      default:
+        result = result + getIndex();
+    }
+
+    return result;
+  }
+
+  @Override
   public DatabaseScriptType getType() {
     return type;
   }

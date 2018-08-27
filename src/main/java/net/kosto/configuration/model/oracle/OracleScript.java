@@ -17,9 +17,11 @@
 package net.kosto.configuration.model.oracle;
 
 import static java.lang.Boolean.FALSE;
-import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
+import static net.kosto.configuration.ValidateError.MISSING_ATTRIBUTE;
 import static net.kosto.util.StringUtils.AMPERSAND;
 import static net.kosto.util.StringUtils.EMPTY_STRING;
+import static net.kosto.util.StringUtils.ORACLE_SCHEMA_SCRIPT_CONDITION;
+import static net.kosto.util.StringUtils.ORACLE_SCHEMA_SCRIPT_TYPE;
 
 import net.kosto.configuration.model.AbstractDatabaseScript;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -51,13 +53,10 @@ public class OracleScript extends AbstractDatabaseScript {
   @Override
   protected void checkMandatoryValues() throws MojoExecutionException {
     if (getType() == null) {
-      throw new MojoExecutionException(MISSING_PARAMETER.message("oracle.schema.script.type"));
+      throw new MojoExecutionException(MISSING_ATTRIBUTE.message(ORACLE_SCHEMA_SCRIPT_TYPE));
     }
     if (getCondition() == null) {
-      throw new MojoExecutionException(MISSING_PARAMETER.message("oracle.schema.script.condition"));
-    }
-    if (getIndex() == null) {
-      throw new MojoExecutionException(MISSING_PARAMETER.message("oracle.schema.script.index"));
+      throw new MojoExecutionException(MISSING_ATTRIBUTE.message(ORACLE_SCHEMA_SCRIPT_CONDITION));
     }
   }
 

@@ -18,10 +18,12 @@ package net.kosto.configuration.model.postgresql;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
-import static net.kosto.configuration.ValidateError.EMPTY_LIST_PARAMETER;
-import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
 import static net.kosto.util.StringUtils.COLON;
+import static net.kosto.util.StringUtils.DATABASE;
 import static net.kosto.util.StringUtils.EMPTY_STRING;
+import static net.kosto.util.StringUtils.POSTGRESQL_OBJECTS;
+import static net.kosto.util.StringUtils.POSTGRESQL_SCHEMES;
+import static net.kosto.util.StringUtils.POSTGRESQL_SCRIPTS;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -96,22 +98,16 @@ public class PostgreSQLDatabase extends AbstractDatabaseItem {
 
   @Override
   protected void checkMandatoryValues() throws MojoExecutionException {
-    if (getName() == null) {
-      throw new MojoExecutionException(MISSING_PARAMETER.message("postgresql.name"));
-    }
-    if (objects != null && objects.isEmpty()) {
-      throw new MojoExecutionException(EMPTY_LIST_PARAMETER.message("postgresql.objects", "object"));
-    }
-    if (scripts != null && scripts.isEmpty()) {
-      throw new MojoExecutionException(EMPTY_LIST_PARAMETER.message("postgresql.scripts", "script"));
-    }
-    if (schemes != null && schemes.isEmpty()) {
-      throw new MojoExecutionException(EMPTY_LIST_PARAMETER.message("postgresql.schemes", "schema"));
-    }
+    checkMandatory(objects, POSTGRESQL_OBJECTS);
+    checkMandatory(scripts, POSTGRESQL_SCRIPTS);
+    checkMandatory(schemes, POSTGRESQL_SCHEMES);
   }
 
   @Override
   protected void setDefaultValues() {
+    if (getName() == null) {
+      setName(DATABASE);
+    }
     if (getDefineSymbol() == null) {
       setDefineSymbol(COLON);
     }
@@ -126,12 +122,7 @@ public class PostgreSQLDatabase extends AbstractDatabaseItem {
   @Override
   protected void processAttributes() throws MojoExecutionException {
     if (objects != null) {
-      objects
-          .sort(
-              Comparator
-                  .comparingInt(PostgreSQLObject::getIndex)
-                  .thenComparing(PostgreSQLObject::getType)
-          );
+      objects.sort(Comparator.comparingInt(PostgreSQLObject::getOrder));
 
       for (final PostgreSQLObject object : objects) {
         validateAttribute(object);
@@ -139,12 +130,7 @@ public class PostgreSQLDatabase extends AbstractDatabaseItem {
     }
 
     if (scripts != null) {
-      scripts
-          .sort(
-              Comparator
-                  .comparing(PostgreSQLScript::getCondition, Comparator.reverseOrder())
-                  .thenComparingInt(PostgreSQLScript::getIndex)
-          );
+      scripts.sort(Comparator.comparingInt(PostgreSQLScript::getOrder));
 
       for (final PostgreSQLScript script : scripts) {
         validateAttribute(script);
@@ -178,12 +164,7 @@ public class PostgreSQLDatabase extends AbstractDatabaseItem {
     }
 
     if (schemes != null) {
-      schemes
-          .sort(
-              Comparator
-                  .comparingInt(PostgreSQLSchema::getIndex)
-                  .thenComparing(PostgreSQLSchema::getName)
-          );
+      schemes.sort(Comparator.comparingInt(PostgreSQLSchema::getOrder));
     }
   }
 }

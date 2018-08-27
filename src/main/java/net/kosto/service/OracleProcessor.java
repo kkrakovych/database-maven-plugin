@@ -18,7 +18,12 @@ package net.kosto.service;
 
 import static net.kosto.Package.SERVICE_DIRECTORY;
 import static net.kosto.util.FileUtils.FILE_MASK_SQL;
+import static net.kosto.util.StringUtils.COMMON;
 import static net.kosto.util.StringUtils.DATABASE;
+import static net.kosto.util.StringUtils.OBJECT;
+import static net.kosto.util.StringUtils.ORACLE;
+import static net.kosto.util.StringUtils.SCHEMA;
+import static net.kosto.util.StringUtils.SCRIPT;
 
 import java.nio.file.Path;
 
@@ -35,8 +40,6 @@ import org.apache.maven.plugin.MojoExecutionException;
  * Controls packaging into database deploy script for Oracle database configuration.
  */
 public class OracleProcessor extends AbstractProcessor {
-
-  private static final String ORACLE = "oracle";
 
   /**
    * Constructs instance and sets default values.

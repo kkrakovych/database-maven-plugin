@@ -17,9 +17,11 @@
 package net.kosto.configuration.model.postgresql;
 
 import static java.lang.Boolean.FALSE;
-import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
+import static net.kosto.configuration.ValidateError.MISSING_ATTRIBUTE;
 import static net.kosto.util.StringUtils.COLON;
 import static net.kosto.util.StringUtils.EMPTY_STRING;
+import static net.kosto.util.StringUtils.POSTGRESQL_SCHEMA_SCRIPT_CONDITION;
+import static net.kosto.util.StringUtils.POSTGRESQL_SCHEMA_SCRIPT_TYPE;
 
 import net.kosto.configuration.model.AbstractDatabaseScript;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -51,13 +53,10 @@ public class PostgreSQLScript extends AbstractDatabaseScript {
   @Override
   protected void checkMandatoryValues() throws MojoExecutionException {
     if (getType() == null) {
-      throw new MojoExecutionException(MISSING_PARAMETER.message("postgresql.schema.script.type"));
+      throw new MojoExecutionException(MISSING_ATTRIBUTE.message(POSTGRESQL_SCHEMA_SCRIPT_TYPE));
     }
     if (getCondition() == null) {
-      throw new MojoExecutionException(MISSING_PARAMETER.message("postgresql.schema.script.condition"));
-    }
-    if (getIndex() == null) {
-      throw new MojoExecutionException(MISSING_PARAMETER.message("postgresql.schema.script.index"));
+      throw new MojoExecutionException(MISSING_ATTRIBUTE.message(POSTGRESQL_SCHEMA_SCRIPT_CONDITION));
     }
   }
 

@@ -83,7 +83,13 @@ public class Configuration implements Validator {
     return buildTimestamp;
   }
 
-  public String getBuildTimestamp(DateTimeFormatter dtf) {
+  /**
+   * Returns build timestamp formatted with specified date time formatter.
+   *
+   * @param dtf Date time formatter.
+   * @return Formatted build timestamp.
+   */
+  public String getBuildTimestamp(final DateTimeFormatter dtf) {
     return buildTimestamp.format(dtf);
   }
 

@@ -17,9 +17,17 @@
 package net.kosto.configuration.model;
 
 import static java.lang.Boolean.FALSE;
+import static net.kosto.configuration.ValidateError.DUPLICATE_ATTRIBUTE;
+import static net.kosto.configuration.ValidateError.EMPTY_LIST_ATTRIBUTE;
+import static net.kosto.configuration.ValidateError.SEMI_DEFINED_ATTRIBUTES;
 import static net.kosto.util.FileUtils.UNIX_SEPARATOR;
+import static net.kosto.util.StringUtils.INDEX;
+import static net.kosto.util.StringUtils.SCHEMA;
 
 import java.nio.file.Path;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.apache.maven.plugin.MojoExecutionException;
 
@@ -229,7 +237,7 @@ public abstract class AbstractDatabaseItem implements DatabaseItem {
   }
 
   /**
-   * Validates database items' attribute with mandatory preliminary actions.
+   * Validates database item attribute with mandatory preliminary actions.
    * <li>
    * Some attributes like {@link AbstractDatabaseItem#defineSymbol},
    * if was set in parent database item, should have the same value in related
@@ -240,23 +248,98 @@ public abstract class AbstractDatabaseItem implements DatabaseItem {
    * should be amended properly dependent on values from parent database items.
    * </li>
    *
-   * @param attribute Attribute for validation.
-   * @param <T>       Attribute type.
+   * @param item Database item for validation.
    * @throws MojoExecutionException If expected exception occurs.
    */
-  protected <T extends DatabaseItem> void validateAttribute(final T attribute) throws MojoExecutionException {
+  protected void validateAttribute(final DatabaseItem item) throws MojoExecutionException {
     // Attributes for propagation from parent database item to child one.
-    if (attribute.getDefineSymbol() == null) {
-      attribute.setDefineSymbol(defineSymbol);
+    if (item.getDefineSymbol() == null) {
+      item.setDefineSymbol(defineSymbol);
     }
-    if (attribute.getIgnoreDefine() == null) {
-      attribute.setIgnoreDefine(ignoreDefine);
+    if (item.getIgnoreDefine() == null) {
+      item.setIgnoreDefine(ignoreDefine);
     }
     // Attributes dependent on values from parent database item.
-    attribute.setExecuteDirectory(executeDirectory);
-    attribute.setSourceDirectoryFull(sourceDirectoryFull);
-    attribute.setOutputDirectoryFull(outputDirectoryFull);
+    item.setExecuteDirectory(executeDirectory);
+    item.setSourceDirectoryFull(sourceDirectoryFull);
+    item.setOutputDirectoryFull(outputDirectoryFull);
     // Executes database item validation.
-    attribute.validate();
+    item.validate();
+  }
+
+  /**
+   * Checks complex database items' attributes for common cases.
+   *
+   * @param items     Database items.
+   * @param attribute Attribute name.
+   * @param <T>       Any class with {@link DatabaseItem} interface implemented.
+   * @throws MojoExecutionException If expected exception occurs.
+   */
+  protected <T extends DatabaseItem> void checkMandatory(final List<T> items, final String attribute) throws MojoExecutionException {
+    if (items != null) {
+      if (items.isEmpty()) {
+        throw new MojoExecutionException(EMPTY_LIST_ATTRIBUTE.message(attribute, SCHEMA));
+      }
+      if (isSemiDefinedIndex(items)) {
+        throw new MojoExecutionException(SEMI_DEFINED_ATTRIBUTES.message(attribute, SCHEMA, INDEX));
+      }
+      if (isDuplicateIndex(items)) {
+        throw new MojoExecutionException(DUPLICATE_ATTRIBUTE.message(attribute, SCHEMA, INDEX));
+      }
+      indexNatural(items);
+    }
+  }
+
+  /**
+   * Checks for semi-defined index attribute within list of database items.
+   * <p>
+   * We treat indexes as semi-defined for list of database items
+   * when some of them are defined and others are not.
+   *
+   * @param items Database items.
+   * @param <T>   Any class with {@link DatabaseItem} interface implemented.
+   * @return If indexes are semi-defined {@code true}, otherwise {@code false}.
+   */
+  private <T extends DatabaseItem> boolean isSemiDefinedIndex(final List<T> items) {
+    final int count = (int) items.stream().filter(item -> item.getIndex() == null).count();
+    return count > 0 && items.size() != count;
+  }
+
+  /**
+   * Checks for duplicate index attribute within list of database items.
+   *
+   * @param items Database items.
+   * @param <T>   Any class with {@link DatabaseItem} interface implemented.
+   * @return If duplicate index found {@code true}, otherwise {@code false}.
+   */
+  private <T extends DatabaseItem> boolean isDuplicateIndex(final List<T> items) {
+    boolean result = false;
+
+    final Set<Integer> indexes = new HashSet<>();
+    for (final DatabaseItem item : items) {
+      if (indexes.contains(item.getOrder())) {
+        result = true;
+        break;
+      }
+      indexes.add(item.getOrder());
+    }
+
+    return result;
+  }
+
+  /**
+   * Indexes list of database items in natural order.
+   *
+   * @param items Database items.
+   * @param <T>   Any class with {@link DatabaseItem} interface implemented.
+   */
+  private <T extends DatabaseItem> void indexNatural(final List<T> items) {
+    int order = 0;
+    for (final T item : items) {
+      if (item.getIndex() != null) {
+        break;
+      }
+      item.setIndex(order++);
+    }
   }
 }

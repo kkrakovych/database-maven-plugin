@@ -17,9 +17,10 @@
 package net.kosto.configuration.model.postgresql;
 
 import static java.lang.Boolean.FALSE;
-import static net.kosto.configuration.ValidateError.MISSING_PARAMETER;
+import static net.kosto.configuration.ValidateError.MISSING_ATTRIBUTE;
 import static net.kosto.util.StringUtils.COLON;
 import static net.kosto.util.StringUtils.EMPTY_STRING;
+import static net.kosto.util.StringUtils.POSTGRESQL_SCHEMA_OBJECT_TYPE;
 
 import net.kosto.configuration.model.AbstractDatabaseObject;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -65,11 +66,8 @@ public class PostgreSQLObject extends AbstractDatabaseObject {
 
   @Override
   protected void checkMandatoryValues() throws MojoExecutionException {
-    if (getIndex() == null) {
-      throw new MojoExecutionException(MISSING_PARAMETER.message("postgresql.schema.object.index"));
-    }
     if (type == null) {
-      throw new MojoExecutionException(MISSING_PARAMETER.message("postgresql.schema.object.type"));
+      throw new MojoExecutionException(MISSING_ATTRIBUTE.message(POSTGRESQL_SCHEMA_OBJECT_TYPE));
     }
   }
 
