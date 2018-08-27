@@ -50,7 +50,8 @@ public class OracleDatabaseTest {
   private OracleDatabase init02ValidateSchemesEmpty() {
     OracleDatabase database = init01ValidateDatabaseEmpty();
 
-    database.setSchemes(new ArrayList<>());
+    List<OracleSchema> schemes = new ArrayList<>();
+    database.setSchemes(schemes);
 
     return database;
   }
@@ -143,5 +144,10 @@ public class OracleDatabaseTest {
     assertEquals(AMPERSAND, database.getDefineSymbol());
     assertFalse(database.getIgnoreDefine());
     assertEquals(UNIX_SEPARATOR + DATABASE + UNIX_SEPARATOR, database.getExecuteDirectory());
+
+    Integer index = 0;
+    for (OracleSchema schema : database.getSchemes()) {
+      assertEquals(index++, schema.getOrder());
+    }
   }
 }

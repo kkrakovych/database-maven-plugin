@@ -17,6 +17,7 @@
 package net.kosto.configuration.model.oracle;
 
 import static java.lang.Boolean.FALSE;
+import static net.kosto.configuration.ValidateError.MISSING_ATTRIBUTES;
 import static net.kosto.util.StringUtils.AMPERSAND;
 import static net.kosto.util.StringUtils.EMPTY_STRING;
 import static net.kosto.util.StringUtils.ORACLE_SCHEMA_OBJECTS;
@@ -82,6 +83,9 @@ public class OracleSchema extends AbstractDatabaseItem {
 
   @Override
   protected void checkMandatoryValues() throws MojoExecutionException {
+    if (objects == null && scripts == null) {
+      throw new MojoExecutionException(MISSING_ATTRIBUTES.message(ORACLE_SCHEMA_OBJECTS, ORACLE_SCHEMA_SCRIPTS));
+    }
     checkMandatory(objects, ORACLE_SCHEMA_OBJECTS);
     checkMandatory(scripts, ORACLE_SCHEMA_SCRIPTS);
   }
