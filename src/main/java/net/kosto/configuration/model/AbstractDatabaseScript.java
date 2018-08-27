@@ -45,10 +45,11 @@ public abstract class AbstractDatabaseScript extends AbstractDatabaseObject impl
 
     switch (condition) {
       case BEFORE:
-        result = 1000;
+        result = 1000 + getIndex();
         break;
       case AFTER:
-        result = 2000;
+        result = 2000 + getIndex();
+        break;
       default:
         result = result + getIndex();
     }
