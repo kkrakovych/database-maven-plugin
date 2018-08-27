@@ -17,7 +17,7 @@
 package net.kosto.configuration.model;
 
 import static java.lang.Boolean.FALSE;
-import static net.kosto.configuration.ValidateError.DUPLICATE_ATTRIBUTE;
+import static net.kosto.configuration.ValidateError.DUPLICATED_ATTRIBUTE;
 import static net.kosto.configuration.ValidateError.EMPTY_LIST_ATTRIBUTE;
 import static net.kosto.configuration.ValidateError.SEMI_DEFINED_ATTRIBUTES;
 import static net.kosto.util.FileUtils.UNIX_SEPARATOR;
@@ -284,7 +284,7 @@ public abstract class AbstractDatabaseItem implements DatabaseItem {
         throw new MojoExecutionException(SEMI_DEFINED_ATTRIBUTES.message(attribute, SCHEMA, INDEX));
       }
       if (isDuplicateIndex(items)) {
-        throw new MojoExecutionException(DUPLICATE_ATTRIBUTE.message(attribute, SCHEMA, INDEX));
+        throw new MojoExecutionException(DUPLICATED_ATTRIBUTE.message(attribute, SCHEMA, INDEX));
       }
       indexNatural(items);
     }
@@ -307,6 +307,7 @@ public abstract class AbstractDatabaseItem implements DatabaseItem {
 
   /**
    * Checks for duplicate index attribute within list of database items.
+   * {@code Null} values are not treated as duplicate.
    *
    * @param items Database items.
    * @param <T>   Any class with {@link DatabaseItem} interface implemented.
@@ -321,7 +322,9 @@ public abstract class AbstractDatabaseItem implements DatabaseItem {
         result = true;
         break;
       }
-      indexes.add(item.getOrder());
+      if (item.getOrder() != null) {
+        indexes.add(item.getOrder());
+      }
     }
 
     return result;

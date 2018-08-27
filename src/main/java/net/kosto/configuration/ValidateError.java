@@ -26,7 +26,7 @@ public enum ValidateError {
   MISSING_ATTRIBUTE("Attribute \"{0}\" should be specified."),
   EMPTY_LIST_ATTRIBUTE("Attribute \"{0}\" should contain at least one \"{1}\"."),
   SEMI_DEFINED_ATTRIBUTES("Attribute \"{2}\" should be either specified for every \"{1}\" in \"{0}\" or missing."),
-  DUPLICATE_ATTRIBUTE("Attribute \"{2}\" should be unique for every \"{1}\" in \"{0}\".");
+  DUPLICATED_ATTRIBUTE("Attribute \"{2}\" should be unique for every \"{1}\" in \"{0}\".");
 
   /**
    * Message format.
