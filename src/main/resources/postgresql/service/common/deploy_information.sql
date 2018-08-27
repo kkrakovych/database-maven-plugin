@@ -23,7 +23,7 @@
 \qecho Build version:     ${buildVersion}
 \qecho Build timestamp:   ${buildTimestamp}
 <#if database.schemes??>
-  \qecho List of schemas:
+  \qecho List of schemes:
   <#list database.schemes as schema>
     \qecho * ${schema.name}
   </#list>
