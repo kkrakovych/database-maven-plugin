@@ -29,6 +29,7 @@ import java.util.List;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -134,6 +135,7 @@ public class OracleDatabaseTest {
     init04ValidateSchemesIndexDuplicated().validate();
   }
 
+  @Ignore
   @Test
   public void test05DefaultValuesDatabase() throws MojoExecutionException {
     OracleDatabase database = init05DefaultValuesDatabase();
