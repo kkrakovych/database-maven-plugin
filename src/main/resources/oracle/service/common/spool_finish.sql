@@ -15,19 +15,6 @@
   -->
 <#compress>
 
-prompt
-prompt === DATABASE-MAVEN-PLUGIN
-prompt Oracle database [${database.name}] version [${buildVersion}] created at [${buildTimestamp}]
-
-@./${serviceDirectory}/input_parameters_auto.sql
-@./${serviceDirectory}/sqlplus_setup.sql
-@./${serviceDirectory}/check_connections.sql
-@./${serviceDirectory}/spool_start.sql
-@./${serviceDirectory}/info_start.sql
-@./${serviceDirectory}/install_database_${database.name}.sql
-@./${serviceDirectory}/info_finish.sql
-@./${serviceDirectory}/spool_finish.sql
-
-exit
+spool off
 
 </#compress>

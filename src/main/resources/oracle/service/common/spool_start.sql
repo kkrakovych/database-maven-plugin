@@ -15,19 +15,8 @@
   -->
 <#compress>
 
-prompt
-prompt === DATABASE-MAVEN-PLUGIN
-prompt Oracle database [${database.name}] version [${buildVersion}] created at [${buildTimestamp}]
-
-@./${serviceDirectory}/input_parameters_auto.sql
-@./${serviceDirectory}/sqlplus_setup.sql
-@./${serviceDirectory}/check_connections.sql
-@./${serviceDirectory}/spool_start.sql
-@./${serviceDirectory}/info_start.sql
-@./${serviceDirectory}/install_database_${database.name}.sql
-@./${serviceDirectory}/info_finish.sql
-@./${serviceDirectory}/spool_finish.sql
-
-exit
+column dt new_value start_timestamp noprint
+select to_char(sysdate, 'yyyymmddhh24miss') dt from dual;
+spool install_auto_${database.name}_${buildVersion}_&start_timestamp..log
 
 </#compress>

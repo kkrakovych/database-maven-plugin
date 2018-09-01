@@ -22,25 +22,11 @@ prompt Oracle database [${database.name}] version [${buildVersion}] created at [
 @./${serviceDirectory}/input_parameters_manual.sql
 @./${serviceDirectory}/sqlplus_setup.sql
 @./${serviceDirectory}/check_connections.sql
-
-column dt new_value start_timestamp noprint
-select to_char(sysdate, 'yyyymmddhh24miss') dt from dual;
-spool install_manual_${database.name}_${buildVersion}_&start_timestamp..log
-
-@./${serviceDirectory}/deploy_information.sql
+@./${serviceDirectory}/spool_start.sql
+@./${serviceDirectory}/info_start.sql
 @./${serviceDirectory}/install_database_${database.name}.sql
-
-prompt
-
-column script_runtime new_value script_runtime noprint
-column script_info    new_value script_info    noprint
-select 'Script runtime was ' || (cast(sysdate as timestamp) - cast(to_date(&start_timestamp, 'yyyymmddhh24miss') as timestamp)) || '.' script_runtime
-     , 'Script started at ' || to_char(to_date(&start_timestamp, 'yyyymmddhh24miss'), 'yyyy-mm-dd hh24:mi:ss') || ' and finished at ' || to_char(sysdate, 'yyyy-mm-dd hh24:mi:ss') script_info
-  from dual;
-prompt &script_runtime
-prompt &script_info
-
-spool off
+@./${serviceDirectory}/info_finish.sql
+@./${serviceDirectory}/spool_finish.sql
 
 exit
 

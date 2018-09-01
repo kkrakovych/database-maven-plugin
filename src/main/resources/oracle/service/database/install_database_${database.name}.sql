@@ -21,4 +21,6 @@ prompt === Deploy Database [${database.name}]
 @./${serviceDirectory}/install_schema_${schema.index}_${schema.name}.sql
 </#list>
 
+prompt
+
 </#compress>

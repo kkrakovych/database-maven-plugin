@@ -5,9 +5,6 @@
 5. Add option to disable/enable Oracle timing output.
 6. Review and amend service scripts. 
 7. Review .toString() calls - in scope of Paths actions.
-8. Extract spooling start/finish into separate scripts.
-9. Move show deploy information into install database script.
-
 
 Oracle levels     : database / schema / object
 PostgreSQL levels : instance / database / schema / object
