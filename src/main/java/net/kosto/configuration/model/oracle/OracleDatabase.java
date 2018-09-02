@@ -33,10 +33,12 @@ import org.apache.maven.plugin.MojoExecutionException;
  * Represents Oracle database configuration.
  * <p>
  * Default values for missing attributes' values:
+ * <ul>
  * <li>{@link OracleDatabase#sourceDirectory} = {@link OracleDatabase#name}</li>
  * <li>{@link OracleDatabase#ignoreDirectory} = {@link Boolean#FALSE}</li>
  * <li>{@link OracleDatabase#defineSymbol} = {@link net.kosto.util.StringUtils#AMPERSAND}</li>
  * <li>{@link OracleDatabase#ignoreDefine} = {@link Boolean#FALSE}</li>
+ * </ul>
  */
 public class OracleDatabase extends AbstractDatabaseItem {
 

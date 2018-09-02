@@ -238,6 +238,7 @@ public abstract class AbstractDatabaseItem implements DatabaseItem {
 
   /**
    * Validates database item attribute with mandatory preliminary actions.
+   * <ul>
    * <li>
    * Some attributes like {@link AbstractDatabaseItem#defineSymbol},
    * if was set in parent database item, should have the same value in related
@@ -247,6 +248,7 @@ public abstract class AbstractDatabaseItem implements DatabaseItem {
    * Some attributes like {@link AbstractDatabaseItem#executeDirectory}
    * should be amended properly dependent on values from parent database items.
    * </li>
+   * </ul>
    *
    * @param item Database item for validation.
    * @throws MojoExecutionException If expected exception occurs.

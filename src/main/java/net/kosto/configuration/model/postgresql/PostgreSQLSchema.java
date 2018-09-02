@@ -33,10 +33,12 @@ import org.apache.maven.plugin.MojoExecutionException;
  * Represents PostgreSQL database schema configuration.
  * <p>
  * Default values for missing attributes' values:
+ * <ul>
  * <li>{@link PostgreSQLSchema#sourceDirectory} = {@link PostgreSQLSchema#name}</li>
  * <li>{@link PostgreSQLSchema#ignoreDirectory} = {@link Boolean#FALSE}</li>
  * <li>{@link PostgreSQLSchema#defineSymbol} = {@link net.kosto.util.StringUtils#COLON}</li>
  * <li>{@link PostgreSQLSchema#ignoreDefine} = {@link Boolean#FALSE}</li>
+ * </ul>
  */
 public class PostgreSQLSchema extends AbstractDatabaseItem {
 

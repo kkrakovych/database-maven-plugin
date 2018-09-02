@@ -30,11 +30,13 @@ import org.apache.maven.plugin.MojoExecutionException;
  * Represents Oracle database schema's script configuration.
  * <p>
  * Default values for missing attributes' values:
+ * <ul>
  * <li>{@link OracleScript#sourceDirectory} = {@link net.kosto.configuration.model.DatabaseScriptType#getSourceDirectory()}</li>
  * <li>{@link OracleScript#ignoreDirectory} = {@link Boolean#FALSE}</li>
  * <li>{@link OracleScript#defineSymbol} = {@link net.kosto.util.StringUtils#AMPERSAND}</li>
  * <li>{@link OracleScript#ignoreDefine} = {@link Boolean#FALSE}</li>
  * <li>{@link OracleScript#fileMask} = {@link net.kosto.util.FileUtils#FILE_MASK_SQL}</li>
+ * </ul>
  */
 public class OracleScript extends AbstractDatabaseScript {
 

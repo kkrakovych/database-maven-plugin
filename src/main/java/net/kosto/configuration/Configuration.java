@@ -238,6 +238,7 @@ public class Configuration implements Validator {
      * Returns {@link Configuration} instance based on parameters.
      *
      * @return {@link Configuration} instance.
+     * @throws MojoExecutionException If expected exception occurs.
      */
     public Configuration build() throws MojoExecutionException {
       if (configuration.databaseType == null) {
