@@ -110,7 +110,7 @@
           <threshold>Low</threshold>
           <maxRank>20</maxRank>
           <failOnError>true</failOnError>
-          <!--<excludeFilterFile>check-sources-spotbugs-exclude.xml</excludeFilterFile>-->
+          <excludeFilterFile>check-sources-spotbugs-exclude.xml</excludeFilterFile>
           <plugins>
             <plugin>
               <groupId>com.mebigfatguy.fb-contrib</groupId>

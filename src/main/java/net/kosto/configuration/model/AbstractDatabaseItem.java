@@ -324,9 +324,7 @@ public abstract class AbstractDatabaseItem implements DatabaseItem {
         result = true;
         break;
       }
-      if (item.getOrder() != null) {
-        indexes.add(item.getOrder());
-      }
+      indexes.add(item.getOrder());
     }
 
     return result;

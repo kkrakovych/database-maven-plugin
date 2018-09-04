@@ -81,7 +81,7 @@ public class OracleObject extends AbstractDatabaseObject {
     if (getIgnoreDefine() == null) {
       setIgnoreDefine(FALSE);
     }
-    if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory() && type != null) {
+    if (type != null && !getIgnoreDirectory() && (getSourceDirectory() == null || getSourceDirectory().isEmpty())) {
       setSourceDirectory(getIgnoreDirectory() ? EMPTY_STRING : type.getSourceDirectory());
     }
   }

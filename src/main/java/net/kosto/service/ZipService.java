@@ -72,6 +72,15 @@ public class ZipService {
     this.files = new ArrayList<>();
   }
 
+  @Override
+  public String toString() {
+    return "ZipService{" +
+        "name='" + name + '\'' +
+        ", directory=" + directory +
+        ", files=" + files +
+        '}';
+  }
+
   /**
    * Adds file to list for further zip compression.
    *

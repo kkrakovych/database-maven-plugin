@@ -86,6 +86,14 @@ public final class TemplateService {
     return instance;
   }
 
+  @Override
+  public String toString() {
+    return "TemplateService{" +
+        "configuration=" + configuration +
+        ", parameters=" + parameters +
+        '}';
+  }
+
   /**
    * Puts key-value pair to template service parameters' list.
    *
