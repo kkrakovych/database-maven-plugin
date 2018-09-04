@@ -33,10 +33,17 @@ public interface DatabaseItem extends Validator {
   Integer getIndex();
 
   /**
+   * Sets database item's index in a list.
+   *
+   * @param index Database item's index.
+   */
+  void setIndex(final Integer index);
+
+  /**
    * Returns database item's order in a list.
    * <p>
-   * In general matches database item's index, though could be different
-   * in case it is required.
+   * In general the order matches database item's index, though it could be
+   * different in case it is required.
    * As an example, for scripts a script condition should be taken into account.
    *
    * @return Database item's order.
@@ -44,13 +51,6 @@ public interface DatabaseItem extends Validator {
   default Integer getOrder() {
     return getIndex();
   }
-
-  /**
-   * Sets database item's index in a list.
-   *
-   * @param index Database item's index.
-   */
-  void setIndex(final Integer index);
 
   /**
    * Returns database item's name.

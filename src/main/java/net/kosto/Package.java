@@ -73,7 +73,7 @@ public class Package extends AbstractMojo {
    * <p>
    * Default value is {@value SERVICE_DIRECTORY}.
    */
-  @Parameter(property = "service.directory")
+  @Parameter
   private final String serviceDirectory;
   /**
    * Oracle database configuration.
@@ -114,6 +114,7 @@ public class Package extends AbstractMojo {
    *
    * @throws MojoExecutionException If expected exception occurs.
    */
+  @Override
   public void execute() throws MojoExecutionException {
     final Configuration configuration = new Configuration.Builder()
         .setBuildVersion(buildVersion)
