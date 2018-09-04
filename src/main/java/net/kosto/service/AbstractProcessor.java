@@ -43,6 +43,8 @@ import org.apache.maven.plugin.MojoExecutionException;
  */
 public abstract class AbstractProcessor implements Processor {
 
+  public static final String FAILED_COPY_FILE = "Failed to copy source file.";
+
   /**
    * Database configuration.
    */
@@ -86,7 +88,7 @@ public abstract class AbstractProcessor implements Processor {
     final Path source = item.getSourceDirectoryFull();
     final Path directory = FileUtils.createDirectories(item.getOutputDirectoryFull());
     templateService.putParameter(itemType, item);
-    if (itemType.equals(SCRIPT)) {
+    if (SCRIPT.equals(itemType)) {
       templateService.putParameter(FILES, FileUtils.getFileNamesWithCheckSum(source, item.getFileMask()));
     } else {
       templateService.putParameter(FILES, FileUtils.getFileNames(source, item.getFileMask()));
@@ -128,14 +130,14 @@ public abstract class AbstractProcessor implements Processor {
    * @throws MojoExecutionException If expected exception occurs.
    */
   private void processSourceFile(final Path source, final Path target) throws MojoExecutionException {
-    if (configuration.getDatabaseType().equals(ORACLE)) {
+    if (configuration.getDatabaseType() == ORACLE) {
       final List<String> lines = FileUtils.readFileSourceCode(source);
       FileUtils.writeFileSourceCode(target, lines);
     } else {
       try {
         Files.copy(source, target, REPLACE_EXISTING, COPY_ATTRIBUTES);
       } catch (IOException x) {
-        throw new MojoExecutionException("Failed to copy source file.", x);
+        throw new MojoExecutionException(FAILED_COPY_FILE, x);
       }
     }
   }
