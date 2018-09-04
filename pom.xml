@@ -68,6 +68,8 @@
     <maven-invoker-plugin.version>3.1.0</maven-invoker-plugin.version>
     <check-sources.spotbugs-maven-plugin.version>3.1.6</check-sources.spotbugs-maven-plugin.version>
     <check-sources.fb-contrib.version>7.4.3.sb</check-sources.fb-contrib.version>
+    <check-sources.maven-pmd-plugin.version>3.10.0</check-sources.maven-pmd-plugin.version>
+    <check-sources.pmd.version>6.7.0</check-sources.pmd.version>
   </properties>
 
   <dependencies>
@@ -122,6 +124,40 @@
         <executions>
           <execution>
             <id>check-sources-spotbugs</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>${check-sources.maven-pmd-plugin.version}</version>
+        <dependencies>
+          <dependency>
+            <groupId>net.sourceforge.pmd</groupId>
+            <artifactId>pmd-core</artifactId>
+            <version>${check-sources.pmd.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>net.sourceforge.pmd</groupId>
+            <artifactId>pmd-java</artifactId>
+            <version>${check-sources.pmd.version}</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <failOnViolation>true</failOnViolation>
+          <printFailingErrors>true</printFailingErrors>
+          <rulesets>
+            <ruleset>check-sources-pmd-ruleset.xml</ruleset>
+          </rulesets>
+        </configuration>
+        <executions>
+          <execution>
+            <id>check-sources-pmd</id>
             <phase>compile</phase>
             <goals>
               <goal>check</goal>

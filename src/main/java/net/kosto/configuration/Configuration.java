@@ -79,8 +79,16 @@ public class Configuration implements Validator {
     return buildVersion;
   }
 
+  private void setBuildVersion(final String buildVersion) {
+    this.buildVersion = buildVersion;
+  }
+
   public LocalDateTime getBuildTimestamp() {
     return buildTimestamp;
+  }
+
+  private void setBuildTimestamp(final LocalDateTime buildTimestamp) {
+    this.buildTimestamp = buildTimestamp;
   }
 
   /**
@@ -97,20 +105,40 @@ public class Configuration implements Validator {
     return sourceDirectory;
   }
 
+  private void setSourceDirectory(final Path sourceDirectory) {
+    this.sourceDirectory = sourceDirectory;
+  }
+
   public Path getOutputDirectory() {
     return outputDirectory;
+  }
+
+  private void setOutputDirectory(final Path outputDirectory) {
+    this.outputDirectory = outputDirectory;
   }
 
   public String getServiceDirectory() {
     return serviceDirectory;
   }
 
+  private void setServiceDirectory(final String serviceDirectory) {
+    this.serviceDirectory = serviceDirectory;
+  }
+
   public DatabaseType getDatabaseType() {
     return databaseType;
   }
 
+  private void setDatabaseType(final DatabaseType databaseType) {
+    this.databaseType = databaseType;
+  }
+
   public DatabaseItem getDatabase() {
     return database;
+  }
+
+  private void setDatabase(final DatabaseItem database) {
+    this.database = database;
   }
 
   @Override
@@ -136,6 +164,7 @@ public class Configuration implements Validator {
   /**
    * Supports creation of {@link Configuration} object.
    */
+  @SuppressWarnings({"PMD.AccessorClassGeneration", "PMD.AccessorMethodGeneration"})
   public static class Builder {
 
     /**
@@ -157,8 +186,8 @@ public class Configuration implements Validator {
      * @param buildVersion Build version.
      * @return {@link Builder} instance.
      */
-    public Builder setBuildVersion(final String buildVersion) {
-      configuration.buildVersion = buildVersion;
+    public Builder buildVersion(final String buildVersion) {
+      configuration.setBuildVersion(buildVersion);
       return this;
     }
 
@@ -168,8 +197,8 @@ public class Configuration implements Validator {
      * @param buildTimestamp Build timestamp.
      * @return {@link Builder} instance.
      */
-    public Builder setBuildTimestamp(final LocalDateTime buildTimestamp) {
-      configuration.buildTimestamp = buildTimestamp;
+    public Builder buildTimestamp(final LocalDateTime buildTimestamp) {
+      configuration.setBuildTimestamp(buildTimestamp);
       return this;
     }
 
@@ -179,8 +208,8 @@ public class Configuration implements Validator {
      * @param sourceDirectory Full path name for root source directory.
      * @return {@link Builder} instance.
      */
-    public Builder setSourceDirectory(final String sourceDirectory) {
-      configuration.sourceDirectory = Paths.get(sourceDirectory);
+    public Builder sourceDirectory(final String sourceDirectory) {
+      configuration.setSourceDirectory(Paths.get(sourceDirectory));
       return this;
     }
 
@@ -190,8 +219,8 @@ public class Configuration implements Validator {
      * @param outputDirectory Full path name for root output directory.
      * @return {@link Builder} instance.
      */
-    public Builder setOutputDirectory(final String outputDirectory) {
-      configuration.outputDirectory = Paths.get(outputDirectory);
+    public Builder outputDirectory(final String outputDirectory) {
+      configuration.setOutputDirectory(Paths.get(outputDirectory));
       return this;
     }
 
@@ -201,8 +230,8 @@ public class Configuration implements Validator {
      * @param serviceDirectory Relative path name to service directory.
      * @return {@link Builder} instance.
      */
-    public Builder setServiceDirectory(final String serviceDirectory) {
-      configuration.serviceDirectory = serviceDirectory;
+    public Builder serviceDirectory(final String serviceDirectory) {
+      configuration.setServiceDirectory(serviceDirectory);
       return this;
     }
 
@@ -212,10 +241,10 @@ public class Configuration implements Validator {
      * @param oracle Oracle database configuration.
      * @return {@link Builder} instance.
      */
-    public Builder setOracle(final OracleDatabase oracle) {
-      if (oracle != null && configuration.databaseType == null) {
-        configuration.databaseType = ORACLE;
-        configuration.database = oracle;
+    public Builder oracle(final OracleDatabase oracle) {
+      if (oracle != null && configuration.getDatabaseType() == null) {
+        configuration.setDatabaseType(ORACLE);
+        configuration.setDatabase(oracle);
       }
       return this;
     }
@@ -226,10 +255,10 @@ public class Configuration implements Validator {
      * @param postgresql PostgreSQL database configuration.
      * @return {@link Builder} instance.
      */
-    public Builder setPostgresql(final PostgreSQLDatabase postgresql) {
-      if (postgresql != null && configuration.databaseType == null) {
-        configuration.databaseType = POSTGRESQL;
-        configuration.database = postgresql;
+    public Builder postgresql(final PostgreSQLDatabase postgresql) {
+      if (postgresql != null && configuration.getDatabaseType() == null) {
+        configuration.setDatabaseType(POSTGRESQL);
+        configuration.setDatabase(postgresql);
       }
       return this;
     }
@@ -241,7 +270,7 @@ public class Configuration implements Validator {
      * @throws MojoExecutionException If expected exception occurs.
      */
     public Configuration build() throws MojoExecutionException {
-      if (configuration.databaseType == null) {
+      if (configuration.getDatabaseType() == null) {
         throw new MojoExecutionException(UNKNOWN_DATABASE_TYPE.message());
       }
 

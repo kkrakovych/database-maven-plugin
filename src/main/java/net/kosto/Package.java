@@ -114,15 +114,16 @@ public class Package extends AbstractMojo {
    *
    * @throws MojoExecutionException If expected exception occurs.
    */
+  @Override
   public void execute() throws MojoExecutionException {
     final Configuration configuration = new Configuration.Builder()
-        .setBuildVersion(buildVersion)
-        .setBuildTimestamp(buildTimestamp)
-        .setSourceDirectory(sourceDirectory)
-        .setOutputDirectory(outputDirectory)
-        .setServiceDirectory(serviceDirectory)
-        .setOracle(oracle)
-        .setPostgresql(postgresql)
+        .buildVersion(buildVersion)
+        .buildTimestamp(buildTimestamp)
+        .sourceDirectory(sourceDirectory)
+        .outputDirectory(outputDirectory)
+        .serviceDirectory(serviceDirectory)
+        .oracle(oracle)
+        .postgresql(postgresql)
         .build();
     configuration.validate();
 

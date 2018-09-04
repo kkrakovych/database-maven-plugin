@@ -44,7 +44,7 @@ public class ConfigurationTest {
   @Test
   public void test02BuildOracle() throws MojoExecutionException {
     Configuration configuration = new Configuration.Builder()
-        .setOracle(new OracleDatabase())
+        .oracle(new OracleDatabase())
         .build();
 
     assertEquals(ORACLE, configuration.getDatabaseType());
@@ -53,7 +53,7 @@ public class ConfigurationTest {
   @Test
   public void test03BuildPostgreSQL() throws MojoExecutionException {
     Configuration configuration = new Configuration.Builder()
-        .setPostgresql(new PostgreSQLDatabase())
+        .postgresql(new PostgreSQLDatabase())
         .build();
 
     assertEquals(POSTGRESQL, configuration.getDatabaseType());

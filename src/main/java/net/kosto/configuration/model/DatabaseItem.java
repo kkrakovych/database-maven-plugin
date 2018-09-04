@@ -35,8 +35,8 @@ public interface DatabaseItem extends Validator {
   /**
    * Returns database item's order in a list.
    * <p>
-   * In general matches database item's index, though could be different
-   * in case it is required.
+   * In general the order matches database item's index, though it could be
+   * different in case it is required.
    * As an example, for scripts a script condition should be taken into account.
    *
    * @return Database item's order.
