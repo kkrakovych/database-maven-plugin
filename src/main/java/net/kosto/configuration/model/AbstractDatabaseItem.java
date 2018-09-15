@@ -320,11 +320,14 @@ public abstract class AbstractDatabaseItem implements DatabaseItem {
 
     final Set<Integer> indexes = new HashSet<>();
     for (final DatabaseItem item : items) {
-      if (indexes.contains(item.getOrder())) {
+      Integer order = item.getOrder();
+      if (indexes.contains(order)) {
         result = true;
         break;
       }
-      indexes.add(item.getOrder());
+      if (order != null) {
+        indexes.add(order);
+      }
     }
 
     return result;
