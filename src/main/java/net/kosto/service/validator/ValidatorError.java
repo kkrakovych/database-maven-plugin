@@ -21,7 +21,7 @@ import java.text.MessageFormat;
 /**
  * Represents all possible validation errors with associated messages.
  */
-public enum ValidateError {
+public enum ValidatorError {
 
   MISSING_ATTRIBUTE("Attribute \"{0}\" should be specified."),
   MISSING_ATTRIBUTES("Either \"{0}\" or \"{1}\" attribute should be specified."),
@@ -39,7 +39,7 @@ public enum ValidateError {
    *
    * @param message Message.
    */
-  ValidateError(final String message) {
+  ValidatorError(final String message) {
     this.messageFormat = new MessageFormat(message);
   }
 

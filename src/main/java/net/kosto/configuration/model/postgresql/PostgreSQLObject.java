@@ -17,7 +17,7 @@
 package net.kosto.configuration.model.postgresql;
 
 import static java.lang.Boolean.FALSE;
-import static net.kosto.service.validator.ValidateError.MISSING_ATTRIBUTE;
+import static net.kosto.service.validator.ValidatorError.MISSING_ATTRIBUTE;
 import static net.kosto.util.StringUtils.COLON;
 import static net.kosto.util.StringUtils.EMPTY_STRING;
 import static net.kosto.util.StringUtils.POSTGRESQL_SCHEMA_OBJECT_TYPE;

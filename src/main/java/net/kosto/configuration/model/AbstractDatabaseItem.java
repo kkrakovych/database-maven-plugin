@@ -17,9 +17,9 @@
 package net.kosto.configuration.model;
 
 import static java.lang.Boolean.FALSE;
-import static net.kosto.service.validator.ValidateError.DUPLICATED_ATTRIBUTE;
-import static net.kosto.service.validator.ValidateError.EMPTY_LIST_ATTRIBUTE;
-import static net.kosto.service.validator.ValidateError.SEMI_DEFINED_ATTRIBUTES;
+import static net.kosto.service.validator.ValidatorError.DUPLICATED_ATTRIBUTE;
+import static net.kosto.service.validator.ValidatorError.EMPTY_LIST_ATTRIBUTE;
+import static net.kosto.service.validator.ValidatorError.SEMI_DEFINED_ATTRIBUTES;
 import static net.kosto.util.FileUtils.UNIX_SEPARATOR;
 import static net.kosto.util.StringUtils.INDEX;
 import static net.kosto.util.StringUtils.SCHEMA;
