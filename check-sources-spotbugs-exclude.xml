@@ -21,7 +21,7 @@
 
   <!-- At the moment I have no idea how to fix the issue. -->
   <Match>
-    <Class name="net.kosto.service.AbstractProcessor"/>
+    <Class name="net.kosto.service.processor.AbstractProcessor"/>
     <Method name="processTemplateFiles"/>
     <Bug pattern="NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE"/>
   </Match>

@@ -18,7 +18,7 @@ package net.kosto.configuration;
 
 import static net.kosto.configuration.model.DatabaseType.ORACLE;
 import static net.kosto.configuration.model.DatabaseType.POSTGRESQL;
-import static net.kosto.service.ProcessorError.UNKNOWN_DATABASE_TYPE;
+import static net.kosto.service.processor.ProcessorError.UNKNOWN_DATABASE_TYPE;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.kosto.service;
+package net.kosto.service.processor;
 
 import java.text.MessageFormat;
 

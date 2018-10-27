@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.kosto.service;
+package net.kosto.service.processor;
 
 import static java.nio.file.StandardCopyOption.COPY_ATTRIBUTES;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
@@ -34,6 +34,8 @@ import java.util.List;
 
 import net.kosto.configuration.Configuration;
 import net.kosto.configuration.model.DatabaseObject;
+import net.kosto.service.TemplateService;
+import net.kosto.service.ZipService;
 import net.kosto.util.FileUtils;
 import net.kosto.util.ResourceUtils;
 import org.apache.maven.plugin.MojoExecutionException;

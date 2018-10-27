@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.kosto.service;
+package net.kosto.service.processor;
 
 import static net.kosto.Package.SERVICE_DIRECTORY;
 import static net.kosto.util.FileUtils.FILE_MASK_SQL;
