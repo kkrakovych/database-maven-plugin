@@ -29,6 +29,7 @@ import net.kosto.configuration.model.DatabaseItem;
 import net.kosto.configuration.model.DatabaseType;
 import net.kosto.configuration.model.oracle.OracleDatabase;
 import net.kosto.configuration.model.postgresql.PostgreSQLDatabase;
+import net.kosto.service.validator.Validator;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**

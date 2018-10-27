@@ -18,7 +18,7 @@ package net.kosto.configuration.model;
 
 import java.nio.file.Path;
 
-import net.kosto.configuration.Validator;
+import net.kosto.service.validator.Validator;
 
 /**
  * Provides interface required by any database item.

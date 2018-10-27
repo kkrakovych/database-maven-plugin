@@ -17,7 +17,7 @@
 package net.kosto.configuration.model.oracle;
 
 import static java.lang.Boolean.FALSE;
-import static net.kosto.configuration.ValidateError.MISSING_ATTRIBUTE;
+import static net.kosto.service.validator.ValidateError.MISSING_ATTRIBUTE;
 import static net.kosto.util.StringUtils.AMPERSAND;
 import static net.kosto.util.StringUtils.DATABASE;
 import static net.kosto.util.StringUtils.EMPTY_STRING;

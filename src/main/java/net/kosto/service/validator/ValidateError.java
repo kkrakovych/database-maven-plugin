@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.kosto.configuration;
+package net.kosto.service.validator;
 
 import java.text.MessageFormat;
 
