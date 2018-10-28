@@ -22,7 +22,7 @@ declare
   item record;
   items_for_drop cursor for
     select distinct
-           'drop trigger if exists ' || t.trigger_schema || '.' || t.trigger_name || ' on ' || t.event_object_schema || '.' || t.event_object_table || ' cascade;' as txt
+           'drop trigger if exists ' || t.trigger_name || ' on ' || t.event_object_schema || '.' || t.event_object_table || ' cascade;' as txt
       from information_schema.triggers t
      where t.trigger_schema not in ('pg_catalog', 'information_schema')
      union all
