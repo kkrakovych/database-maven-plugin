@@ -41,6 +41,12 @@
 
   <!-- TODO: Get rid of the issue at database-maven-plugin architecture upgrade. -->
   <Match>
+    <Class name="net.kosto.service.processor.AbstractProcessor"/>
+    <Bug pattern="FCCD_FIND_CLASS_CIRCULAR_DEPENDENCY"/>
+  </Match>
+
+  <!-- TODO: Get rid of the issue at database-maven-plugin architecture upgrade. -->
+  <Match>
     <Bug pattern="WEM_WEAK_EXCEPTION_MESSAGING"/>
   </Match>
 
