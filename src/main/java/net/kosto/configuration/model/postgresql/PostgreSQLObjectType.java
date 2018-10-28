@@ -23,6 +23,8 @@ package net.kosto.configuration.model.postgresql;
  * for relative {@link PostgreSQLObject#sourceDirectory} path.
  */
 public enum PostgreSQLObjectType {
+  FUNCTION("functions"),
+  TRIGGER("triggers"),
   VIEW("views");
 
   /**
