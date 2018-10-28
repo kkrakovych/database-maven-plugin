@@ -19,6 +19,9 @@ package net.kosto.service.validator;
 import net.kosto.configuration.Configuration;
 import org.apache.maven.plugin.MojoExecutionException;
 
+/**
+ * Controls configuration validation for Oracle database configuration.
+ */
 public class OracleValidator extends AbstractValidator {
 
   public OracleValidator(final Configuration configuration) {

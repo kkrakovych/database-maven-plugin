@@ -19,6 +19,9 @@ package net.kosto.service.validator;
 import net.kosto.configuration.Configuration;
 import org.apache.maven.plugin.MojoExecutionException;
 
+/**
+ * Controls configuration validation for PostgreSQL database configuration.
+ */
 public class PostgreSQLValidator extends AbstractValidator {
 
   public PostgreSQLValidator(final Configuration configuration) {
