@@ -39,18 +39,25 @@ public class Package extends AbstractMojo {
    * Default value for {@link #serviceDirectory} attribute and service scripts' resource path.
    */
   public static final String SERVICE_DIRECTORY = "service";
-
+  /**
+   * Database migration script build timestamp.
+   * Represents timestamp of source code packaging start.
+   */
+  private final LocalDateTime buildTimestamp;
+  /**
+   * Relative path name for service directory.
+   * Represents directory for service scripts required by database deploy script.
+   * <p>
+   * Default value is {@value SERVICE_DIRECTORY}.
+   */
+  @Parameter
+  private final String serviceDirectory;
   /**
    * Database migration script build version.
    * Represents project version defined in pom.xml file.
    */
   @Parameter(property = "project.version", required = true)
   private String buildVersion;
-  /**
-   * Database migration script build timestamp.
-   * Represents timestamp of source code packaging start.
-   */
-  private final LocalDateTime buildTimestamp;
   /**
    * Full path name for root source directory.
    * Represents directory containing pom.xml file.
@@ -65,14 +72,6 @@ public class Package extends AbstractMojo {
    */
   @Parameter(property = "project.build.directory", required = true)
   private String outputDirectory;
-  /**
-   * Relative path name for service directory.
-   * Represents directory for service scripts required by database deploy script.
-   * <p>
-   * Default value is {@value SERVICE_DIRECTORY}.
-   */
-  @Parameter
-  private final String serviceDirectory;
   /**
    * Oracle database configuration.
    */
