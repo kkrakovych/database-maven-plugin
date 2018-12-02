@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Set;
 
 import net.kosto.configuration.model.common.AbstractCommonDatabaseItem;
+import net.kosto.configuration.model.common.CommonDatabaseItem;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
@@ -56,6 +57,24 @@ public abstract class AbstractDatabaseItem extends AbstractCommonDatabaseItem im
   public AbstractDatabaseItem() {
     super();
     this.executeDirectory = UNIX_SEPARATOR;
+  }
+
+  /**
+   * Constructs instance and sets default values.
+   *
+   * @param item Common database item.
+   */
+  public AbstractDatabaseItem(CommonDatabaseItem item) {
+    this();
+    setIndex(item.getIndex());
+    setName(item.getName());
+    setType(item.getType());
+    setCondition(item.getCondition());
+    setFileMask(item.getFileMask());
+    setSourceDirectory(item.getSourceDirectory());
+    setIgnoreDirectory(item.getIgnoreDirectory());
+    setDefineSymbol(item.getDefineSymbol());
+    setIgnoreDefine(item.getIgnoreDefine());
   }
 
   @Override

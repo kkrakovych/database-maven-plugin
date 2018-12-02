@@ -62,7 +62,7 @@ public interface CommonDatabaseItem {
   void setName(final String name);
 
   /**
-   * Returns dataabase item's type.
+   * Returns database item's type.
    *
    * @return Database item's type.
    */

@@ -48,17 +48,13 @@ public class OracleObject extends AbstractDatabaseItem {
     super();
   }
 
+  /**
+   * Constructs instance and sets default values.
+   *
+   * @param item Common database item.
+   */
   public OracleObject(CommonDatabaseItem item) {
-    super();
-    setIndex(item.getIndex());
-    setName(item.getName());
-    setType(item.getType());
-    setCondition(item.getCondition());
-    setFileMask(item.getFileMask());
-    setSourceDirectory(item.getSourceDirectory());
-    setIgnoreDirectory(item.getIgnoreDirectory());
-    setDefineSymbol(item.getDefineSymbol());
-    setIgnoreDefine(item.getIgnoreDefine());
+    super(item);
   }
 
   /**
