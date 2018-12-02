@@ -23,11 +23,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 import net.kosto.configuration.model.DatabaseItem;
+import net.kosto.util.FileUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;
@@ -43,8 +43,8 @@ public class OracleDatabaseTest {
 
   private OracleDatabase init01ValidateDatabaseEmpty() {
     OracleDatabase database = new OracleDatabase();
-    database.setSourceDirectoryFull(Paths.get(UNIX_SEPARATOR));
-    database.setOutputDirectoryFull(Paths.get(UNIX_SEPARATOR));
+    database.setSourceDirectoryFull(FileUtils.rootPath);
+    database.setOutputDirectoryFull(FileUtils.rootPath);
 
     return database;
   }

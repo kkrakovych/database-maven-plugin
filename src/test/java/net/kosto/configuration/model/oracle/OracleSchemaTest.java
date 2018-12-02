@@ -16,11 +16,9 @@
 
 package net.kosto.configuration.model.oracle;
 
-import static net.kosto.util.FileUtils.UNIX_SEPARATOR;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
-import java.nio.file.Paths;
-
+import net.kosto.util.FileUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.junit.FixMethodOrder;
 import org.junit.Rule;
@@ -35,8 +33,8 @@ public class OracleSchemaTest {
 
   private OracleSchema init01ValidateSchemaEmpty() {
     OracleSchema schema = new OracleSchema();
-    schema.setSourceDirectoryFull(Paths.get(UNIX_SEPARATOR));
-    schema.setOutputDirectoryFull(Paths.get(UNIX_SEPARATOR));
+    schema.setSourceDirectoryFull(FileUtils.rootPath);
+    schema.setOutputDirectoryFull(FileUtils.rootPath);
 
     return schema;
   }
