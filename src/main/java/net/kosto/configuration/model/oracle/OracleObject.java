@@ -24,6 +24,7 @@ import static net.kosto.util.StringUtils.ORACLE_SCHEMA_OBJECT_TYPE;
 
 import net.kosto.configuration.model.AbstractDatabaseItem;
 import net.kosto.configuration.model.common.CommonDatabaseItem;
+import net.kosto.util.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
@@ -66,17 +67,7 @@ public class OracleObject extends AbstractDatabaseItem {
    * @return Database object type.
    */
   public OracleObjectType getObjectType() {
-    OracleObjectType result = null;
-
-    if (getType() != null) {
-      try {
-        result = OracleObjectType.valueOf(getType());
-      } catch (IllegalArgumentException x) {
-        // If corresponding database object type not found in enum, do nothing.
-      }
-    }
-
-    return result;
+    return StringUtils.getEnumElement(OracleObjectType.class, getType());
   }
 
   @Override

@@ -18,8 +18,6 @@ package net.kosto.configuration.model.common;
 
 import java.util.List;
 
-import net.kosto.configuration.model.DatabaseType;
-
 /**
  * Represents common database configuration.
  */
@@ -67,25 +65,6 @@ public class CommonDatabase extends AbstractCommonDatabaseItem {
 
   public void setSchemes(List<CommonSchema> schemes) {
     this.schemes = schemes;
-  }
-
-  /**
-   * Returns database type.
-   *
-   * @return Database type.
-   */
-  public DatabaseType getDatabaseType() {
-    DatabaseType result = null;
-
-    if (getType() != null) {
-      try {
-        result = DatabaseType.valueOf(getType());
-      } catch (IllegalArgumentException x) {
-        // If corresponding database type not found in enum, do nothing.
-      }
-    }
-
-    return result;
   }
 
   @Override

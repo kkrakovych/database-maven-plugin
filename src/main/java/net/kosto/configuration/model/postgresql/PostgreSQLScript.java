@@ -27,6 +27,7 @@ import net.kosto.configuration.model.AbstractDatabaseItem;
 import net.kosto.configuration.model.DatabaseScriptCondition;
 import net.kosto.configuration.model.DatabaseScriptType;
 import net.kosto.configuration.model.common.CommonDatabaseItem;
+import net.kosto.util.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
@@ -69,17 +70,7 @@ public class PostgreSQLScript extends AbstractDatabaseItem {
    * @return Database script type.
    */
   public DatabaseScriptType getScriptType() {
-    DatabaseScriptType result = null;
-
-    if (getType() != null) {
-      try {
-        result = DatabaseScriptType.valueOf(getType());
-      } catch (IllegalArgumentException x) {
-        // If corresponding database script type not found in enum, do nothing.
-      }
-    }
-
-    return result;
+    return StringUtils.getEnumElement(DatabaseScriptType.class, getType());
   }
 
   /**
@@ -88,17 +79,7 @@ public class PostgreSQLScript extends AbstractDatabaseItem {
    * @return Database script condition.
    */
   public DatabaseScriptCondition getScriptCondition() {
-    DatabaseScriptCondition result = null;
-
-    if (getCondition() != null) {
-      try {
-        result = DatabaseScriptCondition.valueOf(getCondition());
-      } catch (IllegalArgumentException x) {
-        // If corresponding database script condition not found in enum, do nothing.
-      }
-    }
-
-    return result;
+    return StringUtils.getEnumElement(DatabaseScriptCondition.class, getCondition());
   }
 
   @Override

@@ -128,4 +128,26 @@ public final class StringUtils {
 
   private StringUtils() {
   }
+
+  /**
+   * Returns enum's element matched with specified value.
+   *
+   * @param enumClass Enum's class.
+   * @param value     Value for matching with enum's element.
+   * @param <T>       Enum.
+   * @return Enum's element.
+   */
+  public static <T extends Enum<T>> T getEnumElement(final Class<T> enumClass, final String value) {
+    T result = null;
+
+    if (value != null) {
+      try {
+        result = Enum.valueOf(enumClass, value);
+      } catch (IllegalArgumentException x) {
+        // If corresponding enum's element not found in enum, do nothing.
+      }
+    }
+
+    return result;
+  }
 }
