@@ -26,11 +26,11 @@ public class CommonSchema extends AbstractCommonDatabaseItem {
   /**
    * Database schema objects' configuration.
    */
-  public List<CommonItem> objects;
+  private List<CommonItem> objects;
   /**
    * Database schema scripts' configuration.
    */
-  public List<CommonItem> scripts;
+  private List<CommonItem> scripts;
 
   /**
    * Constructs instance and sets default values.

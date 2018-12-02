@@ -35,9 +35,6 @@ import net.kosto.configuration.model.common.CommonDatabase;
 import net.kosto.configuration.model.common.CommonDatabaseItem;
 import net.kosto.configuration.model.common.CommonItem;
 import net.kosto.configuration.model.common.CommonSchema;
-import net.kosto.configuration.model.oracle.OracleObject;
-import net.kosto.configuration.model.oracle.OracleSchema;
-import net.kosto.configuration.model.oracle.OracleScript;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
@@ -85,7 +82,7 @@ public class PostgreSQLDatabase extends AbstractDatabaseItem {
     if (commonObjects != null && !commonObjects.isEmpty()) {
       objects = new ArrayList<>();
       for (CommonDatabaseItem object : commonObjects) {
-        objects.add(new OracleObject(object));
+        objects.add(new PostgreSQLObject(object));
       }
     }
 
@@ -93,7 +90,7 @@ public class PostgreSQLDatabase extends AbstractDatabaseItem {
     if (commonScripts != null && !commonScripts.isEmpty()) {
       scripts = new ArrayList<>();
       for (CommonDatabaseItem script : commonScripts) {
-        scripts.add(new OracleScript(script));
+        scripts.add(new PostgreSQLScript(script));
       }
     }
 
@@ -101,7 +98,7 @@ public class PostgreSQLDatabase extends AbstractDatabaseItem {
     if (commonSchemes != null && !commonSchemes.isEmpty()) {
       schemes = new ArrayList<>();
       for (CommonDatabaseItem schema : commonSchemes) {
-        schemes.add(new OracleSchema(schema));
+        schemes.add(new PostgreSQLSchema(schema));
       }
     }
   }
