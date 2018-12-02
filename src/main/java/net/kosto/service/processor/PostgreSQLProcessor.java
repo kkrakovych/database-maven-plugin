@@ -28,10 +28,9 @@ import static net.kosto.util.StringUtils.SCRIPT;
 import java.nio.file.Path;
 
 import net.kosto.configuration.Configuration;
+import net.kosto.configuration.model.CustomDatabaseItem;
 import net.kosto.configuration.model.postgresql.PostgreSQLDatabase;
-import net.kosto.configuration.model.postgresql.PostgreSQLObject;
 import net.kosto.configuration.model.postgresql.PostgreSQLSchema;
-import net.kosto.configuration.model.postgresql.PostgreSQLScript;
 import net.kosto.util.FileUtils;
 import net.kosto.util.ResourceUtils;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -72,12 +71,12 @@ public class PostgreSQLProcessor extends AbstractProcessor {
    * @throws MojoExecutionException If expected exception occurs.
    */
   private void processSchemes() throws MojoExecutionException {
-    for (final PostgreSQLSchema schema : ((PostgreSQLDatabase) getConfiguration().getDatabase()).getSchemes()) {
+    for (final CustomDatabaseItem schema : ((PostgreSQLDatabase) getConfiguration().getDatabase()).getSchemes()) {
       getTemplateService().putParameter(SCHEMA, schema);
       processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, POSTGRESQL, SERVICE_DIRECTORY, SCHEMA));
 
-      processObjects(schema);
-      processScripts(schema);
+      processObjects((PostgreSQLSchema) schema);
+      processScripts((PostgreSQLSchema) schema);
     }
   }
 
@@ -89,7 +88,7 @@ public class PostgreSQLProcessor extends AbstractProcessor {
    */
   private void processObjects(final PostgreSQLSchema schema) throws MojoExecutionException {
     if (schema.getObjects() != null) {
-      for (final PostgreSQLObject object : schema.getObjects()) {
+      for (final CustomDatabaseItem object : schema.getObjects()) {
         processItem(object, POSTGRESQL, OBJECT);
       }
     }
@@ -103,7 +102,7 @@ public class PostgreSQLProcessor extends AbstractProcessor {
    */
   private void processScripts(final PostgreSQLSchema schema) throws MojoExecutionException {
     if (schema.getScripts() != null) {
-      for (final PostgreSQLScript script : schema.getScripts()) {
+      for (final CustomDatabaseItem script : schema.getScripts()) {
         processItem(script, POSTGRESQL, SCRIPT);
       }
     }

@@ -16,7 +16,7 @@
 
 package net.kosto.service.processor;
 
-import static net.kosto.service.processor.ProcessorError.UNKNOWN_DATABASE_TYPE;
+import static net.kosto.util.Error.UNKNOWN_DATABASE_TYPE;
 
 import net.kosto.configuration.Configuration;
 import org.apache.maven.plugin.MojoExecutionException;

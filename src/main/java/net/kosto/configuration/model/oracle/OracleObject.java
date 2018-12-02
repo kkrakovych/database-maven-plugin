@@ -17,12 +17,13 @@
 package net.kosto.configuration.model.oracle;
 
 import static java.lang.Boolean.FALSE;
-import static net.kosto.service.validator.ValidatorError.MISSING_ATTRIBUTE;
+import static net.kosto.util.Error.MISSING_ATTRIBUTE;
 import static net.kosto.util.StringUtils.AMPERSAND;
 import static net.kosto.util.StringUtils.EMPTY_STRING;
 import static net.kosto.util.StringUtils.ORACLE_SCHEMA_OBJECT_TYPE;
 
-import net.kosto.configuration.model.AbstractDatabaseObject;
+import net.kosto.configuration.model.AbstractCustomDatabaseItem;
+import net.kosto.configuration.model.common.CommonDatabaseItem;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
@@ -37,12 +38,7 @@ import org.apache.maven.plugin.MojoExecutionException;
  * <li>{@link OracleObject#fileMask} = {@link net.kosto.util.FileUtils#FILE_MASK_SQL}</li>
  * </ul>
  */
-public class OracleObject extends AbstractDatabaseObject {
-
-  /**
-   * Oracle database schema object's type.
-   */
-  private OracleObjectType type;
+public class OracleObject extends AbstractCustomDatabaseItem {
 
   /**
    * Constructs instance and sets default values.
@@ -51,24 +47,46 @@ public class OracleObject extends AbstractDatabaseObject {
     super();
   }
 
-  public OracleObjectType getType() {
-    return type;
+  public OracleObject(CommonDatabaseItem item) {
+    super();
+    setIndex(item.getIndex());
+    setName(item.getName());
+    setType(item.getType());
+    setCondition(item.getCondition());
+    setFileMask(item.getFileMask());
+    setSourceDirectory(item.getSourceDirectory());
+    setIgnoreDirectory(item.getIgnoreDirectory());
+    setDefineSymbol(item.getDefineSymbol());
+    setIgnoreDefine(item.getIgnoreDefine());
   }
 
-  public void setType(final OracleObjectType type) {
-    this.type = type;
+  /**
+   * Returns database object type.
+   *
+   * @return Database object type.
+   */
+  public OracleObjectType getObjectType() {
+    OracleObjectType result = null;
+
+    if (getType() != null) {
+      try {
+        result = OracleObjectType.valueOf(getType());
+      } catch (IllegalArgumentException x) {
+        // If corresponding database object type not found in enum, do nothing.
+      }
+    }
+
+    return result;
   }
 
   @Override
   public String toString() {
-    return "OracleObject{" +
-        "type=" + type +
-        "} " + super.toString();
+    return "OracleObject{} " + super.toString();
   }
 
   @Override
   protected void checkMandatoryValues() throws MojoExecutionException {
-    if (type == null) {
+    if (getObjectType() == null) {
       throw new MojoExecutionException(MISSING_ATTRIBUTE.message(ORACLE_SCHEMA_OBJECT_TYPE));
     }
   }
@@ -81,8 +99,8 @@ public class OracleObject extends AbstractDatabaseObject {
     if (getIgnoreDefine() == null) {
       setIgnoreDefine(FALSE);
     }
-    if (type != null && !getIgnoreDirectory() && (getSourceDirectory() == null || getSourceDirectory().isEmpty())) {
-      setSourceDirectory(getIgnoreDirectory() ? EMPTY_STRING : type.getSourceDirectory());
+    if (getObjectType() != null && !getIgnoreDirectory() && (getSourceDirectory() == null || getSourceDirectory().isEmpty())) {
+      setSourceDirectory(getIgnoreDirectory() ? EMPTY_STRING : getObjectType().getSourceDirectory());
     }
   }
 }

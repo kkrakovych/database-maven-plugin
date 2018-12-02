@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-package net.kosto.service.validator;
+package net.kosto.util;
 
 import java.text.MessageFormat;
 
 /**
- * Represents all possible validation errors with associated messages.
+ * Represents all possible errors with associated messages.
  */
-public enum ValidatorError {
+public enum Error {
 
+  UNKNOWN_DATABASE_TYPE("Unknown database type."),
   MISSING_ATTRIBUTE("Attribute \"{0}\" should be specified."),
   MISSING_ATTRIBUTES("Either \"{0}\" or \"{1}\" attribute should be specified."),
   EMPTY_LIST_ATTRIBUTE("Attribute \"{0}\" should contain at least one \"{1}\"."),
@@ -39,12 +40,12 @@ public enum ValidatorError {
    *
    * @param message Message.
    */
-  ValidatorError(final String message) {
+  Error(final String message) {
     this.messageFormat = new MessageFormat(message);
   }
 
   /**
-   * Returns formatted validation error message.
+   * Returns formatted processing error message.
    *
    * @param parameters Optional parameters for formatted message.
    * @return Formatted message.

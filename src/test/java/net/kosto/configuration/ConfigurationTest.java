@@ -20,8 +20,7 @@ import static net.kosto.configuration.model.DatabaseType.ORACLE;
 import static net.kosto.configuration.model.DatabaseType.POSTGRESQL;
 import static org.junit.Assert.assertEquals;
 
-import net.kosto.configuration.model.oracle.OracleDatabase;
-import net.kosto.configuration.model.postgresql.PostgreSQLDatabase;
+import net.kosto.configuration.model.common.CommonDatabase;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.junit.Rule;
 import org.junit.Test;
@@ -42,18 +41,22 @@ public class ConfigurationTest {
   }
 
   @Test
-  public void test02BuildOracle() throws MojoExecutionException {
+  public void test02BuildOracleEmpty() throws MojoExecutionException {
+    CommonDatabase database = new CommonDatabase();
+
     Configuration configuration = new Configuration.Builder()
-        .setOracle(new OracleDatabase())
+        .setOracle(database)
         .build();
 
     assertEquals(ORACLE, configuration.getDatabaseType());
   }
 
   @Test
-  public void test03BuildPostgreSQL() throws MojoExecutionException {
+  public void test03BuildPostgreSQLEmpty() throws MojoExecutionException {
+    CommonDatabase database = new CommonDatabase();
+
     Configuration configuration = new Configuration.Builder()
-        .setPostgresql(new PostgreSQLDatabase())
+        .setPostgresql(database)
         .build();
 
     assertEquals(POSTGRESQL, configuration.getDatabaseType());

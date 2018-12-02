@@ -17,12 +17,13 @@
 package net.kosto.configuration.model.postgresql;
 
 import static java.lang.Boolean.FALSE;
-import static net.kosto.service.validator.ValidatorError.MISSING_ATTRIBUTE;
+import static net.kosto.util.Error.MISSING_ATTRIBUTE;
 import static net.kosto.util.StringUtils.COLON;
 import static net.kosto.util.StringUtils.EMPTY_STRING;
 import static net.kosto.util.StringUtils.POSTGRESQL_SCHEMA_OBJECT_TYPE;
 
-import net.kosto.configuration.model.AbstractDatabaseObject;
+import net.kosto.configuration.model.AbstractCustomDatabaseItem;
+import net.kosto.configuration.model.common.CommonDatabaseItem;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
@@ -37,12 +38,7 @@ import org.apache.maven.plugin.MojoExecutionException;
  * <li>{@link PostgreSQLObject#fileMask} = {@link net.kosto.util.FileUtils#FILE_MASK_SQL}</li>
  * </ul>
  */
-public class PostgreSQLObject extends AbstractDatabaseObject {
-
-  /**
-   * PostgreSQL database schema object's type.
-   */
-  private PostgreSQLObjectType type;
+public class PostgreSQLObject extends AbstractCustomDatabaseItem {
 
   /**
    * Constructs instance and sets default values.
@@ -51,24 +47,46 @@ public class PostgreSQLObject extends AbstractDatabaseObject {
     super();
   }
 
-  public PostgreSQLObjectType getType() {
-    return type;
+  public PostgreSQLObject(CommonDatabaseItem item) {
+    super();
+    setIndex(item.getIndex());
+    setName(item.getName());
+    setType(item.getType());
+    setCondition(item.getCondition());
+    setFileMask(item.getFileMask());
+    setSourceDirectory(item.getSourceDirectory());
+    setIgnoreDirectory(item.getIgnoreDirectory());
+    setDefineSymbol(item.getDefineSymbol());
+    setIgnoreDefine(item.getIgnoreDefine());
   }
 
-  public void setType(final PostgreSQLObjectType type) {
-    this.type = type;
+  /**
+   * Returns database object type.
+   *
+   * @return Database object type.
+   */
+  public PostgreSQLObjectType getObjectType() {
+    PostgreSQLObjectType result = null;
+
+    if (getType() != null) {
+      try {
+        result = PostgreSQLObjectType.valueOf(getType());
+      } catch (IllegalArgumentException x) {
+        // If corresponding database object type not found in enum, do nothing.
+      }
+    }
+
+    return result;
   }
 
   @Override
   public String toString() {
-    return "PostgreSQLObject{" +
-        "type=" + type +
-        "} " + super.toString();
+    return "PostgreSQLObject{} " + super.toString();
   }
 
   @Override
   protected void checkMandatoryValues() throws MojoExecutionException {
-    if (type == null) {
+    if (getObjectType() == null) {
       throw new MojoExecutionException(MISSING_ATTRIBUTE.message(POSTGRESQL_SCHEMA_OBJECT_TYPE));
     }
   }
@@ -81,8 +99,8 @@ public class PostgreSQLObject extends AbstractDatabaseObject {
     if (getIgnoreDefine() == null) {
       setIgnoreDefine(FALSE);
     }
-    if (type != null && !getIgnoreDirectory() && (getSourceDirectory() == null || getSourceDirectory().isEmpty())) {
-      setSourceDirectory(getIgnoreDirectory() ? EMPTY_STRING : type.getSourceDirectory());
+    if (getObjectType() != null && !getIgnoreDirectory() && (getSourceDirectory() == null || getSourceDirectory().isEmpty())) {
+      setSourceDirectory(getIgnoreDirectory() ? EMPTY_STRING : getObjectType().getSourceDirectory());
     }
   }
 }

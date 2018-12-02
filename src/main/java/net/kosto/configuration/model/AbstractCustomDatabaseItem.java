@@ -16,10 +16,9 @@
 
 package net.kosto.configuration.model;
 
-import static java.lang.Boolean.FALSE;
-import static net.kosto.service.validator.ValidatorError.DUPLICATED_ATTRIBUTE;
-import static net.kosto.service.validator.ValidatorError.EMPTY_LIST_ATTRIBUTE;
-import static net.kosto.service.validator.ValidatorError.SEMI_DEFINED_ATTRIBUTES;
+import static net.kosto.util.Error.DUPLICATED_ATTRIBUTE;
+import static net.kosto.util.Error.EMPTY_LIST_ATTRIBUTE;
+import static net.kosto.util.Error.SEMI_DEFINED_ATTRIBUTES;
 import static net.kosto.util.FileUtils.UNIX_SEPARATOR;
 import static net.kosto.util.StringUtils.INDEX;
 import static net.kosto.util.StringUtils.SCHEMA;
@@ -29,41 +28,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.kosto.configuration.model.common.AbstractCommonDatabaseItem;
 import org.apache.maven.plugin.MojoExecutionException;
 
-/**
- * Represents basic database item.
- * <p>
- * Provides access to basic database item's attributes and methods.
- */
-public abstract class AbstractDatabaseItem implements DatabaseItem {
+public abstract class AbstractCustomDatabaseItem extends AbstractCommonDatabaseItem implements CustomDatabaseItem {
 
-  /**
-   * Database item's index in a list.
-   * Affects processing order.
-   */
-  private Integer index;
-  /**
-   * Database item's name.
-   */
-  private String name;
-  /**
-   * Database item's relative path name for source directory.
-   */
-  private String sourceDirectory;
-  /**
-   * Whether to ignore {@link #sourceDirectory} path.
-   * Default value is {@link Boolean#FALSE}
-   */
-  private Boolean ignoreDirectory;
-  /**
-   * Symbol to define variable in scripts.
-   */
-  private String defineSymbol;
-  /**
-   * Whether to ignore define variable symbol in scripts.
-   */
-  private Boolean ignoreDefine;
   /**
    * Relative path name for execute directory.
    */
@@ -77,73 +46,9 @@ public abstract class AbstractDatabaseItem implements DatabaseItem {
    */
   private Path outputDirectoryFull;
 
-  /**
-   * Constructs instance and sets default values.
-   */
-  public AbstractDatabaseItem() {
+  public AbstractCustomDatabaseItem() {
     super();
-    this.ignoreDirectory = FALSE;
     this.executeDirectory = UNIX_SEPARATOR;
-  }
-
-  @Override
-  public Integer getIndex() {
-    return index;
-  }
-
-  @Override
-  public void setIndex(final Integer index) {
-    this.index = index;
-  }
-
-  @Override
-  public String getName() {
-    return name;
-  }
-
-  @Override
-  public void setName(final String name) {
-    this.name = name;
-  }
-
-  @Override
-  public String getSourceDirectory() {
-    return sourceDirectory;
-  }
-
-  @Override
-  public void setSourceDirectory(final String sourceDirectory) {
-    this.sourceDirectory = sourceDirectory;
-  }
-
-  @Override
-  public Boolean getIgnoreDirectory() {
-    return ignoreDirectory;
-  }
-
-  @Override
-  public void setIgnoreDirectory(final Boolean ignoreDirectory) {
-    this.ignoreDirectory = ignoreDirectory;
-  }
-
-  @Override
-  public String getDefineSymbol() {
-    return defineSymbol;
-  }
-
-  @Override
-  public void setDefineSymbol(final String defineSymbol) {
-    this.defineSymbol = defineSymbol;
-  }
-
-  @Override
-  public Boolean getIgnoreDefine() {
-    return ignoreDefine;
-  }
-
-  @Override
-  public void setIgnoreDefine(final Boolean ignoreDefine) {
-    this.ignoreDefine = ignoreDefine;
   }
 
   @Override
@@ -152,7 +57,7 @@ public abstract class AbstractDatabaseItem implements DatabaseItem {
   }
 
   @Override
-  public void setExecuteDirectory(final String executeDirectory) {
+  public void setExecuteDirectory(String executeDirectory) {
     this.executeDirectory = executeDirectory;
   }
 
@@ -162,7 +67,7 @@ public abstract class AbstractDatabaseItem implements DatabaseItem {
   }
 
   @Override
-  public void setSourceDirectoryFull(final Path sourceDirectoryFull) {
+  public void setSourceDirectoryFull(Path sourceDirectoryFull) {
     this.sourceDirectoryFull = sourceDirectoryFull;
   }
 
@@ -172,23 +77,17 @@ public abstract class AbstractDatabaseItem implements DatabaseItem {
   }
 
   @Override
-  public void setOutputDirectoryFull(final Path outputDirectoryFull) {
+  public void setOutputDirectoryFull(Path outputDirectoryFull) {
     this.outputDirectoryFull = outputDirectoryFull;
   }
 
   @Override
   public String toString() {
-    return "AbstractDatabaseItem{" +
-        "index=" + index +
-        ", name='" + name + '\'' +
-        ", sourceDirectory='" + sourceDirectory + '\'' +
-        ", ignoreDirectory=" + ignoreDirectory +
-        ", defineSymbol='" + defineSymbol + '\'' +
-        ", ignoreDefine=" + ignoreDefine +
-        ", executeDirectory='" + executeDirectory + '\'' +
+    return "AbstractCustomDatabaseItem{" +
+        "executeDirectory='" + executeDirectory + '\'' +
         ", sourceDirectoryFull=" + sourceDirectoryFull +
         ", outputDirectoryFull=" + outputDirectoryFull +
-        '}';
+        "} " + super.toString();
   }
 
   @Override
@@ -219,10 +118,10 @@ public abstract class AbstractDatabaseItem implements DatabaseItem {
    * taking into account specified parameters and {@link #ignoreDirectory} option.
    */
   private void processDirectoryAttributes() {
-    if (!ignoreDirectory) {
-      this.executeDirectory = (UNIX_SEPARATOR + executeDirectory + UNIX_SEPARATOR + sourceDirectory + UNIX_SEPARATOR).replaceAll(UNIX_SEPARATOR + "{2,}", UNIX_SEPARATOR);
-      this.sourceDirectoryFull = sourceDirectoryFull.resolve(sourceDirectory);
-      this.outputDirectoryFull = outputDirectoryFull.resolve(sourceDirectory);
+    if (!getIgnoreDirectory()) {
+      this.executeDirectory = (UNIX_SEPARATOR + executeDirectory + UNIX_SEPARATOR + getSourceDirectory() + UNIX_SEPARATOR).replaceAll(UNIX_SEPARATOR + "{2,}", UNIX_SEPARATOR);
+      this.sourceDirectoryFull = sourceDirectoryFull.resolve(getSourceDirectory());
+      this.outputDirectoryFull = outputDirectoryFull.resolve(getSourceDirectory());
     }
   }
 
@@ -253,13 +152,13 @@ public abstract class AbstractDatabaseItem implements DatabaseItem {
    * @param item Database item for validation.
    * @throws MojoExecutionException If expected exception occurs.
    */
-  protected void validateAttribute(final DatabaseItem item) throws MojoExecutionException {
+  protected void validateAttribute(final CustomDatabaseItem item) throws MojoExecutionException {
     // Attributes for propagation from parent database item to child one.
     if (item.getDefineSymbol() == null) {
-      item.setDefineSymbol(defineSymbol);
+      item.setDefineSymbol(getDefineSymbol());
     }
     if (item.getIgnoreDefine() == null) {
-      item.setIgnoreDefine(ignoreDefine);
+      item.setIgnoreDefine(getIgnoreDefine());
     }
     // Attributes dependent on values from parent database item.
     item.setExecuteDirectory(executeDirectory);
@@ -277,7 +176,7 @@ public abstract class AbstractDatabaseItem implements DatabaseItem {
    * @param <T>       Any class with {@link DatabaseItem} interface implemented.
    * @throws MojoExecutionException If expected exception occurs.
    */
-  protected <T extends DatabaseItem> void checkMandatory(final List<T> items, final String attribute) throws MojoExecutionException {
+  protected <T extends CustomDatabaseItem> void checkMandatory(final List<T> items, final String attribute) throws MojoExecutionException {
     if (items != null) {
       if (items.isEmpty()) {
         throw new MojoExecutionException(EMPTY_LIST_ATTRIBUTE.message(attribute, SCHEMA));
@@ -302,7 +201,7 @@ public abstract class AbstractDatabaseItem implements DatabaseItem {
    * @param <T>   Any class with {@link DatabaseItem} interface implemented.
    * @return If indexes are semi-defined {@code true}, otherwise {@code false}.
    */
-  private <T extends DatabaseItem> boolean isSemiDefinedIndex(final List<T> items) {
+  private <T extends CustomDatabaseItem> boolean isSemiDefinedIndex(final List<T> items) {
     final int count = (int) items.stream().filter(item -> item.getIndex() == null).count();
     return count > 0 && items.size() != count;
   }
@@ -315,11 +214,11 @@ public abstract class AbstractDatabaseItem implements DatabaseItem {
    * @param <T>   Any class with {@link DatabaseItem} interface implemented.
    * @return If duplicate index found {@code true}, otherwise {@code false}.
    */
-  private <T extends DatabaseItem> boolean isDuplicateIndex(final List<T> items) {
+  private <T extends CustomDatabaseItem> boolean isDuplicateIndex(final List<T> items) {
     boolean result = false;
 
     final Set<Integer> indexes = new HashSet<>();
-    for (final DatabaseItem item : items) {
+    for (final CustomDatabaseItem item : items) {
       Integer order = item.getOrder();
       if (indexes.contains(order)) {
         result = true;
@@ -339,7 +238,7 @@ public abstract class AbstractDatabaseItem implements DatabaseItem {
    * @param items Database items.
    * @param <T>   Any class with {@link DatabaseItem} interface implemented.
    */
-  private <T extends DatabaseItem> void indexNatural(final List<T> items) {
+  private <T extends CustomDatabaseItem> void indexNatural(final List<T> items) {
     int order = 0;
     for (final T item : items) {
       if (item.getIndex() != null) {

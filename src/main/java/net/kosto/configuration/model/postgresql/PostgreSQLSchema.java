@@ -23,10 +23,17 @@ import static net.kosto.util.StringUtils.POSTGRESQL_SCHEMA_OBJECTS;
 import static net.kosto.util.StringUtils.POSTGRESQL_SCHEMA_SCRIPTS;
 import static net.kosto.util.StringUtils.SCHEMA;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import net.kosto.configuration.model.AbstractDatabaseItem;
+import net.kosto.configuration.model.AbstractCustomDatabaseItem;
+import net.kosto.configuration.model.CustomDatabaseItem;
+import net.kosto.configuration.model.common.CommonDatabaseItem;
+import net.kosto.configuration.model.common.CommonItem;
+import net.kosto.configuration.model.common.CommonSchema;
+import net.kosto.configuration.model.oracle.OracleObject;
+import net.kosto.configuration.model.oracle.OracleScript;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
@@ -40,16 +47,16 @@ import org.apache.maven.plugin.MojoExecutionException;
  * <li>{@link PostgreSQLSchema#ignoreDefine} = {@link Boolean#FALSE}</li>
  * </ul>
  */
-public class PostgreSQLSchema extends AbstractDatabaseItem {
+public class PostgreSQLSchema extends AbstractCustomDatabaseItem {
 
   /**
    * PostgreSQL database schema objects' configuration.
    */
-  private List<PostgreSQLObject> objects;
+  private List<CustomDatabaseItem> objects;
   /**
    * PostgreSQL database schema scripts' configuration.
    */
-  private List<PostgreSQLScript> scripts;
+  private List<CustomDatabaseItem> scripts;
 
   /**
    * Constructs instance and sets default values.
@@ -58,19 +65,48 @@ public class PostgreSQLSchema extends AbstractDatabaseItem {
     super();
   }
 
-  public List<PostgreSQLObject> getObjects() {
+  public PostgreSQLSchema(CommonDatabaseItem item) {
+    super();
+    setIndex(item.getIndex());
+    setName(item.getName());
+    setType(item.getType());
+    setCondition(item.getCondition());
+    setFileMask(item.getFileMask());
+    setSourceDirectory(item.getSourceDirectory());
+    setIgnoreDirectory(item.getIgnoreDirectory());
+    setDefineSymbol(item.getDefineSymbol());
+    setIgnoreDefine(item.getIgnoreDefine());
+
+    List<CommonItem> commonObjects = ((CommonSchema) item).getObjects();
+    if (commonObjects != null && !commonObjects.isEmpty()) {
+      objects = new ArrayList<>();
+      for (CommonDatabaseItem object : commonObjects) {
+        objects.add(new OracleObject(object));
+      }
+    }
+
+    List<CommonItem> commonScripts = ((CommonSchema) item).getScripts();
+    if (commonScripts != null && !commonScripts.isEmpty()) {
+      scripts = new ArrayList<>();
+      for (CommonDatabaseItem script : commonScripts) {
+        scripts.add(new OracleScript(script));
+      }
+    }
+  }
+
+  public List<CustomDatabaseItem> getObjects() {
     return objects;
   }
 
-  public void setObjects(final List<PostgreSQLObject> objects) {
+  public void setObjects(final List<CustomDatabaseItem> objects) {
     this.objects = objects;
   }
 
-  public List<PostgreSQLScript> getScripts() {
+  public List<CustomDatabaseItem> getScripts() {
     return scripts;
   }
 
-  public void setScripts(final List<PostgreSQLScript> scripts) {
+  public void setScripts(final List<CustomDatabaseItem> scripts) {
     this.scripts = scripts;
   }
 
@@ -107,17 +143,17 @@ public class PostgreSQLSchema extends AbstractDatabaseItem {
   @Override
   protected void processAttributes() throws MojoExecutionException {
     if (objects != null) {
-      objects.sort(Comparator.comparingInt(PostgreSQLObject::getOrder));
+      objects.sort(Comparator.comparingInt(CustomDatabaseItem::getOrder));
 
-      for (final PostgreSQLObject object : objects) {
+      for (final CustomDatabaseItem object : objects) {
         validateAttribute(object);
       }
     }
 
     if (scripts != null) {
-      scripts.sort(Comparator.comparingInt(PostgreSQLScript::getOrder));
+      scripts.sort(Comparator.comparingInt(CustomDatabaseItem::getOrder));
 
-      for (final PostgreSQLScript script : scripts) {
+      for (final CustomDatabaseItem script : scripts) {
         validateAttribute(script);
       }
     }

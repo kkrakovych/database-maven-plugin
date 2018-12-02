@@ -17,17 +17,22 @@
 package net.kosto.configuration.model.oracle;
 
 import static java.lang.Boolean.FALSE;
-import static net.kosto.service.validator.ValidatorError.MISSING_ATTRIBUTES;
+import static net.kosto.util.Error.MISSING_ATTRIBUTES;
 import static net.kosto.util.StringUtils.AMPERSAND;
 import static net.kosto.util.StringUtils.EMPTY_STRING;
 import static net.kosto.util.StringUtils.ORACLE_SCHEMA_OBJECTS;
 import static net.kosto.util.StringUtils.ORACLE_SCHEMA_SCRIPTS;
 import static net.kosto.util.StringUtils.SCHEMA;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import net.kosto.configuration.model.AbstractDatabaseItem;
+import net.kosto.configuration.model.AbstractCustomDatabaseItem;
+import net.kosto.configuration.model.CustomDatabaseItem;
+import net.kosto.configuration.model.common.CommonDatabaseItem;
+import net.kosto.configuration.model.common.CommonItem;
+import net.kosto.configuration.model.common.CommonSchema;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
@@ -41,16 +46,16 @@ import org.apache.maven.plugin.MojoExecutionException;
  * <li>{@link OracleSchema#ignoreDefine} = {@link Boolean#FALSE}</li>
  * </ul>
  */
-public class OracleSchema extends AbstractDatabaseItem {
+public class OracleSchema extends AbstractCustomDatabaseItem {
 
   /**
    * Oracle database schema objects' configuration.
    */
-  private List<OracleObject> objects;
+  private List<CustomDatabaseItem> objects;
   /**
    * Oracle database schema scripts' configuration.
    */
-  private List<OracleScript> scripts;
+  private List<CustomDatabaseItem> scripts;
 
   /**
    * Constructs instance and sets default values.
@@ -59,19 +64,48 @@ public class OracleSchema extends AbstractDatabaseItem {
     super();
   }
 
-  public List<OracleObject> getObjects() {
+  public OracleSchema(CommonDatabaseItem item) {
+    super();
+    setIndex(item.getIndex());
+    setName(item.getName());
+    setType(item.getType());
+    setCondition(item.getCondition());
+    setFileMask(item.getFileMask());
+    setSourceDirectory(item.getSourceDirectory());
+    setIgnoreDirectory(item.getIgnoreDirectory());
+    setDefineSymbol(item.getDefineSymbol());
+    setIgnoreDefine(item.getIgnoreDefine());
+
+    List<CommonItem> commonObjects = ((CommonSchema) item).getObjects();
+    if (commonObjects != null && !commonObjects.isEmpty()) {
+      objects = new ArrayList<>();
+      for (CommonDatabaseItem object : commonObjects) {
+        objects.add(new OracleObject(object));
+      }
+    }
+
+    List<CommonItem> commonScripts = ((CommonSchema) item).getScripts();
+    if (commonScripts != null && !commonScripts.isEmpty()) {
+      scripts = new ArrayList<>();
+      for (CommonDatabaseItem script : commonScripts) {
+        scripts.add(new OracleScript(script));
+      }
+    }
+  }
+
+  public List<CustomDatabaseItem> getObjects() {
     return objects;
   }
 
-  public void setObjects(final List<OracleObject> objects) {
+  public void setObjects(final List<CustomDatabaseItem> objects) {
     this.objects = objects;
   }
 
-  public List<OracleScript> getScripts() {
+  public List<CustomDatabaseItem> getScripts() {
     return scripts;
   }
 
-  public void setScripts(final List<OracleScript> scripts) {
+  public void setScripts(final List<CustomDatabaseItem> scripts) {
     this.scripts = scripts;
   }
 
@@ -111,17 +145,17 @@ public class OracleSchema extends AbstractDatabaseItem {
   @Override
   protected void processAttributes() throws MojoExecutionException {
     if (objects != null) {
-      objects.sort(Comparator.comparingInt(OracleObject::getOrder));
+      objects.sort(Comparator.comparingInt(CustomDatabaseItem::getOrder));
 
-      for (final OracleObject object : objects) {
+      for (final CustomDatabaseItem object : objects) {
         validateAttribute(object);
       }
     }
 
     if (scripts != null) {
-      scripts.sort(Comparator.comparingInt(OracleScript::getOrder));
+      scripts.sort(Comparator.comparingInt(CustomDatabaseItem::getOrder));
 
-      for (final OracleScript script : scripts) {
+      for (final CustomDatabaseItem script : scripts) {
         validateAttribute(script);
       }
     }

@@ -1,16 +1,23 @@
-# Database maven plugin
+# Database Maven Plugin
 
-## Main idea of the plugin
+## Main Idea of the Plugin
 
-The plugin helps to create delta scripts to update database from version to version.
+The plugin creates database migration scripts to update databases from version to version.
 
-The result delta script may be deployed either manually or automatically.
+We believe database migration scripts should be automated.
+We believe all database objects, source code, and data dictionaries should be under version source control.
+Thus creation of database migration scripts should be performed based on files under version source control only.
+Further deploy of these scripts to databases should be easy and simple to automate but still allow manual deploy as well.
 
-1. All database objects, source code, data definition and delta scripts should be under version source control.
-2. Any release is a set of previously mentioned objects packed in a single compressed zip file.
-3. The release can be deployed into target database by a single script execution.
+## Strategies for Database Migration Scripts
 
-## Strategies for delta scripts
+At the moment plugin supports one strategy - 'Full Source Code Drop and Create'.
+
+The strategy contains next steps:
+- deploy scripts before source code drop;
+- drop existent source code;
+- deploy actual source code;
+- deploy scripts after source code validation.
 
 Configuration in pom.xml defines:
 - database

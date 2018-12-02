@@ -28,10 +28,9 @@ import static net.kosto.util.StringUtils.SCRIPT;
 import java.nio.file.Path;
 
 import net.kosto.configuration.Configuration;
+import net.kosto.configuration.model.CustomDatabaseItem;
 import net.kosto.configuration.model.oracle.OracleDatabase;
-import net.kosto.configuration.model.oracle.OracleObject;
 import net.kosto.configuration.model.oracle.OracleSchema;
-import net.kosto.configuration.model.oracle.OracleScript;
 import net.kosto.util.FileUtils;
 import net.kosto.util.ResourceUtils;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -72,12 +71,12 @@ public class OracleProcessor extends AbstractProcessor {
    * @throws MojoExecutionException If expected exception occurs.
    */
   private void processSchemes() throws MojoExecutionException {
-    for (final OracleSchema schema : ((OracleDatabase) getConfiguration().getDatabase()).getSchemes()) {
+    for (final CustomDatabaseItem schema : ((OracleDatabase) getConfiguration().getDatabase()).getSchemes()) {
       getTemplateService().putParameter(SCHEMA, schema);
       processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, SERVICE_DIRECTORY, SCHEMA));
 
-      processObjects(schema);
-      processScripts(schema);
+      processObjects((OracleSchema) schema);
+      processScripts((OracleSchema) schema);
     }
   }
 
@@ -89,7 +88,7 @@ public class OracleProcessor extends AbstractProcessor {
    */
   private void processObjects(final OracleSchema schema) throws MojoExecutionException {
     if (schema.getObjects() != null) {
-      for (final OracleObject object : schema.getObjects()) {
+      for (final CustomDatabaseItem object : schema.getObjects()) {
         processItem(object, ORACLE, OBJECT);
       }
     }
@@ -103,7 +102,7 @@ public class OracleProcessor extends AbstractProcessor {
    */
   private void processScripts(final OracleSchema schema) throws MojoExecutionException {
     if (schema.getScripts() != null) {
-      for (final OracleScript script : schema.getScripts()) {
+      for (final CustomDatabaseItem script : schema.getScripts()) {
         processItem(script, ORACLE, SCRIPT);
       }
     }

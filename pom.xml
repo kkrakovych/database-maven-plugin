@@ -101,7 +101,7 @@
 
   <build>
     <plugins>
-      <plugin>
+      <!--plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
         <version>${check-sources.spotbugs-maven-plugin.version}</version>
@@ -128,7 +128,7 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
+      </plugin-->
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

@@ -27,6 +27,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.kosto.configuration.model.CustomDatabaseItem;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;
@@ -51,7 +52,7 @@ public class OracleDatabaseTest {
   private OracleDatabase init02ValidateSchemesEmpty() {
     OracleDatabase database = init01ValidateDatabaseEmpty();
 
-    List<OracleSchema> schemes = new ArrayList<>();
+    List<CustomDatabaseItem> schemes = new ArrayList<>();
     database.setSchemes(schemes);
 
     return database;
@@ -60,7 +61,7 @@ public class OracleDatabaseTest {
   private OracleDatabase init03ValidateSchemesIndexSemiDefined() {
     OracleDatabase database = init01ValidateDatabaseEmpty();
 
-    List<OracleSchema> schemes = new ArrayList<>();
+    List<CustomDatabaseItem> schemes = new ArrayList<>();
     for (int index = 0; index < 2; index++) {
       OracleSchema schema = new OracleSchema();
       if (index == 1) {
@@ -77,7 +78,7 @@ public class OracleDatabaseTest {
   private OracleDatabase init04ValidateSchemesIndexDuplicated() {
     OracleDatabase database = init01ValidateDatabaseEmpty();
 
-    List<OracleSchema> schemes = new ArrayList<>();
+    List<CustomDatabaseItem> schemes = new ArrayList<>();
     for (int index = 0; index < 2; index++) {
       OracleSchema schema = new OracleSchema();
       schema.setIndex(1);
@@ -92,7 +93,7 @@ public class OracleDatabaseTest {
   private OracleDatabase init05DefaultValuesDatabase() {
     OracleDatabase database = init01ValidateDatabaseEmpty();
 
-    List<OracleSchema> schemes = new ArrayList<>();
+    List<CustomDatabaseItem> schemes = new ArrayList<>();
     for (int index = 0; index < 2; index++) {
       OracleSchema schema = new OracleSchema();
       schemes.add(schema);
@@ -148,7 +149,7 @@ public class OracleDatabaseTest {
     assertEquals(UNIX_SEPARATOR + DATABASE + UNIX_SEPARATOR, database.getExecuteDirectory());
 
     Integer index = 0;
-    for (OracleSchema schema : database.getSchemes()) {
+    for (CustomDatabaseItem schema : database.getSchemes()) {
       assertEquals(index++, schema.getOrder());
     }
   }

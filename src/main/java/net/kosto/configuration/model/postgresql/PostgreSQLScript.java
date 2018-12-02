@@ -17,13 +17,16 @@
 package net.kosto.configuration.model.postgresql;
 
 import static java.lang.Boolean.FALSE;
-import static net.kosto.service.validator.ValidatorError.MISSING_ATTRIBUTE;
+import static net.kosto.util.Error.MISSING_ATTRIBUTE;
 import static net.kosto.util.StringUtils.COLON;
 import static net.kosto.util.StringUtils.EMPTY_STRING;
 import static net.kosto.util.StringUtils.POSTGRESQL_SCHEMA_SCRIPT_CONDITION;
 import static net.kosto.util.StringUtils.POSTGRESQL_SCHEMA_SCRIPT_TYPE;
 
-import net.kosto.configuration.model.AbstractDatabaseScript;
+import net.kosto.configuration.model.AbstractCustomDatabaseItem;
+import net.kosto.configuration.model.DatabaseScriptCondition;
+import net.kosto.configuration.model.DatabaseScriptType;
+import net.kosto.configuration.model.common.CommonDatabaseItem;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
@@ -38,13 +41,84 @@ import org.apache.maven.plugin.MojoExecutionException;
  * <li>{@link PostgreSQLScript#fileMask} = {@link net.kosto.util.FileUtils#FILE_MASK_SQL}</li>
  * </ul>
  */
-public class PostgreSQLScript extends AbstractDatabaseScript {
+public class PostgreSQLScript extends AbstractCustomDatabaseItem {
 
   /**
    * Constructs instance and sets default values.
    */
   public PostgreSQLScript() {
     super();
+  }
+
+  public PostgreSQLScript(CommonDatabaseItem item) {
+    super();
+    setIndex(item.getIndex());
+    setName(item.getName());
+    setType(item.getType());
+    setCondition(item.getCondition());
+    setFileMask(item.getFileMask());
+    setSourceDirectory(item.getSourceDirectory());
+    setIgnoreDirectory(item.getIgnoreDirectory());
+    setDefineSymbol(item.getDefineSymbol());
+    setIgnoreDefine(item.getIgnoreDefine());
+  }
+
+  /**
+   * Returns database script type.
+   *
+   * @return Database script type.
+   */
+  public DatabaseScriptType getScriptType() {
+    DatabaseScriptType result = null;
+
+    if (getType() != null) {
+      try {
+        result = DatabaseScriptType.valueOf(getType());
+      } catch (IllegalArgumentException x) {
+        // If corresponding database script type not found in enum, do nothing.
+      }
+    }
+
+    return result;
+  }
+
+  /**
+   * Returns database script condition.
+   *
+   * @return Database script condition.
+   */
+  public DatabaseScriptCondition getScriptCondition() {
+    DatabaseScriptCondition result = null;
+
+    if (getCondition() != null) {
+      try {
+        result = DatabaseScriptCondition.valueOf(getCondition());
+      } catch (IllegalArgumentException x) {
+        // If corresponding database script condition not found in enum, do nothing.
+      }
+    }
+
+    return result;
+  }
+
+  @Override
+  public Integer getOrder() {
+    Integer result = 0;
+
+    if (getScriptCondition() != null) {
+      switch (getScriptCondition()) {
+        case BEFORE:
+          result = 1000 + getIndex();
+          break;
+        case AFTER:
+          result = 2000 + getIndex();
+          break;
+        default:
+          result = result + getIndex();
+      }
+    }
+
+    return result;
   }
 
   @Override
@@ -71,7 +145,7 @@ public class PostgreSQLScript extends AbstractDatabaseScript {
       setIgnoreDefine(FALSE);
     }
     if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory()) {
-      setSourceDirectory(getIgnoreDirectory() ? EMPTY_STRING : getType().getSourceDirectory());
+      setSourceDirectory(getIgnoreDirectory() ? EMPTY_STRING : getScriptType().getSourceDirectory());
     }
   }
 }

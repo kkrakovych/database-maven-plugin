@@ -14,44 +14,22 @@
  * limitations under the License.
  */
 
-package net.kosto.configuration.model;
-
-import static net.kosto.util.FileUtils.FILE_MASK_SQL;
+package net.kosto.configuration.model.common;
 
 /**
- * Represents database object.
- * <p>
- * Provides access to database object's attributes and methods.
+ * Represents common database item configuration.
  */
-public abstract class AbstractDatabaseObject extends AbstractDatabaseItem implements DatabaseObject {
-
-  /**
-   * Database object's file mask.
-   */
-  private String fileMask;
+public class CommonItem extends AbstractCommonDatabaseItem {
 
   /**
    * Constructs instance and sets default values.
    */
-  public AbstractDatabaseObject() {
+  public CommonItem() {
     super();
-    this.fileMask = FILE_MASK_SQL;
-  }
-
-  @Override
-  public String getFileMask() {
-    return fileMask;
-  }
-
-  @Override
-  public void setFileMask(final String fileMask) {
-    this.fileMask = fileMask;
   }
 
   @Override
   public String toString() {
-    return "AbstractDatabaseObject{" +
-        "fileMask='" + fileMask + '\'' +
-        "} " + super.toString();
+    return "CommonItem{} " + super.toString();
   }
 }

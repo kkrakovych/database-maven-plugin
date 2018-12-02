@@ -18,15 +18,16 @@ package net.kosto.configuration;
 
 import static net.kosto.configuration.model.DatabaseType.ORACLE;
 import static net.kosto.configuration.model.DatabaseType.POSTGRESQL;
-import static net.kosto.service.processor.ProcessorError.UNKNOWN_DATABASE_TYPE;
+import static net.kosto.util.Error.UNKNOWN_DATABASE_TYPE;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import net.kosto.configuration.model.DatabaseItem;
+import net.kosto.configuration.model.CustomDatabaseItem;
 import net.kosto.configuration.model.DatabaseType;
+import net.kosto.configuration.model.common.CommonDatabase;
 import net.kosto.configuration.model.oracle.OracleDatabase;
 import net.kosto.configuration.model.postgresql.PostgreSQLDatabase;
 import net.kosto.service.validator.Validator;
@@ -39,26 +40,31 @@ public class Configuration implements Validator {
 
   /**
    * Current build version.
+   * <p>
    * Represents project version defined in pom.xml file.
    */
   private String buildVersion;
   /**
    * Current build timestamp.
+   * <p>
    * Represents timestamp of source code packaging start.
    */
   private LocalDateTime buildTimestamp;
   /**
    * Full path for root source directory.
+   * <p>
    * Represents directory containing pom.xml file.
    */
   private Path sourceDirectory;
   /**
    * Full path for root output directory.
+   * <p>
    * Represents top level output directory.
    */
   private Path outputDirectory;
   /**
    * Relative path name for service directory.
+   * <p>
    * Represents directory for service scripts required by database deploy script.
    */
   private String serviceDirectory;
@@ -70,7 +76,7 @@ public class Configuration implements Validator {
   /**
    * Database configuration.
    */
-  private DatabaseItem database;
+  private CustomDatabaseItem database;
 
   private Configuration() {
     super();
@@ -110,7 +116,7 @@ public class Configuration implements Validator {
     return databaseType;
   }
 
-  public DatabaseItem getDatabase() {
+  public CustomDatabaseItem getDatabase() {
     return database;
   }
 
@@ -208,29 +214,29 @@ public class Configuration implements Validator {
     }
 
     /**
-     * Sets database as Oracle if it has set up in plugin configuration.
+     * Sets Oracle database configuration.
      *
      * @param oracle Oracle database configuration.
      * @return {@link Builder} instance.
      */
-    public Builder setOracle(final OracleDatabase oracle) {
+    public Builder setOracle(final CommonDatabase oracle) {
       if (oracle != null && configuration.databaseType == null) {
         configuration.databaseType = ORACLE;
-        configuration.database = oracle;
+        configuration.database = new OracleDatabase(oracle);
       }
       return this;
     }
 
     /**
-     * Sets database as PostgreSQL if it has set up in plugin configuration.
+     * Sets PostgreSQL database configuration.
      *
      * @param postgresql PostgreSQL database configuration.
      * @return {@link Builder} instance.
      */
-    public Builder setPostgresql(final PostgreSQLDatabase postgresql) {
+    public Builder setPostgresql(final CommonDatabase postgresql) {
       if (postgresql != null && configuration.databaseType == null) {
         configuration.databaseType = POSTGRESQL;
-        configuration.database = postgresql;
+        configuration.database = new PostgreSQLDatabase(postgresql);
       }
       return this;
     }

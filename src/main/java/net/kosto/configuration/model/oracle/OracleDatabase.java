@@ -17,16 +17,21 @@
 package net.kosto.configuration.model.oracle;
 
 import static java.lang.Boolean.FALSE;
-import static net.kosto.service.validator.ValidatorError.MISSING_ATTRIBUTE;
+import static net.kosto.util.Error.MISSING_ATTRIBUTE;
 import static net.kosto.util.StringUtils.AMPERSAND;
 import static net.kosto.util.StringUtils.DATABASE;
 import static net.kosto.util.StringUtils.EMPTY_STRING;
 import static net.kosto.util.StringUtils.ORACLE_SCHEMES;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import net.kosto.configuration.model.AbstractDatabaseItem;
+import net.kosto.configuration.model.AbstractCustomDatabaseItem;
+import net.kosto.configuration.model.CustomDatabaseItem;
+import net.kosto.configuration.model.common.CommonDatabase;
+import net.kosto.configuration.model.common.CommonDatabaseItem;
+import net.kosto.configuration.model.common.CommonSchema;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
@@ -40,12 +45,12 @@ import org.apache.maven.plugin.MojoExecutionException;
  * <li>{@link OracleDatabase#ignoreDefine} = {@link Boolean#FALSE}</li>
  * </ul>
  */
-public class OracleDatabase extends AbstractDatabaseItem {
+public class OracleDatabase extends AbstractCustomDatabaseItem {
 
   /**
    * Oracle database schemes' configurations.
    */
-  private List<OracleSchema> schemes;
+  private List<CustomDatabaseItem> schemes;
 
   /**
    * Constructs instance and sets default values.
@@ -54,11 +59,32 @@ public class OracleDatabase extends AbstractDatabaseItem {
     super();
   }
 
-  public List<OracleSchema> getSchemes() {
+  public OracleDatabase(CommonDatabaseItem item) {
+    super();
+    setIndex(item.getIndex());
+    setName(item.getName());
+    setType(item.getType());
+    setCondition(item.getCondition());
+    setFileMask(item.getFileMask());
+    setSourceDirectory(item.getSourceDirectory());
+    setIgnoreDirectory(item.getIgnoreDirectory());
+    setDefineSymbol(item.getDefineSymbol());
+    setIgnoreDefine(item.getIgnoreDefine());
+
+    List<CommonSchema> commonSchemes = ((CommonDatabase) item).getSchemes();
+    if (commonSchemes != null && !commonSchemes.isEmpty()) {
+      schemes = new ArrayList<>();
+      for (CommonDatabaseItem schema : commonSchemes) {
+        schemes.add(new OracleSchema(schema));
+      }
+    }
+  }
+
+  public List<CustomDatabaseItem> getSchemes() {
     return schemes;
   }
 
-  public void setSchemes(final List<OracleSchema> schemes) {
+  public void setSchemes(final List<CustomDatabaseItem> schemes) {
     this.schemes = schemes;
   }
 
@@ -96,9 +122,9 @@ public class OracleDatabase extends AbstractDatabaseItem {
   @Override
   protected void processAttributes() throws MojoExecutionException {
     if (schemes != null) {
-      schemes.sort(Comparator.comparingInt(OracleSchema::getOrder));
+      schemes.sort(Comparator.comparingInt(CustomDatabaseItem::getOrder));
 
-      for (final OracleSchema schema : schemes) {
+      for (final CustomDatabaseItem schema : schemes) {
         validateAttribute(schema);
       }
     }

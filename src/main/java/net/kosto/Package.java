@@ -21,8 +21,7 @@ import static org.apache.maven.plugins.annotations.LifecyclePhase.PROCESS_SOURCE
 import java.time.LocalDateTime;
 
 import net.kosto.configuration.Configuration;
-import net.kosto.configuration.model.oracle.OracleDatabase;
-import net.kosto.configuration.model.postgresql.PostgreSQLDatabase;
+import net.kosto.configuration.model.common.CommonDatabase;
 import net.kosto.service.processor.Processor;
 import net.kosto.service.processor.ProcessorFactory;
 import org.apache.maven.plugin.AbstractMojo;
@@ -31,25 +30,24 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 /**
- * Controls source code packaging into database deploy script.
+ * Controls source code packaging into database migration script.
  */
 @Mojo(name = "package", defaultPhase = PROCESS_SOURCES)
 public class Package extends AbstractMojo {
 
   /**
-   * Default value for {@link #serviceDirectory} attribute
-   * and service scripts' resource path.
+   * Default value for {@link #serviceDirectory} attribute and service scripts' resource path.
    */
   public static final String SERVICE_DIRECTORY = "service";
 
   /**
-   * Current build version.
+   * Database migration script build version.
    * Represents project version defined in pom.xml file.
    */
   @Parameter(property = "project.version", required = true)
   private String buildVersion;
   /**
-   * Current build timestamp.
+   * Database migration script build timestamp.
    * Represents timestamp of source code packaging start.
    */
   private final LocalDateTime buildTimestamp;
@@ -79,12 +77,12 @@ public class Package extends AbstractMojo {
    * Oracle database configuration.
    */
   @Parameter
-  private OracleDatabase oracle;
+  private CommonDatabase oracle;
   /**
    * PostgreSQL database configuration.
    */
   @Parameter
-  private PostgreSQLDatabase postgresql;
+  private CommonDatabase postgresql;
 
   /**
    * Constructs instance and sets default values.
@@ -109,7 +107,7 @@ public class Package extends AbstractMojo {
   }
 
   /**
-   * Executes source code packaging into database deploy script.
+   * Executes source code packaging into database migration script.
    * Takes into account configuration specified in pom.xml file.
    *
    * @throws MojoExecutionException If expected exception occurs.

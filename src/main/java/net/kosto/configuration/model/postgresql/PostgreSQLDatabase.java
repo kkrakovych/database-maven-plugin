@@ -29,7 +29,15 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import net.kosto.configuration.model.AbstractDatabaseItem;
+import net.kosto.configuration.model.AbstractCustomDatabaseItem;
+import net.kosto.configuration.model.CustomDatabaseItem;
+import net.kosto.configuration.model.common.CommonDatabase;
+import net.kosto.configuration.model.common.CommonDatabaseItem;
+import net.kosto.configuration.model.common.CommonItem;
+import net.kosto.configuration.model.common.CommonSchema;
+import net.kosto.configuration.model.oracle.OracleObject;
+import net.kosto.configuration.model.oracle.OracleSchema;
+import net.kosto.configuration.model.oracle.OracleScript;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
@@ -43,20 +51,20 @@ import org.apache.maven.plugin.MojoExecutionException;
  * <li>{@link PostgreSQLDatabase#ignoreDefine} = {@link Boolean#FALSE}</li>
  * </ul>
  */
-public class PostgreSQLDatabase extends AbstractDatabaseItem {
+public class PostgreSQLDatabase extends AbstractCustomDatabaseItem {
 
   /**
    * PostgreSQL database public schema objects' configuration.
    */
-  private List<PostgreSQLObject> objects;
+  private List<CustomDatabaseItem> objects;
   /**
    * PostgreSQL database public schema scripts' configuration.
    */
-  private List<PostgreSQLScript> scripts;
+  private List<CustomDatabaseItem> scripts;
   /**
    * PostgreSQL database schemes' configurations.
    */
-  private List<PostgreSQLSchema> schemes;
+  private List<CustomDatabaseItem> schemes;
 
   /**
    * Constructs instance and sets default values.
@@ -65,27 +73,64 @@ public class PostgreSQLDatabase extends AbstractDatabaseItem {
     super();
   }
 
-  public List<PostgreSQLObject> getObjects() {
+  public PostgreSQLDatabase(CommonDatabaseItem item) {
+    super();
+    setIndex(item.getIndex());
+    setName(item.getName());
+    setType(item.getType());
+    setCondition(item.getCondition());
+    setFileMask(item.getFileMask());
+    setSourceDirectory(item.getSourceDirectory());
+    setIgnoreDirectory(item.getIgnoreDirectory());
+    setDefineSymbol(item.getDefineSymbol());
+    setIgnoreDefine(item.getIgnoreDefine());
+
+    List<CommonItem> commonObjects = ((CommonDatabase) item).getObjects();
+    if (commonObjects != null && !commonObjects.isEmpty()) {
+      objects = new ArrayList<>();
+      for (CommonDatabaseItem object : commonObjects) {
+        objects.add(new OracleObject(object));
+      }
+    }
+
+    List<CommonItem> commonScripts = ((CommonDatabase) item).getScripts();
+    if (commonScripts != null && !commonScripts.isEmpty()) {
+      scripts = new ArrayList<>();
+      for (CommonDatabaseItem script : commonScripts) {
+        scripts.add(new OracleScript(script));
+      }
+    }
+
+    List<CommonSchema> commonSchemes = ((CommonDatabase) item).getSchemes();
+    if (commonSchemes != null && !commonSchemes.isEmpty()) {
+      schemes = new ArrayList<>();
+      for (CommonDatabaseItem schema : commonSchemes) {
+        schemes.add(new OracleSchema(schema));
+      }
+    }
+  }
+
+  public List<CustomDatabaseItem> getObjects() {
     return objects;
   }
 
-  public void setObjects(final List<PostgreSQLObject> objects) {
+  public void setObjects(final List<CustomDatabaseItem> objects) {
     this.objects = objects;
   }
 
-  public List<PostgreSQLScript> getScripts() {
+  public List<CustomDatabaseItem> getScripts() {
     return scripts;
   }
 
-  public void setScripts(final List<PostgreSQLScript> scripts) {
+  public void setScripts(final List<CustomDatabaseItem> scripts) {
     this.scripts = scripts;
   }
 
-  public List<PostgreSQLSchema> getSchemes() {
+  public List<CustomDatabaseItem> getSchemes() {
     return schemes;
   }
 
-  public void setSchemes(final List<PostgreSQLSchema> schemes) {
+  public void setSchemes(final List<CustomDatabaseItem> schemes) {
     this.schemes = schemes;
   }
 
@@ -124,23 +169,23 @@ public class PostgreSQLDatabase extends AbstractDatabaseItem {
   @Override
   protected void processAttributes() throws MojoExecutionException {
     if (objects != null) {
-      objects.sort(Comparator.comparingInt(PostgreSQLObject::getOrder));
+      objects.sort(Comparator.comparingInt(CustomDatabaseItem::getOrder));
 
-      for (final PostgreSQLObject object : objects) {
+      for (final CustomDatabaseItem object : objects) {
         validateAttribute(object);
       }
     }
 
     if (scripts != null) {
-      scripts.sort(Comparator.comparingInt(PostgreSQLScript::getOrder));
+      scripts.sort(Comparator.comparingInt(CustomDatabaseItem::getOrder));
 
-      for (final PostgreSQLScript script : scripts) {
+      for (final CustomDatabaseItem script : scripts) {
         validateAttribute(script);
       }
     }
 
     if (schemes != null) {
-      for (final PostgreSQLSchema schema : schemes) {
+      for (final CustomDatabaseItem schema : schemes) {
         validateAttribute(schema);
       }
     }
@@ -152,7 +197,7 @@ public class PostgreSQLDatabase extends AbstractDatabaseItem {
       }
 
       final PostgreSQLSchema schema = new PostgreSQLSchema();
-      schema.setIndex(schemes.stream().mapToInt(PostgreSQLSchema::getIndex).min().orElse(0));
+      schema.setIndex(schemes.stream().mapToInt(CustomDatabaseItem::getIndex).min().orElse(0));
       schema.setName("public");
       schema.setSourceDirectory(getSourceDirectory());
       schema.setIgnoreDirectory(TRUE);
@@ -166,7 +211,7 @@ public class PostgreSQLDatabase extends AbstractDatabaseItem {
     }
 
     if (schemes != null) {
-      schemes.sort(Comparator.comparingInt(PostgreSQLSchema::getOrder));
+      schemes.sort(Comparator.comparingInt(CustomDatabaseItem::getOrder));
     }
   }
 }
