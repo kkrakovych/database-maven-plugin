@@ -27,8 +27,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import net.kosto.configuration.model.AbstractCustomDatabaseItem;
-import net.kosto.configuration.model.CustomDatabaseItem;
+import net.kosto.configuration.model.AbstractDatabaseItem;
+import net.kosto.configuration.model.DatabaseItem;
 import net.kosto.configuration.model.common.CommonDatabaseItem;
 import net.kosto.configuration.model.common.CommonItem;
 import net.kosto.configuration.model.common.CommonSchema;
@@ -41,22 +41,22 @@ import org.apache.maven.plugin.MojoExecutionException;
  * <p>
  * Default values for missing attributes' values:
  * <ul>
- * <li>{@link PostgreSQLSchema#sourceDirectory} = {@link PostgreSQLSchema#name}</li>
- * <li>{@link PostgreSQLSchema#ignoreDirectory} = {@link Boolean#FALSE}</li>
- * <li>{@link PostgreSQLSchema#defineSymbol} = {@link net.kosto.util.StringUtils#COLON}</li>
- * <li>{@link PostgreSQLSchema#ignoreDefine} = {@link Boolean#FALSE}</li>
+ * <li>{@link PostgreSQLSchema#getSourceDirectory()} = {@link PostgreSQLSchema#getName()}</li>
+ * <li>{@link PostgreSQLSchema#getIgnoreDirectory()} = {@link Boolean#FALSE}</li>
+ * <li>{@link PostgreSQLSchema#getDefineSymbol()} = {@link net.kosto.util.StringUtils#COLON}</li>
+ * <li>{@link PostgreSQLSchema#getIgnoreDefine()} = {@link Boolean#FALSE}</li>
  * </ul>
  */
-public class PostgreSQLSchema extends AbstractCustomDatabaseItem {
+public class PostgreSQLSchema extends AbstractDatabaseItem {
 
   /**
    * PostgreSQL database schema objects' configuration.
    */
-  private List<CustomDatabaseItem> objects;
+  private List<DatabaseItem> objects;
   /**
    * PostgreSQL database schema scripts' configuration.
    */
-  private List<CustomDatabaseItem> scripts;
+  private List<DatabaseItem> scripts;
 
   /**
    * Constructs instance and sets default values.
@@ -94,19 +94,19 @@ public class PostgreSQLSchema extends AbstractCustomDatabaseItem {
     }
   }
 
-  public List<CustomDatabaseItem> getObjects() {
+  public List<DatabaseItem> getObjects() {
     return objects;
   }
 
-  public void setObjects(final List<CustomDatabaseItem> objects) {
+  public void setObjects(final List<DatabaseItem> objects) {
     this.objects = objects;
   }
 
-  public List<CustomDatabaseItem> getScripts() {
+  public List<DatabaseItem> getScripts() {
     return scripts;
   }
 
-  public void setScripts(final List<CustomDatabaseItem> scripts) {
+  public void setScripts(final List<DatabaseItem> scripts) {
     this.scripts = scripts;
   }
 
@@ -143,17 +143,17 @@ public class PostgreSQLSchema extends AbstractCustomDatabaseItem {
   @Override
   protected void processAttributes() throws MojoExecutionException {
     if (objects != null) {
-      objects.sort(Comparator.comparingInt(CustomDatabaseItem::getOrder));
+      objects.sort(Comparator.comparingInt(DatabaseItem::getOrder));
 
-      for (final CustomDatabaseItem object : objects) {
+      for (final DatabaseItem object : objects) {
         validateAttribute(object);
       }
     }
 
     if (scripts != null) {
-      scripts.sort(Comparator.comparingInt(CustomDatabaseItem::getOrder));
+      scripts.sort(Comparator.comparingInt(DatabaseItem::getOrder));
 
-      for (final CustomDatabaseItem script : scripts) {
+      for (final DatabaseItem script : scripts) {
         validateAttribute(script);
       }
     }

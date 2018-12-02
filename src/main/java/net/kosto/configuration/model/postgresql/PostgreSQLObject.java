@@ -22,7 +22,7 @@ import static net.kosto.util.StringUtils.COLON;
 import static net.kosto.util.StringUtils.EMPTY_STRING;
 import static net.kosto.util.StringUtils.POSTGRESQL_SCHEMA_OBJECT_TYPE;
 
-import net.kosto.configuration.model.AbstractCustomDatabaseItem;
+import net.kosto.configuration.model.AbstractDatabaseItem;
 import net.kosto.configuration.model.common.CommonDatabaseItem;
 import org.apache.maven.plugin.MojoExecutionException;
 
@@ -31,14 +31,14 @@ import org.apache.maven.plugin.MojoExecutionException;
  * <p>
  * Default values for missing attributes' values:
  * <ul>
- * <li>{@link PostgreSQLObject#sourceDirectory} = {@link PostgreSQLObjectType#getSourceDirectory()}</li>
- * <li>{@link PostgreSQLObject#ignoreDirectory} = {@link Boolean#FALSE}</li>
- * <li>{@link PostgreSQLObject#defineSymbol} = {@link net.kosto.util.StringUtils#COLON}</li>
- * <li>{@link PostgreSQLObject#ignoreDefine} = {@link Boolean#FALSE}</li>
- * <li>{@link PostgreSQLObject#fileMask} = {@link net.kosto.util.FileUtils#FILE_MASK_SQL}</li>
+ * <li>{@link PostgreSQLObject#getSourceDirectory()} = {@link PostgreSQLObjectType#getSourceDirectory()}</li>
+ * <li>{@link PostgreSQLObject#getIgnoreDirectory()} = {@link Boolean#FALSE}</li>
+ * <li>{@link PostgreSQLObject#getDefineSymbol()} = {@link net.kosto.util.StringUtils#COLON}</li>
+ * <li>{@link PostgreSQLObject#getIgnoreDefine()} = {@link Boolean#FALSE}</li>
+ * <li>{@link PostgreSQLObject#getFileMask()} = {@link net.kosto.util.FileUtils#FILE_MASK_SQL}</li>
  * </ul>
  */
-public class PostgreSQLObject extends AbstractCustomDatabaseItem {
+public class PostgreSQLObject extends AbstractDatabaseItem {
 
   /**
    * Constructs instance and sets default values.

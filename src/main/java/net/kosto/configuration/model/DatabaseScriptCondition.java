@@ -17,7 +17,7 @@
 package net.kosto.configuration.model;
 
 /**
- * {@code DatabaseScriptCondition} provides list of all supported database script execution conditions.
+ * Provides list of all supported database script execution conditions.
  */
 public enum DatabaseScriptCondition {
 

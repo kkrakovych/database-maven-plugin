@@ -31,7 +31,11 @@ import java.util.Set;
 import net.kosto.configuration.model.common.AbstractCommonDatabaseItem;
 import org.apache.maven.plugin.MojoExecutionException;
 
-public abstract class AbstractCustomDatabaseItem extends AbstractCommonDatabaseItem implements CustomDatabaseItem {
+/**
+ * Represents database item.
+ * Provides access to database item's attributes and methods.
+ */
+public abstract class AbstractDatabaseItem extends AbstractCommonDatabaseItem implements DatabaseItem {
 
   /**
    * Relative path name for execute directory.
@@ -46,7 +50,10 @@ public abstract class AbstractCustomDatabaseItem extends AbstractCommonDatabaseI
    */
   private Path outputDirectoryFull;
 
-  public AbstractCustomDatabaseItem() {
+  /**
+   * Constructs instance and sets default values.
+   */
+  public AbstractDatabaseItem() {
     super();
     this.executeDirectory = UNIX_SEPARATOR;
   }
@@ -83,7 +90,7 @@ public abstract class AbstractCustomDatabaseItem extends AbstractCommonDatabaseI
 
   @Override
   public String toString() {
-    return "AbstractCustomDatabaseItem{" +
+    return "AbstractDatabaseItem{" +
         "executeDirectory='" + executeDirectory + '\'' +
         ", sourceDirectoryFull=" + sourceDirectoryFull +
         ", outputDirectoryFull=" + outputDirectoryFull +
@@ -101,8 +108,7 @@ public abstract class AbstractCustomDatabaseItem extends AbstractCommonDatabaseI
   /**
    * Checks mandatory database item's attributes values.
    * <p>
-   * It should check attributes for mandatory values and rise exception
-   * in case value is missing.
+   * It should check attributes for mandatory values and rise exception in case value is missing.
    *
    * @throws MojoExecutionException If expected exception occurs.
    */
@@ -114,8 +120,7 @@ public abstract class AbstractCustomDatabaseItem extends AbstractCommonDatabaseI
   protected abstract void setDefaultValues();
 
   /**
-   * Processes paths for full source and output, and execute directories
-   * taking into account specified parameters and {@link #ignoreDirectory} option.
+   * Processes paths for full source and output, and execute directories taking into account specified parameters and {@link #getIgnoreDirectory()} option.
    */
   private void processDirectoryAttributes() {
     if (!getIgnoreDirectory()) {
@@ -131,28 +136,20 @@ public abstract class AbstractCustomDatabaseItem extends AbstractCommonDatabaseI
    * @throws MojoExecutionException If expected exception occurs.
    */
   protected void processAttributes() throws MojoExecutionException {
-    // Some database items do not require the processing
-    // therefore the method is not abstract.
+    // Some database items do not require the processing therefore the method is not abstract.
   }
 
   /**
    * Validates database item attribute with mandatory preliminary actions.
    * <ul>
-   * <li>
-   * Some attributes like {@link AbstractDatabaseItem#defineSymbol},
-   * if was set in parent database item, should have the same value in related
-   * child one.
-   * </li>
-   * <li>
-   * Some attributes like {@link AbstractDatabaseItem#executeDirectory}
-   * should be amended properly dependent on values from parent database items.
-   * </li>
+   * <li>Some attributes like {@link AbstractDatabaseItem#getDefineSymbol()}, if was set in parent database item, should have the same value in related child one.</li>
+   * <li>Some attributes like {@link AbstractDatabaseItem#executeDirectory} should be amended properly dependent on values from parent database items. </li>
    * </ul>
    *
    * @param item Database item for validation.
    * @throws MojoExecutionException If expected exception occurs.
    */
-  protected void validateAttribute(final CustomDatabaseItem item) throws MojoExecutionException {
+  protected void validateAttribute(final DatabaseItem item) throws MojoExecutionException {
     // Attributes for propagation from parent database item to child one.
     if (item.getDefineSymbol() == null) {
       item.setDefineSymbol(getDefineSymbol());
@@ -176,7 +173,7 @@ public abstract class AbstractCustomDatabaseItem extends AbstractCommonDatabaseI
    * @param <T>       Any class with {@link DatabaseItem} interface implemented.
    * @throws MojoExecutionException If expected exception occurs.
    */
-  protected <T extends CustomDatabaseItem> void checkMandatory(final List<T> items, final String attribute) throws MojoExecutionException {
+  protected <T extends DatabaseItem> void checkMandatory(final List<T> items, final String attribute) throws MojoExecutionException {
     if (items != null) {
       if (items.isEmpty()) {
         throw new MojoExecutionException(EMPTY_LIST_ATTRIBUTE.message(attribute, SCHEMA));
@@ -194,14 +191,13 @@ public abstract class AbstractCustomDatabaseItem extends AbstractCommonDatabaseI
   /**
    * Checks for semi-defined index attribute within list of database items.
    * <p>
-   * We treat indexes as semi-defined for list of database items
-   * when some of them are defined and others are not.
+   * We treat indexes as semi-defined for list of database items when some of them are defined and others are not.
    *
    * @param items Database items.
    * @param <T>   Any class with {@link DatabaseItem} interface implemented.
    * @return If indexes are semi-defined {@code true}, otherwise {@code false}.
    */
-  private <T extends CustomDatabaseItem> boolean isSemiDefinedIndex(final List<T> items) {
+  private <T extends DatabaseItem> boolean isSemiDefinedIndex(final List<T> items) {
     final int count = (int) items.stream().filter(item -> item.getIndex() == null).count();
     return count > 0 && items.size() != count;
   }
@@ -214,11 +210,11 @@ public abstract class AbstractCustomDatabaseItem extends AbstractCommonDatabaseI
    * @param <T>   Any class with {@link DatabaseItem} interface implemented.
    * @return If duplicate index found {@code true}, otherwise {@code false}.
    */
-  private <T extends CustomDatabaseItem> boolean isDuplicateIndex(final List<T> items) {
+  private <T extends DatabaseItem> boolean isDuplicateIndex(final List<T> items) {
     boolean result = false;
 
     final Set<Integer> indexes = new HashSet<>();
-    for (final CustomDatabaseItem item : items) {
+    for (final DatabaseItem item : items) {
       Integer order = item.getOrder();
       if (indexes.contains(order)) {
         result = true;
@@ -238,7 +234,7 @@ public abstract class AbstractCustomDatabaseItem extends AbstractCommonDatabaseI
    * @param items Database items.
    * @param <T>   Any class with {@link DatabaseItem} interface implemented.
    */
-  private <T extends CustomDatabaseItem> void indexNatural(final List<T> items) {
+  private <T extends DatabaseItem> void indexNatural(final List<T> items) {
     int order = 0;
     for (final T item : items) {
       if (item.getIndex() != null) {

@@ -21,14 +21,12 @@ import static net.kosto.util.FileUtils.FILE_MASK_SQL;
 
 /**
  * Represents common database item.
- * <p>
  * Provides access to common database item's attributes and methods.
  */
 public abstract class AbstractCommonDatabaseItem implements CommonDatabaseItem {
 
   /**
    * Database item's index in a list.
-   * <p>
    * Affects processing order.
    */
   private Integer index;

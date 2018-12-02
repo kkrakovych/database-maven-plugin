@@ -19,8 +19,7 @@ package net.kosto.configuration.model.oracle;
 /**
  * Provides list of all supported Oracle database object types.
  * <p>
- * Each database object type has default value
- * for relative {@link OracleObject#sourceDirectory} path.
+ * Each database object type has default value for relative {@link OracleObject#getSourceDirectory()} path.
  */
 public enum OracleObjectType {
   FUNCTION("functions"),
@@ -33,7 +32,7 @@ public enum OracleObjectType {
   VIEW("views");
 
   /**
-   * Default relative {@link OracleObject#sourceDirectory} path.
+   * Default relative {@link OracleObject#getSourceDirectory()} path.
    */
   private final String sourceDirectory;
 

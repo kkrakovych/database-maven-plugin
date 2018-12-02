@@ -25,7 +25,7 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import net.kosto.configuration.model.CustomDatabaseItem;
+import net.kosto.configuration.model.DatabaseItem;
 import net.kosto.configuration.model.DatabaseType;
 import net.kosto.configuration.model.common.CommonDatabase;
 import net.kosto.configuration.model.oracle.OracleDatabase;
@@ -40,31 +40,26 @@ public class Configuration implements Validator {
 
   /**
    * Current build version.
-   * <p>
    * Represents project version defined in pom.xml file.
    */
   private String buildVersion;
   /**
    * Current build timestamp.
-   * <p>
    * Represents timestamp of source code packaging start.
    */
   private LocalDateTime buildTimestamp;
   /**
    * Full path for root source directory.
-   * <p>
    * Represents directory containing pom.xml file.
    */
   private Path sourceDirectory;
   /**
    * Full path for root output directory.
-   * <p>
    * Represents top level output directory.
    */
   private Path outputDirectory;
   /**
    * Relative path name for service directory.
-   * <p>
    * Represents directory for service scripts required by database deploy script.
    */
   private String serviceDirectory;
@@ -76,8 +71,11 @@ public class Configuration implements Validator {
   /**
    * Database configuration.
    */
-  private CustomDatabaseItem database;
+  private DatabaseItem database;
 
+  /**
+   * Constructs instance and sets default values.
+   */
   private Configuration() {
     super();
   }
@@ -116,7 +114,7 @@ public class Configuration implements Validator {
     return databaseType;
   }
 
-  public CustomDatabaseItem getDatabase() {
+  public DatabaseItem getDatabase() {
     return database;
   }
 
@@ -242,7 +240,7 @@ public class Configuration implements Validator {
     }
 
     /**
-     * Returns {@link Configuration} instance based on parameters.
+     * Returns {@link Configuration} instance based on previously specified parameters.
      *
      * @return {@link Configuration} instance.
      * @throws MojoExecutionException If expected exception occurs.

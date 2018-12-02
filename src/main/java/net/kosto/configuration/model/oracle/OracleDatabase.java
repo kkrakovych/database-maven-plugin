@@ -27,8 +27,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import net.kosto.configuration.model.AbstractCustomDatabaseItem;
-import net.kosto.configuration.model.CustomDatabaseItem;
+import net.kosto.configuration.model.AbstractDatabaseItem;
+import net.kosto.configuration.model.DatabaseItem;
 import net.kosto.configuration.model.common.CommonDatabase;
 import net.kosto.configuration.model.common.CommonDatabaseItem;
 import net.kosto.configuration.model.common.CommonSchema;
@@ -39,18 +39,18 @@ import org.apache.maven.plugin.MojoExecutionException;
  * <p>
  * Default values for missing attributes' values:
  * <ul>
- * <li>{@link OracleDatabase#sourceDirectory} = {@link OracleDatabase#name}</li>
- * <li>{@link OracleDatabase#ignoreDirectory} = {@link Boolean#FALSE}</li>
- * <li>{@link OracleDatabase#defineSymbol} = {@link net.kosto.util.StringUtils#AMPERSAND}</li>
- * <li>{@link OracleDatabase#ignoreDefine} = {@link Boolean#FALSE}</li>
+ * <li>{@link OracleDatabase#getSourceDirectory()} = {@link OracleDatabase#getName()}</li>
+ * <li>{@link OracleDatabase#getIgnoreDirectory()} = {@link Boolean#FALSE}</li>
+ * <li>{@link OracleDatabase#getDefineSymbol()} = {@link net.kosto.util.StringUtils#AMPERSAND}</li>
+ * <li>{@link OracleDatabase#getIgnoreDefine()} = {@link Boolean#FALSE}</li>
  * </ul>
  */
-public class OracleDatabase extends AbstractCustomDatabaseItem {
+public class OracleDatabase extends AbstractDatabaseItem {
 
   /**
    * Oracle database schemes' configurations.
    */
-  private List<CustomDatabaseItem> schemes;
+  private List<DatabaseItem> schemes;
 
   /**
    * Constructs instance and sets default values.
@@ -80,11 +80,11 @@ public class OracleDatabase extends AbstractCustomDatabaseItem {
     }
   }
 
-  public List<CustomDatabaseItem> getSchemes() {
+  public List<DatabaseItem> getSchemes() {
     return schemes;
   }
 
-  public void setSchemes(final List<CustomDatabaseItem> schemes) {
+  public void setSchemes(final List<DatabaseItem> schemes) {
     this.schemes = schemes;
   }
 
@@ -122,9 +122,9 @@ public class OracleDatabase extends AbstractCustomDatabaseItem {
   @Override
   protected void processAttributes() throws MojoExecutionException {
     if (schemes != null) {
-      schemes.sort(Comparator.comparingInt(CustomDatabaseItem::getOrder));
+      schemes.sort(Comparator.comparingInt(DatabaseItem::getOrder));
 
-      for (final CustomDatabaseItem schema : schemes) {
+      for (final DatabaseItem schema : schemes) {
         validateAttribute(schema);
       }
     }

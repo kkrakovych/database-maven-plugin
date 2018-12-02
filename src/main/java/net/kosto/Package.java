@@ -39,9 +39,12 @@ public class Package extends AbstractMojo {
    * Default value for {@link #serviceDirectory} attribute and service scripts' resource path.
    */
   public static final String SERVICE_DIRECTORY = "service";
+
   /**
    * Database migration script build timestamp.
    * Represents timestamp of source code packaging start.
+   * <p>
+   * Default value is {@code LocalDateTime.now()}.
    */
   private final LocalDateTime buildTimestamp;
   /**
@@ -95,11 +98,11 @@ public class Package extends AbstractMojo {
   @Override
   public String toString() {
     return "Package{" +
-        "buildVersion='" + buildVersion + '\'' +
-        ", buildTimestamp=" + buildTimestamp +
+        "buildTimestamp=" + buildTimestamp +
+        ", serviceDirectory='" + serviceDirectory + '\'' +
+        ", buildVersion='" + buildVersion + '\'' +
         ", sourceDirectory='" + sourceDirectory + '\'' +
         ", outputDirectory='" + outputDirectory + '\'' +
-        ", serviceDirectory='" + serviceDirectory + '\'' +
         ", oracle=" + oracle +
         ", postgresql=" + postgresql +
         '}';

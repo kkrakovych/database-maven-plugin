@@ -28,7 +28,7 @@ import static net.kosto.util.StringUtils.SCRIPT;
 import java.nio.file.Path;
 
 import net.kosto.configuration.Configuration;
-import net.kosto.configuration.model.CustomDatabaseItem;
+import net.kosto.configuration.model.DatabaseItem;
 import net.kosto.configuration.model.postgresql.PostgreSQLDatabase;
 import net.kosto.configuration.model.postgresql.PostgreSQLSchema;
 import net.kosto.util.FileUtils;
@@ -71,7 +71,7 @@ public class PostgreSQLProcessor extends AbstractProcessor {
    * @throws MojoExecutionException If expected exception occurs.
    */
   private void processSchemes() throws MojoExecutionException {
-    for (final CustomDatabaseItem schema : ((PostgreSQLDatabase) getConfiguration().getDatabase()).getSchemes()) {
+    for (final DatabaseItem schema : ((PostgreSQLDatabase) getConfiguration().getDatabase()).getSchemes()) {
       getTemplateService().putParameter(SCHEMA, schema);
       processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, POSTGRESQL, SERVICE_DIRECTORY, SCHEMA));
 
@@ -88,7 +88,7 @@ public class PostgreSQLProcessor extends AbstractProcessor {
    */
   private void processObjects(final PostgreSQLSchema schema) throws MojoExecutionException {
     if (schema.getObjects() != null) {
-      for (final CustomDatabaseItem object : schema.getObjects()) {
+      for (final DatabaseItem object : schema.getObjects()) {
         processItem(object, POSTGRESQL, OBJECT);
       }
     }
@@ -102,7 +102,7 @@ public class PostgreSQLProcessor extends AbstractProcessor {
    */
   private void processScripts(final PostgreSQLSchema schema) throws MojoExecutionException {
     if (schema.getScripts() != null) {
-      for (final CustomDatabaseItem script : schema.getScripts()) {
+      for (final DatabaseItem script : schema.getScripts()) {
         processItem(script, POSTGRESQL, SCRIPT);
       }
     }

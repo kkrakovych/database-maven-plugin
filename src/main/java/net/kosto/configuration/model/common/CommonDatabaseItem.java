@@ -16,6 +16,9 @@
 
 package net.kosto.configuration.model.common;
 
+/**
+ * Provides interface required by any common database item.
+ */
 public interface CommonDatabaseItem {
 
   /**

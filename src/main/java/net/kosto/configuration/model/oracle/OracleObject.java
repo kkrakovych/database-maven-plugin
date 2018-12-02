@@ -22,7 +22,7 @@ import static net.kosto.util.StringUtils.AMPERSAND;
 import static net.kosto.util.StringUtils.EMPTY_STRING;
 import static net.kosto.util.StringUtils.ORACLE_SCHEMA_OBJECT_TYPE;
 
-import net.kosto.configuration.model.AbstractCustomDatabaseItem;
+import net.kosto.configuration.model.AbstractDatabaseItem;
 import net.kosto.configuration.model.common.CommonDatabaseItem;
 import org.apache.maven.plugin.MojoExecutionException;
 
@@ -31,14 +31,14 @@ import org.apache.maven.plugin.MojoExecutionException;
  * <p>
  * Default values for missing attributes' values:
  * <ul>
- * <li>{@link OracleObject#sourceDirectory} = {@link OracleObjectType#getSourceDirectory()}</li>
- * <li>{@link OracleObject#ignoreDirectory} = {@link Boolean#FALSE}</li>
- * <li>{@link OracleObject#defineSymbol} = {@link net.kosto.util.StringUtils#AMPERSAND}</li>
- * <li>{@link OracleObject#ignoreDefine} = {@link Boolean#FALSE}</li>
- * <li>{@link OracleObject#fileMask} = {@link net.kosto.util.FileUtils#FILE_MASK_SQL}</li>
+ * <li>{@link OracleObject#getSourceDirectory()} = {@link OracleObjectType#getSourceDirectory()}</li>
+ * <li>{@link OracleObject#getIgnoreDirectory()} = {@link Boolean#FALSE}</li>
+ * <li>{@link OracleObject#getDefineSymbol()} = {@link net.kosto.util.StringUtils#AMPERSAND}</li>
+ * <li>{@link OracleObject#getIgnoreDefine()} = {@link Boolean#FALSE}</li>
+ * <li>{@link OracleObject#getFileMask()} = {@link net.kosto.util.FileUtils#FILE_MASK_SQL}</li>
  * </ul>
  */
-public class OracleObject extends AbstractCustomDatabaseItem {
+public class OracleObject extends AbstractDatabaseItem {
 
   /**
    * Constructs instance and sets default values.

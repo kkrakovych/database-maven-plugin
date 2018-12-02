@@ -28,8 +28,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import net.kosto.configuration.model.AbstractCustomDatabaseItem;
-import net.kosto.configuration.model.CustomDatabaseItem;
+import net.kosto.configuration.model.AbstractDatabaseItem;
+import net.kosto.configuration.model.DatabaseItem;
 import net.kosto.configuration.model.common.CommonDatabaseItem;
 import net.kosto.configuration.model.common.CommonItem;
 import net.kosto.configuration.model.common.CommonSchema;
@@ -40,22 +40,22 @@ import org.apache.maven.plugin.MojoExecutionException;
  * <p>
  * Default values for missing attributes' values:
  * <ul>
- * <li>{@link OracleSchema#sourceDirectory} = {@link OracleSchema#name}</li>
- * <li>{@link OracleSchema#ignoreDirectory} = {@link Boolean#FALSE}</li>
- * <li>{@link OracleSchema#defineSymbol} = {@link net.kosto.util.StringUtils#AMPERSAND}</li>
- * <li>{@link OracleSchema#ignoreDefine} = {@link Boolean#FALSE}</li>
+ * <li>{@link OracleSchema#getSourceDirectory()} = {@link OracleSchema#getName()}</li>
+ * <li>{@link OracleSchema#getIgnoreDirectory()} = {@link Boolean#FALSE}</li>
+ * <li>{@link OracleSchema#getDefineSymbol()} = {@link net.kosto.util.StringUtils#AMPERSAND}</li>
+ * <li>{@link OracleSchema#getIgnoreDefine()} = {@link Boolean#FALSE}</li>
  * </ul>
  */
-public class OracleSchema extends AbstractCustomDatabaseItem {
+public class OracleSchema extends AbstractDatabaseItem {
 
   /**
    * Oracle database schema objects' configuration.
    */
-  private List<CustomDatabaseItem> objects;
+  private List<DatabaseItem> objects;
   /**
    * Oracle database schema scripts' configuration.
    */
-  private List<CustomDatabaseItem> scripts;
+  private List<DatabaseItem> scripts;
 
   /**
    * Constructs instance and sets default values.
@@ -93,19 +93,19 @@ public class OracleSchema extends AbstractCustomDatabaseItem {
     }
   }
 
-  public List<CustomDatabaseItem> getObjects() {
+  public List<DatabaseItem> getObjects() {
     return objects;
   }
 
-  public void setObjects(final List<CustomDatabaseItem> objects) {
+  public void setObjects(final List<DatabaseItem> objects) {
     this.objects = objects;
   }
 
-  public List<CustomDatabaseItem> getScripts() {
+  public List<DatabaseItem> getScripts() {
     return scripts;
   }
 
-  public void setScripts(final List<CustomDatabaseItem> scripts) {
+  public void setScripts(final List<DatabaseItem> scripts) {
     this.scripts = scripts;
   }
 
@@ -145,17 +145,17 @@ public class OracleSchema extends AbstractCustomDatabaseItem {
   @Override
   protected void processAttributes() throws MojoExecutionException {
     if (objects != null) {
-      objects.sort(Comparator.comparingInt(CustomDatabaseItem::getOrder));
+      objects.sort(Comparator.comparingInt(DatabaseItem::getOrder));
 
-      for (final CustomDatabaseItem object : objects) {
+      for (final DatabaseItem object : objects) {
         validateAttribute(object);
       }
     }
 
     if (scripts != null) {
-      scripts.sort(Comparator.comparingInt(CustomDatabaseItem::getOrder));
+      scripts.sort(Comparator.comparingInt(DatabaseItem::getOrder));
 
-      for (final CustomDatabaseItem script : scripts) {
+      for (final DatabaseItem script : scripts) {
         validateAttribute(script);
       }
     }

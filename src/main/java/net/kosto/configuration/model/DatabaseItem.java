@@ -21,7 +21,10 @@ import java.nio.file.Path;
 import net.kosto.configuration.model.common.CommonDatabaseItem;
 import net.kosto.service.validator.Validator;
 
-public interface CustomDatabaseItem extends CommonDatabaseItem, Validator {
+/**
+ * Provides interface required by any database item.
+ */
+public interface DatabaseItem extends CommonDatabaseItem, Validator {
 
   /**
    * Returns relative path name for execute directory.

@@ -23,7 +23,7 @@ import static net.kosto.util.StringUtils.EMPTY_STRING;
 import static net.kosto.util.StringUtils.ORACLE_SCHEMA_SCRIPT_CONDITION;
 import static net.kosto.util.StringUtils.ORACLE_SCHEMA_SCRIPT_TYPE;
 
-import net.kosto.configuration.model.AbstractCustomDatabaseItem;
+import net.kosto.configuration.model.AbstractDatabaseItem;
 import net.kosto.configuration.model.DatabaseScriptCondition;
 import net.kosto.configuration.model.DatabaseScriptType;
 import net.kosto.configuration.model.common.CommonDatabaseItem;
@@ -34,14 +34,14 @@ import org.apache.maven.plugin.MojoExecutionException;
  * <p>
  * Default values for missing attributes' values:
  * <ul>
- * <li>{@link OracleScript#sourceDirectory} = {@link net.kosto.configuration.model.DatabaseScriptType#getSourceDirectory()}</li>
- * <li>{@link OracleScript#ignoreDirectory} = {@link Boolean#FALSE}</li>
- * <li>{@link OracleScript#defineSymbol} = {@link net.kosto.util.StringUtils#AMPERSAND}</li>
- * <li>{@link OracleScript#ignoreDefine} = {@link Boolean#FALSE}</li>
- * <li>{@link OracleScript#fileMask} = {@link net.kosto.util.FileUtils#FILE_MASK_SQL}</li>
+ * <li>{@link OracleScript#getSourceDirectory()} = {@link net.kosto.configuration.model.DatabaseScriptType#getSourceDirectory()}</li>
+ * <li>{@link OracleScript#getIgnoreDirectory()} = {@link Boolean#FALSE}</li>
+ * <li>{@link OracleScript#getDefineSymbol()} = {@link net.kosto.util.StringUtils#AMPERSAND}</li>
+ * <li>{@link OracleScript#getIgnoreDefine()} = {@link Boolean#FALSE}</li>
+ * <li>{@link OracleScript#getFileMask()} = {@link net.kosto.util.FileUtils#FILE_MASK_SQL}</li>
  * </ul>
  */
-public class OracleScript extends AbstractCustomDatabaseItem {
+public class OracleScript extends AbstractDatabaseItem {
 
   /**
    * Constructs instance and sets default values.

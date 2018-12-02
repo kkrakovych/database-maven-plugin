@@ -20,7 +20,7 @@ package net.kosto.configuration.model.postgresql;
  * Provides list of all supported PostgreSQL database object types.
  * <p>
  * Each database object type has default value
- * for relative {@link PostgreSQLObject#sourceDirectory} path.
+ * for relative {@link PostgreSQLObject#getSourceDirectory()} path.
  */
 public enum PostgreSQLObjectType {
   FUNCTION("functions"),
@@ -28,7 +28,7 @@ public enum PostgreSQLObjectType {
   VIEW("views");
 
   /**
-   * Default relative {@link PostgreSQLObject#sourceDirectory} path.
+   * Default relative {@link PostgreSQLObject#getSourceDirectory()} path.
    */
   private final String sourceDirectory;
 

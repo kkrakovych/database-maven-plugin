@@ -33,7 +33,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 import net.kosto.configuration.Configuration;
-import net.kosto.configuration.model.CustomDatabaseItem;
+import net.kosto.configuration.model.DatabaseItem;
 import net.kosto.service.TemplateService;
 import net.kosto.service.ZipService;
 import net.kosto.util.FileUtils;
@@ -87,7 +87,7 @@ public abstract class AbstractProcessor implements Processor {
     return templateService;
   }
 
-  protected <T extends CustomDatabaseItem> void processItem(final T item, final String baseDirectory, final String itemType) throws MojoExecutionException {
+  protected <T extends DatabaseItem> void processItem(final T item, final String baseDirectory, final String itemType) throws MojoExecutionException {
     final Path source = item.getSourceDirectoryFull();
     final Path directory = FileUtils.createDirectories(item.getOutputDirectoryFull());
     templateService.putParameter(itemType, item);

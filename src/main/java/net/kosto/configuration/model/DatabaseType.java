@@ -22,13 +22,13 @@ package net.kosto.configuration.model;
 public enum DatabaseType {
 
   /**
-   * Oracle database
+   * Oracle database.
    *
    * @see <a href="https://en.wikipedia.org/wiki/Oracle_Database">Oracle Database</a>
    */
   ORACLE,
   /**
-   * PostgreSQL database
+   * PostgreSQL database.
    *
    * @see <a href="https://en.wikipedia.org/wiki/PostgreSQL">PostgreSQL Database</a>
    */
