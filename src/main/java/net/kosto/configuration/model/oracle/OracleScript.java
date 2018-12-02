@@ -56,7 +56,7 @@ public class OracleScript extends AbstractDatabaseItem {
    *
    * @param item Common database item.
    */
-  public OracleScript(CommonDatabaseItem item) {
+  public OracleScript(final CommonDatabaseItem item) {
     super(item);
   }
 

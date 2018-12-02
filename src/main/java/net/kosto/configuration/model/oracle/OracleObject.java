@@ -53,7 +53,7 @@ public class OracleObject extends AbstractDatabaseItem {
    *
    * @param item Common database item.
    */
-  public OracleObject(CommonDatabaseItem item) {
+  public OracleObject(final CommonDatabaseItem item) {
     super(item);
   }
 

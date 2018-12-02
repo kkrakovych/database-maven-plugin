@@ -73,7 +73,7 @@ public interface CommonDatabaseItem {
    *
    * @param type Database item's type.
    */
-  void setType(String type);
+  void setType(final String type);
 
   /**
    * Returns database item's condition.
@@ -87,7 +87,7 @@ public interface CommonDatabaseItem {
    *
    * @param condition Database item's condition.
    */
-  void setCondition(String condition);
+  void setCondition(final String condition);
 
   /**
    * Returns database item's file mask.
@@ -101,7 +101,7 @@ public interface CommonDatabaseItem {
    *
    * @param fileMask Database item's file mask.
    */
-  void setFileMask(String fileMask);
+  void setFileMask(final String fileMask);
 
   /**
    * Returns database item's relative path name for source directory.

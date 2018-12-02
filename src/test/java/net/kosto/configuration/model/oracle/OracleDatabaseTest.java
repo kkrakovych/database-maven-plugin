@@ -43,8 +43,8 @@ public class OracleDatabaseTest {
 
   private OracleDatabase init01ValidateDatabaseEmpty() {
     OracleDatabase database = new OracleDatabase();
-    database.setSourceDirectoryFull(FileUtils.rootPath);
-    database.setOutputDirectoryFull(FileUtils.rootPath);
+    database.setSourceDirectoryFull(FileUtils.ROOT_PATH);
+    database.setOutputDirectoryFull(FileUtils.ROOT_PATH);
 
     return database;
   }

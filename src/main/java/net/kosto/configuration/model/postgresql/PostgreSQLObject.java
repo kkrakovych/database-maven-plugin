@@ -53,7 +53,7 @@ public class PostgreSQLObject extends AbstractDatabaseItem {
    *
    * @param item Common database item.
    */
-  public PostgreSQLObject(CommonDatabaseItem item) {
+  public PostgreSQLObject(final CommonDatabaseItem item) {
     super(item);
   }
 

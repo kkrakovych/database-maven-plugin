@@ -82,7 +82,7 @@ public abstract class AbstractCommonDatabaseItem implements CommonDatabaseItem {
   }
 
   @Override
-  public void setIndex(Integer index) {
+  public void setIndex(final Integer index) {
     this.index = index;
   }
 
@@ -92,7 +92,7 @@ public abstract class AbstractCommonDatabaseItem implements CommonDatabaseItem {
   }
 
   @Override
-  public void setName(String name) {
+  public void setName(final String name) {
     this.name = name;
   }
 
@@ -102,7 +102,7 @@ public abstract class AbstractCommonDatabaseItem implements CommonDatabaseItem {
   }
 
   @Override
-  public void setType(String type) {
+  public void setType(final String type) {
     this.type = type;
   }
 
@@ -112,7 +112,7 @@ public abstract class AbstractCommonDatabaseItem implements CommonDatabaseItem {
   }
 
   @Override
-  public void setCondition(String condition) {
+  public void setCondition(final String condition) {
     this.condition = condition;
   }
 
@@ -122,7 +122,7 @@ public abstract class AbstractCommonDatabaseItem implements CommonDatabaseItem {
   }
 
   @Override
-  public void setFileMask(String fileMask) {
+  public void setFileMask(final String fileMask) {
     this.fileMask = fileMask;
   }
 
@@ -132,7 +132,7 @@ public abstract class AbstractCommonDatabaseItem implements CommonDatabaseItem {
   }
 
   @Override
-  public void setSourceDirectory(String sourceDirectory) {
+  public void setSourceDirectory(final String sourceDirectory) {
     this.sourceDirectory = sourceDirectory;
   }
 
@@ -142,7 +142,7 @@ public abstract class AbstractCommonDatabaseItem implements CommonDatabaseItem {
   }
 
   @Override
-  public void setIgnoreDirectory(Boolean ignoreDirectory) {
+  public void setIgnoreDirectory(final Boolean ignoreDirectory) {
     this.ignoreDirectory = ignoreDirectory;
   }
 
@@ -152,7 +152,7 @@ public abstract class AbstractCommonDatabaseItem implements CommonDatabaseItem {
   }
 
   @Override
-  public void setDefineSymbol(String defineSymbol) {
+  public void setDefineSymbol(final String defineSymbol) {
     this.defineSymbol = defineSymbol;
   }
 
@@ -162,7 +162,7 @@ public abstract class AbstractCommonDatabaseItem implements CommonDatabaseItem {
   }
 
   @Override
-  public void setIgnoreDefine(Boolean ignoreDefine) {
+  public void setIgnoreDefine(final Boolean ignoreDefine) {
     this.ignoreDefine = ignoreDefine;
   }
 

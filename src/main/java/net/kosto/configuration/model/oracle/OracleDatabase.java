@@ -64,7 +64,7 @@ public class OracleDatabase extends AbstractDatabaseItem {
    *
    * @param item Common database item.
    */
-  public OracleDatabase(CommonDatabaseItem item) {
+  public OracleDatabase(final CommonDatabaseItem item) {
     super(item);
 
     List<CommonSchema> commonSchemes = ((CommonDatabase) item).getSchemes();

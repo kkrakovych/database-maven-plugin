@@ -68,7 +68,7 @@ public final class FileUtils {
   /**
    * Unix root directory.
    */
-  public static final Path rootPath = Paths.get(UNIX_SEPARATOR);
+  public static final Path ROOT_PATH = Paths.get(UNIX_SEPARATOR);
   /**
    * Default file mask for files with {@code SQL} (Structured Query Language).
    *

@@ -56,7 +56,7 @@ public class PostgreSQLScript extends AbstractDatabaseItem {
    *
    * @param item Common database item.
    */
-  public PostgreSQLScript(CommonDatabaseItem item) {
+  public PostgreSQLScript(final CommonDatabaseItem item) {
     super(item);
   }
 

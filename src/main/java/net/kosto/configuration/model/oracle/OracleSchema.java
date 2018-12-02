@@ -69,7 +69,7 @@ public class OracleSchema extends AbstractDatabaseItem {
    *
    * @param item Common database item.
    */
-  public OracleSchema(CommonDatabaseItem item) {
+  public OracleSchema(final CommonDatabaseItem item) {
     super(item);
 
     List<CommonItem> commonObjects = ((CommonSchema) item).getObjects();

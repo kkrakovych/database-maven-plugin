@@ -75,7 +75,7 @@ public class PostgreSQLDatabase extends AbstractDatabaseItem {
    *
    * @param item Common database item.
    */
-  public PostgreSQLDatabase(CommonDatabaseItem item) {
+  public PostgreSQLDatabase(final CommonDatabaseItem item) {
     super(item);
 
     List<CommonItem> commonObjects = ((CommonDatabase) item).getObjects();

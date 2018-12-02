@@ -62,8 +62,9 @@ public abstract class AbstractProcessor implements Processor {
 
   /**
    * Constructs instance and sets default values.
+   *
+   * @param configuration Main configuration.
    */
-  /** package */
   AbstractProcessor(final Configuration configuration) {
     this.configuration = configuration;
 

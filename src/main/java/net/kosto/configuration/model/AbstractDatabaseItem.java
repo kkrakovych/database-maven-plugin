@@ -64,7 +64,7 @@ public abstract class AbstractDatabaseItem extends AbstractCommonDatabaseItem im
    *
    * @param item Common database item.
    */
-  public AbstractDatabaseItem(CommonDatabaseItem item) {
+  public AbstractDatabaseItem(final CommonDatabaseItem item) {
     this();
     setIndex(item.getIndex());
     setName(item.getName());
@@ -83,7 +83,7 @@ public abstract class AbstractDatabaseItem extends AbstractCommonDatabaseItem im
   }
 
   @Override
-  public void setExecuteDirectory(String executeDirectory) {
+  public void setExecuteDirectory(final String executeDirectory) {
     this.executeDirectory = executeDirectory;
   }
 
@@ -93,7 +93,7 @@ public abstract class AbstractDatabaseItem extends AbstractCommonDatabaseItem im
   }
 
   @Override
-  public void setSourceDirectoryFull(Path sourceDirectoryFull) {
+  public void setSourceDirectoryFull(final Path sourceDirectoryFull) {
     this.sourceDirectoryFull = sourceDirectoryFull;
   }
 
@@ -103,7 +103,7 @@ public abstract class AbstractDatabaseItem extends AbstractCommonDatabaseItem im
   }
 
   @Override
-  public void setOutputDirectoryFull(Path outputDirectoryFull) {
+  public void setOutputDirectoryFull(final Path outputDirectoryFull) {
     this.outputDirectoryFull = outputDirectoryFull;
   }
 

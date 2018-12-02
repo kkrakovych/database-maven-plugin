@@ -47,7 +47,7 @@ public class CommonDatabase extends AbstractCommonDatabaseItem {
     return objects;
   }
 
-  public void setObjects(List<CommonItem> objects) {
+  public void setObjects(final List<CommonItem> objects) {
     this.objects = objects;
   }
 
@@ -55,7 +55,7 @@ public class CommonDatabase extends AbstractCommonDatabaseItem {
     return scripts;
   }
 
-  public void setScripts(List<CommonItem> scripts) {
+  public void setScripts(final List<CommonItem> scripts) {
     this.scripts = scripts;
   }
 
@@ -63,7 +63,7 @@ public class CommonDatabase extends AbstractCommonDatabaseItem {
     return schemes;
   }
 
-  public void setSchemes(List<CommonSchema> schemes) {
+  public void setSchemes(final List<CommonSchema> schemes) {
     this.schemes = schemes;
   }
 

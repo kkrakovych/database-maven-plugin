@@ -33,8 +33,8 @@ public class OracleSchemaTest {
 
   private OracleSchema init01ValidateSchemaEmpty() {
     OracleSchema schema = new OracleSchema();
-    schema.setSourceDirectoryFull(FileUtils.rootPath);
-    schema.setOutputDirectoryFull(FileUtils.rootPath);
+    schema.setSourceDirectoryFull(FileUtils.ROOT_PATH);
+    schema.setOutputDirectoryFull(FileUtils.ROOT_PATH);
 
     return schema;
   }

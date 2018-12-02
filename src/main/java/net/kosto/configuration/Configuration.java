@@ -36,7 +36,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 /**
  * Represents main configuration.
  */
-public class Configuration implements Validator {
+public final class Configuration implements Validator {
 
   /**
    * Current build version.

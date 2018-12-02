@@ -68,7 +68,7 @@ public class PostgreSQLSchema extends AbstractDatabaseItem {
    *
    * @param item Common database item.
    */
-  public PostgreSQLSchema(CommonDatabaseItem item) {
+  public PostgreSQLSchema(final CommonDatabaseItem item) {
     super(item);
 
     List<CommonItem> commonObjects = ((CommonSchema) item).getObjects();
