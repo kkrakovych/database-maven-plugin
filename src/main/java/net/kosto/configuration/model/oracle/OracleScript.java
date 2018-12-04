@@ -80,9 +80,9 @@ public class OracleScript extends AbstractDatabaseItem {
 
   @Override
   public Integer getOrder() {
-    Integer result = 0;
+    Integer result = getIndex();
 
-    if (getScriptCondition() != null) {
+    if (getIndex() != null && getScriptCondition() != null) {
       switch (getScriptCondition()) {
         case BEFORE:
           result = 1000 + getIndex();
@@ -91,7 +91,7 @@ public class OracleScript extends AbstractDatabaseItem {
           result = 2000 + getIndex();
           break;
         default:
-          result = result + getIndex();
+          result = getIndex();
       }
     }
 

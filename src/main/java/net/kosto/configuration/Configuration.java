@@ -249,7 +249,6 @@ public final class Configuration implements Validator {
       if (configuration.databaseType == null) {
         throw new MojoExecutionException(UNKNOWN_DATABASE_TYPE.message());
       }
-
       return configuration;
     }
   }

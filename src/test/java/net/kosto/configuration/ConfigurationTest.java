@@ -18,47 +18,49 @@ package net.kosto.configuration;
 
 import static net.kosto.configuration.model.DatabaseType.ORACLE;
 import static net.kosto.configuration.model.DatabaseType.POSTGRESQL;
-import static org.junit.Assert.assertEquals;
+import static net.kosto.util.Error.UNKNOWN_DATABASE_TYPE;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import net.kosto.configuration.model.DatabaseType;
 import net.kosto.configuration.model.common.CommonDatabase;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
-public class ConfigurationTest {
+class ConfigurationTest {
 
-  @Rule
-  public final ExpectedException thrown = ExpectedException.none();
+  @Mock
+  private CommonDatabase database = Mockito.mock(CommonDatabase.class);
 
   @Test
-  public void test01BuildUnknownDatabaseType() throws MojoExecutionException {
-    thrown.expect(MojoExecutionException.class);
-    thrown.expectMessage("Unknown database type.");
-
-    new Configuration.Builder()
-        .build();
+  @DisplayName("Unknown database type.")
+  void test01() {
+    Executable executable = new Configuration.Builder()::build;
+    Throwable result = assertThrows(MojoExecutionException.class, executable);
+    assertEquals(UNKNOWN_DATABASE_TYPE.message(), result.getMessage());
   }
 
   @Test
-  public void test02BuildOracleEmpty() throws MojoExecutionException {
-    CommonDatabase database = new CommonDatabase();
-
-    Configuration configuration = new Configuration.Builder()
+  @DisplayName("Oracle - Database type.")
+  void test02() throws MojoExecutionException {
+    DatabaseType databaseType = new Configuration.Builder()
         .setOracle(database)
-        .build();
-
-    assertEquals(ORACLE, configuration.getDatabaseType());
+        .build()
+        .getDatabaseType();
+    assertEquals(ORACLE, databaseType);
   }
 
   @Test
-  public void test03BuildPostgreSQLEmpty() throws MojoExecutionException {
-    CommonDatabase database = new CommonDatabase();
-
-    Configuration configuration = new Configuration.Builder()
+  @DisplayName("PostgreSQL - Database type.")
+  void test03() throws MojoExecutionException {
+    DatabaseType databaseType = new Configuration.Builder()
         .setPostgresql(database)
-        .build();
-
-    assertEquals(POSTGRESQL, configuration.getDatabaseType());
+        .build()
+        .getDatabaseType();
+    assertEquals(POSTGRESQL, databaseType);
   }
 }

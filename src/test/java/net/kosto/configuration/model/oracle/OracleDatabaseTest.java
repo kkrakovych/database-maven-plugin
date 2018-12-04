@@ -16,141 +16,121 @@
 
 package net.kosto.configuration.model.oracle;
 
+import static net.kosto.util.Error.DUPLICATED_ATTRIBUTE;
+import static net.kosto.util.Error.EMPTY_LIST_ATTRIBUTE;
+import static net.kosto.util.Error.MISSING_ATTRIBUTE;
+import static net.kosto.util.Error.SEMI_DEFINED_ATTRIBUTES;
+import static net.kosto.util.FileUtils.FILE_MASK_SQL;
 import static net.kosto.util.FileUtils.UNIX_SEPARATOR;
 import static net.kosto.util.StringUtils.AMPERSAND;
 import static net.kosto.util.StringUtils.DATABASE;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.runners.MethodSorters.NAME_ASCENDING;
+import static net.kosto.util.StringUtils.INDEX;
+import static net.kosto.util.StringUtils.ORACLE_SCHEMES;
+import static net.kosto.util.StringUtils.SCHEMA;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import net.kosto.configuration.model.DatabaseItem;
 import net.kosto.util.FileUtils;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.junit.FixMethodOrder;
-import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
-@FixMethodOrder(value = NAME_ASCENDING)
-public class OracleDatabaseTest {
+class OracleDatabaseTest {
 
-  @Rule
-  public final ExpectedException thrown = ExpectedException.none();
+  private DatabaseItem database;
+  private List<DatabaseItem> schemes;
+  @Mock
+  private DatabaseItem object = Mockito.mock(OracleObject.class);
 
-  private OracleDatabase init01ValidateDatabaseEmpty() {
-    OracleDatabase database = new OracleDatabase();
+  @BeforeEach
+  private void setUp() {
+    database = new OracleDatabase();
     database.setSourceDirectoryFull(FileUtils.ROOT_PATH);
     database.setOutputDirectoryFull(FileUtils.ROOT_PATH);
 
-    return database;
-  }
+    schemes = new ArrayList<>();
+    ((OracleDatabase) database).setSchemes(schemes);
 
-  private OracleDatabase init02ValidateSchemesEmpty() {
-    OracleDatabase database = init01ValidateDatabaseEmpty();
-
-    List<DatabaseItem> schemes = new ArrayList<>();
-    database.setSchemes(schemes);
-
-    return database;
-  }
-
-  private OracleDatabase init03ValidateSchemesIndexSemiDefined() {
-    OracleDatabase database = init01ValidateDatabaseEmpty();
-
-    List<DatabaseItem> schemes = new ArrayList<>();
     for (int index = 0; index < 2; index++) {
-      OracleSchema schema = new OracleSchema();
-      if (index == 1) {
-        schema.setIndex(1);
-      }
-      schemes.add(schema);
+      DatabaseItem schema = new OracleSchema();
+      ((OracleSchema) schema).setObjects(Collections.singletonList(object));
+      ((OracleDatabase) database).getSchemes().add(schema);
     }
-
-    database.setSchemes(schemes);
-
-    return database;
-  }
-
-  private OracleDatabase init04ValidateSchemesIndexDuplicated() {
-    OracleDatabase database = init01ValidateDatabaseEmpty();
-
-    List<DatabaseItem> schemes = new ArrayList<>();
-    for (int index = 0; index < 2; index++) {
-      OracleSchema schema = new OracleSchema();
-      schema.setIndex(1);
-      schemes.add(schema);
-    }
-
-    database.setSchemes(schemes);
-
-    return database;
-  }
-
-  private OracleDatabase init05DefaultValuesDatabase() {
-    OracleDatabase database = init01ValidateDatabaseEmpty();
-
-    List<DatabaseItem> schemes = new ArrayList<>();
-    for (int index = 0; index < 2; index++) {
-      OracleSchema schema = new OracleSchema();
-      schemes.add(schema);
-    }
-
-    database.setSchemes(schemes);
-
-    return database;
   }
 
   @Test
-  public void test01ValidateDatabaseEmpty() throws MojoExecutionException {
-    thrown.expect(MojoExecutionException.class);
-    thrown.expectMessage("Attribute \"oracle.schemes\" should be specified.");
+  @DisplayName("Schema - Missing attribute.")
+  void test01() {
+    ((OracleDatabase) database).setSchemes(null);
 
-    init01ValidateDatabaseEmpty().validate();
+    Executable executable = database::validate;
+    Throwable result = assertThrows(MojoExecutionException.class, executable);
+    assertEquals(MISSING_ATTRIBUTE.message(ORACLE_SCHEMES), result.getMessage());
   }
 
   @Test
-  public void test02ValidateSchemesEmpty() throws MojoExecutionException {
-    thrown.expect(MojoExecutionException.class);
-    thrown.expectMessage("Attribute \"oracle.schemes\" should contain at least one \"schema\"");
+  @DisplayName("Schema - Empty list attribute.")
+  void test02() {
+    schemes.clear();
 
-    init02ValidateSchemesEmpty().validate();
+    Executable executable = database::validate;
+    Throwable result = assertThrows(MojoExecutionException.class, executable);
+    assertEquals(EMPTY_LIST_ATTRIBUTE.message(ORACLE_SCHEMES, SCHEMA), result.getMessage());
   }
 
   @Test
-  public void test03ValidateSchemesIndexSemiDefined() throws MojoExecutionException {
-    thrown.expect(MojoExecutionException.class);
-    thrown.expectMessage("Attribute \"index\" should be either specified for every \"schema\" in \"oracle.schemes\" or missing.");
+  @DisplayName("Schema - Semi defined attributes.")
+  void test03() {
+    schemes.get(0).setIndex(1);
 
-    init03ValidateSchemesIndexSemiDefined().validate();
+    Executable executable = database::validate;
+    Throwable result = assertThrows(MojoExecutionException.class, executable);
+    assertEquals(SEMI_DEFINED_ATTRIBUTES.message(ORACLE_SCHEMES, SCHEMA, INDEX), result.getMessage());
   }
 
   @Test
-  public void test04ValidateSchemesIndexDuplicated() throws MojoExecutionException {
-    thrown.expect(MojoExecutionException.class);
-    thrown.expectMessage("Attribute \"index\" should be unique for every \"schema\" in \"oracle.schemes\".");
+  @DisplayName("Schema - Duplicated attribute.")
+  void test04() {
+    schemes.forEach(scheme -> scheme.setIndex(1));
 
-    init04ValidateSchemesIndexDuplicated().validate();
+    Executable executable = database::validate;
+    Throwable result = assertThrows(MojoExecutionException.class, executable);
+    assertEquals(DUPLICATED_ATTRIBUTE.message(ORACLE_SCHEMES, SCHEMA, INDEX), result.getMessage());
   }
 
-  @Ignore
   @Test
-  public void test05DefaultValuesDatabase() throws MojoExecutionException {
-    OracleDatabase database = init05DefaultValuesDatabase();
+  @DisplayName("Default values.")
+  void test05() throws MojoExecutionException {
     database.validate();
 
+    assertNull(database.getIndex());
     assertEquals(DATABASE, database.getName());
+    assertNull(database.getType());
+    assertNull(database.getCondition());
+    assertEquals(FILE_MASK_SQL, database.getFileMask());
+    assertEquals(database.getName(), database.getSourceDirectory());
     assertFalse(database.getIgnoreDirectory());
     assertEquals(AMPERSAND, database.getDefineSymbol());
     assertFalse(database.getIgnoreDefine());
     assertEquals(UNIX_SEPARATOR + DATABASE + UNIX_SEPARATOR, database.getExecuteDirectory());
+    assertEquals(Paths.get(UNIX_SEPARATOR, database.getName()), database.getSourceDirectoryFull());
+    assertEquals(Paths.get(UNIX_SEPARATOR, database.getName()), database.getOutputDirectoryFull());
 
-    Integer index = 0;
-    for (DatabaseItem schema : database.getSchemes()) {
-      assertEquals(index++, schema.getOrder());
+    int index = 0;
+    for (DatabaseItem schema : ((OracleDatabase) database).getSchemes()) {
+      assertEquals(index++, (int) schema.getOrder());
     }
   }
 }

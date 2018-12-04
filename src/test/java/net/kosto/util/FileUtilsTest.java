@@ -16,8 +16,8 @@
 
 package net.kosto.util;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -25,14 +25,24 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.apache.maven.plugin.MojoExecutionException;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
-public class FileUtilsTest {
+class FileUtilsTest {
 
   private static final Path DIRECTORY = Paths.get("unit-tests");
   private static final String[] DIRECTORIES = {"sub-directory-1", "sub-directory-2"};
 
-  private void cleanUpDirectories(final Path path) throws IOException {
+  private Path path;
+
+  @AfterEach
+  private void tearDown() throws IOException {
+    cleanUp();
+    assertFalse(path.toFile().exists());
+  }
+
+  private void cleanUp() throws IOException {
     Path index = path;
     while (index != null) {
       Files.delete(index);
@@ -41,20 +51,16 @@ public class FileUtilsTest {
   }
 
   @Test
-  public void createDirectories01SingleDirectory() throws MojoExecutionException, IOException {
-    final Path result = FileUtils.createDirectories(DIRECTORY);
-    assertTrue(result.toFile().exists());
-
-    cleanUpDirectories(result);
-    assertFalse(result.toFile().exists());
+  @DisplayName("Create single directory.")
+  void test01() throws MojoExecutionException {
+    path = FileUtils.createDirectories(DIRECTORY);
+    assertTrue(path.toFile().exists());
   }
 
   @Test
-  public void createDirectories02MultiplyDirectories() throws MojoExecutionException, IOException {
-    final Path result = FileUtils.createDirectories(DIRECTORY, DIRECTORIES);
-    assertTrue(result.toFile().exists());
-
-    cleanUpDirectories(result);
-    assertFalse(result.toFile().exists());
+  @DisplayName("Create multiply directories.")
+  void test02() throws MojoExecutionException {
+    path = FileUtils.createDirectories(DIRECTORY, DIRECTORIES);
+    assertTrue(path.toFile().exists());
   }
 }

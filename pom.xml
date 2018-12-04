@@ -57,7 +57,8 @@
     <maven.compiler.target>1.8</maven.compiler.target>
 
     <freemarker.version>2.3.28</freemarker.version>
-    <junit-vintage-engine.version>5.2.0</junit-vintage-engine.version>
+    <junit.jupiter.version>5.3.2</junit.jupiter.version>
+    <mockito.version>2.23.4</mockito.version>
 
     <maven-plugin-api.version>3.5.4</maven-plugin-api.version>
     <maven-plugin-annotations.version>3.5.2</maven-plugin-annotations.version>
@@ -92,9 +93,34 @@
     </dependency>
 
     <dependency>
-      <groupId>org.junit.vintage</groupId>
-      <artifactId>junit-vintage-engine</artifactId>
-      <version>${junit-vintage-engine.version}</version>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>${junit.jupiter.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-params</artifactId>
+      <version>${junit.jupiter.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>${junit.jupiter.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>${mockito.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
+      <version>${mockito.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -152,6 +178,12 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+
+      <!-- JUnit 5 requires Surefire version 2.22.1 or higher -->
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.22.1</version>
       </plugin>
     </plugins>
   </build>
