@@ -166,6 +166,7 @@ class OracleSchemaTest {
     schema.validate();
 
     assertNull(schema.getIndex());
+    assertNull(schema.getOrder());
     assertEquals(SCHEMA, schema.getName());
     assertNull(schema.getType());
     assertNull(schema.getCondition());

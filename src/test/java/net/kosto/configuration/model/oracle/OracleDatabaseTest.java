@@ -116,6 +116,7 @@ class OracleDatabaseTest {
     database.validate();
 
     assertNull(database.getIndex());
+    assertNull(database.getOrder());
     assertEquals(DATABASE, database.getName());
     assertNull(database.getType());
     assertNull(database.getCondition());
