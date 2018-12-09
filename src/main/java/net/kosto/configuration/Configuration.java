@@ -39,15 +39,25 @@ import org.apache.maven.plugin.MojoExecutionException;
 public final class Configuration implements Validator {
 
   /**
-   * Current build version.
-   * Represents project version defined in pom.xml file.
-   */
-  private String buildVersion;
-  /**
    * Current build timestamp.
    * Represents timestamp of source code packaging start.
    */
   private LocalDateTime buildTimestamp;
+  /**
+   * Database migration script log file name.
+   * If not set log file name will be generated automatically.
+   */
+  private String logFileName;
+  /**
+   * Relative path name for service directory.
+   * Represents directory for service scripts required by database deploy script.
+   */
+  private String serviceDirectory;
+  /**
+   * Current build version.
+   * Represents project version defined in pom.xml file.
+   */
+  private String buildVersion;
   /**
    * Full path for root source directory.
    * Represents directory containing pom.xml file.
@@ -58,11 +68,6 @@ public final class Configuration implements Validator {
    * Represents top level output directory.
    */
   private Path outputDirectory;
-  /**
-   * Relative path name for service directory.
-   * Represents directory for service scripts required by database deploy script.
-   */
-  private String serviceDirectory;
   /**
    * Database type.
    * Value depends on database configuration.
@@ -80,10 +85,6 @@ public final class Configuration implements Validator {
     super();
   }
 
-  public String getBuildVersion() {
-    return buildVersion;
-  }
-
   public LocalDateTime getBuildTimestamp() {
     return buildTimestamp;
   }
@@ -98,16 +99,24 @@ public final class Configuration implements Validator {
     return buildTimestamp.format(dtf);
   }
 
+  public String getLogFileName() {
+    return logFileName;
+  }
+
+  public String getServiceDirectory() {
+    return serviceDirectory;
+  }
+
+  public String getBuildVersion() {
+    return buildVersion;
+  }
+
   public Path getSourceDirectory() {
     return sourceDirectory;
   }
 
   public Path getOutputDirectory() {
     return outputDirectory;
-  }
-
-  public String getServiceDirectory() {
-    return serviceDirectory;
   }
 
   public DatabaseType getDatabaseType() {
@@ -121,11 +130,12 @@ public final class Configuration implements Validator {
   @Override
   public String toString() {
     return "Configuration{" +
-        "buildVersion='" + buildVersion + '\'' +
-        ", buildTimestamp=" + buildTimestamp +
+        "buildTimestamp=" + buildTimestamp +
+        ", logFileName='" + logFileName + '\'' +
+        ", serviceDirectory='" + serviceDirectory + '\'' +
+        ", buildVersion='" + buildVersion + '\'' +
         ", sourceDirectory=" + sourceDirectory +
         ", outputDirectory=" + outputDirectory +
-        ", serviceDirectory='" + serviceDirectory + '\'' +
         ", databaseType=" + databaseType +
         ", database=" + database +
         '}';
@@ -157,17 +167,6 @@ public final class Configuration implements Validator {
     }
 
     /**
-     * Sets build version.
-     *
-     * @param buildVersion Build version.
-     * @return {@link Builder} instance.
-     */
-    public Builder setBuildVersion(final String buildVersion) {
-      configuration.buildVersion = buildVersion;
-      return this;
-    }
-
-    /**
      * Sets build timestamp.
      *
      * @param buildTimestamp Build timestamp.
@@ -175,6 +174,39 @@ public final class Configuration implements Validator {
      */
     public Builder setBuildTimestamp(final LocalDateTime buildTimestamp) {
       configuration.buildTimestamp = buildTimestamp;
+      return this;
+    }
+
+    /**
+     * Sets log file name.
+     *
+     * @param logFileName Log file name.
+     * @return {@link Builder} instance.
+     */
+    public Builder setLogFileName(final String logFileName) {
+      configuration.logFileName = logFileName;
+      return this;
+    }
+
+    /**
+     * Sets relative path name for service directory.
+     *
+     * @param serviceDirectory Relative path name to service directory.
+     * @return {@link Builder} instance.
+     */
+    public Builder setServiceDirectory(final String serviceDirectory) {
+      configuration.serviceDirectory = serviceDirectory;
+      return this;
+    }
+
+    /**
+     * Sets build version.
+     *
+     * @param buildVersion Build version.
+     * @return {@link Builder} instance.
+     */
+    public Builder setBuildVersion(final String buildVersion) {
+      configuration.buildVersion = buildVersion;
       return this;
     }
 
@@ -197,17 +229,6 @@ public final class Configuration implements Validator {
      */
     public Builder setOutputDirectory(final String outputDirectory) {
       configuration.outputDirectory = Paths.get(outputDirectory);
-      return this;
-    }
-
-    /**
-     * Sets relative path name for service directory.
-     *
-     * @param serviceDirectory Relative path name to service directory.
-     * @return {@link Builder} instance.
-     */
-    public Builder setServiceDirectory(final String serviceDirectory) {
-      configuration.serviceDirectory = serviceDirectory;
       return this;
     }
 

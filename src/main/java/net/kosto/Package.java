@@ -48,6 +48,14 @@ public class Package extends AbstractMojo {
    */
   private final LocalDateTime buildTimestamp;
   /**
+   * Database migration script log file name.
+   * If not set log file name will be generated automatically.
+   * <p>
+   * Default value is {@code Null}.
+   */
+  @Parameter
+  private final String logFileName;
+  /**
    * Relative path name for service directory.
    * Represents directory for service scripts required by database deploy script.
    * <p>
@@ -92,6 +100,7 @@ public class Package extends AbstractMojo {
   public Package() {
     super();
     this.buildTimestamp = LocalDateTime.now();
+    this.logFileName = null;
     this.serviceDirectory = SERVICE_DIRECTORY;
   }
 
@@ -99,6 +108,7 @@ public class Package extends AbstractMojo {
   public String toString() {
     return "Package{" +
         "buildTimestamp=" + buildTimestamp +
+        ", logFileName='" + logFileName + '\'' +
         ", serviceDirectory='" + serviceDirectory + '\'' +
         ", buildVersion='" + buildVersion + '\'' +
         ", sourceDirectory='" + sourceDirectory + '\'' +
@@ -117,11 +127,12 @@ public class Package extends AbstractMojo {
   @Override
   public void execute() throws MojoExecutionException {
     final Configuration configuration = new Configuration.Builder()
-        .setBuildVersion(buildVersion)
         .setBuildTimestamp(buildTimestamp)
+        .setLogFileName(logFileName)
+        .setServiceDirectory(serviceDirectory)
+        .setBuildVersion(buildVersion)
         .setSourceDirectory(sourceDirectory)
         .setOutputDirectory(outputDirectory)
-        .setServiceDirectory(serviceDirectory)
         .setOracle(oracle)
         .setPostgresql(postgresql)
         .build();

@@ -15,6 +15,7 @@
 6. `oracle-06` - Incomplete configuration. Failure expected.
 7. `oracle-07` - Incomplete configuration. Failure expected.
 8. `oracle-08` - All default values. Success expected.
+9. `oracle-09` - Checks custom log file name. Success expected.
 
 1. `oracle-a` - Complex database with two schemas.
 2. `oracle-b` - Simple database with one schema. All source code in main directory.
@@ -34,3 +35,4 @@
 10. `postgresql-10` - Incomplete configuration. Failure expected.
 11. `postgresql-11` - Incomplete configuration. Failure expected.
 12. `postgresql-12` - All default values. Success expected.
+13. `postgresql-13` - Checks custom log file name. Success expected.

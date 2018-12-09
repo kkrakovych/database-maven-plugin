@@ -17,7 +17,10 @@
 
 select to_char(current_timestamp, 'yyyymmddhh24miss') start_timestamp
 \gset
-
+<#if logFileName??>
+\out ${logFileName}
+<#else>
 \out install_${database.name}_${buildVersion}_:start_timestamp.log
+</#if>
 
 </#compress>

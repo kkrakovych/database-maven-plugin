@@ -71,6 +71,7 @@ public abstract class AbstractProcessor implements Processor {
     templateService = TemplateService.getInstance();
     templateService.putParameter("buildVersion", configuration.getBuildVersion());
     templateService.putParameter("buildTimestamp", configuration.getBuildTimestamp(DTF_DATE_TIME));
+    templateService.putParameter("logFileName", configuration.getLogFileName());
     templateService.putParameter("serviceDirectory", configuration.getServiceDirectory());
     templateService.putParameter(DATABASE, configuration.getDatabase());
 

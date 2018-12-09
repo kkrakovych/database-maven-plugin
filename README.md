@@ -84,7 +84,8 @@ If you want to use them, add plugin repository section to configuration as below
 <plugin>
     ...
     <configuration>
-        <serviceDirectory>[service directory name]</serviceDirectory>
+        <logFileName>[log-file-name]</logFileName>
+        <serviceDirectory>[service-directory-name]</serviceDirectory>
         ...
     </configuration>
 </plugin>
@@ -92,7 +93,8 @@ If you want to use them, add plugin repository section to configuration as below
 
 | Tag Name           | Description |
 | ------------------ | ----------- |
-| `serviceDirectory` | Service directory name. By default set as `service`. Plugin creates the directory and put all generated service scripts to it. You can set another name for the directory to avert name coincidence. As an example, `.service`. |
+| `logFileName`      | Log file name. By default the name will be generated automatically as `install_[database-name]_[build-version]_[start-timestamp].log`. Any valid file name can be set to get stable log file name. As an example, `install.log`. |
+| `serviceDirectory` | Service directory name. By default set as `service`. Plugin creates the directory and puts all generated service scripts to it. Any valid directory name can be set to avert name coincidence. As an example, `.service`. |
 
 Other depends on database type.
 
