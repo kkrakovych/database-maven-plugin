@@ -22,7 +22,13 @@ def target = "$basedir" + sep + "target" + sep
 def verify = "$basedir" + sep + "verify" + sep
 def target_service = target + "service" + sep
 def verify_service = verify + "service" + sep
+String directory
 String file
+
+static void checkExist(filePath) {
+    def file = new File(filePath.toString())
+    assert file.exists(): filePath + " file not found"
+}
 
 static void checkFile(output, sample, diffCountLimit) {
     def outputFile = new File(output.toString())
@@ -151,3 +157,63 @@ checkFile(target_service + file, verify_service + file, 0)
 
 file = "sqlplus_setup.sql"
 checkFile(target_service + file, verify_service + file, 0)
+
+directory = target + "database" + sep + "schema" + sep + "functions" + sep;
+checkExist(directory + "dummy_a.sql");
+checkExist(directory + "dummy_b.sql");
+checkExist(directory + "dummy_c.sql");
+
+directory = target + "database" + sep + "schema" + sep + "package_bodies" + sep;
+checkExist(directory + "dummy_a.sql");
+checkExist(directory + "dummy_b.sql");
+checkExist(directory + "dummy_c.sql");
+
+directory = target + "database" + sep + "schema" + sep + "package_specs" + sep;
+checkExist(directory + "dummy_a.sql");
+checkExist(directory + "dummy_b.sql");
+checkExist(directory + "dummy_c.sql");
+
+directory = target + "database" + sep + "schema" + sep + "procedures" + sep;
+checkExist(directory + "dummy_a.sql");
+checkExist(directory + "dummy_b.sql");
+checkExist(directory + "dummy_c.sql");
+
+directory = target + "database" + sep + "schema" + sep + "script_one_time_after" + sep;
+checkExist(directory + "dummy_a.sql");
+checkExist(directory + "dummy_b.sql");
+checkExist(directory + "dummy_c.sql");
+
+directory = target + "database" + sep + "schema" + sep + "script_one_time_before" + sep;
+checkExist(directory + "dummy_a.sql");
+checkExist(directory + "dummy_b.sql");
+checkExist(directory + "dummy_c.sql");
+
+directory = target + "database" + sep + "schema" + sep + "script_reusable_after" + sep;
+checkExist(directory + "dummy_a.sql");
+checkExist(directory + "dummy_b.sql");
+checkExist(directory + "dummy_c.sql");
+
+directory = target + "database" + sep + "schema" + sep + "script_reusable_before" + sep;
+checkExist(directory + "dummy_a.sql");
+checkExist(directory + "dummy_b.sql");
+checkExist(directory + "dummy_c.sql");
+
+directory = target + "database" + sep + "schema" + sep + "triggers" + sep;
+checkExist(directory + "dummy_a.sql");
+checkExist(directory + "dummy_b.sql");
+checkExist(directory + "dummy_c.sql");
+
+directory = target + "database" + sep + "schema" + sep + "type_bodies" + sep;
+checkExist(directory + "dummy_a.sql");
+checkExist(directory + "dummy_b.sql");
+checkExist(directory + "dummy_c.sql");
+
+directory = target + "database" + sep + "schema" + sep + "type_specs" + sep;
+checkExist(directory + "dummy_a.sql");
+checkExist(directory + "dummy_b.sql");
+checkExist(directory + "dummy_c.sql");
+
+directory = target + "database" + sep + "schema" + sep + "views" + sep;
+checkExist(directory + "dummy_a.sql");
+checkExist(directory + "dummy_b.sql");
+checkExist(directory + "dummy_c.sql");
