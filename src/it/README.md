@@ -14,7 +14,7 @@
 5. `oracle-05` - Incomplete configuration. Failure expected.
 6. `oracle-06` - Incomplete configuration. Failure expected.
 7. `oracle-07` - Incomplete configuration. Failure expected.
-8. `oracle-10` - All default values. Success expected.
+8. `oracle-08` - All default values. Success expected.
 
 1. `oracle-a` - Complex database with two schemas.
 2. `oracle-b` - Simple database with one schema. All source code in main directory.
@@ -22,4 +22,15 @@
 
 ## PostgreSQL
 
-1. `postgresql_01` - Minimal configuration.
+ 1. `postgresql-01` - Incomplete configuration. Failure expected.
+ 2. `postgresql-02` - Incomplete configuration. Failure expected.
+ 3. `postgresql-03` - Incomplete configuration. Failure expected.
+ 4. `postgresql-04` - Incomplete configuration. Failure expected.
+ 5. `postgresql-05` - Incomplete configuration. Failure expected.
+ 6. `postgresql-06` - Incomplete configuration. Failure expected.
+ 7. `postgresql-07` - Incomplete configuration. Failure expected.
+ 8. `postgresql-08` - Incomplete configuration. Failure expected.
+ 9. `postgresql-09` - Incomplete configuration. Failure expected.
+10. `postgresql-10` - Incomplete configuration. Failure expected.
+11. `postgresql-11` - Incomplete configuration. Failure expected.
+12. `postgresql-12` - All default values. Success expected.

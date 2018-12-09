@@ -89,7 +89,6 @@ public class PostgreSQLDatabase extends AbstractDatabaseItem {
       }
 
       final PostgreSQLSchema schema = new PostgreSQLSchema();
-      schema.setIndex(schemes.stream().mapToInt(DatabaseItem::getIndex).min().orElse(0));
       schema.setName("public");
       schema.setSourceDirectory(getSourceDirectory());
       schema.setIgnoreDirectory(TRUE);
