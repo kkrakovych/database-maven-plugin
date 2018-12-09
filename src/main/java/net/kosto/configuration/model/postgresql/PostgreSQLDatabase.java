@@ -18,6 +18,7 @@ package net.kosto.configuration.model.postgresql;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
+import static net.kosto.util.Error.MISSING_THREE_ATTRIBUTES;
 import static net.kosto.util.StringUtils.COLON;
 import static net.kosto.util.StringUtils.DATABASE;
 import static net.kosto.util.StringUtils.EMPTY_STRING;
@@ -51,14 +52,6 @@ import org.apache.maven.plugin.MojoExecutionException;
 public class PostgreSQLDatabase extends AbstractDatabaseItem {
 
   /**
-   * PostgreSQL database public schema objects' configuration.
-   */
-  private List<DatabaseItem> objects;
-  /**
-   * PostgreSQL database public schema scripts' configuration.
-   */
-  private List<DatabaseItem> scripts;
-  /**
    * PostgreSQL database schemes' configurations.
    */
   private List<DatabaseItem> schemes;
@@ -79,44 +72,48 @@ public class PostgreSQLDatabase extends AbstractDatabaseItem {
     super(item);
 
     List<CommonItem> commonObjects = ((CommonDatabase) item).getObjects();
-    if (commonObjects != null && !commonObjects.isEmpty()) {
-      objects = new ArrayList<>();
-      for (CommonDatabaseItem object : commonObjects) {
-        objects.add(new PostgreSQLObject(object));
-      }
-    }
-
     List<CommonItem> commonScripts = ((CommonDatabase) item).getScripts();
-    if (commonScripts != null && !commonScripts.isEmpty()) {
-      scripts = new ArrayList<>();
-      for (CommonDatabaseItem script : commonScripts) {
-        scripts.add(new PostgreSQLScript(script));
-      }
-    }
-
     List<CommonSchema> commonSchemes = ((CommonDatabase) item).getSchemes();
-    if (commonSchemes != null && !commonSchemes.isEmpty()) {
+
+    if (commonSchemes != null) {
       schemes = new ArrayList<>();
       for (CommonDatabaseItem schema : commonSchemes) {
         schemes.add(new PostgreSQLSchema(schema));
       }
     }
-  }
 
-  public List<DatabaseItem> getObjects() {
-    return objects;
-  }
+    if (commonObjects != null || commonScripts != null) {
+      if (schemes == null) {
+        schemes = new ArrayList<>();
+      }
 
-  public void setObjects(final List<DatabaseItem> objects) {
-    this.objects = objects;
-  }
+      final PostgreSQLSchema schema = new PostgreSQLSchema();
+      schema.setIndex(schemes.stream().mapToInt(DatabaseItem::getIndex).min().orElse(0));
+      schema.setName("public");
+      schema.setSourceDirectory(getSourceDirectory());
+      schema.setIgnoreDirectory(TRUE);
+      schema.setExecuteDirectory(getExecuteDirectory());
+      schema.setSourceDirectoryFull(getSourceDirectoryFull());
+      schema.setOutputDirectoryFull(getOutputDirectoryFull());
 
-  public List<DatabaseItem> getScripts() {
-    return scripts;
-  }
+      if (commonObjects != null && !commonObjects.isEmpty()) {
+        List<DatabaseItem> objects = new ArrayList<>();
+        for (CommonDatabaseItem object : commonObjects) {
+          objects.add(new PostgreSQLObject(object));
+        }
+        schema.setObjects(objects);
+      }
 
-  public void setScripts(final List<DatabaseItem> scripts) {
-    this.scripts = scripts;
+      if (commonScripts != null && !commonScripts.isEmpty()) {
+        List<DatabaseItem> scripts = new ArrayList<>();
+        for (CommonDatabaseItem script : commonScripts) {
+          scripts.add(new PostgreSQLScript(script));
+        }
+        schema.setScripts(scripts);
+      }
+
+      schemes.add(0, schema);
+    }
   }
 
   public List<DatabaseItem> getSchemes() {
@@ -130,16 +127,15 @@ public class PostgreSQLDatabase extends AbstractDatabaseItem {
   @Override
   public String toString() {
     return "PostgreSQLDatabase{" +
-        "objects=" + objects +
-        ", scripts=" + scripts +
         ", schemes=" + schemes +
         "} " + super.toString();
   }
 
   @Override
   protected void checkMandatoryValues() throws MojoExecutionException {
-    checkMandatory(objects, POSTGRESQL_OBJECTS);
-    checkMandatory(scripts, POSTGRESQL_SCRIPTS);
+    if (schemes == null) {
+      throw new MojoExecutionException(MISSING_THREE_ATTRIBUTES.message(POSTGRESQL_OBJECTS, POSTGRESQL_SCRIPTS, POSTGRESQL_SCHEMES));
+    }
     checkMandatory(schemes, POSTGRESQL_SCHEMES);
   }
 
@@ -161,50 +157,12 @@ public class PostgreSQLDatabase extends AbstractDatabaseItem {
 
   @Override
   protected void processAttributes() throws MojoExecutionException {
-    if (objects != null) {
-      objects.sort(Comparator.comparingInt(DatabaseItem::getOrder));
-
-      for (final DatabaseItem object : objects) {
-        validateAttribute(object);
-      }
-    }
-
-    if (scripts != null) {
-      scripts.sort(Comparator.comparingInt(DatabaseItem::getOrder));
-
-      for (final DatabaseItem script : scripts) {
-        validateAttribute(script);
-      }
-    }
-
     if (schemes != null) {
+      schemes.sort(Comparator.comparingInt(DatabaseItem::getOrder));
+
       for (final DatabaseItem schema : schemes) {
         validateAttribute(schema);
       }
-    }
-
-    // Public schema
-    if (objects != null || scripts != null) {
-      if (schemes == null) {
-        schemes = new ArrayList<>();
-      }
-
-      final PostgreSQLSchema schema = new PostgreSQLSchema();
-      schema.setIndex(schemes.stream().mapToInt(DatabaseItem::getIndex).min().orElse(0));
-      schema.setName("public");
-      schema.setSourceDirectory(getSourceDirectory());
-      schema.setIgnoreDirectory(TRUE);
-      schema.setExecuteDirectory(getExecuteDirectory());
-      schema.setSourceDirectoryFull(getSourceDirectoryFull());
-      schema.setOutputDirectoryFull(getOutputDirectoryFull());
-      schema.setObjects(objects);
-      schema.setScripts(scripts);
-
-      schemes.add(schema);
-    }
-
-    if (schemes != null) {
-      schemes.sort(Comparator.comparingInt(DatabaseItem::getOrder));
     }
   }
 }

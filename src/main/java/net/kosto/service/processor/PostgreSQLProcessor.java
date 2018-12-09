@@ -26,6 +26,7 @@ import static net.kosto.util.StringUtils.SCHEMA;
 import static net.kosto.util.StringUtils.SCRIPT;
 
 import java.nio.file.Path;
+import java.util.List;
 
 import net.kosto.configuration.Configuration;
 import net.kosto.configuration.model.DatabaseItem;
@@ -71,12 +72,14 @@ public class PostgreSQLProcessor extends AbstractProcessor {
    * @throws MojoExecutionException If expected exception occurs.
    */
   private void processSchemes() throws MojoExecutionException {
-    for (final DatabaseItem schema : ((PostgreSQLDatabase) getConfiguration().getDatabase()).getSchemes()) {
-      getTemplateService().putParameter(SCHEMA, schema);
-      processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, POSTGRESQL, SERVICE_DIRECTORY, SCHEMA));
-
-      processObjects((PostgreSQLSchema) schema);
-      processScripts((PostgreSQLSchema) schema);
+    List<DatabaseItem> schemes = ((PostgreSQLDatabase) getConfiguration().getDatabase()).getSchemes();
+    if (schemes != null && !schemes.isEmpty()) {
+      for (final DatabaseItem schema : schemes) {
+        getTemplateService().putParameter(SCHEMA, schema);
+        processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, POSTGRESQL, SERVICE_DIRECTORY, SCHEMA));
+        processObjects((PostgreSQLSchema) schema);
+        processScripts((PostgreSQLSchema) schema);
+      }
     }
   }
 

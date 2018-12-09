@@ -67,6 +67,7 @@
     <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
     <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
     <maven-invoker-plugin.version>3.1.0</maven-invoker-plugin.version>
+    <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
     <check-sources.spotbugs-maven-plugin.version>3.1.6</check-sources.spotbugs-maven-plugin.version>
     <check-sources.fb-contrib.version>7.4.3.sb</check-sources.fb-contrib.version>
   </properties>
@@ -155,13 +156,12 @@
           </execution>
         </executions>
       </plugin-->
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
         <version>${maven-plugin-plugin.version}</version>
       </plugin>
-
+      <!-- Execute integration tests -->
       <plugin>
         <artifactId>maven-invoker-plugin</artifactId>
         <version>${maven-invoker-plugin.version}</version>
@@ -179,11 +179,10 @@
           </execution>
         </executions>
       </plugin>
-
       <!-- JUnit 5 requires Surefire version 2.22.1 or higher -->
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.22.1</version>
+        <version>${maven-surefire-plugin.version}</version>
       </plugin>
     </plugins>
   </build>
@@ -205,6 +204,7 @@
 
       <build>
         <plugins>
+          <!-- Add source code to distribution -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-source-plugin</artifactId>
@@ -218,7 +218,7 @@
               </execution>
             </executions>
           </plugin>
-
+          <!-- Add java docs to distribution -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
@@ -232,7 +232,7 @@
               </execution>
             </executions>
           </plugin>
-
+          <!-- Add GPG sign to distribution -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>

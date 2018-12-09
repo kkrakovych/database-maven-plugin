@@ -22,6 +22,7 @@ import static net.kosto.util.FileUtils.UNIX_SEPARATOR;
 import static net.kosto.util.StringUtils.COLON;
 import static net.kosto.util.StringUtils.POSTGRESQL_SCHEMA_SCRIPT_CONDITION;
 import static net.kosto.util.StringUtils.POSTGRESQL_SCHEMA_SCRIPT_TYPE;
+import static net.kosto.util.StringUtils.UNDERSCORE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -83,12 +84,13 @@ class PostgreSQLScriptTest {
     assertEquals(DatabaseScriptType.ONE_TIME.name(), script.getType());
     assertEquals(DatabaseScriptCondition.BEFORE.name(), script.getCondition());
     assertEquals(FILE_MASK_SQL, script.getFileMask());
-    assertEquals(DatabaseScriptType.ONE_TIME.getSourceDirectory(), script.getSourceDirectory());
+    String path = DatabaseScriptType.ONE_TIME.getSourceDirectory() + UNDERSCORE + DatabaseScriptCondition.BEFORE.getSourceDirectory();
+    assertEquals(path, script.getSourceDirectory());
     assertFalse(script.getIgnoreDirectory());
     assertEquals(COLON, script.getDefineSymbol());
     assertFalse(script.getIgnoreDefine());
-    assertEquals(UNIX_SEPARATOR + DatabaseScriptType.ONE_TIME.getSourceDirectory() + UNIX_SEPARATOR, script.getExecuteDirectory());
-    assertEquals(Paths.get(UNIX_SEPARATOR, DatabaseScriptType.ONE_TIME.getSourceDirectory()), script.getSourceDirectoryFull());
-    assertEquals(Paths.get(UNIX_SEPARATOR, DatabaseScriptType.ONE_TIME.getSourceDirectory()), script.getOutputDirectoryFull());
+    assertEquals(UNIX_SEPARATOR + path + UNIX_SEPARATOR, script.getExecuteDirectory());
+    assertEquals(Paths.get(UNIX_SEPARATOR, path), script.getSourceDirectoryFull());
+    assertEquals(Paths.get(UNIX_SEPARATOR, path), script.getOutputDirectoryFull());
   }
 }

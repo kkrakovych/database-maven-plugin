@@ -22,6 +22,7 @@ import static net.kosto.util.StringUtils.COLON;
 import static net.kosto.util.StringUtils.EMPTY_STRING;
 import static net.kosto.util.StringUtils.POSTGRESQL_SCHEMA_SCRIPT_CONDITION;
 import static net.kosto.util.StringUtils.POSTGRESQL_SCHEMA_SCRIPT_TYPE;
+import static net.kosto.util.StringUtils.UNDERSCORE;
 
 import net.kosto.configuration.model.AbstractDatabaseItem;
 import net.kosto.configuration.model.DatabaseScriptCondition;
@@ -122,7 +123,7 @@ public class PostgreSQLScript extends AbstractDatabaseItem {
       setIgnoreDefine(FALSE);
     }
     if ((getSourceDirectory() == null || getSourceDirectory().isEmpty()) && !getIgnoreDirectory()) {
-      setSourceDirectory(getIgnoreDirectory() ? EMPTY_STRING : getScriptType().getSourceDirectory());
+      setSourceDirectory(getIgnoreDirectory() ? EMPTY_STRING : getScriptType().getSourceDirectory() + UNDERSCORE + getScriptCondition().getSourceDirectory());
     }
   }
 }

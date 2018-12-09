@@ -19,46 +19,30 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <groupId>net.test</groupId>
-    <artifactId>postgresql_01</artifactId>
-    <name>postgresql_01</name>
-    <version>test</version>
+  <groupId>net.test</groupId>
+  <artifactId>postgresql_01</artifactId>
+  <name>postgresql_01</name>
+  <version>test</version>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>net.kosto</groupId>
-                <artifactId>database-maven-plugin</artifactId>
-                <version>1.2-SNAPSHOT</version>
-                <configuration>
-                    <postgresql>
-                        <name>database</name>
-                        <ignoreDirectory>true</ignoreDirectory>
-                        <objects>
-                            <object>
-                                <index>1</index>
-                                <type>VIEW</type>
-                            </object>
-                        </objects>
-                        <scripts>
-                            <script>
-                                <type>ONE_TIME</type>
-                                <condition>BEFORE</condition>
-                                <index>1</index>
-                                <sourceDirectory>scripts/before</sourceDirectory>
-                                <fileMask>*.sql</fileMask>
-                            </script>
-                        </scripts>
-                    </postgresql>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>net.kosto</groupId>
+        <artifactId>database-maven-plugin</artifactId>
+        <version>1.2-SNAPSHOT</version>
+        <configuration>
+          <postgresql>
+            <objects></objects>
+          </postgresql>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>

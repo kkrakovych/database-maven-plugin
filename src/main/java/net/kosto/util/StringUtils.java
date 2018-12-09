@@ -26,6 +26,10 @@ public final class StringUtils {
    */
   public static final String EMPTY_STRING = "";
   /**
+   * Underscore symbol.
+   */
+  public static final String UNDERSCORE = "_";
+  /**
    * Colon symbol.
    */
   public static final String COLON = ":";

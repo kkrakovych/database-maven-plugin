@@ -22,7 +22,7 @@ import static net.kosto.configuration.model.DatabaseScriptType.ONE_TIME;
 import static net.kosto.configuration.model.DatabaseScriptType.REUSABLE;
 import static net.kosto.util.Error.DUPLICATED_ATTRIBUTE;
 import static net.kosto.util.Error.EMPTY_LIST_ATTRIBUTE;
-import static net.kosto.util.Error.MISSING_ATTRIBUTES;
+import static net.kosto.util.Error.MISSING_TWO_ATTRIBUTES;
 import static net.kosto.util.Error.SEMI_DEFINED_ATTRIBUTES;
 import static net.kosto.util.FileUtils.FILE_MASK_SQL;
 import static net.kosto.util.FileUtils.UNIX_SEPARATOR;
@@ -95,7 +95,7 @@ class OracleSchemaTest {
 
     Executable executable = schema::validate;
     Throwable result = assertThrows(MojoExecutionException.class, executable);
-    assertEquals(MISSING_ATTRIBUTES.message(ORACLE_SCHEMA_OBJECTS, ORACLE_SCHEMA_SCRIPTS), result.getMessage());
+    assertEquals(MISSING_TWO_ATTRIBUTES.message(ORACLE_SCHEMA_OBJECTS, ORACLE_SCHEMA_SCRIPTS), result.getMessage());
   }
 
   @Test

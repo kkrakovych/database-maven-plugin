@@ -26,6 +26,7 @@ import static net.kosto.util.StringUtils.SCHEMA;
 import static net.kosto.util.StringUtils.SCRIPT;
 
 import java.nio.file.Path;
+import java.util.List;
 
 import net.kosto.configuration.Configuration;
 import net.kosto.configuration.model.DatabaseItem;
@@ -71,12 +72,14 @@ public class OracleProcessor extends AbstractProcessor {
    * @throws MojoExecutionException If expected exception occurs.
    */
   private void processSchemes() throws MojoExecutionException {
-    for (final DatabaseItem schema : ((OracleDatabase) getConfiguration().getDatabase()).getSchemes()) {
-      getTemplateService().putParameter(SCHEMA, schema);
-      processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, SERVICE_DIRECTORY, SCHEMA));
-
-      processObjects((OracleSchema) schema);
-      processScripts((OracleSchema) schema);
+    List<DatabaseItem> schemes = ((OracleDatabase) getConfiguration().getDatabase()).getSchemes();
+    if (schemes != null && !schemes.isEmpty()) {
+      for (final DatabaseItem schema : schemes) {
+        getTemplateService().putParameter(SCHEMA, schema);
+        processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, ORACLE, SERVICE_DIRECTORY, SCHEMA));
+        processObjects((OracleSchema) schema);
+        processScripts((OracleSchema) schema);
+      }
     }
   }
 

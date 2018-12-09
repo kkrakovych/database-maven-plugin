@@ -68,7 +68,8 @@ public class OracleDatabase extends AbstractDatabaseItem {
     super(item);
 
     List<CommonSchema> commonSchemes = ((CommonDatabase) item).getSchemes();
-    if (commonSchemes != null && !commonSchemes.isEmpty()) {
+
+    if (commonSchemes != null) {
       schemes = new ArrayList<>();
       for (CommonDatabaseItem schema : commonSchemes) {
         schemes.add(new OracleSchema(schema));
