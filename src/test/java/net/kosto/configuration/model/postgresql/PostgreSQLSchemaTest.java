@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.kosto.configuration.model.oracle;
+package net.kosto.configuration.model.postgresql;
 
 import static net.kosto.configuration.model.DatabaseScriptCondition.AFTER;
 import static net.kosto.configuration.model.DatabaseScriptCondition.BEFORE;
@@ -26,11 +26,11 @@ import static net.kosto.util.Error.MISSING_TWO_ATTRIBUTES;
 import static net.kosto.util.Error.SEMI_DEFINED_ATTRIBUTES;
 import static net.kosto.util.FileUtils.FILE_MASK_SQL;
 import static net.kosto.util.FileUtils.UNIX_SEPARATOR;
-import static net.kosto.util.StringUtils.AMPERSAND;
+import static net.kosto.util.StringUtils.COLON;
 import static net.kosto.util.StringUtils.INDEX;
 import static net.kosto.util.StringUtils.OBJECT;
-import static net.kosto.util.StringUtils.ORACLE_SCHEMA_OBJECTS;
-import static net.kosto.util.StringUtils.ORACLE_SCHEMA_SCRIPTS;
+import static net.kosto.util.StringUtils.POSTGRESQL_SCHEMA_OBJECTS;
+import static net.kosto.util.StringUtils.POSTGRESQL_SCHEMA_SCRIPTS;
 import static net.kosto.util.StringUtils.SCHEMA;
 import static net.kosto.util.StringUtils.SCRIPT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -50,7 +50,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
-class OracleSchemaTest {
+class PostgreSQLSchemaTest {
 
   private DatabaseItem schema;
   private List<DatabaseItem> objects;
@@ -58,57 +58,57 @@ class OracleSchemaTest {
 
   @BeforeEach
   private void setUp() {
-    schema = new OracleSchema();
+    schema = new PostgreSQLSchema();
     schema.setSourceDirectoryFull(FileUtils.ROOT_PATH);
     schema.setOutputDirectoryFull(FileUtils.ROOT_PATH);
 
     objects = new ArrayList<>();
-    ((OracleSchema) schema).setObjects(objects);
+    ((PostgreSQLSchema) schema).setObjects(objects);
 
     for (int index = 0; index < 2; index++) {
-      DatabaseItem object = new OracleObject();
-      object.setType(OracleObjectType.VIEW.name());
-      ((OracleSchema) schema).getObjects().add(object);
+      DatabaseItem object = new PostgreSQLObject();
+      object.setType(PostgreSQLObjectType.VIEW.name());
+      ((PostgreSQLSchema) schema).getObjects().add(object);
     }
 
     scripts = new ArrayList<>();
-    ((OracleSchema) schema).setScripts(scripts);
+    ((PostgreSQLSchema) schema).setScripts(scripts);
 
     for (int index = 0; index < 2; index++) {
-      DatabaseItem script = new OracleScript();
+      DatabaseItem script = new PostgreSQLScript();
       script.setType(ONE_TIME.name());
       script.setCondition(BEFORE.name());
-      ((OracleSchema) schema).getScripts().add(script);
+      ((PostgreSQLSchema) schema).getScripts().add(script);
     }
 
     for (int index = 0; index < 2; index++) {
-      OracleScript script = new OracleScript();
+      PostgreSQLScript script = new PostgreSQLScript();
       script.setType(REUSABLE.name());
       script.setCondition(AFTER.name());
-      ((OracleSchema) schema).getScripts().add(script);
+      ((PostgreSQLSchema) schema).getScripts().add(script);
     }
   }
 
   @Test
   @DisplayName("Object/Script - Missing attributes.")
   void test01() {
-    ((OracleSchema) schema).setObjects(null);
-    ((OracleSchema) schema).setScripts(null);
+    ((PostgreSQLSchema) schema).setObjects(null);
+    ((PostgreSQLSchema) schema).setScripts(null);
 
     Executable executable = schema::validate;
     Throwable result = assertThrows(MojoExecutionException.class, executable);
-    assertEquals(MISSING_TWO_ATTRIBUTES.message(ORACLE_SCHEMA_OBJECTS, ORACLE_SCHEMA_SCRIPTS), result.getMessage());
+    assertEquals(MISSING_TWO_ATTRIBUTES.message(POSTGRESQL_SCHEMA_OBJECTS, POSTGRESQL_SCHEMA_SCRIPTS), result.getMessage());
   }
 
   @Test
   @DisplayName("Object - Empty list attribute.")
   void test02() {
-    ((OracleSchema) schema).getObjects().clear();
-    ((OracleSchema) schema).setScripts(null);
+    ((PostgreSQLSchema) schema).getObjects().clear();
+    ((PostgreSQLSchema) schema).setScripts(null);
 
     Executable executable = schema::validate;
     Throwable result = assertThrows(MojoExecutionException.class, executable);
-    assertEquals(EMPTY_LIST_ATTRIBUTE.message(ORACLE_SCHEMA_OBJECTS, OBJECT), result.getMessage());
+    assertEquals(EMPTY_LIST_ATTRIBUTE.message(POSTGRESQL_SCHEMA_OBJECTS, OBJECT), result.getMessage());
   }
 
   @Test
@@ -118,7 +118,7 @@ class OracleSchemaTest {
 
     Executable executable = schema::validate;
     Throwable result = assertThrows(MojoExecutionException.class, executable);
-    assertEquals(SEMI_DEFINED_ATTRIBUTES.message(ORACLE_SCHEMA_OBJECTS, OBJECT, INDEX), result.getMessage());
+    assertEquals(SEMI_DEFINED_ATTRIBUTES.message(POSTGRESQL_SCHEMA_OBJECTS, OBJECT, INDEX), result.getMessage());
   }
 
   @Test
@@ -128,18 +128,18 @@ class OracleSchemaTest {
 
     Executable executable = schema::validate;
     Throwable result = assertThrows(MojoExecutionException.class, executable);
-    assertEquals(DUPLICATED_ATTRIBUTE.message(ORACLE_SCHEMA_OBJECTS, OBJECT, INDEX), result.getMessage());
+    assertEquals(DUPLICATED_ATTRIBUTE.message(POSTGRESQL_SCHEMA_OBJECTS, OBJECT, INDEX), result.getMessage());
   }
 
   @Test
   @DisplayName("Script - Empty list attribute.")
   void test05() {
-    ((OracleSchema) schema).setObjects(null);
-    ((OracleSchema) schema).getScripts().clear();
+    ((PostgreSQLSchema) schema).setObjects(null);
+    ((PostgreSQLSchema) schema).getScripts().clear();
 
     Executable executable = schema::validate;
     Throwable result = assertThrows(MojoExecutionException.class, executable);
-    assertEquals(EMPTY_LIST_ATTRIBUTE.message(ORACLE_SCHEMA_SCRIPTS, SCRIPT), result.getMessage());
+    assertEquals(EMPTY_LIST_ATTRIBUTE.message(POSTGRESQL_SCHEMA_SCRIPTS, SCRIPT), result.getMessage());
   }
 
   @Test
@@ -149,7 +149,7 @@ class OracleSchemaTest {
 
     Executable executable = schema::validate;
     Throwable result = assertThrows(MojoExecutionException.class, executable);
-    assertEquals(SEMI_DEFINED_ATTRIBUTES.message(ORACLE_SCHEMA_SCRIPTS, SCRIPT, INDEX), result.getMessage());
+    assertEquals(SEMI_DEFINED_ATTRIBUTES.message(POSTGRESQL_SCHEMA_SCRIPTS, SCRIPT, INDEX), result.getMessage());
   }
 
   @Test
@@ -159,7 +159,7 @@ class OracleSchemaTest {
 
     Executable executable = schema::validate;
     Throwable result = assertThrows(MojoExecutionException.class, executable);
-    assertEquals(DUPLICATED_ATTRIBUTE.message(ORACLE_SCHEMA_SCRIPTS, SCRIPT, INDEX), result.getMessage());
+    assertEquals(DUPLICATED_ATTRIBUTE.message(POSTGRESQL_SCHEMA_SCRIPTS, SCRIPT, INDEX), result.getMessage());
   }
 
   @Test
@@ -175,7 +175,7 @@ class OracleSchemaTest {
     assertEquals(FILE_MASK_SQL, schema.getFileMask());
     assertEquals(schema.getName(), schema.getSourceDirectory());
     assertFalse(schema.getIgnoreDirectory());
-    assertEquals(AMPERSAND, schema.getDefineSymbol());
+    assertEquals(COLON, schema.getDefineSymbol());
     assertFalse(schema.getIgnoreDefine());
     assertEquals(UNIX_SEPARATOR + SCHEMA + UNIX_SEPARATOR, schema.getExecuteDirectory());
     assertEquals(Paths.get(UNIX_SEPARATOR, schema.getName()), schema.getSourceDirectoryFull());
@@ -184,12 +184,12 @@ class OracleSchemaTest {
     int index;
 
     index = 0;
-    for (DatabaseItem object : ((OracleSchema) schema).getObjects()) {
+    for (DatabaseItem object : ((PostgreSQLSchema) schema).getObjects()) {
       assertEquals(index++, (int) object.getOrder());
     }
 
     index = 0;
-    for (DatabaseItem scripts : ((OracleSchema) schema).getScripts()) {
+    for (DatabaseItem scripts : ((PostgreSQLSchema) schema).getScripts()) {
       assertEquals((index++) + (scripts.getCondition().equals(BEFORE.name()) ? 1000 : 2000), (int) scripts.getOrder());
     }
   }

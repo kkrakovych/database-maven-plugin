@@ -16,9 +16,9 @@
 7. `oracle-07` - Incomplete configuration. Failure expected.
 8. `oracle-10` - All default values. Success expected.
 
-1. `oracle_a` - Complex database with two schemas.
-2. `oracle_b` - Simple database with one schema. All source code in main directory.
-3. `oracle_c` - Simple database with scripts only.
+1. `oracle-a` - Complex database with two schemas.
+2. `oracle-b` - Simple database with one schema. All source code in main directory.
+3. `oracle-c` - Simple database with scripts only.
 
 ## PostgreSQL
 

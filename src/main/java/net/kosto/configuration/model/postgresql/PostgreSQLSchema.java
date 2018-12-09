@@ -17,11 +17,14 @@
 package net.kosto.configuration.model.postgresql;
 
 import static java.lang.Boolean.FALSE;
+import static net.kosto.util.Error.MISSING_TWO_ATTRIBUTES;
 import static net.kosto.util.StringUtils.COLON;
 import static net.kosto.util.StringUtils.EMPTY_STRING;
+import static net.kosto.util.StringUtils.OBJECT;
 import static net.kosto.util.StringUtils.POSTGRESQL_SCHEMA_OBJECTS;
 import static net.kosto.util.StringUtils.POSTGRESQL_SCHEMA_SCRIPTS;
 import static net.kosto.util.StringUtils.SCHEMA;
+import static net.kosto.util.StringUtils.SCRIPT;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -114,15 +117,18 @@ public class PostgreSQLSchema extends AbstractDatabaseItem {
 
   @Override
   protected void checkMandatoryValues() throws MojoExecutionException {
-    if (getName() == null) {
-      setName(SCHEMA);
+    if (objects == null && scripts == null) {
+      throw new MojoExecutionException(MISSING_TWO_ATTRIBUTES.message(POSTGRESQL_SCHEMA_OBJECTS, POSTGRESQL_SCHEMA_SCRIPTS));
     }
-    checkMandatory(objects, POSTGRESQL_SCHEMA_OBJECTS);
-    checkMandatory(scripts, POSTGRESQL_SCHEMA_SCRIPTS);
+    checkMandatory(objects, POSTGRESQL_SCHEMA_OBJECTS, OBJECT);
+    checkMandatory(scripts, POSTGRESQL_SCHEMA_SCRIPTS, SCRIPT);
   }
 
   @Override
   protected void setDefaultValues() {
+    if (getName() == null) {
+      setName(SCHEMA);
+    }
     if (getDefineSymbol() == null) {
       setDefineSymbol(COLON);
     }

@@ -20,9 +20,11 @@ import static java.lang.Boolean.FALSE;
 import static net.kosto.util.Error.MISSING_TWO_ATTRIBUTES;
 import static net.kosto.util.StringUtils.AMPERSAND;
 import static net.kosto.util.StringUtils.EMPTY_STRING;
+import static net.kosto.util.StringUtils.OBJECT;
 import static net.kosto.util.StringUtils.ORACLE_SCHEMA_OBJECTS;
 import static net.kosto.util.StringUtils.ORACLE_SCHEMA_SCRIPTS;
 import static net.kosto.util.StringUtils.SCHEMA;
+import static net.kosto.util.StringUtils.SCRIPT;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -118,8 +120,8 @@ public class OracleSchema extends AbstractDatabaseItem {
     if (objects == null && scripts == null) {
       throw new MojoExecutionException(MISSING_TWO_ATTRIBUTES.message(ORACLE_SCHEMA_OBJECTS, ORACLE_SCHEMA_SCRIPTS));
     }
-    checkMandatory(objects, ORACLE_SCHEMA_OBJECTS);
-    checkMandatory(scripts, ORACLE_SCHEMA_SCRIPTS);
+    checkMandatory(objects, ORACLE_SCHEMA_OBJECTS, OBJECT);
+    checkMandatory(scripts, ORACLE_SCHEMA_SCRIPTS, SCRIPT);
   }
 
   @Override

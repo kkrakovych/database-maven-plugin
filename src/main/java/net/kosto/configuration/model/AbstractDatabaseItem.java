@@ -21,7 +21,6 @@ import static net.kosto.util.Error.EMPTY_LIST_ATTRIBUTE;
 import static net.kosto.util.Error.SEMI_DEFINED_ATTRIBUTES;
 import static net.kosto.util.FileUtils.UNIX_SEPARATOR;
 import static net.kosto.util.StringUtils.INDEX;
-import static net.kosto.util.StringUtils.SCHEMA;
 
 import java.nio.file.Path;
 import java.util.HashSet;
@@ -187,21 +186,22 @@ public abstract class AbstractDatabaseItem extends AbstractCommonDatabaseItem im
   /**
    * Checks complex database items' attributes for common cases.
    *
-   * @param items     Database items.
-   * @param attribute Attribute name.
-   * @param <T>       Any class with {@link DatabaseItem} interface implemented.
+   * @param items        Database items.
+   * @param attribute    Attribute name.
+   * @param subAttribute Sub attribute name.
+   * @param <T>          Any class with {@link DatabaseItem} interface implemented.
    * @throws MojoExecutionException If expected exception occurs.
    */
-  protected <T extends DatabaseItem> void checkMandatory(final List<T> items, final String attribute) throws MojoExecutionException {
+  protected <T extends DatabaseItem> void checkMandatory(final List<T> items, final String attribute, final String subAttribute) throws MojoExecutionException {
     if (items != null) {
       if (items.isEmpty()) {
-        throw new MojoExecutionException(EMPTY_LIST_ATTRIBUTE.message(attribute, SCHEMA));
+        throw new MojoExecutionException(EMPTY_LIST_ATTRIBUTE.message(attribute, subAttribute));
       }
       if (isSemiDefinedIndex(items)) {
-        throw new MojoExecutionException(SEMI_DEFINED_ATTRIBUTES.message(attribute, SCHEMA, INDEX));
+        throw new MojoExecutionException(SEMI_DEFINED_ATTRIBUTES.message(attribute, subAttribute, INDEX));
       }
       if (isDuplicateIndex(items)) {
-        throw new MojoExecutionException(DUPLICATED_ATTRIBUTE.message(attribute, SCHEMA, INDEX));
+        throw new MojoExecutionException(DUPLICATED_ATTRIBUTE.message(attribute, subAttribute, INDEX));
       }
       indexNatural(items);
     }

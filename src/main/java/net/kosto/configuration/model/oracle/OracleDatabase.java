@@ -22,6 +22,7 @@ import static net.kosto.util.StringUtils.AMPERSAND;
 import static net.kosto.util.StringUtils.DATABASE;
 import static net.kosto.util.StringUtils.EMPTY_STRING;
 import static net.kosto.util.StringUtils.ORACLE_SCHEMES;
+import static net.kosto.util.StringUtils.SCHEMA;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -97,7 +98,7 @@ public class OracleDatabase extends AbstractDatabaseItem {
     if (schemes == null) {
       throw new MojoExecutionException(MISSING_ATTRIBUTE.message(ORACLE_SCHEMES));
     }
-    checkMandatory(schemes, ORACLE_SCHEMES);
+    checkMandatory(schemes, ORACLE_SCHEMES, SCHEMA);
   }
 
   @Override

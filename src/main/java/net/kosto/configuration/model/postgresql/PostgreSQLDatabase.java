@@ -25,6 +25,7 @@ import static net.kosto.util.StringUtils.EMPTY_STRING;
 import static net.kosto.util.StringUtils.POSTGRESQL_OBJECTS;
 import static net.kosto.util.StringUtils.POSTGRESQL_SCHEMES;
 import static net.kosto.util.StringUtils.POSTGRESQL_SCRIPTS;
+import static net.kosto.util.StringUtils.SCHEMA;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -96,7 +97,7 @@ public class PostgreSQLDatabase extends AbstractDatabaseItem {
       schema.setSourceDirectoryFull(getSourceDirectoryFull());
       schema.setOutputDirectoryFull(getOutputDirectoryFull());
 
-      if (commonObjects != null && !commonObjects.isEmpty()) {
+      if (commonObjects != null) {
         List<DatabaseItem> objects = new ArrayList<>();
         for (CommonDatabaseItem object : commonObjects) {
           objects.add(new PostgreSQLObject(object));
@@ -104,7 +105,7 @@ public class PostgreSQLDatabase extends AbstractDatabaseItem {
         schema.setObjects(objects);
       }
 
-      if (commonScripts != null && !commonScripts.isEmpty()) {
+      if (commonScripts != null) {
         List<DatabaseItem> scripts = new ArrayList<>();
         for (CommonDatabaseItem script : commonScripts) {
           scripts.add(new PostgreSQLScript(script));
@@ -136,7 +137,7 @@ public class PostgreSQLDatabase extends AbstractDatabaseItem {
     if (schemes == null) {
       throw new MojoExecutionException(MISSING_THREE_ATTRIBUTES.message(POSTGRESQL_OBJECTS, POSTGRESQL_SCRIPTS, POSTGRESQL_SCHEMES));
     }
-    checkMandatory(schemes, POSTGRESQL_SCHEMES);
+    checkMandatory(schemes, POSTGRESQL_SCHEMES, SCHEMA);
   }
 
   @Override
