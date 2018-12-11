@@ -37,12 +37,12 @@ class FileUtilsTest {
   private Path path;
 
   @AfterEach
-  private void tearDown() throws IOException {
+  void tearDown() throws IOException {
     cleanUp();
     assertFalse(path.toFile().exists());
   }
 
-  private void cleanUp() throws IOException {
+  void cleanUp() throws IOException {
     Path index = path;
     while (index != null) {
       Files.delete(index);
