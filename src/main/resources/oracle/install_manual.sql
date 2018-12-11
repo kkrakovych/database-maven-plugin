@@ -13,12 +13,9 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-<#compress>
-
 prompt
 prompt === DATABASE-MAVEN-PLUGIN
 prompt Oracle database [${database.name}] version [${buildVersion}] created at [${buildTimestamp}]
-
 @./${serviceDirectory}/input_parameters_manual.sql
 @./${serviceDirectory}/sqlplus_setup.sql
 @./${serviceDirectory}/check_connections.sql
@@ -27,7 +24,4 @@ prompt Oracle database [${database.name}] version [${buildVersion}] created at [
 @./${serviceDirectory}/install_database_${database.name}.sql
 @./${serviceDirectory}/info_finish.sql
 @./${serviceDirectory}/spool_finish.sql
-
 exit
-
-</#compress>

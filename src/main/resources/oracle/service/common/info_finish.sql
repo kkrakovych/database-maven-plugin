@@ -13,8 +13,6 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-<#compress>
-
 column script_runtime new_value script_runtime noprint
 column script_info    new_value script_info    noprint
 select 'Script runtime was ' || (cast(sysdate as timestamp) - cast(to_date(&start_timestamp, 'yyyymmddhh24miss') as timestamp)) || '.' script_runtime
@@ -22,5 +20,3 @@ select 'Script runtime was ' || (cast(sysdate as timestamp) - cast(to_date(&star
   from dual;
 prompt &script_runtime
 prompt &script_info
-
-</#compress>

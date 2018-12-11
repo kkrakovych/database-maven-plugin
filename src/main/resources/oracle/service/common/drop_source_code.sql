@@ -13,10 +13,7 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-<#compress>
-
 prompt Drop source code.
-
 begin
    for rec in
    ( select case
@@ -57,5 +54,3 @@ begin
    end loop;
 end;
 /
-
-</#compress>

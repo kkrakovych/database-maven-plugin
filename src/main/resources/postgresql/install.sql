@@ -13,8 +13,6 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-<#compress>
-
 \include ./${serviceDirectory}/script_information.sql
 \include ./${serviceDirectory}/psql_setup.sql
 \include ./${serviceDirectory}/log_start.sql
@@ -22,5 +20,3 @@
 \include ./${serviceDirectory}/install_database_${database.name}.sql
 \include ./${serviceDirectory}/log_finish.sql
 \quit
-
-</#compress>

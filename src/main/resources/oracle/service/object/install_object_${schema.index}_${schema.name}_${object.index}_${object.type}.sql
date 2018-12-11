@@ -13,21 +13,15 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-<#compress>
-
 <#if object.ignoreDefine>
 set define off
 <#else>
 set define '${object.defineSymbol}'
 </#if>
-
 <#list files as file>
 prompt Execute ${object.executeDirectory}${file}
 @.${object.executeDirectory}${file}
 </#list>
-
 <#if object.ignoreDefine>
 set define on
 </#if>
-
-</#compress>

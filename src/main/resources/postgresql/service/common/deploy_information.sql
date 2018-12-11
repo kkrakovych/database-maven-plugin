@@ -13,20 +13,15 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-<#compress>
-
 \qecho
 \qecho === Deploy Information
 \qecho
-
-\qecho Database           ${database.name}
-\qecho Build version:     ${buildVersion}
-\qecho Build timestamp:   ${buildTimestamp}
+\qecho Database         ${database.name}
+\qecho Build version:   ${buildVersion}
+\qecho Build timestamp: ${buildTimestamp}
 <#if database.schemes??>
-  \qecho List of schemes:
+\qecho List of schemes:
   <#list database.schemes as schema>
-    \qecho * ${schema.name}
+\qecho * ${schema.name}
   </#list>
 </#if>
-
-</#compress>

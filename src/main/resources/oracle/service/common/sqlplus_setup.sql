@@ -13,8 +13,6 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-<#compress>
-
 set echo off
 set feedback off
 set heading off
@@ -23,5 +21,3 @@ set serveroutput on
 set verify off
 set timing on
 whenever sqlerror exit sql.sqlcode
-
-</#compress>

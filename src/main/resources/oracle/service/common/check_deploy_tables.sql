@@ -13,10 +13,7 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-<#compress>
-
 prompt Check deploy tables.
-
 declare
    c_msg_service_table  constant varchar2(1000 char) := 'Service table ';
    c_msg_triple_dot     constant varchar2(1000 char) := '... ';
@@ -79,5 +76,3 @@ begin
    end if;
 end;
 /
-
-</#compress>

@@ -13,8 +13,6 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-<#compress>
-
 column dt new_value start_timestamp noprint
 select to_char(sysdate, 'yyyymmddhh24miss') dt from dual;
 <#if logFileName??>
@@ -22,5 +20,3 @@ spool ${logFileName}
 <#else>
 spool install_${database.name}_${buildVersion}_&start_timestamp..log
 </#if>
-
-</#compress>

@@ -13,18 +13,13 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-<#compress>
-
 prompt
 prompt === Deploy Schema [${schema.name}]
 prompt
-
 connect &usr_${schema.name}/&pwd_${schema.name}@&tns_name
-
 @./${serviceDirectory}/sqlplus_setup.sql
 @./${serviceDirectory}/check_deploy_tables.sql
 @./${serviceDirectory}/deploy_start.sql
-
 <#if schema.scripts??>
   <#list schema.scripts as script>
     <#if script.condition = "BEFORE">
@@ -32,20 +27,15 @@ connect &usr_${schema.name}/&pwd_${schema.name}@&tns_name
     </#if>
   </#list>
 </#if>
-
 <#if schema.objects??>
 @./${serviceDirectory}/drop_source_code.sql
-
 prompt Deploy source code.
-
   <#list schema.objects as object>
 @./${serviceDirectory}/install_object_${schema.index}_${schema.name}_${object.index}_${object.type}.sql
   </#list>
-
 @./${serviceDirectory}/compile_schema.sql
 @./${serviceDirectory}/check_objects.sql
 </#if>
-
 <#if schema.scripts??>
   <#list schema.scripts as script>
     <#if script.condition = "AFTER">
@@ -53,7 +43,4 @@ prompt Deploy source code.
     </#if>
   </#list>
 </#if>
-
 @./${serviceDirectory}/deploy_finish.sql
-
-</#compress>

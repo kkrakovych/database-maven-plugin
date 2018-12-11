@@ -13,11 +13,8 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-<#compress>
-
 prompt === Deploy Information
 prompt
-
 prompt Database           ${database.name}
 prompt Build version:     ${buildVersion}
 prompt Build timestamp:   ${buildTimestamp}
@@ -26,7 +23,4 @@ prompt List of schemes:
 <#list database.schemes as schema>
 prompt * ${schema.name} -> &usr_${schema.name}
 </#list>
-
 prompt
-
-</#compress>

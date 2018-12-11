@@ -13,10 +13,7 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-<#compress>
-
 start transaction;
-
 insert
   into deploy$scripts
      ( build_version
@@ -38,7 +35,4 @@ values
      , null
      , 'NOT COMPLETED'
      );
-
 commit;
-
-</#compress>

@@ -13,14 +13,8 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-<#compress>
-
 prompt === Deploy Database [${database.name}]
-
 <#list database.schemes as schema>
 @./${serviceDirectory}/install_schema_${schema.index}_${schema.name}.sql
 </#list>
-
 prompt
-
-</#compress>

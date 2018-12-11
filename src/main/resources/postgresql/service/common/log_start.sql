@@ -13,8 +13,6 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-<#compress>
-
 select to_char(current_timestamp, 'yyyymmddhh24miss') start_timestamp
 \gset
 <#if logFileName??>
@@ -22,5 +20,3 @@ select to_char(current_timestamp, 'yyyymmddhh24miss') start_timestamp
 <#else>
 \out install_${database.name}_${buildVersion}_:start_timestamp.log
 </#if>
-
-</#compress>

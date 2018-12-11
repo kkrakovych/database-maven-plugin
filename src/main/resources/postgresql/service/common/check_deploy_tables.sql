@@ -13,12 +13,8 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-<#compress>
-
 \qecho Check deploy tables.
-
 start transaction;
-
 create table if not exists deploy$version
 ( build_version           varchar(100)
 , build_timestamp         timestamp
@@ -27,7 +23,6 @@ create table if not exists deploy$version
 , deploy_status           varchar(100)
 , is_current              char
 );
-
 create table if not exists deploy$scripts
 ( build_version           varchar(100)
 , build_timestamp         timestamp
@@ -38,14 +33,10 @@ create table if not exists deploy$scripts
 , script_finish_timestamp timestamp
 , deploy_status           varchar(100)
 );
-
 create unique index if not exists deploy$scripts_unique_key on deploy$scripts
 ( build_version
 , build_timestamp
 , script_directory
 , script_name
 );
-
 commit;
-
-</#compress>

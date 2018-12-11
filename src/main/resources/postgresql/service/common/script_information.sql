@@ -13,11 +13,7 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-<#compress>
-
 \qecho
 \qecho === DATABASE-MAVEN-PLUGIN
 \qecho PostgreSQL database [${database.name}] version [${buildVersion}] created at [${buildTimestamp}]
 \qecho
-
-</#compress>
