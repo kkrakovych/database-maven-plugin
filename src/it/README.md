@@ -7,15 +7,16 @@
 
 ## Oracle
 
-1. `oracle-01` - Incomplete configuration. Failure expected.
-2. `oracle-02` - Incomplete configuration. Failure expected.
-3. `oracle-03` - Incomplete configuration. Failure expected.
-4. `oracle-04` - Incomplete configuration. Failure expected.
-5. `oracle-05` - Incomplete configuration. Failure expected.
-6. `oracle-06` - Incomplete configuration. Failure expected.
-7. `oracle-07` - Incomplete configuration. Failure expected.
-8. `oracle-08` - All default values. Success expected.
-9. `oracle-09` - Checks custom log file name. Success expected.
+ 1. `oracle-01` - Incomplete configuration. Failure expected.
+ 2. `oracle-02` - Incomplete configuration. Failure expected.
+ 3. `oracle-03` - Incomplete configuration. Failure expected.
+ 4. `oracle-04` - Incomplete configuration. Failure expected.
+ 5. `oracle-05` - Incomplete configuration. Failure expected.
+ 6. `oracle-06` - Incomplete configuration. Failure expected.
+ 7. `oracle-07` - Incomplete configuration. Failure expected.
+ 8. `oracle-08` - All default values. Success expected.
+ 9. `oracle-09` - Checks custom log file name. Success expected.
+10. `oracle-10` - Checks custom service directory name. Success expected.
 
 1. `oracle-a` - Complex database with two schemas.
 2. `oracle-b` - Simple database with one schema. All source code in main directory.
@@ -36,3 +37,4 @@
 11. `postgresql-11` - Incomplete configuration. Failure expected.
 12. `postgresql-12` - All default values. Success expected.
 13. `postgresql-13` - Checks custom log file name. Success expected.
+14. `postgresql-14` - Checks custom service directory name. Success expected.

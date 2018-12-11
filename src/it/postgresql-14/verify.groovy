@@ -20,8 +20,8 @@ import java.nio.file.Files
 def sep = File.separator
 def target = "$basedir" + sep + "target" + sep
 def verify = "$basedir" + sep + "verify" + sep
-def target_service = target + "service" + sep
-def verify_service = verify + "service" + sep
+def target_service = target + "service.directory" + sep
+def verify_service = verify + "service.directory" + sep
 String directory
 String file
 
@@ -50,7 +50,11 @@ static void checkFile(output, sample, diffCountLimit) {
     assert (diffCount <= diffCountLimit): output + " file has wrong content"
 }
 
-file = "spool_start.sql"
+file = "install.sql"
+checkFile(target + file, verify + file, 0)
+
+file = "install_database_database.sql"
 checkFile(target_service + file, verify_service + file, 0)
+
 
 assert true

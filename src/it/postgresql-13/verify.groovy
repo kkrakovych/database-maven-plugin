@@ -51,6 +51,6 @@ static void checkFile(output, sample, diffCountLimit) {
 }
 
 file = "log_start.sql"
-checkFile(target_service + file, verify + file, 0)
+checkFile(target_service + file, verify_service + file, 0)
 
 assert true
