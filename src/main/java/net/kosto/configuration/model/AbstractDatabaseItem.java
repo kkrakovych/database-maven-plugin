@@ -65,6 +65,7 @@ public abstract class AbstractDatabaseItem extends AbstractCommonDatabaseItem im
    */
   public AbstractDatabaseItem(final CommonDatabaseItem item) {
     this();
+    setIgnoreServiceTables(item.getIgnoreServiceTables());
     setIndex(item.getIndex());
     setName(item.getName());
     setType(item.getType());

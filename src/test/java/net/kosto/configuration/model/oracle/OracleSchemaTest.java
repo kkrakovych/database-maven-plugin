@@ -46,6 +46,8 @@ import java.util.List;
 
 import net.kosto.configuration.model.DatabaseItem;
 import net.kosto.configuration.model.DatabaseScriptType;
+import net.kosto.configuration.model.common.CommonDatabaseItem;
+import net.kosto.configuration.model.common.CommonSchema;
 import net.kosto.util.FileUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.junit.jupiter.api.BeforeEach;
@@ -170,6 +172,7 @@ class OracleSchemaTest {
   void test08() throws MojoExecutionException {
     schema.validate();
 
+    assertEquals(false, schema.getIgnoreServiceTables());
     assertNull(schema.getIndex());
     assertNull(schema.getOrder());
     assertEquals(SCHEMA, schema.getName());
@@ -217,5 +220,33 @@ class OracleSchemaTest {
 
     Executable executable = schema::validate;
     assertDoesNotThrow(executable);
+  }
+
+  @Test
+  @DisplayName("Custom values.")
+  void test11() {
+    CommonDatabaseItem item = new CommonSchema();
+    item.setIgnoreServiceTables(true);
+    item.setIndex(1);
+    item.setName("testName");
+    item.setType("testType");
+    item.setCondition("testCondition");
+    item.setFileMask("testFileMask");
+    item.setSourceDirectory("testSourceDirectory");
+    item.setIgnoreDirectory(true);
+    item.setDefineSymbol("t");
+    item.setIgnoreDefine(true);
+
+    OracleSchema schema = new OracleSchema(item);
+    assertEquals(item.getIgnoreServiceTables(), schema.getIgnoreServiceTables());
+    assertEquals(item.getIndex(), schema.getIndex());
+    assertEquals(item.getName(), schema.getName());
+    assertEquals(item.getType(), schema.getType());
+    assertEquals(item.getCondition(), schema.getCondition());
+    assertEquals(item.getFileMask(), schema.getFileMask());
+    assertEquals(item.getSourceDirectory(), schema.getSourceDirectory());
+    assertEquals(item.getIgnoreDirectory(), schema.getIgnoreDirectory());
+    assertEquals(item.getDefineSymbol(), schema.getDefineSymbol());
+    assertEquals(item.getIgnoreDefine(), schema.getIgnoreDefine());
   }
 }
