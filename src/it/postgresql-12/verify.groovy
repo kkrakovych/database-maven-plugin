@@ -53,7 +53,7 @@ static void checkFile(output, sample, diffCountLimit) {
 file = "install.sql"
 checkFile(target + file, verify + file, 0)
 
-file = "check_deploy_tables.sql"
+file = "check_service_tables.sql"
 checkFile(target_service + file, verify_service + file, 0)
 
 file = "deploy_finish.sql"

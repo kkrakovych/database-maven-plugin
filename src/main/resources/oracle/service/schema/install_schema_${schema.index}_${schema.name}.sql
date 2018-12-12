@@ -18,8 +18,10 @@ prompt === Deploy Schema [${schema.name}]
 prompt
 connect &usr_${schema.name}/&pwd_${schema.name}@&tns_name
 @./${serviceDirectory}/sqlplus_setup.sql
-@./${serviceDirectory}/check_deploy_tables.sql
+<#if !schema.ignoreServiceTables>
+@./${serviceDirectory}/check_service_tables.sql
 @./${serviceDirectory}/deploy_start.sql
+</#if>
 <#if schema.scripts??>
   <#list schema.scripts as script>
     <#if script.condition = "BEFORE">
@@ -43,4 +45,6 @@ prompt Deploy source code.
     </#if>
   </#list>
 </#if>
+<#if !schema.ignoreServiceTables>
 @./${serviceDirectory}/deploy_finish.sql
+</#if>

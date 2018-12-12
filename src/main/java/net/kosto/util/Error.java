@@ -29,7 +29,8 @@ public enum Error {
   MISSING_THREE_ATTRIBUTES("Either \"{0}\", or \"{1}\", or \"{2}\" attribute should be specified."),
   EMPTY_LIST_ATTRIBUTE("Attribute \"{0}\" should contain at least one \"{1}\"."),
   SEMI_DEFINED_ATTRIBUTES("Attribute \"{2}\" should be either specified for every \"{1}\" in \"{0}\" or missing."),
-  DUPLICATED_ATTRIBUTE("Attribute \"{2}\" should be unique for every \"{1}\" in \"{0}\".");
+  DUPLICATED_ATTRIBUTE("Attribute \"{2}\" should be unique for every \"{1}\" in \"{0}\"."),
+  ONE_TIME_SCRIPT_VS_IGNORE_SERVICE_TABLES("ONE_TIME scripts are not allowed if ignore service tables option is true.");
 
   /**
    * Message format.

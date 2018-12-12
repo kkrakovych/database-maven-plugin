@@ -18,6 +18,7 @@ package net.kosto.configuration.model.oracle;
 
 import static java.lang.Boolean.FALSE;
 import static net.kosto.util.Error.MISSING_TWO_ATTRIBUTES;
+import static net.kosto.util.Error.ONE_TIME_SCRIPT_VS_IGNORE_SERVICE_TABLES;
 import static net.kosto.util.StringUtils.AMPERSAND;
 import static net.kosto.util.StringUtils.EMPTY_STRING;
 import static net.kosto.util.StringUtils.OBJECT;
@@ -32,6 +33,7 @@ import java.util.List;
 
 import net.kosto.configuration.model.AbstractDatabaseItem;
 import net.kosto.configuration.model.DatabaseItem;
+import net.kosto.configuration.model.DatabaseScriptType;
 import net.kosto.configuration.model.common.CommonDatabaseItem;
 import net.kosto.configuration.model.common.CommonItem;
 import net.kosto.configuration.model.common.CommonSchema;
@@ -119,6 +121,13 @@ public class OracleSchema extends AbstractDatabaseItem {
   protected void checkMandatoryValues() throws MojoExecutionException {
     if (objects == null && scripts == null) {
       throw new MojoExecutionException(MISSING_TWO_ATTRIBUTES.message(ORACLE_SCHEMA_OBJECTS, ORACLE_SCHEMA_SCRIPTS));
+    }
+    if (getIgnoreServiceTables() && scripts != null) {
+      for (DatabaseItem item : scripts) {
+        if (DatabaseScriptType.ONE_TIME.equals(DatabaseScriptType.valueOf(item.getType()))) {
+          throw new MojoExecutionException(ONE_TIME_SCRIPT_VS_IGNORE_SERVICE_TABLES.message());
+        }
+      }
     }
     checkMandatory(objects, ORACLE_SCHEMA_OBJECTS, OBJECT);
     checkMandatory(scripts, ORACLE_SCHEMA_SCRIPTS, SCRIPT);

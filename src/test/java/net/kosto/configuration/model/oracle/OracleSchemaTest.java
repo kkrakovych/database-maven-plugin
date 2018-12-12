@@ -23,6 +23,7 @@ import static net.kosto.configuration.model.DatabaseScriptType.REUSABLE;
 import static net.kosto.util.Error.DUPLICATED_ATTRIBUTE;
 import static net.kosto.util.Error.EMPTY_LIST_ATTRIBUTE;
 import static net.kosto.util.Error.MISSING_TWO_ATTRIBUTES;
+import static net.kosto.util.Error.ONE_TIME_SCRIPT_VS_IGNORE_SERVICE_TABLES;
 import static net.kosto.util.Error.SEMI_DEFINED_ATTRIBUTES;
 import static net.kosto.util.FileUtils.FILE_MASK_SQL;
 import static net.kosto.util.FileUtils.UNIX_SEPARATOR;
@@ -33,6 +34,7 @@ import static net.kosto.util.StringUtils.ORACLE_SCHEMA_OBJECTS;
 import static net.kosto.util.StringUtils.ORACLE_SCHEMA_SCRIPTS;
 import static net.kosto.util.StringUtils.SCHEMA;
 import static net.kosto.util.StringUtils.SCRIPT;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -43,6 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.kosto.configuration.model.DatabaseItem;
+import net.kosto.configuration.model.DatabaseScriptType;
 import net.kosto.util.FileUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.junit.jupiter.api.BeforeEach;
@@ -192,5 +195,27 @@ class OracleSchemaTest {
     for (DatabaseItem scripts : ((OracleSchema) schema).getScripts()) {
       assertEquals((index++) + (scripts.getCondition().equals(BEFORE.name()) ? 1000 : 2000), (int) scripts.getOrder());
     }
+  }
+
+  @Test
+  @DisplayName("Ignore service tables with one time script.")
+  void test09() {
+    schema.setIgnoreServiceTables(true);
+
+    Executable executable = schema::validate;
+    Throwable result = assertThrows(MojoExecutionException.class, executable);
+    assertEquals(ONE_TIME_SCRIPT_VS_IGNORE_SERVICE_TABLES.message(), result.getMessage());
+  }
+
+  @Test
+  @DisplayName("Ignore service tables without one time script.")
+  void test10() {
+    schema.setIgnoreServiceTables(true);
+    ((OracleSchema) schema).getScripts().stream()
+        .filter(script -> ONE_TIME.equals(DatabaseScriptType.valueOf(script.getType())))
+        .forEach(script -> script.setType(REUSABLE.name()));
+
+    Executable executable = schema::validate;
+    assertDoesNotThrow(executable);
   }
 }

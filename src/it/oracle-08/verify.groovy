@@ -59,7 +59,7 @@ checkFile(target + file, verify + file, 1)
 file = "check_connections.sql"
 checkFile(target_service + file, verify_service + file, 0)
 
-file = "check_deploy_tables.sql"
+file = "check_service_tables.sql"
 checkFile(target_service + file, verify_service + file, 0)
 
 file = "check_objects.sql"

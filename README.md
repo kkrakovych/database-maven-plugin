@@ -156,16 +156,17 @@ Other depends on database type.
 
 ###### `schemes` Tag
 
-| Tag Name          | Description |
-| ----------------- | ----------- |
-| `index`           | Schema's index (integer). Affects schema processing order. It should be either set for every `schema` and unique or missing. If it is missing for every `schema`, natural order of schemes in configuration will be used. |
-| `name`            | Schema name. By default set as `schema`. |
-| `sourceDirectory` | Source directory for all schema's objects. By default schema name is used as source directory. |
-| `ignoreDirectory` | If `true` source directory will be ignored. By default set as `false`. |
-| `defineSymbol`    | Define symbol for variable substitution. By default takes value set for database. |
-| `ignoreDefine`    | If `true` variable substitution will be disabled. By default takes value set for database. |
-| `objects`         | List of schema's objects for deploy if any. |
-| `scripts`         | List of schema's scripts for deploy if any. |
+| Tag Name              | Description |
+| --------------------- | ----------- |
+| `ignoreServiceTables` | If `true` service tables will be ignored for the schema only. By default set as `false`. It makes sense to use the option for _proxy_ schemes or schemes without `CREATE TABLE` privilege. However if service tables are ignored there no way to run `ONE_TIME` scripts. |
+| `index`               | Schema's index (integer). Affects schema processing order. It should be either set for every `schema` and unique or missing. If it is missing for every `schema`, natural order of schemes in configuration will be used. |
+| `name`                | Schema name. By default set as `schema`. |
+| `sourceDirectory`     | Source directory for all schema's objects. By default schema name is used as source directory. |
+| `ignoreDirectory`     | If `true` source directory will be ignored. By default set as `false`. |
+| `defineSymbol`        | Define symbol for variable substitution. By default takes value set for database. |
+| `ignoreDefine`        | If `true` variable substitution will be disabled. By default takes value set for database. |
+| `objects`             | List of schema's objects for deploy if any. |
+| `scripts`             | List of schema's scripts for deploy if any. |
 
 ###### `objects` Tag
 
@@ -328,7 +329,7 @@ We strongly recommend to test the script on prod-like environment before going l
 
 1. Script shows brief information about itself: database name, build version and when it was created.
 2. Script requests all parameters required for deploy.
-3. Script checks all connections to schemas required for deploy.
+3. Script checks all connections to schemes required for deploy.
 4. Script starts to spool all activities into log file with name `install_manual_${database_name}_${build_version}_${build_timestamp}.log`.
 5. Script prints detailed information about upcoming deploy.
 6. For every schema in database the script does next:
@@ -486,7 +487,7 @@ Database database
 Build version: test
 Build timestamp: 2018-07-07 23:11:14
 Database TNS name: ORACLE_A
-List of schemas:
+List of schemes:
 * schema_b -> schema_b
 * schema_a -> schema_a
 
@@ -495,7 +496,7 @@ List of schemas:
 === Deploy Schema [schema_b]
 
 Connected.
-Check deploy tables.
+Check service tables.
 Service table deploy$version... already exists.
 Service table deploy$scripts... already exists.
 Elapsed: 00:00:00.03
@@ -532,7 +533,7 @@ Elapsed: 00:00:00.01
 === Deploy Schema [schema_a]
 
 Connected.
-Check deploy tables.
+Check service tables.
 Service table deploy$version... already exists.
 Service table deploy$scripts... already exists.
 Elapsed: 00:00:00.02

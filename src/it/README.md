@@ -17,8 +17,9 @@
  8. `oracle-08` - All default values. Success expected.
  9. `oracle-09` - Checks custom log file name. Success expected.
 10. `oracle-10` - Checks custom service directory name. Success expected.
+10. `oracle-11` - Checks ignore service tables. Success expected.
 
-1. `oracle-a` - Complex database with two schemas.
+1. `oracle-a` - Complex database with two schemes.
 2. `oracle-b` - Simple database with one schema. All source code in main directory.
 3. `oracle-c` - Simple database with scripts only.
 

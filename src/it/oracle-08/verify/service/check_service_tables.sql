@@ -1,4 +1,4 @@
-prompt Check deploy tables.
+prompt Check service tables.
 declare
    c_msg_service_table  constant varchar2(1000 char) := 'Service table ';
    c_msg_triple_dot     constant varchar2(1000 char) := '... ';

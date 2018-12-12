@@ -22,6 +22,20 @@ package net.kosto.configuration.model.common;
 public interface CommonDatabaseItem {
 
   /**
+   * Returns whether to ignore service tables.
+   *
+   * @return {@link Boolean#TRUE} if service tables should be ignored; otherwise {@link Boolean#FALSE}.
+   */
+  Boolean getIgnoreServiceTables();
+
+  /**
+   * Sets whether to ignore service tables.
+   *
+   * @param ignoreServiceTables {@link Boolean#TRUE} if service tables should be ignored; otherwise {@link Boolean#FALSE}.
+   */
+  void setIgnoreServiceTables(Boolean ignoreServiceTables);
+
+  /**
    * Returns database item's index in a list.
    *
    * @return Database item's index.

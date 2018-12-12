@@ -3,7 +3,7 @@ prompt === Deploy Schema [schema_a]
 prompt
 connect &usr_schema_a/&pwd_schema_a@&tns_name
 @./.service/sqlplus_setup.sql
-@./.service/check_deploy_tables.sql
+@./.service/check_service_tables.sql
 @./.service/deploy_start.sql
 @./.service/install_script_2_schema_a_BEFORE_1.sql
 @./.service/drop_source_code.sql

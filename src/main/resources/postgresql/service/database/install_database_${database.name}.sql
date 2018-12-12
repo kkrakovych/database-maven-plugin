@@ -13,21 +13,14 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-<#compress>
-
 \qecho
 \qecho === Deploy Database [${database.name}]
 \qecho
-
-\include ./${serviceDirectory}/check_deploy_tables.sql
+\include ./${serviceDirectory}/check_service_tables.sql
 \include ./${serviceDirectory}/deploy_start.sql
-
 <#if database.schemes??>
   <#list database.schemes as schema>
-    \include ./${serviceDirectory}/install_schema_${schema.index}_${schema.name}.sql
+\include ./${serviceDirectory}/install_schema_${schema.index}_${schema.name}.sql
   </#list>
 </#if>
-
 \include ./${serviceDirectory}/deploy_finish.sql
-
-</#compress>

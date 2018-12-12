@@ -26,6 +26,12 @@ import static net.kosto.util.FileUtils.FILE_MASK_SQL;
 public abstract class AbstractCommonDatabaseItem implements CommonDatabaseItem {
 
   /**
+   * Whether to ignore service tables.
+   * <p>
+   * Default value is {@link Boolean#FALSE}
+   */
+  private Boolean ignoreServiceTables;
+  /**
    * Database item's index in a list.
    * Affects processing order.
    */
@@ -72,8 +78,19 @@ public abstract class AbstractCommonDatabaseItem implements CommonDatabaseItem {
    */
   public AbstractCommonDatabaseItem() {
     super();
+    this.ignoreServiceTables = FALSE;
     this.ignoreDirectory = FALSE;
     this.fileMask = FILE_MASK_SQL;
+  }
+
+  @Override
+  public Boolean getIgnoreServiceTables() {
+    return ignoreServiceTables;
+  }
+
+  @Override
+  public void setIgnoreServiceTables(Boolean ignoreDeployTables) {
+    this.ignoreServiceTables = ignoreDeployTables;
   }
 
   @Override
