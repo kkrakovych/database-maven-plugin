@@ -1,5 +1,7 @@
 # Resources for Integration Tests
 
+Integration tests control database migration scripts generation.
+
 ## Common
 
 1. `common-01` - Incomplete configuration. Failure expected.
