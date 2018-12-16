@@ -17,7 +17,9 @@
  8. `oracle-08` - All default values. Success expected.
  9. `oracle-09` - Checks custom log file name. Success expected.
 10. `oracle-10` - Checks custom service directory name. Success expected.
-10. `oracle-11` - Checks ignore service tables. Success expected.
+11. `oracle-11` - Checks ignore service tables. Success expected.
+12. `oracle-12` - Checks natural indexing. Success expected.
+13. `oracle-13` - Checks custom indexing. Success expected.
 
 1. `oracle-a` - Complex database with two schemes.
 2. `oracle-b` - Simple database with one schema. All source code in main directory.
@@ -39,3 +41,5 @@
 12. `postgresql-12` - All default values. Success expected.
 13. `postgresql-13` - Checks custom log file name. Success expected.
 14. `postgresql-14` - Checks custom service directory name. Success expected.
+15. `postgresql-15` - Checks natural indexing. Success expected.
+16. `postgresql-16` - Checks custom indexing. Success expected.
