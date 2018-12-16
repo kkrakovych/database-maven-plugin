@@ -16,7 +16,6 @@
 
 package net.kosto.util;
 
-import static java.lang.System.lineSeparator;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.StandardOpenOption.APPEND;
@@ -76,6 +75,8 @@ public final class FileUtils {
    * @see <a href="https://en.wikipedia.org/wiki/MD5">MD5</a>
    */
   public static final String MD5 = "MD5";
+
+  public static final String UNIX_EOL = "\n";
 
   private static final String FAILED_CREATE_DIRECTORY = "Failed to create a directory.";
   private static final String FAILED_LIST_FILES = "Failed to get list of files.";
@@ -257,7 +258,7 @@ public final class FileUtils {
    * @see <a href="https://en.wikipedia.org/wiki/Byte_order_mark">Byte Order Mask</a>
    */
   private static String postProcessSourceCodeLine(final String line, final boolean firstLine) {
-    String result = line + lineSeparator();
+    String result = line + UNIX_EOL;
 
     // Removes UTF-8 BOM symbol
     if (firstLine && result.contains(UTF8_BOM)) {

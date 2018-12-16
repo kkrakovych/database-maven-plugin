@@ -16,14 +16,11 @@
 
 package net.kosto.util;
 
-import static java.nio.file.StandardOpenOption.CREATE;
-import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
-import static java.nio.file.StandardOpenOption.WRITE;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -32,7 +29,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.maven.plugin.MojoExecutionException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -70,7 +66,7 @@ class FileUtilsTest {
    * @throws IOException In case any {@link IOException} took place.
    */
   void cleanUpFile() throws IOException {
-    if (file != null && !Files.isDirectory(file) && Files.exists(file)) {
+    if (file != null && !Files.isDirectory(file) && file.toFile().exists()) {
       Files.delete(file);
     }
   }
@@ -100,12 +96,13 @@ class FileUtilsTest {
   void test03() throws IOException, MojoExecutionException, NoSuchAlgorithmException {
     List<String> data = Arrays.asList("Some text", "Additional text", "One more time");
     file = Paths.get("test-file-md5-checksum");
-    Files.write(file, data, StandardCharsets.UTF_8, CREATE, WRITE, TRUNCATE_EXISTING);
+    FileUtils.writeFileSourceCode(file, data);
 
     String expected = "2D96F595AD2538ABBA5AFF4D8E1BF157";
     String actual = FileUtils.getFileChecksum(file);
-    Assertions.assertEquals(expected, actual);
+    assertEquals(expected, actual);
 
     cleanUpFile();
+    assertFalse(file.toFile().exists());
   }
 }
