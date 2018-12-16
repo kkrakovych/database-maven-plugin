@@ -28,17 +28,18 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.nio.file.Paths;
+import java.io.File;
 
-import net.kosto.configuration.model.DatabaseItem;
-import net.kosto.configuration.model.DatabaseScriptCondition;
-import net.kosto.configuration.model.DatabaseScriptType;
-import net.kosto.util.FileUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+
+import net.kosto.configuration.model.DatabaseItem;
+import net.kosto.configuration.model.DatabaseScriptCondition;
+import net.kosto.configuration.model.DatabaseScriptType;
+import net.kosto.util.FileUtils;
 
 class OracleScriptTest {
 
@@ -90,7 +91,7 @@ class OracleScriptTest {
     assertEquals(AMPERSAND, script.getDefineSymbol());
     assertFalse(script.getIgnoreDefine());
     assertEquals(UNIX_SEPARATOR + path + UNIX_SEPARATOR, script.getExecuteDirectory());
-    assertEquals(Paths.get(UNIX_SEPARATOR, path), script.getSourceDirectoryFull());
-    assertEquals(Paths.get(UNIX_SEPARATOR, path), script.getOutputDirectoryFull());
+    assertEquals(File.separator + path, script.getSourceDirectoryFull().toString());
+    assertEquals(File.separator + path, script.getOutputDirectoryFull().toString());
   }
 }

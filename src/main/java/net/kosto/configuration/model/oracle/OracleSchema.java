@@ -31,13 +31,14 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import org.apache.maven.plugin.MojoExecutionException;
+
 import net.kosto.configuration.model.AbstractDatabaseItem;
 import net.kosto.configuration.model.DatabaseItem;
 import net.kosto.configuration.model.DatabaseScriptType;
 import net.kosto.configuration.model.common.CommonDatabaseItem;
 import net.kosto.configuration.model.common.CommonItem;
 import net.kosto.configuration.model.common.CommonSchema;
-import org.apache.maven.plugin.MojoExecutionException;
 
 /**
  * Represents Oracle database schema configuration.

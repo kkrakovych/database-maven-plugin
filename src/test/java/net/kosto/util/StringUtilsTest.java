@@ -19,9 +19,10 @@ package net.kosto.util;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import net.kosto.configuration.model.DatabaseScriptType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import net.kosto.configuration.model.DatabaseScriptType;
 
 class StringUtilsTest {
 

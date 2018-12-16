@@ -27,9 +27,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.maven.plugin.MojoExecutionException;
+
 import net.kosto.configuration.model.common.AbstractCommonDatabaseItem;
 import net.kosto.configuration.model.common.CommonDatabaseItem;
-import org.apache.maven.plugin.MojoExecutionException;
 
 /**
  * Represents database item.

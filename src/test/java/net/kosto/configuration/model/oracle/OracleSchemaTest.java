@@ -40,20 +40,21 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.nio.file.Paths;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.maven.plugin.MojoExecutionException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import net.kosto.configuration.model.DatabaseItem;
 import net.kosto.configuration.model.DatabaseScriptType;
 import net.kosto.configuration.model.common.CommonDatabaseItem;
 import net.kosto.configuration.model.common.CommonSchema;
 import net.kosto.util.FileUtils;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 
 class OracleSchemaTest {
 
@@ -184,8 +185,8 @@ class OracleSchemaTest {
     assertEquals(AMPERSAND, schema.getDefineSymbol());
     assertFalse(schema.getIgnoreDefine());
     assertEquals(UNIX_SEPARATOR + SCHEMA + UNIX_SEPARATOR, schema.getExecuteDirectory());
-    assertEquals(Paths.get(UNIX_SEPARATOR, schema.getName()), schema.getSourceDirectoryFull());
-    assertEquals(Paths.get(UNIX_SEPARATOR, schema.getName()), schema.getOutputDirectoryFull());
+    assertEquals(File.separator + schema.getName(), schema.getSourceDirectoryFull().toString());
+    assertEquals(File.separator + schema.getName(), schema.getOutputDirectoryFull().toString());
 
     int index;
 

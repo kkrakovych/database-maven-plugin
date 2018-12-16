@@ -34,13 +34,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.nio.file.Paths;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import net.kosto.configuration.model.DatabaseItem;
-import net.kosto.util.FileUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -48,6 +46,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+
+import net.kosto.configuration.model.DatabaseItem;
+import net.kosto.util.FileUtils;
 
 class PostgreSQLDatabaseTest {
 
@@ -128,8 +129,8 @@ class PostgreSQLDatabaseTest {
     assertEquals(COLON, database.getDefineSymbol());
     assertFalse(database.getIgnoreDefine());
     assertEquals(UNIX_SEPARATOR + DATABASE + UNIX_SEPARATOR, database.getExecuteDirectory());
-    assertEquals(Paths.get(UNIX_SEPARATOR, database.getName()), database.getSourceDirectoryFull());
-    assertEquals(Paths.get(UNIX_SEPARATOR, database.getName()), database.getOutputDirectoryFull());
+    assertEquals(File.separator + database.getName(), database.getSourceDirectoryFull().toString());
+    assertEquals(File.separator + database.getName(), database.getOutputDirectoryFull().toString());
 
     int index = 0;
     for (DatabaseItem schema : ((PostgreSQLDatabase) database).getSchemes()) {

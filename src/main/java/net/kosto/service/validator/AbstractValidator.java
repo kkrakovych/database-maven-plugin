@@ -20,6 +20,9 @@ import net.kosto.configuration.Configuration;
 
 public abstract class AbstractValidator implements Validator {
 
-  /** package */ AbstractValidator(final Configuration configuration) {
+  /**
+   * package
+   */
+  AbstractValidator(final Configuration configuration) {
   }
 }

@@ -26,15 +26,16 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.nio.file.Paths;
+import java.io.File;
 
-import net.kosto.configuration.model.DatabaseItem;
-import net.kosto.util.FileUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+
+import net.kosto.configuration.model.DatabaseItem;
+import net.kosto.util.FileUtils;
 
 class PostgreSQLObjectTest {
 
@@ -74,7 +75,7 @@ class PostgreSQLObjectTest {
     assertEquals(COLON, object.getDefineSymbol());
     assertFalse(object.getIgnoreDefine());
     assertEquals(UNIX_SEPARATOR + PostgreSQLObjectType.VIEW.getSourceDirectory() + UNIX_SEPARATOR, object.getExecuteDirectory());
-    assertEquals(Paths.get(UNIX_SEPARATOR, PostgreSQLObjectType.VIEW.getSourceDirectory()), object.getSourceDirectoryFull());
-    assertEquals(Paths.get(UNIX_SEPARATOR, PostgreSQLObjectType.VIEW.getSourceDirectory()), object.getOutputDirectoryFull());
+    assertEquals(File.separator + PostgreSQLObjectType.VIEW.getSourceDirectory(), object.getSourceDirectoryFull().toString());
+    assertEquals(File.separator + PostgreSQLObjectType.VIEW.getSourceDirectory(), object.getOutputDirectoryFull().toString());
   }
 }

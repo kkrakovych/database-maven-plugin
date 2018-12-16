@@ -31,11 +31,12 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.maven.plugin.MojoExecutionException;
+
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import net.kosto.Package;
-import org.apache.maven.plugin.MojoExecutionException;
 
 /**
  * Controls template processing.

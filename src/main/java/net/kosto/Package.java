@@ -20,14 +20,15 @@ import static org.apache.maven.plugins.annotations.LifecyclePhase.PROCESS_SOURCE
 
 import java.time.LocalDateTime;
 
-import net.kosto.configuration.Configuration;
-import net.kosto.configuration.model.common.CommonDatabase;
-import net.kosto.service.processor.Processor;
-import net.kosto.service.processor.ProcessorFactory;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+
+import net.kosto.configuration.Configuration;
+import net.kosto.configuration.model.common.CommonDatabase;
+import net.kosto.service.processor.Processor;
+import net.kosto.service.processor.ProcessorFactory;
 
 /**
  * Controls source code packaging into database migration script.

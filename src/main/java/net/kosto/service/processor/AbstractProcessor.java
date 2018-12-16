@@ -32,13 +32,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
+import org.apache.maven.plugin.MojoExecutionException;
+
 import net.kosto.configuration.Configuration;
 import net.kosto.configuration.model.DatabaseItem;
 import net.kosto.service.TemplateService;
 import net.kosto.service.ZipService;
 import net.kosto.util.FileUtils;
 import net.kosto.util.ResourceUtils;
-import org.apache.maven.plugin.MojoExecutionException;
 
 /**
  * Represents basic database configuration processor.

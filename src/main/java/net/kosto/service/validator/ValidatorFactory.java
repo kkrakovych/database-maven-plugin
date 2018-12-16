@@ -18,8 +18,9 @@ package net.kosto.service.validator;
 
 import static net.kosto.util.Error.UNKNOWN_DATABASE_TYPE;
 
-import net.kosto.configuration.Configuration;
 import org.apache.maven.plugin.MojoExecutionException;
+
+import net.kosto.configuration.Configuration;
 
 /**
  * Supports creation of configuration validator dependent on database type.

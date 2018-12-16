@@ -24,12 +24,13 @@ import static net.kosto.util.StringUtils.POSTGRESQL_SCHEMA_SCRIPT_CONDITION;
 import static net.kosto.util.StringUtils.POSTGRESQL_SCHEMA_SCRIPT_TYPE;
 import static net.kosto.util.StringUtils.UNDERSCORE;
 
+import org.apache.maven.plugin.MojoExecutionException;
+
 import net.kosto.configuration.model.AbstractDatabaseItem;
 import net.kosto.configuration.model.DatabaseScriptCondition;
 import net.kosto.configuration.model.DatabaseScriptType;
 import net.kosto.configuration.model.common.CommonDatabaseItem;
 import net.kosto.util.StringUtils;
-import org.apache.maven.plugin.MojoExecutionException;
 
 /**
  * Represents PostgreSQL database schema's script configuration.

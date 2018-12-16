@@ -16,7 +16,6 @@
 
 package net.kosto.util;
 
-import static java.lang.System.lineSeparator;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.StandardOpenOption.APPEND;
@@ -38,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
+
 import javax.xml.bind.DatatypeConverter;
 
 import org.apache.maven.plugin.MojoExecutionException;
@@ -46,12 +46,6 @@ import org.apache.maven.plugin.MojoExecutionException;
  * Contains support constants and methods to work with files.
  */
 public final class FileUtils {
-
-  private static final String FAILED_CREATE_DIRECTORY = "Failed to create a directory.";
-  private static final String FAILED_LIST_FILES = "Failed to get list of files.";
-  private static final String FAILED_CALCULATE_CHECKSUM = "Failed to calculate checksum for file.";
-  private static final String FAILED_READ_FILE = "Failed to read file.";
-  private static final String FAILED_WRITE_FILE = "Failed to write file.";
 
   /**
    * {@code UTF-8 BOM} (Byte Order Mask) symbol.
@@ -81,6 +75,18 @@ public final class FileUtils {
    * @see <a href="https://en.wikipedia.org/wiki/MD5">MD5</a>
    */
   public static final String MD5 = "MD5";
+  /**
+   * Unix style end of line symbol.
+   *
+   * @see <a href="https://en.wikipedia.org/wiki/Newline">End of Line Symbol</a>
+   */
+  public static final String UNIX_EOL = "\n";
+
+  private static final String FAILED_CREATE_DIRECTORY = "Failed to create a directory.";
+  private static final String FAILED_LIST_FILES = "Failed to get list of files.";
+  private static final String FAILED_CALCULATE_CHECKSUM = "Failed to calculate checksum for file.";
+  private static final String FAILED_READ_FILE = "Failed to read file.";
+  private static final String FAILED_WRITE_FILE = "Failed to write file.";
 
   private FileUtils() {
   }
@@ -161,7 +167,7 @@ public final class FileUtils {
    * @throws MojoExecutionException If expected exception occurs.
    * @see <a href="https://en.wikipedia.org/wiki/MD5">MD5</a>
    */
-  private static String getFileChecksum(final Path file) throws MojoExecutionException {
+  public static String getFileChecksum(final Path file) throws MojoExecutionException {
     String result;
 
     try {
@@ -256,7 +262,7 @@ public final class FileUtils {
    * @see <a href="https://en.wikipedia.org/wiki/Byte_order_mark">Byte Order Mask</a>
    */
   private static String postProcessSourceCodeLine(final String line, final boolean firstLine) {
-    String result = line + lineSeparator();
+    String result = line + UNIX_EOL;
 
     // Removes UTF-8 BOM symbol
     if (firstLine && result.contains(UTF8_BOM)) {
