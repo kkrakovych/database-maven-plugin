@@ -13,12 +13,8 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-<#compress>
-
 \qecho Finish deploy version.
-
 start transaction;
-
 do $$
 declare
    c_yes       constant varchar(1) := 'Y';
@@ -29,7 +25,4 @@ begin
         , deploy_status           = c_completed
     where is_current              = c_yes;
 end$$;
-
 commit;
-
-</#compress>

@@ -18,11 +18,29 @@ package net.kosto.util;
 
 import java.time.format.DateTimeFormatter;
 
-public class DateUtils {
+/**
+ * Contains support constants and methods to work with dates.
+ */
+public final class DateUtils {
 
-    public static final DateTimeFormatter FORMATTER_DATE_TIME = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-    public static final DateTimeFormatter FORMATTER_DATE_TIME_STRING = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+  /**
+   * Standard date time mask.
+   */
+  public static final String DATE_TIME = "yyyy-MM-dd HH:mm:ss";
+  /**
+   * Seamless date time mask without separators.
+   */
+  public static final String DATE_TIME_SEAMLESS = "yyyyMMddHHmmss";
 
-    private DateUtils() {
-    }
+  /**
+   * Date time formatter for standard mask {@value DATE_TIME}.
+   */
+  public static final DateTimeFormatter DTF_DATE_TIME = DateTimeFormatter.ofPattern(DATE_TIME);
+  /**
+   * Date time formatter for seamless date time mask {@value DATE_TIME_SEAMLESS}.
+   */
+  public static final DateTimeFormatter DTF_DATE_TIME_SEAMLESS = DateTimeFormatter.ofPattern(DATE_TIME_SEAMLESS);
+
+  private DateUtils() {
+  }
 }

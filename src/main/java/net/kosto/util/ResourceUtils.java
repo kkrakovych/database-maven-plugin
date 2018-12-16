@@ -16,10 +16,8 @@
 
 package net.kosto.util;
 
-import org.apache.maven.plugin.MojoExecutionException;
-
 import java.io.IOException;
-import java.net.URL;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.CodeSource;
@@ -28,43 +26,59 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-public class ResourceUtils {
+import org.apache.maven.plugin.MojoExecutionException;
 
-    private ResourceUtils() {
-    }
+/**
+ * Contains support constants and methods to work with resource files.
+ */
+public final class ResourceUtils {
 
-    public static List<Path> getFiles(String fileMask, String firstDirectoryPart, String... moreDirectoryParts) throws MojoExecutionException {
-        List<Path> result = new ArrayList<>();
+  private static final String FAILED_LIST_FILES = "Failed to get list of resource files.";
 
-        CodeSource source = ResourceUtils.class.getProtectionDomain().getCodeSource();
+  private ResourceUtils() {
+  }
 
-        if (source != null) {
-            URL location = source.getLocation();
+  /**
+   * Returns full paths to files in directory matched with file mask.
+   *
+   * @param fileMask      File mask for files look up.
+   * @param baseDirectory Full path to base directory.
+   * @param directories   Relative paths to additional subdirectories.
+   * @return Full paths to files.
+   * @throws MojoExecutionException If expected exception occurs.
+   */
+  public static List<Path> getFiles(final String fileMask, final String baseDirectory, final String... directories) throws MojoExecutionException {
+    final List<Path> result = new ArrayList<>();
 
-            try (
-                ZipInputStream zip = new ZipInputStream(location.openStream())
-            ) {
-                String pattern = fileMask
-                    .replace("?", ".?")
-                    .replace("*", ".*?");
+    final CodeSource source = ResourceUtils.class.getProtectionDomain().getCodeSource();
 
-                Path directory = Paths.get(firstDirectoryPart, moreDirectoryParts);
-                ZipEntry ze;
-                while ((ze = zip.getNextEntry()) != null) {
-                    if (!ze.getName().contains(firstDirectoryPart) || !ze.getName().matches(pattern))
-                        continue;
-                    Path path = Paths.get(ze.getName());
-                    Path parent = path.getParent();
-                    Path file = path.getFileName();
-                    if (file != null && parent != null && parent.equals(directory) && file.toString().matches(pattern)) {
-                        result.add(path);
-                    }
-                }
-            } catch (IOException x) {
-                throw new MojoExecutionException("Failed to get resource files.", x);
-            }
+    if (source != null) {
+      try (
+          InputStream is = source.getLocation().openStream();
+          ZipInputStream zip = new ZipInputStream(is)
+      ) {
+        final Path directory = Paths.get(baseDirectory, directories);
+        final String pattern = fileMask
+            .replace("?", ".?")
+            .replace("*", ".*?");
+
+        ZipEntry ze;
+        while ((ze = zip.getNextEntry()) != null) {
+          if (!ze.getName().contains(baseDirectory) || !ze.getName().matches(pattern)) {
+            continue;
+          }
+          final Path path = Paths.get(ze.getName());
+          final Path parent = path.getParent();
+          final Path file = path.getFileName();
+          if (file != null && parent != null && parent.equals(directory) && file.toString().matches(pattern)) {
+            result.add(path);
+          }
         }
-
-        return result;
+      } catch (IOException x) {
+        throw new MojoExecutionException(FAILED_LIST_FILES, x);
+      }
     }
+
+    return result;
+  }
 }

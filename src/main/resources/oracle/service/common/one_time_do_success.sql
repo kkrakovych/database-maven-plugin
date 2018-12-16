@@ -13,8 +13,4 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-<#compress>
-
 prompt [SUCCESS] - Script &script_name was already applied.
-
-</#compress>

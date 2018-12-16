@@ -13,8 +13,6 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-<#compress>
-
 with
   script_info as
 ( select count(1)                      executed
@@ -58,9 +56,6 @@ select case
        end                             execute_after
   from script_info
 \gset
-
 \include :execute_before
 \include :execute_script
 \include :execute_after
-
-</#compress>

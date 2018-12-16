@@ -13,13 +13,8 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-<#compress>
-
 \qecho [FAILURE] - Script :script_name was already applied with different checksum.
-
 do $$
 begin
    raise exception 'One time script checksum mismatch.';
 end$$;
-
-</#compress>

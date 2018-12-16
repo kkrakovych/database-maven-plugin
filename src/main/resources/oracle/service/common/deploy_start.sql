@@ -13,10 +13,7 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-<#compress>
-
 prompt Start deploy version.
-
 declare
    c_no            constant varchar2(1 char)  := 'N';
    c_yes           constant varchar2(1 char)  := 'Y';
@@ -46,5 +43,3 @@ begin
    commit;
 end;
 /
-
-</#compress>

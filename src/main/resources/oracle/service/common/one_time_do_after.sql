@@ -13,8 +13,6 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-<#compress>
-
 update deploy$scripts            s
    set s.script_finish_timestamp = sysdate
      , s.deploy_status           = 'COMPLETED'
@@ -25,7 +23,4 @@ update deploy$scripts            s
 /
 commit
 /
-
 prompt [SUCCESS] - Script &script_name was applied.
-
-</#compress>

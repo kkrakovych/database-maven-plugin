@@ -13,10 +13,7 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-<#compress>
-
 prompt Execute ${script.type} scripts with ${script.condition} condition.
-
 <#list files as file, checksum>
   <#if script.type = "REUSABLE">
 prompt Execute ${script.executeDirectory}${file}
@@ -30,5 +27,3 @@ define script_checksum  = '${checksum}'
 @./${serviceDirectory}/one_time_control.sql
   </#if>
 </#list>
-
-</#compress>

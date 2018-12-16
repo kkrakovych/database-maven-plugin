@@ -1,16 +1,23 @@
-# Database maven plugin
+# Database Maven Plugin
 
-## Main idea of the plugin
+## Main Idea of the Plugin
 
-The plugin helps to create delta scripts to update database from version to version.
+The plugin creates database migration scripts to update databases from version to version.
 
-The result delta script may be deployed either manually or automatically.
+We believe database migration scripts should be automated.
+We believe all database objects, source code, and data dictionaries should be under version source control.
+Thus creation of database migration scripts should be performed based on files under version source control only.
+Further deploy of these scripts to databases should be easy and simple to automate but still allow manual deploy as well.
 
-1. All database objects, source code, data definition and delta scripts should be under version source control.
-2. Any release is a set of previously mentioned objects packed in a single compressed zip file.
-3. The release can be deployed into target database by a single script execution.
+## Strategies for Database Migration Scripts
 
-## Strategies for delta scripts
+At the moment plugin supports one strategy - 'Full Source Code Drop and Create'.
+
+The strategy contains next steps:
+- deploy scripts before source code drop;
+- drop existent source code;
+- deploy actual source code;
+- deploy scripts after source code validation.
 
 Configuration in pom.xml defines:
 - database
@@ -47,7 +54,7 @@ Add new plugin to build section and set up configuration.
         <plugin>
             <groupId>net.kosto</groupId>
             <artifactId>database-maven-plugin</artifactId>
-            <version>1.0</version>
+            <version>1.2</version>
             <configuration>
                 ...
             </configuration>
@@ -77,7 +84,8 @@ If you want to use them, add plugin repository section to configuration as below
 <plugin>
     ...
     <configuration>
-        <serviceDirectory>[service directory name]</serviceDirectory>
+        <logFileName>[log-file-name]</logFileName>
+        <serviceDirectory>[service-directory-name]</serviceDirectory>
         ...
     </configuration>
 </plugin>
@@ -85,7 +93,8 @@ If you want to use them, add plugin repository section to configuration as below
 
 | Tag Name           | Description |
 | ------------------ | ----------- |
-| `serviceDirectory` | Service directory name. By default set as `service`. Plugin creates the directory and put all generated service scripts to it. You can set another name for the directory to avert name coincidence. As an example, `.service`. |
+| `logFileName`      | Log file name. By default the name will be generated automatically as `install_[database-name]_[build-version]_[start-timestamp].log`. Any valid file name can be set to get stable log file name. As an example, `install.log`. |
+| `serviceDirectory` | Service directory name. By default set as `service`. Plugin creates the directory and puts all generated service scripts to it. Any valid directory name can be set to avert name coincidence. As an example, `.service`. |
 
 Other depends on database type.
 
@@ -138,37 +147,38 @@ Other depends on database type.
 
 | Tag Name          | Description |
 | ----------------- | ----------- |
-| `name`            | Database name. |
+| `name`            | Database name. By default set as `database`. |
 | `sourceDirectory` | Source directory for all database's objects. By default database name is used as source directory. |
 | `ignoreDirectory` | If `true` source directory will be ignored. By default set as `false`. |
-| `schemes`         | List of database's schemes for deploy. |
 | `defineSymbol`    | Define symbol for variable substitution. By default set as `&`. |
 | `ignoreDefine`    | If `true` variable substitution will be disabled. By default set as `true`. |
+| `schemes`         | List of database's schemes for deploy. |
 
 ###### `schemes` Tag
 
-| Tag Name          | Description |
-| ----------------- | ----------- |
-| `index`           | Schema's index (integer). Affects schema processing order. |
-| `name`            | Schema name. |
-| `sourceDirectory` | Source directory for all schema's objects. By default schema name is used as source directory. |
-| `ignoreDirectory` | If `true` source directory will be ignored. By default set as `false`. |
-| `objects`         | List of schema's objects for deploy if any. |
-| `scripts`         | List of schema's scripts for deploy if any. |
-| `defineSymbol`    | Define symbol for variable substitution. By default takes value set for database. |
-| `ignoreDefine`    | If `true` variable substitution will be disabled. By default takes value set for database. |
+| Tag Name              | Description |
+| --------------------- | ----------- |
+| `ignoreServiceTables` | If `true` service tables will be ignored for the schema only. By default set as `false`. It makes sense to use the option for _proxy_ schemes or schemes without `CREATE TABLE` privilege. However if service tables are ignored there no way to run `ONE_TIME` scripts. |
+| `index`               | Schema's index (integer). Affects schema processing order. It should be either set for every `schema` and unique or missing. If it is missing for every `schema`, natural order of schemes in configuration will be used. |
+| `name`                | Schema name. By default set as `schema`. |
+| `sourceDirectory`     | Source directory for all schema's objects. By default schema name is used as source directory. |
+| `ignoreDirectory`     | If `true` source directory will be ignored. By default set as `false`. |
+| `defineSymbol`        | Define symbol for variable substitution. By default takes value set for database. |
+| `ignoreDefine`        | If `true` variable substitution will be disabled. By default takes value set for database. |
+| `objects`             | List of schema's objects for deploy if any. |
+| `scripts`             | List of schema's scripts for deploy if any. |
 
 ###### `objects` Tag
 
 | Tag Name          | Description |
 | ----------------- | ----------- |
-| `index`           | Objects' index (integer). Affects objects processing order. |
+| `index`           | Objects' index (integer). Affects objects processing order. It should be either set for every `object` and unique or missing. If it is missing for every `object`, natural order of objects in configuration will be used. |
 | `type`            | Objects' type. Possible values are: `FUNCTION`, `PACKAGE_BODY`, `PACKAGE_SPEC`, `PROCEDURE`, `TRIGGER`, `TYPE_BODY`, `TYPE_SPEC`, `VIEW`.  |
 | `sourceDirectory` | Source directory for all objects' type. By default objects' types have next associated directories: `FUNCTION` - `functions`, `PACKAGE_BODY` - `package_bodies`, `PACKAGE_SPEC` - `package_specs`, `PROCEDURE` - `procedures`, `TRIGGER` - `triggers`, `TYPE_BODY` - `type_bodies`, `TYPE_SPEC` - `type_specs`, and `VIEW` - `views`. |
 | `ignoreDirectory` | If `true` source directory will be ignored. By default set as `false`. |
-| `fileMask`        | File mask for objects. By default set as `*.sql`. |
 | `defineSymbol`    | Define symbol for variable substitution. By default takes value set for schema. |
 | `ignoreDefine`    | If `true` variable substitution will be disabled. By default takes value set for schema. |
+| `fileMask`        | File mask for objects. By default set as `*.sql`. |
 
 ###### `scripts` Tag
 
@@ -176,9 +186,11 @@ Other depends on database type.
 | ----------------- | ----------- |
 | `type`            | Scripts' type. Possible values are: `ONE_TIME` and `REUSABLE`. Affects how scripts will be used, one time only or every time during deploy. |
 | `condition`       | Scripts' condition. Possible values are: `BEFORE` and `AFTER`. Affects when scripts will be executed, before or after source code deploy. |
-| `index`           | Scripts' index (integer). Affects scripts processing order. |
+| `index`           | Scripts' index (integer). Affects scripts processing order. It should be either set for every `script` and unique within script `type` or missing. If it is missing for every `script`, natural order of scripts in configuration will be used. |
 | `sourceDirectory` | Source directory for all scripts. By default scripts' type have next associated directories: `ONE_TIME` - `script_one_time` and `REUSABLE` - `script_reusable`. |
 | `ignoreDirectory` | If `true` source directory will be ignored. By default set as `false`. |
+| `defineSymbol`    | Define symbol for variable substitution. By default takes value set for schema. |
+| `ignoreDefine`    | If `true` variable substitution will be disabled. By default takes value set for schema. |
 | `fileMask`        | File mask for objects. By default set as `*.sql`. |
 
 #### PostgreSQL database configuration section
@@ -317,7 +329,7 @@ We strongly recommend to test the script on prod-like environment before going l
 
 1. Script shows brief information about itself: database name, build version and when it was created.
 2. Script requests all parameters required for deploy.
-3. Script checks all connections to schemas required for deploy.
+3. Script checks all connections to schemes required for deploy.
 4. Script starts to spool all activities into log file with name `install_manual_${database_name}_${build_version}_${build_timestamp}.log`.
 5. Script prints detailed information about upcoming deploy.
 6. For every schema in database the script does next:
@@ -343,7 +355,7 @@ Below you may see part of the project's pom.xml file.
 <plugin>
     <groupId>net.kosto</groupId>
     <artifactId>database-maven-plugin</artifactId>
-    <version>1.0</version>
+    <version>1.2</version>
     <configuration>
         <serviceDirectory>.service</serviceDirectory>
         <oracle>
@@ -475,7 +487,7 @@ Database database
 Build version: test
 Build timestamp: 2018-07-07 23:11:14
 Database TNS name: ORACLE_A
-List of schemas:
+List of schemes:
 * schema_b -> schema_b
 * schema_a -> schema_a
 
@@ -484,7 +496,7 @@ List of schemas:
 === Deploy Schema [schema_b]
 
 Connected.
-Check deploy tables.
+Check service tables.
 Service table deploy$version... already exists.
 Service table deploy$scripts... already exists.
 Elapsed: 00:00:00.03
@@ -521,7 +533,7 @@ Elapsed: 00:00:00.01
 === Deploy Schema [schema_a]
 
 Connected.
-Check deploy tables.
+Check service tables.
 Service table deploy$version... already exists.
 Service table deploy$scripts... already exists.
 Elapsed: 00:00:00.02

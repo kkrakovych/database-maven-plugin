@@ -13,15 +13,10 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-<#compress>
-
 prompt
 prompt === Check Connections
 prompt
-
 <#list database.schemes as schema>
 prompt &usr_${schema.name}
 connect &usr_${schema.name}/&pwd_${schema.name}@&tns_name
 </#list>
-
-</#compress>

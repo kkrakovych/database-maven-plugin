@@ -17,29 +17,41 @@
 package net.kosto.configuration.model;
 
 /**
- * {@code DatabaseScriptType} provides list of all supported database script types.
+ * Provides list of all supported database script types.
  * <p>
- * Each database script type has default value for relative {@link DatabaseScript#sourceDirectory} path.
+ * Each database script type has default value for relative {@link AbstractDatabaseItem#getSourceDirectory()} path.
  */
 public enum DatabaseScriptType {
-    /** Database script should be executed one time only. */
-    ONE_TIME("script_one_time"),
-    /** Database script should be executed on every deploy. */
-    REUSABLE("script_reusable");
 
-    /** Default relative {@link DatabaseScript#sourceDirectory} path. */
-    private final String sourceDirectory;
+  /**
+   * Database script should be executed one time only.
+   */
+  ONE_TIME("script_one_time"),
+  /**
+   * Database script should be executed on every deploy.
+   */
+  REUSABLE("script_reusable");
 
-    /**
-     * Constructs {@code DatabaseScriptType} with default relative path.
-     *
-     * @param sourceDirectory Default relative path.
-     */
-    DatabaseScriptType(String sourceDirectory) {
-        this.sourceDirectory = sourceDirectory;
-    }
+  /**
+   * Default relative path name for {@link AbstractDatabaseItem#getSourceDirectory()}.
+   */
+  private final String sourceDirectory;
 
-    public String getSourceDirectory() {
-        return sourceDirectory;
-    }
+  /**
+   * Constructs instance and sets default values.
+   *
+   * @param sourceDirectory Default relative path.
+   */
+  DatabaseScriptType(final String sourceDirectory) {
+    this.sourceDirectory = sourceDirectory;
+  }
+
+  /**
+   * Returns relative path name for source directory.
+   *
+   * @return Relative path name for source directory.
+   */
+  public String getSourceDirectory() {
+    return sourceDirectory;
+  }
 }

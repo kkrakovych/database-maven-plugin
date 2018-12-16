@@ -17,11 +17,41 @@
 package net.kosto.configuration.model;
 
 /**
- * {@code DatabaseScriptCondition} provides list of all supported database script execution conditions.
+ * Provides list of all supported database script execution conditions.
+ * <p>
+ * Each database script type has default value for relative {@link AbstractDatabaseItem#getSourceDirectory()} path.
  */
 public enum DatabaseScriptCondition {
-    /** Database script should be executed after source code deploy. */
-    AFTER,
-    /** Database script should be executed before source code deploy. */
-    BEFORE
+
+  /**
+   * Database script should be executed after source code deploy.
+   */
+  AFTER("after"),
+  /**
+   * Database script should be executed before source code deploy.
+   */
+  BEFORE("before");
+
+  /**
+   * Default relative path name for {@link AbstractDatabaseItem#getSourceDirectory()}.
+   */
+  private final String sourceDirectory;
+
+  /**
+   * Constructs instance and sets default values.
+   *
+   * @param sourceDirectory Default relative path.
+   */
+  DatabaseScriptCondition(final String sourceDirectory) {
+    this.sourceDirectory = sourceDirectory;
+  }
+
+  /**
+   * Returns relative path name for source directory.
+   *
+   * @return Relative path name for source directory.
+   */
+  public String getSourceDirectory() {
+    return sourceDirectory;
+  }
 }

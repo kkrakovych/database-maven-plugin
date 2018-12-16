@@ -13,12 +13,8 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-<#compress>
-
 \qecho Start deploy version.
-
 start transaction;
-
 do $$
 declare
    c_no            constant varchar(1)  := 'N';
@@ -47,7 +43,4 @@ begin
         , c_yes
         );
 end$$;
-
 commit;
-
-</#compress>

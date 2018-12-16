@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright 2018 Kostyantyn Krakovych
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>net.test</groupId>
+  <artifactId>oracle</artifactId>
+  <name>oracle-08</name>
+  <version>test</version>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>net.kosto</groupId>
+        <artifactId>database-maven-plugin</artifactId>
+        <version>1.2</version>
+        <configuration>
+          <oracle>
+            <schemes>
+              <schema>
+                <index>2</index>
+                <objects>
+                  <object>
+                    <index>8</index>
+                    <type>FUNCTION</type>
+                  </object>
+                  <object>
+                    <index>7</index>
+                    <type>PACKAGE_BODY</type>
+                  </object>
+                  <object>
+                    <index>6</index>
+                    <type>PACKAGE_SPEC</type>
+                  </object>
+                  <object>
+                    <index>5</index>
+                    <type>PROCEDURE</type>
+                  </object>
+                  <object>
+                    <index>4</index>
+                    <type>TRIGGER</type>
+                  </object>
+                  <object>
+                    <index>3</index>
+                    <type>TYPE_BODY</type>
+                  </object>
+                  <object>
+                    <index>2</index>
+                    <type>TYPE_SPEC</type>
+                  </object>
+                  <object>
+                    <index>1</index>
+                    <type>VIEW</type>
+                  </object>
+                </objects>
+              </schema>
+              <schema>
+                <index>1</index>
+                <scripts>
+                  <script>
+                    <index>4</index>
+                    <type>REUSABLE</type>
+                    <condition>BEFORE</condition>
+                  </script>
+                  <script>
+                    <index>3</index>
+                    <type>ONE_TIME</type>
+                    <condition>BEFORE</condition>
+                  </script>
+                  <script>
+                    <index>2</index>
+                    <type>REUSABLE</type>
+                    <condition>AFTER</condition>
+                  </script>
+                  <script>
+                    <index>1</index>
+                    <type>ONE_TIME</type>
+                    <condition>AFTER</condition>
+                  </script>
+                </scripts>
+              </schema>
+            </schemes>
+          </oracle>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

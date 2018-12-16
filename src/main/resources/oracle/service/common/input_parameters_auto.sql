@@ -13,12 +13,8 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-<#compress>
-
 define tns_name = &1
 <#list database.schemes as schema>
 define usr_${schema.name} = &${schema?counter * 2}
 define pwd_${schema.name} = &${schema?counter * 2 + 1}
 </#list>
-
-</#compress>

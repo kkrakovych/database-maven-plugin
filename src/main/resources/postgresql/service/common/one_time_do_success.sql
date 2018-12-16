@@ -13,8 +13,4 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-<#compress>
-
 \qecho [SUCCESS] - Script :script_name was already applied.
-
-</#compress>

@@ -13,10 +13,7 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-<#compress>
-
 prompt Check objects.
-
 declare
    c_valid     constant varchar2(1000 char) := 'VALID';
    c_msg_info  constant varchar2(1000 char) := 'Number of invalid schema''s objects = ';
@@ -36,5 +33,3 @@ begin
    end if;
 end;
 /
-
-</#compress>
