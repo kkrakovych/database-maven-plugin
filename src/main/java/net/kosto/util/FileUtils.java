@@ -162,7 +162,7 @@ public final class FileUtils {
    * @throws MojoExecutionException If expected exception occurs.
    * @see <a href="https://en.wikipedia.org/wiki/MD5">MD5</a>
    */
-  private static String getFileChecksum(final Path file) throws MojoExecutionException {
+  public static String getFileChecksum(final Path file) throws MojoExecutionException {
     String result;
 
     try {

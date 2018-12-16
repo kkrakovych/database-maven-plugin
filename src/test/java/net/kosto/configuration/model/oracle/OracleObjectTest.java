@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.nio.file.Paths;
+import java.io.File;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.junit.jupiter.api.BeforeEach;
@@ -75,7 +75,7 @@ class OracleObjectTest {
     assertEquals(AMPERSAND, object.getDefineSymbol());
     assertFalse(object.getIgnoreDefine());
     assertEquals(UNIX_SEPARATOR + OracleObjectType.VIEW.getSourceDirectory() + UNIX_SEPARATOR, object.getExecuteDirectory());
-    assertEquals(Paths.get(UNIX_SEPARATOR, OracleObjectType.VIEW.getSourceDirectory()), object.getSourceDirectoryFull());
-    assertEquals(Paths.get(UNIX_SEPARATOR, OracleObjectType.VIEW.getSourceDirectory()), object.getOutputDirectoryFull());
+    assertEquals(File.separator + OracleObjectType.VIEW.getSourceDirectory(), object.getSourceDirectoryFull().toString());
+    assertEquals(File.separator + OracleObjectType.VIEW.getSourceDirectory(), object.getOutputDirectoryFull().toString());
   }
 }

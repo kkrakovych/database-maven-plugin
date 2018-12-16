@@ -40,7 +40,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.nio.file.Paths;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -185,8 +185,8 @@ class OracleSchemaTest {
     assertEquals(AMPERSAND, schema.getDefineSymbol());
     assertFalse(schema.getIgnoreDefine());
     assertEquals(UNIX_SEPARATOR + SCHEMA + UNIX_SEPARATOR, schema.getExecuteDirectory());
-    assertEquals(Paths.get(UNIX_SEPARATOR, schema.getName()), schema.getSourceDirectoryFull());
-    assertEquals(Paths.get(UNIX_SEPARATOR, schema.getName()), schema.getOutputDirectoryFull());
+    assertEquals(File.separator + schema.getName(), schema.getSourceDirectoryFull().toString());
+    assertEquals(File.separator + schema.getName(), schema.getOutputDirectoryFull().toString());
 
     int index;
 

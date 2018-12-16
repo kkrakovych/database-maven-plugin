@@ -32,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.nio.file.Paths;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -127,8 +127,8 @@ class OracleDatabaseTest {
     assertEquals(AMPERSAND, database.getDefineSymbol());
     assertFalse(database.getIgnoreDefine());
     assertEquals(UNIX_SEPARATOR + DATABASE + UNIX_SEPARATOR, database.getExecuteDirectory());
-    assertEquals(Paths.get(UNIX_SEPARATOR, database.getName()), database.getSourceDirectoryFull());
-    assertEquals(Paths.get(UNIX_SEPARATOR, database.getName()), database.getOutputDirectoryFull());
+    assertEquals(File.separator + database.getName(), database.getSourceDirectoryFull().toString());
+    assertEquals(File.separator + database.getName(), database.getOutputDirectoryFull().toString());
 
     int index = 0;
     for (DatabaseItem schema : ((OracleDatabase) database).getSchemes()) {

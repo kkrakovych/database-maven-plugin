@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.nio.file.Paths;
+import java.io.File;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.junit.jupiter.api.BeforeEach;
@@ -91,7 +91,7 @@ class OracleScriptTest {
     assertEquals(AMPERSAND, script.getDefineSymbol());
     assertFalse(script.getIgnoreDefine());
     assertEquals(UNIX_SEPARATOR + path + UNIX_SEPARATOR, script.getExecuteDirectory());
-    assertEquals(Paths.get(UNIX_SEPARATOR, path), script.getSourceDirectoryFull());
-    assertEquals(Paths.get(UNIX_SEPARATOR, path), script.getOutputDirectoryFull());
+    assertEquals(File.separator + path, script.getSourceDirectoryFull().toString());
+    assertEquals(File.separator + path, script.getOutputDirectoryFull().toString());
   }
 }
