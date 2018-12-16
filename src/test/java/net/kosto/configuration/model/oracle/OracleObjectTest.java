@@ -28,13 +28,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.nio.file.Paths;
 
-import net.kosto.configuration.model.DatabaseItem;
-import net.kosto.util.FileUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+
+import net.kosto.configuration.model.DatabaseItem;
+import net.kosto.util.FileUtils;
 
 class OracleObjectTest {
 

@@ -28,13 +28,14 @@ import static net.kosto.util.StringUtils.SCRIPT;
 import java.nio.file.Path;
 import java.util.List;
 
+import org.apache.maven.plugin.MojoExecutionException;
+
 import net.kosto.configuration.Configuration;
 import net.kosto.configuration.model.DatabaseItem;
 import net.kosto.configuration.model.oracle.OracleDatabase;
 import net.kosto.configuration.model.oracle.OracleSchema;
 import net.kosto.util.FileUtils;
 import net.kosto.util.ResourceUtils;
-import org.apache.maven.plugin.MojoExecutionException;
 
 /**
  * Controls packaging into database deploy script for Oracle database configuration.

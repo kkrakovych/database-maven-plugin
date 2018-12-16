@@ -22,14 +22,15 @@ import static net.kosto.util.Error.UNKNOWN_DATABASE_TYPE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import net.kosto.configuration.model.DatabaseType;
-import net.kosto.configuration.model.common.CommonDatabase;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+
+import net.kosto.configuration.model.DatabaseType;
+import net.kosto.configuration.model.common.CommonDatabase;
 
 class ConfigurationTest {
 

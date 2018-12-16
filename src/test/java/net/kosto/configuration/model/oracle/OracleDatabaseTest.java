@@ -37,8 +37,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import net.kosto.configuration.model.DatabaseItem;
-import net.kosto.util.FileUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -46,6 +44,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+
+import net.kosto.configuration.model.DatabaseItem;
+import net.kosto.util.FileUtils;
 
 class OracleDatabaseTest {
 

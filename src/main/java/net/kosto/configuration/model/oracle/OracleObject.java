@@ -22,10 +22,11 @@ import static net.kosto.util.StringUtils.AMPERSAND;
 import static net.kosto.util.StringUtils.EMPTY_STRING;
 import static net.kosto.util.StringUtils.ORACLE_SCHEMA_OBJECT_TYPE;
 
+import org.apache.maven.plugin.MojoExecutionException;
+
 import net.kosto.configuration.model.AbstractDatabaseItem;
 import net.kosto.configuration.model.common.CommonDatabaseItem;
 import net.kosto.util.StringUtils;
-import org.apache.maven.plugin.MojoExecutionException;
 
 /**
  * Represents Oracle database schema's object configuration.

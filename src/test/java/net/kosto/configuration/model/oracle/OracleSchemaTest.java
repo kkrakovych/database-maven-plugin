@@ -44,16 +44,17 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.kosto.configuration.model.DatabaseItem;
-import net.kosto.configuration.model.DatabaseScriptType;
-import net.kosto.configuration.model.common.CommonDatabaseItem;
-import net.kosto.configuration.model.common.CommonSchema;
-import net.kosto.util.FileUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+
+import net.kosto.configuration.model.DatabaseItem;
+import net.kosto.configuration.model.DatabaseScriptType;
+import net.kosto.configuration.model.common.CommonDatabaseItem;
+import net.kosto.configuration.model.common.CommonSchema;
+import net.kosto.util.FileUtils;
 
 class OracleSchemaTest {
 
