@@ -16,8 +16,8 @@
 
 package net.kosto.util;
 
-import static java.nio.file.StandardOpenOption.APPEND;
 import static java.nio.file.StandardOpenOption.CREATE;
+import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 import static java.nio.file.StandardOpenOption.WRITE;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -27,6 +27,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -96,12 +97,12 @@ class FileUtilsTest {
 
   @Test
   @DisplayName("File Checksum.")
-  void test03() throws IOException, MojoExecutionException {
+  void test03() throws IOException, MojoExecutionException, NoSuchAlgorithmException {
     List<String> data = Arrays.asList("Some text", "Additional text", "One more time");
     file = Paths.get("test-file-md5-checksum");
-    Files.write(file, data, StandardCharsets.UTF_8, CREATE, WRITE, APPEND);
+    Files.write(file, data, StandardCharsets.UTF_8, CREATE, WRITE, TRUNCATE_EXISTING);
 
-    String expected = "7B1407FE7D0C0070EC360953F0AE3BF1";
+    String expected = "2D96F595AD2538ABBA5AFF4D8E1BF157";
     String actual = FileUtils.getFileChecksum(file);
     Assertions.assertEquals(expected, actual);
 
