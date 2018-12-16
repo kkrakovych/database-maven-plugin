@@ -75,7 +75,11 @@ public final class FileUtils {
    * @see <a href="https://en.wikipedia.org/wiki/MD5">MD5</a>
    */
   public static final String MD5 = "MD5";
-
+  /**
+   * Unix style end of line symbol.
+   *
+   * @see <a href="https://en.wikipedia.org/wiki/Newline">End of Line Symbol</a>
+   */
   public static final String UNIX_EOL = "\n";
 
   private static final String FAILED_CREATE_DIRECTORY = "Failed to create a directory.";
