@@ -22,7 +22,7 @@ Integration tests control database migration scripts generation.
 11. `oracle-11` - Checks ignore service tables.
 12. `oracle-12` - Checks natural indexing.
 13. `oracle-13` - Checks custom indexing.
-14. `oracle-14` - Checks custom database, schemes, objects, and scripts' names.
+14. `oracle-14` - Checks custom database, and schemes names.
 15. `oracle-15` - Checks custom source directories for database, schemes, objects, and scripts.
 16. `oracle-16` - Checks ignore directory.
 
@@ -48,6 +48,6 @@ Integration tests control database migration scripts generation.
 14. `postgresql-14` - Checks custom service directory name.
 15. `postgresql-15` - Checks natural indexing.
 16. `postgresql-16` - Checks custom indexing.
-17. `postgresql-17` - Checks custom database, schemes, objects, and scripts' names.
+17. `postgresql-17` - Checks custom database, and schemes names.
 18. `postgresql-18` - Checks custom source directories for database, schemes, objects, and scripts.
 19. `postgresql-19` - Checks ignore directory.

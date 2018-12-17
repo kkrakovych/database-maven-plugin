@@ -1,0 +1,7 @@
+set define '&'
+prompt Execute /database_directory/schema_directory_first/object_directory_second/dummy_a.sql
+@./database_directory/schema_directory_first/object_directory_second/dummy_a.sql
+prompt Execute /database_directory/schema_directory_first/object_directory_second/dummy_b.sql
+@./database_directory/schema_directory_first/object_directory_second/dummy_b.sql
+prompt Execute /database_directory/schema_directory_first/object_directory_second/dummy_c.sql
+@./database_directory/schema_directory_first/object_directory_second/dummy_c.sql
