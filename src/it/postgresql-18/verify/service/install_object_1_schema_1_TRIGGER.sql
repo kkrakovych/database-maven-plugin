@@ -1,0 +1,6 @@
+\qecho Execute /database_directory/schema_directory_first/object_directory_second/dummy_s1_trigger_a.sql
+\include ./database_directory/schema_directory_first/object_directory_second/dummy_s1_trigger_a.sql
+\qecho Execute /database_directory/schema_directory_first/object_directory_second/dummy_s1_trigger_b.sql
+\include ./database_directory/schema_directory_first/object_directory_second/dummy_s1_trigger_b.sql
+\qecho Execute /database_directory/schema_directory_first/object_directory_second/dummy_s1_trigger_c.sql
+\include ./database_directory/schema_directory_first/object_directory_second/dummy_s1_trigger_c.sql
