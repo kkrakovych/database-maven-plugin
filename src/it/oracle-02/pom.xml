@@ -23,7 +23,6 @@
 
   <groupId>net.test</groupId>
   <artifactId>oracle</artifactId>
-  <name>oracle-02</name>
   <version>test</version>
 
   <properties>
