@@ -22,11 +22,27 @@ git config --global core.eol lf
 #### Integration-Tests
 
 The profile runs integration tests.
-Any pull request should be checked with integration tests before merge.
+Integration tests execution takes time thus there's no sense to run it on every commit.
+Though we strongly recommend to check any branch before pull request with integration tests.
+[Travis-CI](https://travis-ci.com) checks all pull requests created on [GitHub](https://github.com).
 
 #### Release
 
-The profile performs next actions:
-- adds source code to distribution;
-- adds java docs to distribution;
-- adds GPG sign to distribution.
+The profile performs next additional actions:
+- Adds source code to distribution;
+- Adds java docs to distribution;
+- Adds GPG sign to distribution;
+- Publish database maven plugin to [Nexus Repository Manager](https://oss.sonatype.org/).
+
+## Deploy to Nexus Repository
+
+Database maven plugin publishing to Nexus Repository goes automatically with next command:
+```bash
+mvn clean deploy -P integration-tests,release
+```
+Snapshot and release versions available for publishing.
+
+## Deploy to Maven Central Repository
+
+At the moment database maven plugin publishing to [Maven Repository](https://mvnrepository.com) goes in manual mode on Nexus Repository Manager web site.
+Only release versions available for publishing.
