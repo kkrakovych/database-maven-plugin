@@ -2,12 +2,12 @@
 
 Integration tests control database migration scripts generation.
 
-## Common
+## Common Tests
 
 1. `common-01` - Incomplete configuration.
 2. `common-02` - Incomplete configuration.
 
-## Oracle
+## Oracle Tests
 
  1. `oracle-01` - Incomplete configuration.
  2. `oracle-02` - Incomplete configuration.
@@ -29,11 +29,13 @@ Integration tests control database migration scripts generation.
 18. `oracle-18` - Checks ignore define symbol.
 19. `oracle-19` - Checks custom file mask.
 
-1. `oracle-a` - Complex database with two schemes.
-2. `oracle-b` - Simple database with one schema. All source code in main directory.
-3. `oracle-c` - Simple database with scripts only.
+#### Legacy Tests
 
-## PostgreSQL
+A. `oracle-a` - Complex database with two schemes.
+B. `oracle-b` - Simple database with one schema. All source code in main directory.
+C. `oracle-c` - Simple database with scripts only.
+
+## PostgreSQL Tests
 
  1. `postgresql-01` - Incomplete configuration.
  2. `postgresql-02` - Incomplete configuration.
