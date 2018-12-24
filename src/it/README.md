@@ -55,5 +55,5 @@ C. `oracle-c` - Simple database with scripts only.
 16. `postgresql-16` - Checks custom indexing.
 17. `postgresql-17` - Checks custom database, and schemes names.
 18. `postgresql-18` - Checks custom source directories for database, schemes, objects, and scripts.
-19. TODO: Checks ignore directory.
+19. `postgresql-19` - Checks ignore directory.
 20. `postgresql-20` - Checks custom file mask.
