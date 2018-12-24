@@ -189,8 +189,8 @@ Other depends on database type.
 | `index`           | Scripts' index (integer). Affects scripts processing order. It should be either set for every `script` and unique within script `type` or missing. If it is missing for every `script`, natural order of scripts in configuration will be used. |
 | `sourceDirectory` | Source directory for all scripts. By default scripts' type have next associated directories: `ONE_TIME` - `script_one_time` and `REUSABLE` - `script_reusable`. |
 | `ignoreDirectory` | If `true` source directory will be ignored. By default set as `false`. |
-| `defineSymbol`    | Define symbol for variable substitution. By default takes value set for schema. |
-| `ignoreDefine`    | If `true` variable substitution will be disabled. By default takes value set for schema. |
+| `defineSymbol`    | The option is not supported for scripts. |
+| `ignoreDefine`    | The option is not supported for scripts. |
 | `fileMask`        | File mask for objects. By default set as `*.sql`. |
 
 #### PostgreSQL database configuration section
