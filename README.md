@@ -150,8 +150,8 @@ Other depends on database type.
 | `name`            | Database name. By default set as `database`. |
 | `sourceDirectory` | Source directory for all database's objects. By default database name is used as source directory. |
 | `ignoreDirectory` | If `true` source directory will be ignored. By default set as `false`. |
-| `defineSymbol`    | Define symbol for variable substitution. By default set as `&`. |
-| `ignoreDefine`    | If `true` variable substitution will be disabled. By default set as `true`. |
+| `defineSymbol`    | Define symbol for variable substitution. By default set as `&`. The option affects all sub objects recursively. |
+| `ignoreDefine`    | If `true` variable substitution will be disabled. By default set as `true`. The option affects all sub objects recursively. |
 | `schemes`         | List of database's schemes for deploy. |
 
 ###### `schemes` Tag

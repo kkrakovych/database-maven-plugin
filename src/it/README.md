@@ -26,7 +26,7 @@ Integration tests control database migration scripts generation.
 15. `oracle-15` - Checks custom source directories for database, schemes, objects, and scripts.
 16. `oracle-16` - Checks ignore directory.
 17. `oracle-17` - Checks custom define symbol.
-18. TODO: Checks ignore define symbol.
+18. `oracle-18` - Checks ignore define symbol.
 19. TODO: Checks custom file mask.
 
 1. `oracle-a` - Complex database with two schemes.
