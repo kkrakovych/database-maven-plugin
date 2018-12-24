@@ -16,3 +16,17 @@ git config --global core.autocrlf false
 git config --global core.eol lf
 ```
 3. Clone repository from git to local folder.
+
+## Profiles
+
+#### Integration-Tests
+
+The profile runs integration tests.
+Any pull request should be checked with integration tests before merge.
+
+#### Release
+
+The profile performs next actions:
+- adds source code to distribution;
+- adds java docs to distribution;
+- adds GPG sign to distribution.
