@@ -25,7 +25,7 @@ The profile runs integration tests.
 Integration tests execution takes time thus there's no sense to run it on every commit.
 Though we strongly recommend to check any branch before pull request with integration tests.
 [Travis-CI](https://travis-ci.com) automatically checks all branches and pull requests created on [GitHub](https://github.com) for the project.
-Checks run on OSX, Linux and Windows OS.
+Checks run on Linux and OSX.
 
 #### Release
 
