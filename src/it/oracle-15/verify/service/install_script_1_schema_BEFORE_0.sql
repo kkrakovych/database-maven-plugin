@@ -1,0 +1,7 @@
+prompt Execute REUSABLE scripts with BEFORE condition.
+prompt Execute /database_directory/schema_directory_second/script_directory_first/dummy_s2_reusable_before_a.sql
+@./database_directory/schema_directory_second/script_directory_first/dummy_s2_reusable_before_a.sql
+prompt Execute /database_directory/schema_directory_second/script_directory_first/dummy_s2_reusable_before_b.sql
+@./database_directory/schema_directory_second/script_directory_first/dummy_s2_reusable_before_b.sql
+prompt Execute /database_directory/schema_directory_second/script_directory_first/dummy_s2_reusable_before_c.sql
+@./database_directory/schema_directory_second/script_directory_first/dummy_s2_reusable_before_c.sql

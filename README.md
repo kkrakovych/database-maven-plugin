@@ -1,5 +1,7 @@
 # Database Maven Plugin
 
+[![Build Status](https://travis-ci.com/kkrakovych/database-maven-plugin.svg?branch=develop)](https://travis-ci.com/kkrakovych/database-maven-plugin)
+
 ## Main Idea of the Plugin
 
 The plugin creates database migration scripts to update databases from version to version.
@@ -150,8 +152,8 @@ Other depends on database type.
 | `name`            | Database name. By default set as `database`. |
 | `sourceDirectory` | Source directory for all database's objects. By default database name is used as source directory. |
 | `ignoreDirectory` | If `true` source directory will be ignored. By default set as `false`. |
-| `defineSymbol`    | Define symbol for variable substitution. By default set as `&`. |
-| `ignoreDefine`    | If `true` variable substitution will be disabled. By default set as `true`. |
+| `defineSymbol`    | Define symbol for variable substitution. By default set as `&`. The option affects all sub objects recursively. |
+| `ignoreDefine`    | If `true` variable substitution will be disabled. By default set as `true`. The option affects all sub objects recursively. |
 | `schemes`         | List of database's schemes for deploy. |
 
 ###### `schemes` Tag
@@ -189,8 +191,8 @@ Other depends on database type.
 | `index`           | Scripts' index (integer). Affects scripts processing order. It should be either set for every `script` and unique within script `type` or missing. If it is missing for every `script`, natural order of scripts in configuration will be used. |
 | `sourceDirectory` | Source directory for all scripts. By default scripts' type have next associated directories: `ONE_TIME` - `script_one_time` and `REUSABLE` - `script_reusable`. |
 | `ignoreDirectory` | If `true` source directory will be ignored. By default set as `false`. |
-| `defineSymbol`    | Define symbol for variable substitution. By default takes value set for schema. |
-| `ignoreDefine`    | If `true` variable substitution will be disabled. By default takes value set for schema. |
+| `defineSymbol`    | The option is not supported for scripts. |
+| `ignoreDefine`    | The option is not supported for scripts. |
 | `fileMask`        | File mask for objects. By default set as `*.sql`. |
 
 #### PostgreSQL database configuration section

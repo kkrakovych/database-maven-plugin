@@ -159,63 +159,63 @@ file = "sqlplus_setup.sql"
 checkFile(target_service + file, verify_service + file, 0)
 
 directory = target + "database" + sep + "schema" + sep + "functions" + sep
-checkExist(directory + "dummy_a.sql")
-checkExist(directory + "dummy_b.sql")
-checkExist(directory + "dummy_c.sql")
+checkExist(directory + "dummy_function_a.sql")
+checkExist(directory + "dummy_function_b.sql")
+checkExist(directory + "dummy_function_c.sql")
 
 directory = target + "database" + sep + "schema" + sep + "package_bodies" + sep
-checkExist(directory + "dummy_a.sql")
-checkExist(directory + "dummy_b.sql")
-checkExist(directory + "dummy_c.sql")
+checkExist(directory + "dummy_package_body_a.sql")
+checkExist(directory + "dummy_package_body_b.sql")
+checkExist(directory + "dummy_package_body_c.sql")
 
 directory = target + "database" + sep + "schema" + sep + "package_specs" + sep
-checkExist(directory + "dummy_a.sql")
-checkExist(directory + "dummy_b.sql")
-checkExist(directory + "dummy_c.sql")
+checkExist(directory + "dummy_package_spec_a.sql")
+checkExist(directory + "dummy_package_spec_b.sql")
+checkExist(directory + "dummy_package_spec_c.sql")
 
 directory = target + "database" + sep + "schema" + sep + "procedures" + sep
-checkExist(directory + "dummy_a.sql")
-checkExist(directory + "dummy_b.sql")
-checkExist(directory + "dummy_c.sql")
+checkExist(directory + "dummy_procedure_a.sql")
+checkExist(directory + "dummy_procedure_b.sql")
+checkExist(directory + "dummy_procedure_c.sql")
 
 directory = target + "database" + sep + "schema" + sep + "script_one_time_after" + sep
-checkExist(directory + "dummy_a.sql")
-checkExist(directory + "dummy_b.sql")
-checkExist(directory + "dummy_c.sql")
+checkExist(directory + "dummy_one_time_after_a.sql")
+checkExist(directory + "dummy_one_time_after_b.sql")
+checkExist(directory + "dummy_one_time_after_c.sql")
 
 directory = target + "database" + sep + "schema" + sep + "script_one_time_before" + sep
-checkExist(directory + "dummy_a.sql")
-checkExist(directory + "dummy_b.sql")
-checkExist(directory + "dummy_c.sql")
+checkExist(directory + "dummy_one_time_before_a.sql")
+checkExist(directory + "dummy_one_time_before_b.sql")
+checkExist(directory + "dummy_one_time_before_c.sql")
 
 directory = target + "database" + sep + "schema" + sep + "script_reusable_after" + sep
-checkExist(directory + "dummy_a.sql")
-checkExist(directory + "dummy_b.sql")
-checkExist(directory + "dummy_c.sql")
+checkExist(directory + "dummy_reusable_after_a.sql")
+checkExist(directory + "dummy_reusable_after_b.sql")
+checkExist(directory + "dummy_reusable_after_c.sql")
 
 directory = target + "database" + sep + "schema" + sep + "script_reusable_before" + sep
-checkExist(directory + "dummy_a.sql")
-checkExist(directory + "dummy_b.sql")
-checkExist(directory + "dummy_c.sql")
+checkExist(directory + "dummy_reusable_before_a.sql")
+checkExist(directory + "dummy_reusable_before_b.sql")
+checkExist(directory + "dummy_reusable_before_c.sql")
 
 directory = target + "database" + sep + "schema" + sep + "triggers" + sep
-checkExist(directory + "dummy_a.sql")
-checkExist(directory + "dummy_b.sql")
-checkExist(directory + "dummy_c.sql")
+checkExist(directory + "dummy_trigger_a.sql")
+checkExist(directory + "dummy_trigger_b.sql")
+checkExist(directory + "dummy_trigger_c.sql")
 
 directory = target + "database" + sep + "schema" + sep + "type_bodies" + sep
-checkExist(directory + "dummy_a.sql")
-checkExist(directory + "dummy_b.sql")
-checkExist(directory + "dummy_c.sql")
+checkExist(directory + "dummy_type_body_a.sql")
+checkExist(directory + "dummy_type_body_b.sql")
+checkExist(directory + "dummy_type_body_c.sql")
 
 directory = target + "database" + sep + "schema" + sep + "type_specs" + sep
-checkExist(directory + "dummy_a.sql")
-checkExist(directory + "dummy_b.sql")
-checkExist(directory + "dummy_c.sql")
+checkExist(directory + "dummy_type_spec_a.sql")
+checkExist(directory + "dummy_type_spec_b.sql")
+checkExist(directory + "dummy_type_spec_c.sql")
 
 directory = target + "database" + sep + "schema" + sep + "views" + sep
-checkExist(directory + "dummy_a.sql")
-checkExist(directory + "dummy_b.sql")
-checkExist(directory + "dummy_c.sql")
+checkExist(directory + "dummy_view_a.sql")
+checkExist(directory + "dummy_view_b.sql")
+checkExist(directory + "dummy_view_c.sql")
 
 assert true

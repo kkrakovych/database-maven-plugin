@@ -1,0 +1,7 @@
+prompt Execute REUSABLE scripts with AFTER condition.
+prompt Execute /database_directory/schema_directory_second/script_directory_second/dummy_s2_reusable_after_a.sql
+@./database_directory/schema_directory_second/script_directory_second/dummy_s2_reusable_after_a.sql
+prompt Execute /database_directory/schema_directory_second/script_directory_second/dummy_s2_reusable_after_b.sql
+@./database_directory/schema_directory_second/script_directory_second/dummy_s2_reusable_after_b.sql
+prompt Execute /database_directory/schema_directory_second/script_directory_second/dummy_s2_reusable_after_c.sql
+@./database_directory/schema_directory_second/script_directory_second/dummy_s2_reusable_after_c.sql

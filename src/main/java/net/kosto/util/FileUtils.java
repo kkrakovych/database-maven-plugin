@@ -38,8 +38,6 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-import javax.xml.bind.DatatypeConverter;
-
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
@@ -173,7 +171,7 @@ public final class FileUtils {
     try {
       final byte[] bytes = Files.readAllBytes(file);
       final byte[] hash = MessageDigest.getInstance(MD5).digest(bytes);
-      result = DatatypeConverter.printHexBinary(hash);
+      result = ByteUtils.printHexBinary(hash);
     } catch (IOException | NoSuchAlgorithmException x) {
       throw new MojoExecutionException(FAILED_CALCULATE_CHECKSUM, x);
     }

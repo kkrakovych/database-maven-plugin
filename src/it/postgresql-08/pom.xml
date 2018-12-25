@@ -23,7 +23,6 @@
 
   <groupId>net.test</groupId>
   <artifactId>postgresql</artifactId>
-  <name>postgresql-08</name>
   <version>test</version>
 
   <properties>

@@ -19,6 +19,9 @@
       </value>
     </option>
   </JavaCodeStyleSettings>
+  <XML>
+    <option name="XML_KEEP_BLANK_LINES" value="1" />
+  </XML>
   <codeStyleSettings language="JAVA">
     <option name="KEEP_BLANK_LINES_IN_DECLARATIONS" value="1" />
     <option name="KEEP_BLANK_LINES_IN_CODE" value="1" />

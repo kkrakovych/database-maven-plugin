@@ -1,7 +1,7 @@
 set define '&'
-prompt Execute /database/schema/type_specs/dummy_a.sql
-@./database/schema/type_specs/dummy_a.sql
-prompt Execute /database/schema/type_specs/dummy_b.sql
-@./database/schema/type_specs/dummy_b.sql
-prompt Execute /database/schema/type_specs/dummy_c.sql
-@./database/schema/type_specs/dummy_c.sql
+prompt Execute /database/schema/type_specs/dummy_type_spec_a.sql
+@./database/schema/type_specs/dummy_type_spec_a.sql
+prompt Execute /database/schema/type_specs/dummy_type_spec_b.sql
+@./database/schema/type_specs/dummy_type_spec_b.sql
+prompt Execute /database/schema/type_specs/dummy_type_spec_c.sql
+@./database/schema/type_specs/dummy_type_spec_c.sql

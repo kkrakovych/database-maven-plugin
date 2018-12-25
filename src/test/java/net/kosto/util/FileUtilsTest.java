@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -93,7 +92,7 @@ class FileUtilsTest {
 
   @Test
   @DisplayName("File Checksum.")
-  void test03() throws IOException, MojoExecutionException, NoSuchAlgorithmException {
+  void test03() throws MojoExecutionException, IOException {
     List<String> data = Arrays.asList("Some text", "Additional text", "One more time");
     file = Paths.get("test-file-md5-checksum");
     FileUtils.writeFileSourceCode(file, data);

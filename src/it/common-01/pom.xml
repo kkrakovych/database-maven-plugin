@@ -23,7 +23,6 @@
 
   <groupId>net.test</groupId>
   <artifactId>common</artifactId>
-  <name>common-01</name>
   <version>test</version>
 
   <properties>

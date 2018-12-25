@@ -1,0 +1,6 @@
+\qecho Execute /database_directory/public_object_directory_second/dummy_sp_trigger_a.sql
+\include ./database_directory/public_object_directory_second/dummy_sp_trigger_a.sql
+\qecho Execute /database_directory/public_object_directory_second/dummy_sp_trigger_b.sql
+\include ./database_directory/public_object_directory_second/dummy_sp_trigger_b.sql
+\qecho Execute /database_directory/public_object_directory_second/dummy_sp_trigger_c.sql
+\include ./database_directory/public_object_directory_second/dummy_sp_trigger_c.sql
