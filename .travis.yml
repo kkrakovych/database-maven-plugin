@@ -1,2 +1,6 @@
 language: java
 script: mvn clean verify -P integration-tests
+os:
+  - windows
+  - linux
+  - osx

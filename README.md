@@ -1,7 +1,5 @@
 # Database Maven Plugin
 
-[![Build Status](https://travis-ci.org/travis-ci/docs-travis-ci-com.svg?branch=default)](https://travis-ci.org/travis-ci/docs-travis-ci-com)
-
 ## Main Idea of the Plugin
 
 The plugin creates database migration scripts to update databases from version to version.
