@@ -57,3 +57,17 @@ C. `oracle-c` - Simple database with scripts only.
 18. `postgresql-18` - Checks custom source directories for database, schemes, objects, and scripts.
 19. `postgresql-19` - Checks ignore directory.
 20. `postgresql-20` - Checks custom file mask.
+
+## ClickHouse Tests
+
+ 1. `clickhouse-01` - Incomplete configuration.
+ 2. `clickhouse-02` - Incomplete configuration.
+ 3. `clickhouse-03` - Incomplete configuration.
+ 4. `clickhouse-04` - Incomplete configuration.
+ 5. `clickhouse-05` - Incomplete configuration.
+ 6. `clickhouse-06` - Incomplete configuration.
+ 7. `clickhouse-07` - Incomplete configuration.
+ 8. `clickhouse-08` - Incomplete configuration.
+ 9. `clickhouse-09` - Incomplete configuration.
+10. `clickhouse-10` - Incomplete configuration.
+11. `clickhouse-11` - Incomplete configuration.

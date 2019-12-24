@@ -16,6 +16,7 @@
 
 package net.kosto.configuration;
 
+import static net.kosto.configuration.model.DatabaseType.CLICKHOUSE;
 import static net.kosto.configuration.model.DatabaseType.ORACLE;
 import static net.kosto.configuration.model.DatabaseType.POSTGRESQL;
 import static net.kosto.util.Error.UNKNOWN_DATABASE_TYPE;
@@ -29,6 +30,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 
 import net.kosto.configuration.model.DatabaseItem;
 import net.kosto.configuration.model.DatabaseType;
+import net.kosto.configuration.model.clickhouse.ClickHouseDatabase;
 import net.kosto.configuration.model.common.CommonDatabase;
 import net.kosto.configuration.model.oracle.OracleDatabase;
 import net.kosto.configuration.model.postgresql.PostgreSQLDatabase;
@@ -230,6 +232,20 @@ public final class Configuration implements Validator {
      */
     public Builder setOutputDirectory(final String outputDirectory) {
       configuration.outputDirectory = Paths.get(outputDirectory);
+      return this;
+    }
+
+    /**
+     * Sets ClickHouse database configuration.
+     *
+     * @param clickhouse ClickHouse database configuration.
+     * @return {@link Builder} instance.
+     */
+    public Builder setClickHouse(final CommonDatabase clickhouse) {
+      if (clickhouse != null && configuration.databaseType == null) {
+        configuration.databaseType = CLICKHOUSE;
+        configuration.database = new ClickHouseDatabase(clickhouse);
+      }
       return this;
     }
 

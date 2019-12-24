@@ -16,6 +16,7 @@
 
 package net.kosto.configuration;
 
+import static net.kosto.configuration.model.DatabaseType.CLICKHOUSE;
 import static net.kosto.configuration.model.DatabaseType.ORACLE;
 import static net.kosto.configuration.model.DatabaseType.POSTGRESQL;
 import static net.kosto.util.Error.UNKNOWN_DATABASE_TYPE;
@@ -63,5 +64,15 @@ class ConfigurationTest {
         .build()
         .getDatabaseType();
     assertEquals(POSTGRESQL, databaseType);
+  }
+
+  @Test
+  @DisplayName("ClickHouse - Database type.")
+  void test04() throws MojoExecutionException {
+    DatabaseType databaseType = new Configuration.Builder()
+        .setClickHouse(database)
+        .build()
+        .getDatabaseType();
+    assertEquals(CLICKHOUSE, databaseType);
   }
 }

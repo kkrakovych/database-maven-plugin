@@ -94,6 +94,11 @@ public class Package extends AbstractMojo {
    */
   @Parameter
   private CommonDatabase postgresql;
+  /**
+   * ClickHouse database configuration.
+   */
+  @Parameter
+  private CommonDatabase clickhouse;
 
   /**
    * Constructs instance and sets default values.
@@ -116,7 +121,8 @@ public class Package extends AbstractMojo {
         ", outputDirectory='" + outputDirectory + '\'' +
         ", oracle=" + oracle +
         ", postgresql=" + postgresql +
-        '}';
+        ", clickhouse=" + clickhouse +
+        "} " + super.toString();
   }
 
   /**
@@ -136,6 +142,7 @@ public class Package extends AbstractMojo {
         .setOutputDirectory(outputDirectory)
         .setOracle(oracle)
         .setPostgresql(postgresql)
+        .setClickHouse(clickhouse)
         .build();
     configuration.validate();
 
