@@ -17,6 +17,7 @@
 package net.kosto.service.processor;
 
 import static net.kosto.Package.SERVICE_DIRECTORY;
+import static net.kosto.util.FileUtils.FILE_MASK_SH;
 import static net.kosto.util.FileUtils.FILE_MASK_SQL;
 import static net.kosto.util.StringUtils.CLICKHOUSE;
 import static net.kosto.util.StringUtils.COMMON;
@@ -57,6 +58,7 @@ public class ClickHouseProcessor extends AbstractProcessor {
 
   @Override
   protected void processServiceScripts() throws MojoExecutionException {
+    processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SH, CLICKHOUSE, SERVICE_DIRECTORY, COMMON));
     processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, CLICKHOUSE, SERVICE_DIRECTORY, COMMON));
   }
 

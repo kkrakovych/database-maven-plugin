@@ -68,6 +68,12 @@ public final class FileUtils {
    */
   public static final String FILE_MASK_SQL = "*.sql";
   /**
+   * Default file mask for files with commands for unix shell.
+   *
+   * @see <a href="https://en.wikipedia.org/wiki/Unix_shell>Unix shell</a>
+   */
+  public static final String FILE_MASK_SH = "*.sh";
+  /**
    * {@code MD5} message-digest algorithm.
    *
    * @see <a href="https://en.wikipedia.org/wiki/MD5">MD5</a>
