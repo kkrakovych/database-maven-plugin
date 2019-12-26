@@ -13,34 +13,31 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-\qecho Start deploy version.
-start transaction;
-do $$
-declare
-   c_no            constant varchar(1)  := 'N';
-   c_yes           constant varchar(1)  := 'Y';
-   c_not_completed constant varchar(13) := 'NOT COMPLETED';
-   c_date_format   constant varchar(21) := 'YYYY-MM-DD HH24:MI:SS';
-begin
-   update deploy$version
-      set is_current = c_no
-    where is_current = c_yes;
-   insert
-     into deploy$version
-        ( build_version
-        , build_timestamp
-        , deploy_start_timestamp
-        , deploy_finish_timestamp
-        , deploy_status
-        , is_current
-        )
-   values
-        ( '${buildVersion}'
-        , to_timestamp('${buildTimestamp}', c_date_format)
-        , current_timestamp
-        , null
-        , c_not_completed
-        , c_yes
-        );
-end$$;
-commit;
+insert into deploy_version
+     ( sys_timestamp
+     , build_version
+     , build_timestamp
+     , deploy_start_timestamp
+     , deploy_finish_timestamp
+     , deploy_status
+     , is_current
+     )
+select now()
+     , build_version
+     , build_timestamp
+     , deploy_start_timestamp
+     , deploy_finish_timestamp
+     , deploy_status
+     , 'N'
+  from deploy_version final
+ where is_current = 'Y';
+insert into deploy_version
+     ( sys_timestamp
+     , build_version
+     , build_timestamp
+     , deploy_start_timestamp
+     , deploy_finish_timestamp
+     , deploy_status
+     , is_current
+     )
+values (now(), '${buildVersion}', toDateTime('${buildTimestamp}'), now(), null, 'NOT COMPLETED', 'Y');

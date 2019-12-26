@@ -14,7 +14,7 @@
  #-- See the License for the specific language governing permissions and
  #-- limitations under the License.
  #-->
-# Make all shell scripts executable
+# Recursively make call shell scripts executable
 # find . -type f -iname "*.sh" -exec chmod +x {} \;
 
 # Deploy Source File for variables' data exchnage
@@ -27,7 +27,7 @@ export DEPLOY_SOURCE_FILE_NAME
 #./${serviceDirectory}/clickhouse_client_setup.sh
 ./${serviceDirectory}/log_start.sh
 source ${r"${DEPLOY_SOURCE_FILE_NAME}"}
-./${serviceDirectory}/deploy_information.sh | tee ${r"${DEPLOY_LOG_FILE_NAME}"}
-#./${serviceDirectory}/install_database_${database.name}.sql | tee ${r"${DEPLOY_LOG_FILE_NAME}"}
-./${serviceDirectory}/log_finish.sh         | tee ${r"${DEPLOY_LOG_FILE_NAME}"}
+./${serviceDirectory}/deploy_information.sh                | tee -a ${r"${DEPLOY_LOG_FILE_NAME}"}
+./${serviceDirectory}/install_database_${database.name}.sh | tee -a ${r"${DEPLOY_LOG_FILE_NAME}"}
+./${serviceDirectory}/log_finish.sh                        | tee -a ${r"${DEPLOY_LOG_FILE_NAME}"}
 exit 0

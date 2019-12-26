@@ -13,7 +13,7 @@
  #-- See the License for the specific language governing permissions and
  #-- limitations under the License.
  #-->
-DEPLOY_START_TIMESTAMP=`clickhouse-client -q "select toYYYYMMDDhhmmss(now())"`
+DEPLOY_START_TIMESTAMP=`./${serviceDirectory}/run_query.sh "select toYYYYMMDDhhmmss(now())"`
 <#if logFileName??>
 DEPLOY_LOG_FILE_NAME=${logFileName}
 <#else>

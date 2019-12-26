@@ -16,11 +16,14 @@
 echo
 echo === Deploy Database [${database.name}]
 echo
-\include ./${serviceDirectory}/check_service_tables.sql
-\include ./${serviceDirectory}/deploy_start.sql
+echo Check service tables.
+./${serviceDirectory}/run_file.sh ./${serviceDirectory}/check_service_tables.sql
+echo Start deploy version.
+./${serviceDirectory}/run_file.sh ./${serviceDirectory}/deploy_start.sql
 <#if database.schemes??>
   <#list database.schemes as schema>
-\include ./${serviceDirectory}/install_schema_${schema.index}_${schema.name}.sql
+#./${serviceDirectory}/install_schema_${schema.index}_${schema.name}.sql
   </#list>
 </#if>
-\include ./${serviceDirectory}/deploy_finish.sql
+echo Finish deploy version.
+./${serviceDirectory}/run_file.sh ./${serviceDirectory}/deploy_finish.sql

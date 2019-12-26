@@ -22,6 +22,6 @@ echo Build timestamp: ${buildTimestamp}
 <#if database.schemes??>
 echo List of schemes:
   <#list database.schemes as schema>
-echo * ${schema.name}
+echo "* ${schema.name}"
   </#list>
 </#if>
