@@ -1,4 +1,3 @@
-#!/bin/bash
 <#--
  #-- Copyright 2019 Kostyantyn Krakovych
  #--
@@ -14,7 +13,11 @@
  #-- See the License for the specific language governing permissions and
  #-- limitations under the License.
  #-->
-echo
-echo === DATABASE-MAVEN-PLUGIN
-echo PostgreSQL database [${database.name}] version [${buildVersion}] created at [${buildTimestamp}]
-echo
+DEPLOY_START_TIMESTAMP=`clickhouse-client -q "select toYYYYMMDDhhmmss(now())"`
+<#if logFileName??>
+DEPLOY_LOG_FILE_NAME=${logFileName}
+<#else>
+DEPLOY_LOG_FILE_NAME=install_${database.name}_${buildVersion}_${r"${DEPLOY_START_TIMESTAMP}"}.log
+</#if>
+echo export DEPLOY_START_TIMESTAMP=${r"${DEPLOY_START_TIMESTAMP}"} >> ${r"${DEPLOY_SOURCE_FILE_NAME}"}
+echo export DEPLOY_LOG_FILE_NAME=${r"${DEPLOY_LOG_FILE_NAME}"}     >> ${r"${DEPLOY_SOURCE_FILE_NAME}"}

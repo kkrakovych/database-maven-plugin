@@ -53,18 +53,17 @@ public class ClickHouseProcessor extends AbstractProcessor {
   @Override
   protected void processInstallScripts() throws MojoExecutionException {
     final Path directory = FileUtils.createDirectories(getConfiguration().getOutputDirectory());
-    processTemplateFiles(directory, ResourceUtils.getFiles(FILE_MASK_SQL, CLICKHOUSE));
+    processTemplateFiles(directory, ResourceUtils.getFiles(FILE_MASK_SH, CLICKHOUSE));
   }
 
   @Override
   protected void processServiceScripts() throws MojoExecutionException {
     processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SH, CLICKHOUSE, SERVICE_DIRECTORY, COMMON));
-    processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, CLICKHOUSE, SERVICE_DIRECTORY, COMMON));
   }
 
   @Override
   protected void processDatabase() throws MojoExecutionException {
-    processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, CLICKHOUSE, SERVICE_DIRECTORY, DATABASE));
+    processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SH, CLICKHOUSE, SERVICE_DIRECTORY, DATABASE));
 
     processSchemes();
   }

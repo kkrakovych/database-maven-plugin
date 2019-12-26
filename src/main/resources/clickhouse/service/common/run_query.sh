@@ -14,7 +14,10 @@
  #-- See the License for the specific language governing permissions and
  #-- limitations under the License.
  #-->
-echo
-echo === DATABASE-MAVEN-PLUGIN
-echo PostgreSQL database [${database.name}] version [${buildVersion}] created at [${buildTimestamp}]
-echo
+# ClickHouse client option description:
+# --multiline,  -m – If specified, allow multiline queries (do not send the query on Enter).
+# --multiquery, -n – If specified, allow processing multiple queries separated by commas.
+#                    Only works in non-interactive mode.
+# --time,       -t – If specified, print the query execution time to 'stderr' in non-interactive mode.
+# --query,      -q – The query to process when using non-interactive mode.
+clickhouse-client -q "$1"

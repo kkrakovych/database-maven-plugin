@@ -1,4 +1,3 @@
-#!/bin/bash
 <#--
  #-- Copyright 2019 Kostyantyn Krakovych
  #--
@@ -15,6 +14,14 @@
  #-- limitations under the License.
  #-->
 echo
-echo === DATABASE-MAVEN-PLUGIN
-echo PostgreSQL database [${database.name}] version [${buildVersion}] created at [${buildTimestamp}]
+echo === Deploy Information
 echo
+echo Database         ${database.name}
+echo Build version:   ${buildVersion}
+echo Build timestamp: ${buildTimestamp}
+<#if database.schemes??>
+echo List of schemes:
+  <#list database.schemes as schema>
+echo * ${schema.name}
+  </#list>
+</#if>
