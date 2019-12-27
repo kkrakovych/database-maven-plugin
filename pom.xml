@@ -56,18 +56,18 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
 
-    <freemarker.version>2.3.28</freemarker.version>
-    <junit.jupiter.version>5.3.2</junit.jupiter.version>
-    <mockito.version>2.23.4</mockito.version>
+    <freemarker.version>2.3.29</freemarker.version>
+    <junit.jupiter.version>5.5.2</junit.jupiter.version>
+    <mockito.version>3.2.4</mockito.version>
 
-    <maven-plugin-api.version>3.5.4</maven-plugin-api.version>
-    <maven-plugin-annotations.version>3.5.2</maven-plugin-annotations.version>
+    <maven-plugin-api.version>3.6.3</maven-plugin-api.version>
+    <maven-plugin-annotations.version>3.6.0</maven-plugin-annotations.version>
     <maven-plugin-plugin.version>3.5.2</maven-plugin-plugin.version>
-    <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
-    <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
+    <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+    <maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
     <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
-    <maven-invoker-plugin.version>3.1.0</maven-invoker-plugin.version>
-    <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
+    <maven-invoker-plugin.version>3.2.1</maven-invoker-plugin.version>
+    <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
     <check-sources.spotbugs-maven-plugin.version>3.1.6</check-sources.spotbugs-maven-plugin.version>
     <check-sources.fb-contrib.version>7.4.3.sb</check-sources.fb-contrib.version>
   </properties>
