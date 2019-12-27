@@ -16,15 +16,14 @@
  #-->
 source ./${serviceDirectory}/source.sh
 
-DEPLOY_EXECUTE_BEFORE=$(./${serviceDirectory}/run_query.sh "select case when executed > 0 then './${serviceDirectory}/one_time_do_nothing.sql' when executed = 0 then './${serviceDirectory}/one_time_do_before.sql' end execute_before from (select count(1) executed, coalesce(sum(case when s.script_checksum = '${r"${DEPLOY_SCRIPT_CHECKSUM}"}' then 1 else 0 end), 0) checksum from deploy_scripts s where s.script_directory = '${r"${DEPLOY_SCRIPT_DIRECTORY}"}' and s.script_name = '${r"${DEPLOY_SCRIPT_NAME}"}' and s.deploy_status = 'COMPLETED')")
+DEPLOY_EXECUTE_BEFORE=$(./${serviceDirectory}/run_query.sh "select case when executed > 0 then './${serviceDirectory}/one_time_do_nothing.sh' when executed = 0 then './${serviceDirectory}/one_time_do_before.sh' end execute_before from (select count(1) executed, coalesce(sum(case when s.script_checksum = '${r"${DEPLOY_SCRIPT_CHECKSUM}"}' then 1 else 0 end), 0) checksum from deploy_scripts s where s.script_directory = '${r"${DEPLOY_SCRIPT_DIRECTORY}"}' and s.script_name = '${r"${DEPLOY_SCRIPT_NAME}"}' and s.deploy_status = 'COMPLETED')")
 DEPLOY_EXECUTE_SCRIPT=$(./${serviceDirectory}/run_query.sh "select case when executed > 0 and checksum > 0 then './${serviceDirectory}/one_time_do_success.sh' when executed > 0 and checksum = 0 then './${serviceDirectory}/one_time_do_checksum.sh' when executed = 0 and checksum = 0 then '${r"${DEPLOY_SCRIPT_NAME_FULL}"}' end execute_script from (select count(1) executed, coalesce(sum(case when s.script_checksum = '${r"${DEPLOY_SCRIPT_CHECKSUM}"}' then 1 else 0 end), 0) checksum from deploy_scripts s where s.script_directory = '${r"${DEPLOY_SCRIPT_DIRECTORY}"}' and s.script_name = '${r"${DEPLOY_SCRIPT_NAME}"}' and s.deploy_status = 'COMPLETED')")
-DEPLOY_EXECUTE_AFTER=$(./${serviceDirectory}/run_query.sh "select case when executed > 0 then './${serviceDirectory}/one_time_do_nothing.sql' when executed = 0 then './${serviceDirectory}/one_time_do_after.sql' end execute_after from (select count(1) executed, coalesce(sum(case when s.script_checksum = '${r"${DEPLOY_SCRIPT_CHECKSUM}"}' then 1 else 0 end), 0) checksum from deploy_scripts s where s.script_directory = '${r"${DEPLOY_SCRIPT_DIRECTORY}"}' and s.script_name = '${r"${DEPLOY_SCRIPT_NAME}"}' and s.deploy_status = 'COMPLETED')")
-./${serviceDirectory}/run_file.sh "${r"${DEPLOY_EXECUTE_BEFORE}"}"
-if [ "${r"${DEPLOY_SCRIPT_NAME_FULL}"}" -eq "${r"${DEPLOY_EXECUTE_SCRIPT}"}" ]
+DEPLOY_EXECUTE_AFTER=$(./${serviceDirectory}/run_query.sh "select case when executed > 0 then './${serviceDirectory}/one_time_do_nothing.sh' when executed = 0 then './${serviceDirectory}/one_time_do_after.sh' end execute_after from (select count(1) executed, coalesce(sum(case when s.script_checksum = '${r"${DEPLOY_SCRIPT_CHECKSUM}"}' then 1 else 0 end), 0) checksum from deploy_scripts s where s.script_directory = '${r"${DEPLOY_SCRIPT_DIRECTORY}"}' and s.script_name = '${r"${DEPLOY_SCRIPT_NAME}"}' and s.deploy_status = 'COMPLETED')")
+"${r"${DEPLOY_EXECUTE_BEFORE}"}"
+if [ "${r"${DEPLOY_SCRIPT_NAME_FULL}"}" == "${r"${DEPLOY_EXECUTE_SCRIPT}"}" ]
 then
   ./${serviceDirectory}/run_file.sh "${r"${DEPLOY_EXECUTE_SCRIPT}"}"
-  echo "[SUCCESS] - Script ${r"${DEPLOY_SCRIPT_NAME}"} was applied."
 else
-  ./"${r"${DEPLOY_EXECUTE_SCRIPT}"}"
+  "${r"${DEPLOY_EXECUTE_SCRIPT}"}"
 fi
-./${serviceDirectory}/run_file.sh "${r"${DEPLOY_EXECUTE_AFTER}"}"
+"${r"${DEPLOY_EXECUTE_AFTER}"}"

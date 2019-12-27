@@ -26,7 +26,6 @@ chmod +x "${r"${DEPLOY_SOURCE_FILE_NAME}"}"
 export DEPLOY_SOURCE_FILE_NAME
 
 ./${serviceDirectory}/script_information.sh
-#./${serviceDirectory}/clickhouse_client_setup.sh
 ./${serviceDirectory}/log_start.sh
 source ./"${r"${DEPLOY_SOURCE_FILE_NAME}"}"
 ./${serviceDirectory}/deploy_information.sh | tee -a "${r"${DEPLOY_LOG_FILE_NAME}"}"

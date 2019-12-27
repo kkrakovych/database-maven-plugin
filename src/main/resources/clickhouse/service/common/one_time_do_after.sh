@@ -16,11 +16,5 @@
  #-->
 source ./${serviceDirectory}/source.sh
 
-# ClickHouse client option description:
-# --multiline,  -m – If specified, allow multiline queries (do not send the query on Enter).
-# --multiquery, -n – If specified, allow processing multiple queries separated by commas.
-#                    Only works in non-interactive mode.
-# --time,       -t – If specified, print the query execution time to 'stderr' in non-interactive mode.
-# --query,      -q – The query to process when using non-interactive mode.
-clickhouse-client -q "$1"
-exit_handler
+./${serviceDirectory}/run_query.sh "insert into deploy_scripts (sys_timestamp, build_version, build_timestamp, script_directory, script_name, script_checksum, script_start_timestamp, script_finish_timestamp, deploy_status) select now(), build_version, build_timestamp, script_directory, script_name, script_checksum, script_start_timestamp, now(), 'COMPLETED' from deploy_scripts final where build_version = '${buildVersion}' and build_timestamp = toDateTime('${buildTimestamp}') and script_name = '${r"${DEPLOY_SCRIPT_NAME}"}' and script_directory = '${r"${DEPLOY_SCRIPT_DIRECTORY}"}'"
+echo "[SUCCESS] - Script ${r"${DEPLOY_SCRIPT_NAME}"} was applied."

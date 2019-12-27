@@ -37,4 +37,4 @@ create table if not exists deploy_scripts
     script_finish_timestamp Nullable(DateTime),
     deploy_status           String
 ) engine = ReplacingMergeTree(sys_timestamp)
-      order by (script_directory, script_name, build_version, build_timestamp);
+      order by (script_directory, script_name, build_version, build_timestamp, script_start_timestamp);
