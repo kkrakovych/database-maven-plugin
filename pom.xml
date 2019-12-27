@@ -180,6 +180,8 @@
             <artifactId>maven-invoker-plugin</artifactId>
             <version>${maven-invoker-plugin.version}</version>
             <configuration>
+              <!-- The option is disabled, it's required for development and testing. -->
+              <!--projectsDirectory>src/it-new</projectsDirectory-->
               <localRepositoryPath>${project.build.directory}/.m2</localRepositoryPath>
               <postBuildHookScript>verify.groovy</postBuildHookScript>
             </configuration>
