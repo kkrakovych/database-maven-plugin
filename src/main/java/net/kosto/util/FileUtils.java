@@ -70,7 +70,7 @@ public final class FileUtils {
   /**
    * Default file mask for files with commands for unix shell.
    *
-   * @see <a href="https://en.wikipedia.org/wiki/Unix_shell>Unix shell</a>
+   * @see <a href="https://en.wikipedia.org/wiki/Unix_shell">Unix shell</a>
    */
   public static final String FILE_MASK_SH = "*.sh";
   /**
