@@ -31,7 +31,9 @@ import static net.kosto.util.StringUtils.SCRIPT;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.PosixFilePermission;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.maven.plugin.MojoExecutionException;
 
@@ -48,6 +50,7 @@ import net.kosto.util.ResourceUtils;
 public abstract class AbstractProcessor implements Processor {
 
   public static final String FAILED_COPY_FILE = "Failed to copy source file.";
+  public static final String FAILED_SET_EXECUTABLE = "Failed to set file as executable.";
 
   /**
    * Database configuration.
@@ -118,6 +121,22 @@ public abstract class AbstractProcessor implements Processor {
       final String fileName = templateService.process(file.getFileName().toString());
       final Path output = directory.resolve(fileName);
       templateService.process(file, output);
+
+      // It's required for ClickHouse data processing
+      // It does not look as a good approach
+      // Make sense to review it in future
+      if (fileName.endsWith(".sh")) {
+        try {
+          Set<PosixFilePermission> perms = Files.getPosixFilePermissions(output);
+          perms.add(PosixFilePermission.OWNER_EXECUTE);
+          perms.add(PosixFilePermission.GROUP_EXECUTE);
+          perms.add(PosixFilePermission.OTHERS_EXECUTE);
+          Files.setPosixFilePermissions(output, perms);
+        } catch (IOException x) {
+          throw new MojoExecutionException(FAILED_SET_EXECUTABLE, x);
+        }
+      }
+
       zipService.add(output);
     }
   }
