@@ -50,7 +50,7 @@ static void checkFile(output, sample, diffCountLimit) {
     assert (diffCount <= diffCountLimit): output + " file has wrong content"
 }
 
-file = "install.sql"
+file = "install.sh"
 checkFile(target + file, verify + file, 0)
 
 file = "check_service_tables.sql"
@@ -59,100 +59,97 @@ checkFile(target_service + file, verify_service + file, 0)
 file = "deploy_finish.sql"
 checkFile(target_service + file, verify_service + file, 0)
 
-file = "deploy_information.sql"
+file = "deploy_information.sh"
 checkFile(target_service + file, verify_service + file, 1)
 
 file = "deploy_start.sql"
 checkFile(target_service + file, verify_service + file, 1)
 
-file = "drop_source_code.sql"
+file = "install_database_database.sh"
 checkFile(target_service + file, verify_service + file, 0)
 
-file = "install_database_database.sql"
+file = "install_object_0_public_0_MATERIALIZED_VIEW.sh"
 checkFile(target_service + file, verify_service + file, 0)
 
-file = "install_object_0_public_0_FUNCTION.sql"
+file = "install_object_0_public_1_VIEW.sh"
 checkFile(target_service + file, verify_service + file, 0)
 
-file = "install_object_0_public_1_TRIGGER.sql"
+file = "install_object_1_schema_0_MATERIALIZED_VIEW.sh"
 checkFile(target_service + file, verify_service + file, 0)
 
-file = "install_object_0_public_2_VIEW.sql"
+file = "install_object_1_schema_1_VIEW.sh"
 checkFile(target_service + file, verify_service + file, 0)
 
-file = "install_object_1_schema_0_FUNCTION.sql"
+file = "install_schema_0_public.sh"
 checkFile(target_service + file, verify_service + file, 0)
 
-file = "install_object_1_schema_1_TRIGGER.sql"
+file = "install_schema_1_schema.sh"
 checkFile(target_service + file, verify_service + file, 0)
 
-file = "install_object_1_schema_2_VIEW.sql"
+file = "install_script_0_public_AFTER_0.sh"
 checkFile(target_service + file, verify_service + file, 0)
 
-file = "install_schema_0_public.sql"
+file = "install_script_0_public_AFTER_1.sh"
 checkFile(target_service + file, verify_service + file, 0)
 
-file = "install_schema_1_schema.sql"
+file = "install_script_0_public_BEFORE_2.sh"
 checkFile(target_service + file, verify_service + file, 0)
 
-file = "install_script_0_public_AFTER_0.sql"
+file = "install_script_0_public_BEFORE_3.sh"
 checkFile(target_service + file, verify_service + file, 0)
 
-file = "install_script_0_public_AFTER_1.sql"
+file = "install_script_1_schema_AFTER_0.sh"
 checkFile(target_service + file, verify_service + file, 0)
 
-file = "install_script_0_public_BEFORE_2.sql"
+file = "install_script_1_schema_AFTER_1.sh"
 checkFile(target_service + file, verify_service + file, 0)
 
-file = "install_script_0_public_BEFORE_3.sql"
+file = "install_script_1_schema_BEFORE_2.sh"
 checkFile(target_service + file, verify_service + file, 0)
 
-file = "install_script_1_schema_AFTER_0.sql"
+file = "install_script_1_schema_BEFORE_3.sh"
 checkFile(target_service + file, verify_service + file, 0)
 
-file = "install_script_1_schema_AFTER_1.sql"
+file = "log_finish.sh"
 checkFile(target_service + file, verify_service + file, 0)
 
-file = "install_script_1_schema_BEFORE_2.sql"
+file = "log_start.sh"
 checkFile(target_service + file, verify_service + file, 0)
 
-file = "install_script_1_schema_BEFORE_3.sql"
+file = "one_time_control.sh"
 checkFile(target_service + file, verify_service + file, 0)
 
-file = "log_finish.sql"
-checkFile(target_service + file, verify_service + file, 0)
-
-file = "log_start.sql"
-checkFile(target_service + file, verify_service + file, 0)
-
-file = "one_time_control.sql"
-checkFile(target_service + file, verify_service + file, 0)
-
-file = "one_time_do_after.sql"
+file = "one_time_do_after.sh"
 checkFile(target_service + file, verify_service + file, 1)
 
-file = "one_time_do_before.sql"
+file = "one_time_do_before.sh"
 checkFile(target_service + file, verify_service + file, 1)
 
-file = "one_time_do_checksum.sql"
+file = "one_time_do_checksum.sh"
 checkFile(target_service + file, verify_service + file, 0)
 
-file = "one_time_do_nothing.sql"
+file = "one_time_do_nothing.sh"
 checkFile(target_service + file, verify_service + file, 0)
 
-file = "one_time_do_success.sql"
+file = "one_time_do_success.sh"
 checkFile(target_service + file, verify_service + file, 0)
 
-file = "psql_setup.sql"
+file = "run_file.sh"
 checkFile(target_service + file, verify_service + file, 0)
 
-file = "script_information.sql"
+file = "run_query.sh"
+checkFile(target_service + file, verify_service + file, 0)
+
+file = "script_information.sh"
 checkFile(target_service + file, verify_service + file, 1)
 
-directory = target + "database" + sep + "functions" + sep
-checkExist(directory + "dummy_sp_function_a.sql")
-checkExist(directory + "dummy_sp_function_b.sql")
-checkExist(directory + "dummy_sp_function_c.sql")
+file = "source.sh"
+checkFile(target_service + file, verify_service + file, 1)
+
+directory = target + "database" + sep + "materialized_views" + sep
+checkExist(directory + "dummy_sp_materialized_view_a.sql")
+checkExist(directory + "dummy_sp_materialized_view_b.sql")
+checkExist(directory + "dummy_sp_materialized_view_c.sql")
 
 directory = target + "database" + sep + "script_one_time_after" + sep
 checkExist(directory + "dummy_sp_one_time_after_a.sql")
@@ -174,20 +171,15 @@ checkExist(directory + "dummy_sp_reusable_before_a.sql")
 checkExist(directory + "dummy_sp_reusable_before_b.sql")
 checkExist(directory + "dummy_sp_reusable_before_c.sql")
 
-directory = target + "database" + sep + "triggers" + sep
-checkExist(directory + "dummy_sp_trigger_a.sql")
-checkExist(directory + "dummy_sp_trigger_b.sql")
-checkExist(directory + "dummy_sp_trigger_c.sql")
-
 directory = target + "database" + sep + "views" + sep
 checkExist(directory + "dummy_sp_view_a.sql")
 checkExist(directory + "dummy_sp_view_b.sql")
 checkExist(directory + "dummy_sp_view_c.sql")
 
-directory = target + "database" + sep + "schema" + sep + "functions" + sep
-checkExist(directory + "dummy_s1_function_a.sql")
-checkExist(directory + "dummy_s1_function_b.sql")
-checkExist(directory + "dummy_s1_function_c.sql")
+directory = target + "database" + sep + "schema" + sep + "materialized_views" + sep
+checkExist(directory + "dummy_s1_materialized_view_a.sql")
+checkExist(directory + "dummy_s1_materialized_view_b.sql")
+checkExist(directory + "dummy_s1_materialized_view_c.sql")
 
 directory = target + "database" + sep + "schema" + sep + "script_one_time_after" + sep
 checkExist(directory + "dummy_s1_one_time_after_a.sql")
@@ -208,11 +200,6 @@ directory = target + "database" + sep + "schema" + sep + "script_reusable_before
 checkExist(directory + "dummy_s1_reusable_before_a.sql")
 checkExist(directory + "dummy_s1_reusable_before_b.sql")
 checkExist(directory + "dummy_s1_reusable_before_c.sql")
-
-directory = target + "database" + sep + "schema" + sep + "triggers" + sep
-checkExist(directory + "dummy_s1_trigger_a.sql")
-checkExist(directory + "dummy_s1_trigger_b.sql")
-checkExist(directory + "dummy_s1_trigger_c.sql")
 
 directory = target + "database" + sep + "schema" + sep + "views" + sep
 checkExist(directory + "dummy_s1_view_a.sql")

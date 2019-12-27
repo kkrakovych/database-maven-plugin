@@ -22,29 +22,41 @@ The strategy contains next steps:
 - deploy scripts after source code validation.
 
 Configuration in pom.xml defines:
-- database
-- schemes if any
-- groups of database objects
+- database;
+- schemes if any;
+- groups of database objects;
   - type of objects within a group
   - location of the group in repository
-  
 - location of database objects within repository;
 - location of DDL (Data Definition Language) and DML (Data Manipulation Language) scripts;
-- order for execution of groups of scripts;
+- order for execution of groups of scripts.
 
 #### Oracle
 
-0. Fail fast in case of any issue
-1. Execute scripts before source code processing
-2. Execute source code processing
-3. Execute scripts after source code processing
+0. Fail fast in case of any issue;
+1. Execute scripts before source code processing;
+2. Execute source code processing.
+   Supported objects are: functions, package specifications and bodies, procedures, triggers, type specifications and bodies, and views;
+3. Execute scripts after source code processing.
 
 #### PostgreSQL
 
-N.B. Support for PostgreSQL is very limited at the moment.
+0. Fail fast in case of any issue;
+1. Execute scripts before source code processing;
+2. Execute source code processing.
+   Supported objects are: functions, triggers, and views;
+3. Execute scripts after source code processing.
 
-0. Fail fast in case of any issue
-1. Execute scripts processing
+#### ClickHouse
+
+0. Fail fast in case of any issue;
+1. Execute scripts before source code processing;
+2. Execute source code processing.
+   Supported objects are: materialized views and views;
+3. Execute scripts after source code processing.
+
+P.S. No source code dropping.
+P.P.S. The migration script is based on unix shell scripts.
 
 ## How to add the plugin to database maven build
 

@@ -39,10 +39,7 @@
           <clickhouse>
             <objects>
               <object>
-                <type>FUNCTION</type>
-              </object>
-              <object>
-                <type>TRIGGER</type>
+                <type>MATERIALIZED_VIEW</type>
               </object>
               <object>
                 <type>VIEW</type>
@@ -70,10 +67,7 @@
               <schema>
                 <objects>
                   <object>
-                    <type>FUNCTION</type>
-                  </object>
-                  <object>
-                    <type>TRIGGER</type>
+                    <type>MATERIALIZED_VIEW</type>
                   </object>
                   <object>
                     <type>VIEW</type>
