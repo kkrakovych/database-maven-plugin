@@ -13,13 +13,28 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-start transaction;
-update deploy$scripts
-   set script_finish_timestamp = current_timestamp
-     , deploy_status           = 'COMPLETED'
- where script_directory        = :'script_directory'
-   and script_name             = :'script_name'
-   and build_version           = '${buildVersion}'
-   and build_timestamp         = to_timestamp('${buildTimestamp}', 'yyyy-mm-dd hh24:mi:ss');
-commit;
-\qecho [SUCCESS] - Script :script_name was applied.
+insert into deploy_scripts
+     ( sys_timestamp
+     , build_version
+     , build_timestamp
+     , script_directory
+     , script_name
+     , script_checksum
+     , script_start_timestamp
+     , script_finish_timestamp
+     , deploy_status
+     )
+select now()
+     , build_version
+     , build_timestamp
+     , script_directory
+     , script_name
+     , script_checksum
+     , script_start_timestamp
+     , now()
+     , 'COMPLETED'
+  from deploy_scripts final
+ where build_version = '${buildVersion}'
+   and build_timestamp = toDateTime('${buildTimestamp}')
+   and script_name = '${r"${DEPLOY_SCRIPT_NAME}"}'
+   and script_directory = '${r"${DEPLOY_SCRIPT_DIRECTORY}"}'

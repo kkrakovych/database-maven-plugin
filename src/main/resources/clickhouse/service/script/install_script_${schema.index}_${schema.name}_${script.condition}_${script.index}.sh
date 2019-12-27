@@ -16,7 +16,17 @@
  #-->
 source ./${serviceDirectory}/source.sh
 
-echo
-echo "=== DATABASE-MAVEN-PLUGIN"
-echo "PostgreSQL database [${database.name}] version [${buildVersion}] created at [${buildTimestamp}]"
-echo
+echo "Execute ${script.type} scripts with ${script.condition} condition."
+<#list files as file, checksum>
+  <#if script.type = "REUSABLE">
+echo "Execute ${script.executeDirectory}${file}"
+./${serviceDirectory}/run_file.sh .${script.executeDirectory}${file}
+  <#else>
+echo "Execute ${script.executeDirectory}${file}"
+export DEPLOY_SCRIPT_DIRECTORY='${script.executeDirectory}'
+export DEPLOY_SCRIPT_NAME='${file}'
+export DEPLOY_SCRIPT_NAME_FULL='.${script.executeDirectory}${file}'
+export DEPLOY_SCRIPT_CHECKSUM='${checksum}'
+./${serviceDirectory}/one_time_control.sh
+  </#if>
+</#list>

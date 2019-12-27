@@ -81,6 +81,7 @@ public class ClickHouseProcessor extends AbstractProcessor {
     if (schemes != null && !schemes.isEmpty()) {
       for (final DatabaseItem schema : schemes) {
         getTemplateService().putParameter(SCHEMA, schema);
+        processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SH, CLICKHOUSE, SERVICE_DIRECTORY, SCHEMA));
         processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, CLICKHOUSE, SERVICE_DIRECTORY, SCHEMA));
         processObjects((ClickHouseSchema) schema);
         processScripts((ClickHouseSchema) schema);

@@ -1,3 +1,4 @@
+#!/bin/bash
 <#--
  #-- Copyright 2019 Kostyantyn Krakovych
  #--
@@ -13,17 +14,19 @@
  #-- See the License for the specific language governing permissions and
  #-- limitations under the License.
  #-->
+source ./${serviceDirectory}/source.sh
+
 echo
-echo === Deploy Database [${database.name}]
+echo "=== Deploy Database [${database.name}]"
 echo
-echo Check service tables.
+echo "Check service tables."
 ./${serviceDirectory}/run_file.sh ./${serviceDirectory}/check_service_tables.sql
-echo Start deploy version.
+echo "Start deploy version."
 ./${serviceDirectory}/run_file.sh ./${serviceDirectory}/deploy_start.sql
 <#if database.schemes??>
   <#list database.schemes as schema>
-#./${serviceDirectory}/install_schema_${schema.index}_${schema.name}.sql
+./${serviceDirectory}/install_schema_${schema.index}_${schema.name}.sh
   </#list>
 </#if>
-echo Finish deploy version.
+echo "Finish deploy version."
 ./${serviceDirectory}/run_file.sh ./${serviceDirectory}/deploy_finish.sql

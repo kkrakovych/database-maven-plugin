@@ -14,9 +14,12 @@
  #-- See the License for the specific language governing permissions and
  #-- limitations under the License.
  #-->
-source ./${serviceDirectory}/source.sh
+set -o pipefail # trace ERR through pipes
+set -o errtrace # trace ERR through 'time command' and other functions
+set -o nounset  # set -u : exit the script if you try to use an uninitialised variable
+set -o errexit  # set -e : exit the script if any statement returns a non-true return value
 
-echo
-echo "=== DATABASE-MAVEN-PLUGIN"
-echo "PostgreSQL database [${database.name}] version [${buildVersion}] created at [${buildTimestamp}]"
-echo
+function exit_handler() {
+  local error_code="$?"
+  if [ ! $error_code -eq 0 ]; then exit $error_code; fi
+}

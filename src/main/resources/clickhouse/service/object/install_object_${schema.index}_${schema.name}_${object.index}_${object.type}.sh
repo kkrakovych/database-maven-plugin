@@ -16,7 +16,7 @@
  #-->
 source ./${serviceDirectory}/source.sh
 
-echo
-echo "=== DATABASE-MAVEN-PLUGIN"
-echo "PostgreSQL database [${database.name}] version [${buildVersion}] created at [${buildTimestamp}]"
-echo
+<#list files as file>
+echo "Execute ${object.executeDirectory}${file}"
+./${serviceDirectory}/run_file.sh .${object.executeDirectory}${file}
+</#list>

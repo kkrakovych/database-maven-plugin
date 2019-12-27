@@ -16,7 +16,4 @@
  #-->
 source ./${serviceDirectory}/source.sh
 
-echo
-echo "=== DATABASE-MAVEN-PLUGIN"
-echo "PostgreSQL database [${database.name}] version [${buildVersion}] created at [${buildTimestamp}]"
-echo
+echo "[SUCCESS] - Script ${r"${DEPLOY_SCRIPT_NAME}"} was already applied."

@@ -1,3 +1,4 @@
+#!/bin/bash
 <#--
  #-- Copyright 2019 Kostyantyn Krakovych
  #--
@@ -13,11 +14,13 @@
  #-- See the License for the specific language governing permissions and
  #-- limitations under the License.
  #-->
-DEPLOY_START_TIMESTAMP=`./${serviceDirectory}/run_query.sh "select toYYYYMMDDhhmmss(now())"`
+source ./${serviceDirectory}/source.sh
+
+DEPLOY_START_TIMESTAMP=$(./${serviceDirectory}/run_query.sh "select toYYYYMMDDhhmmss(now())")
 <#if logFileName??>
 DEPLOY_LOG_FILE_NAME=${logFileName}
 <#else>
 DEPLOY_LOG_FILE_NAME=install_${database.name}_${buildVersion}_${r"${DEPLOY_START_TIMESTAMP}"}.log
 </#if>
-echo export DEPLOY_START_TIMESTAMP=${r"${DEPLOY_START_TIMESTAMP}"} >> ${r"${DEPLOY_SOURCE_FILE_NAME}"}
-echo export DEPLOY_LOG_FILE_NAME=${r"${DEPLOY_LOG_FILE_NAME}"}     >> ${r"${DEPLOY_SOURCE_FILE_NAME}"}
+echo export DEPLOY_START_TIMESTAMP="${r"${DEPLOY_START_TIMESTAMP}"}" >> "${r"${DEPLOY_SOURCE_FILE_NAME}"}"
+echo export DEPLOY_LOG_FILE_NAME="${r"${DEPLOY_LOG_FILE_NAME}"}" >> "${r"${DEPLOY_SOURCE_FILE_NAME}"}"

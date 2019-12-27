@@ -1,3 +1,4 @@
+#!/bin/bash
 <#--
  #-- Copyright 2019 Kostyantyn Krakovych
  #--
@@ -13,9 +14,11 @@
  #-- See the License for the specific language governing permissions and
  #-- limitations under the License.
  #-->
-DEPLOY_FINISH_TIMESTAMP=`./${serviceDirectory}/run_query.sh "select toYYYYMMDDhhmmss(now())"`
-DEPLOY_SCRIPT_RUNTIME=`./${serviceDirectory}/run_query.sh "select 'Script runtime was ' || toString(dateDiff('second', parseDateTimeBestEffort('${r"${DEPLOY_START_TIMESTAMP}"}'), parseDateTimeBestEffort('${r"${DEPLOY_FINISH_TIMESTAMP}"}'))) || ' seconds' as script_runtime"`
-DEPLOY_SCRIPT_INFO=`./${serviceDirectory}/run_query.sh "select 'Script started at ' || toString(parseDateTimeBestEffort('${r"${DEPLOY_START_TIMESTAMP}"}')) || ' and finished at ' || toString(parseDateTimeBestEffort('${r"${DEPLOY_FINISH_TIMESTAMP}"}')) as script_info"`
+source ./${serviceDirectory}/source.sh
+
+DEPLOY_FINISH_TIMESTAMP=$(./${serviceDirectory}/run_query.sh "select toYYYYMMDDhhmmss(now())")
+DEPLOY_SCRIPT_RUNTIME=$(./${serviceDirectory}/run_query.sh "select 'Script runtime was ' || toString(dateDiff('second', parseDateTimeBestEffort('${r"${DEPLOY_START_TIMESTAMP}"}'), parseDateTimeBestEffort('${r"${DEPLOY_FINISH_TIMESTAMP}"}'))) || ' seconds' as script_runtime")
+DEPLOY_SCRIPT_INFO=$(./${serviceDirectory}/run_query.sh "select 'Script started at ' || toString(parseDateTimeBestEffort('${r"${DEPLOY_START_TIMESTAMP}"}')) || ' and finished at ' || toString(parseDateTimeBestEffort('${r"${DEPLOY_FINISH_TIMESTAMP}"}')) as script_info")
 echo
-echo ${r"${DEPLOY_SCRIPT_RUNTIME}"}
-echo ${r"${DEPLOY_SCRIPT_INFO}"}
+echo "${r"${DEPLOY_SCRIPT_RUNTIME}"}"
+echo "${r"${DEPLOY_SCRIPT_INFO}"}"

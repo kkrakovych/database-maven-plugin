@@ -13,10 +13,9 @@
   -- See the License for the specific language governing permissions and
   -- limitations under the License.
   -->
-start transaction;
-insert
-  into deploy$scripts
-     ( build_version
+insert into deploy_scripts
+     ( sys_timestamp
+     , build_version
      , build_timestamp
      , script_directory
      , script_name
@@ -25,14 +24,4 @@ insert
      , script_finish_timestamp
      , deploy_status
      )
-values
-     ( '${buildVersion}'
-     , to_timestamp('${buildTimestamp}', 'yyyy-mm-dd hh24:mi:ss')
-     , :'script_directory'
-     , :'script_name'
-     , :'script_checksum'
-     , current_timestamp
-     , null
-     , 'NOT COMPLETED'
-     );
-commit;
+values (now(), '${buildVersion}', toDateTime('${buildTimestamp}'), '${r"${DEPLOY_SCRIPT_DIRECTORY}"}', '${r"${DEPLOY_SCRIPT_NAME}"}', '${r"${DEPLOY_SCRIPT_CHECKSUM}"}', now(), null, 'NOT COMPLETED');

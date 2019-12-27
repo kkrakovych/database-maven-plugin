@@ -1,3 +1,4 @@
+#!/bin/bash
 <#--
  #-- Copyright 2019 Kostyantyn Krakovych
  #--
@@ -13,14 +14,16 @@
  #-- See the License for the specific language governing permissions and
  #-- limitations under the License.
  #-->
+source ./${serviceDirectory}/source.sh
+
 echo
-echo === Deploy Information
+echo "=== Deploy Information"
 echo
-echo Database         ${database.name}
-echo Build version:   ${buildVersion}
-echo Build timestamp: ${buildTimestamp}
+echo "Database         ${database.name}"
+echo "Build version:   ${buildVersion}"
+echo "Build timestamp: ${buildTimestamp}"
 <#if database.schemes??>
-echo List of schemes:
+echo "List of schemes:"
   <#list database.schemes as schema>
 echo "* ${schema.name}"
   </#list>

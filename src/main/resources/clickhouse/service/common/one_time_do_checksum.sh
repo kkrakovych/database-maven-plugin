@@ -16,7 +16,6 @@
  #-->
 source ./${serviceDirectory}/source.sh
 
-echo
-echo "=== DATABASE-MAVEN-PLUGIN"
-echo "PostgreSQL database [${database.name}] version [${buildVersion}] created at [${buildTimestamp}]"
-echo
+echo "[FAILURE] - Script ${r"${DEPLOY_SCRIPT_NAME}"} was already applied with different checksum."
+echo "One time script checksum mismatch."
+exit 1

@@ -17,17 +17,19 @@
 # Recursively make call shell scripts executable
 # find . -type f -iname "*.sh" -exec chmod +x {} \;
 
+source ./${serviceDirectory}/source.sh
+
 # Deploy Source File for variables' data exchnage
 DEPLOY_SOURCE_FILE_NAME=deploy_source_$(date +%Y%m%d%H%M%S).sh
-echo "#!/bin/bash" > ${r"${DEPLOY_SOURCE_FILE_NAME}"}
-chmod +x ${r"${DEPLOY_SOURCE_FILE_NAME}"}
+echo "#!/bin/bash" > "${r"${DEPLOY_SOURCE_FILE_NAME}"}"
+chmod +x "${r"${DEPLOY_SOURCE_FILE_NAME}"}"
 export DEPLOY_SOURCE_FILE_NAME
 
 ./${serviceDirectory}/script_information.sh
 #./${serviceDirectory}/clickhouse_client_setup.sh
 ./${serviceDirectory}/log_start.sh
-source ${r"${DEPLOY_SOURCE_FILE_NAME}"}
-./${serviceDirectory}/deploy_information.sh                | tee -a ${r"${DEPLOY_LOG_FILE_NAME}"}
-./${serviceDirectory}/install_database_${database.name}.sh | tee -a ${r"${DEPLOY_LOG_FILE_NAME}"}
-./${serviceDirectory}/log_finish.sh                        | tee -a ${r"${DEPLOY_LOG_FILE_NAME}"}
+source ./"${r"${DEPLOY_SOURCE_FILE_NAME}"}"
+./${serviceDirectory}/deploy_information.sh | tee -a "${r"${DEPLOY_LOG_FILE_NAME}"}"
+./${serviceDirectory}/install_database_${database.name}.sh | tee -a "${r"${DEPLOY_LOG_FILE_NAME}"}"
+./${serviceDirectory}/log_finish.sh | tee -a "${r"${DEPLOY_LOG_FILE_NAME}"}"
 exit 0
