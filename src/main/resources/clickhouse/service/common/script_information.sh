@@ -18,5 +18,5 @@ source ./${serviceDirectory}/source.sh
 
 echo
 echo "=== DATABASE-MAVEN-PLUGIN"
-echo "PostgreSQL database [${database.name}] version [${buildVersion}] created at [${buildTimestamp}]"
+echo "ClickHouse database [${database.name}] version [${buildVersion}] created at [${buildTimestamp}]"
 echo

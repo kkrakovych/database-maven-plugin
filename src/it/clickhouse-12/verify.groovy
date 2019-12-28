@@ -50,7 +50,10 @@ static void checkFile(output, sample, diffCountLimit) {
     assert (diffCount <= diffCountLimit): output + " file has wrong content"
 }
 
-file = "install.sh"
+file = "install_auto.sh"
+checkFile(target + file, verify + file, 0)
+
+file = "install_manual.sh"
 checkFile(target + file, verify + file, 0)
 
 file = "check_service_tables.sql"
@@ -63,6 +66,12 @@ file = "deploy_information.sh"
 checkFile(target_service + file, verify_service + file, 1)
 
 file = "deploy_start.sql"
+checkFile(target_service + file, verify_service + file, 1)
+
+file = "input_parameters_auto.sh"
+checkFile(target_service + file, verify_service + file, 1)
+
+file = "input_parameters_manual.sh"
 checkFile(target_service + file, verify_service + file, 1)
 
 file = "install_database_database.sh"

@@ -25,4 +25,4 @@ insert into deploy_version
      , deploy_status
      , is_current
      )
-values (now(), 'test', toDateTime('2019-12-27 18:40:26'), now(), null, 'NOT COMPLETED', 'Y');
+values (now(), 'test', toDateTime('2019-12-28 18:36:23'), now(), null, 'NOT COMPLETED', 'Y');
