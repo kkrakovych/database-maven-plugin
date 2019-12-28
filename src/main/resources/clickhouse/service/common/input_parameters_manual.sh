@@ -16,11 +16,13 @@
  #-->
 source ./${serviceDirectory}/source.sh
 
-# ClickHouse client option description:
-# --multiline,  -m – If specified, allow multiline queries (do not send the query on Enter).
-# --multiquery, -n – If specified, allow processing multiple queries separated by commas.
-#                    Only works in non-interactive mode.
-# --time,       -t – If specified, print the query execution time to 'stderr' in non-interactive mode.
-# --query,      -q – The query to process when using non-interactive mode.
-clickhouse-client "${r"${DEPLOY_OPTIONS}"}" -q "$1"
-exit_handler
+echo "Enter host name for database [${database.name}]: "
+read -r DEPLOY_HOST
+
+echo "Enter user name for database [${database.name}]: "
+read -r DEPLOY_USER
+
+echo "Enter password for database [${database.name}]: "
+read -r DEPLOY_PSWD
+
+echo export DEPLOY_OPTIONS="\" --host '${r"${DEPLOY_HOST}"}' --user '${r"${DEPLOY_USER}"}' --password '${r"${DEPLOY_PSWD}"}'\"" >> "${r"${DEPLOY_SOURCE_FILE_NAME}"}"

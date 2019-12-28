@@ -297,6 +297,26 @@ Please take into account before the script execution you will need to install an
 
 #### Automatically
 
+###### ClickHouse
+
+The main script for automatic deploy can be executed from Unix shell either with direct credentials:
+```bash
+./install_auto.sh -h [hostname] -u [username] -p [password]
+```
+or with configuration file: 
+```bash
+./install_auto.sh -h [hostname] -u [username] -p [password]
+```
+Sample configuration file:
+```xml
+<config>
+    <host>hostname</host>
+    <user>username</user>
+    <password>password</password>
+    <secure>False</secure>
+</config>
+```
+
 ###### Oracle
 
 The main script for automatic deploy can be executed with Oracle SQL*Plus.
@@ -321,6 +341,15 @@ psql -h localhost -p [port] -U [user-name] -W [user-password] -d [database-name]
 ```
 
 #### Manually
+
+###### ClickHouse
+
+The main script for deploy with manual input can be executed as:
+```bash
+./install_manual.sh
+```
+
+###### Oracle
 
 The main script for deploy with manual input can be executed with Oracle SQL*Plus.
 ```bash

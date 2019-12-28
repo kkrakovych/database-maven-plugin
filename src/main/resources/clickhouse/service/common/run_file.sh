@@ -22,5 +22,5 @@ source ./${serviceDirectory}/source.sh
 #                    Only works in non-interactive mode.
 # --time,       -t – If specified, print the query execution time to 'stderr' in non-interactive mode.
 # --query,      -q – The query to process when using non-interactive mode.
-cat "$1" | clickhouse-client -mnt
+cat "$1" | clickhouse-client "${r"${DEPLOY_OPTIONS}"}" -mnt
 exit_handler
