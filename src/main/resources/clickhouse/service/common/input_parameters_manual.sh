@@ -25,4 +25,4 @@ read -r DEPLOY_USER
 echo "Enter password for database [${database.name}]: "
 read -r DEPLOY_PSWD
 
-echo export DEPLOY_OPTIONS="\" --host '${r"${DEPLOY_HOST}"}' --user '${r"${DEPLOY_USER}"}' --password '${r"${DEPLOY_PSWD}"}'\"" >> "${r"${DEPLOY_SOURCE_FILE_NAME}"}"
+echo export DEPLOY_OPTIONS="\" --host ${r"${DEPLOY_HOST}"} --user ${r"${DEPLOY_USER}"} --password ${r"${DEPLOY_PSWD}"}\"" >> "${r"${DEPLOY_SOURCE_FILE_NAME}"}"
