@@ -48,7 +48,7 @@ elif [ "${DEPLOY_HOST}" != "" ] && [ "${DEPLOY_HOST}" != "host" ] &&
      [ "${DEPLOY_USER}" != "" ] && [ "${DEPLOY_USER}" != "user" ] &&
      [ "${DEPLOY_PSWD}" != "" ] && [ "${DEPLOY_PSWD}" != "pswd" ]
 then
-  echo export DEPLOY_OPTIONS="\" --host '${DEPLOY_HOST}' --user '${DEPLOY_USER}' --password '${DEPLOY_PSWD}'\"" >> "${DEPLOY_SOURCE_FILE_NAME}"
+  echo export DEPLOY_OPTIONS="\" --host ${DEPLOY_HOST} --user ${DEPLOY_USER} --password ${DEPLOY_PSWD}\"" >> "${DEPLOY_SOURCE_FILE_NAME}"
 else
   show_help_information
 fi
