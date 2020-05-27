@@ -41,6 +41,9 @@ public final class ProcessorFactory {
     Processor result;
 
     switch (configuration.getDatabaseType()) {
+      case CLICKHOUSE:
+        result = new ClickHouseProcessor(configuration);
+        break;
       case ORACLE:
         result = new OracleProcessor(configuration);
         break;

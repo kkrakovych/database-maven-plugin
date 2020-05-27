@@ -22,6 +22,12 @@ package net.kosto.configuration.model;
 public enum DatabaseType {
 
   /**
+   * ClickHouse database.
+   *
+   * @see <a href="https://en.wikipedia.org/wiki/ClickHouse">ClickHouse Database</a>
+   */
+  CLICKHOUSE,
+  /**
    * Oracle database.
    *
    * @see <a href="https://en.wikipedia.org/wiki/Oracle_Database">Oracle Database</a>

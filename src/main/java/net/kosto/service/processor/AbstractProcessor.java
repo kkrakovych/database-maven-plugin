@@ -22,6 +22,7 @@ import static net.kosto.Package.SERVICE_DIRECTORY;
 import static net.kosto.configuration.model.DatabaseType.ORACLE;
 import static net.kosto.util.DateUtils.DTF_DATE_TIME;
 import static net.kosto.util.DateUtils.DTF_DATE_TIME_SEAMLESS;
+import static net.kosto.util.FileUtils.FILE_MASK_SH;
 import static net.kosto.util.FileUtils.FILE_MASK_SQL;
 import static net.kosto.util.StringUtils.DATABASE;
 import static net.kosto.util.StringUtils.FILES;
@@ -30,7 +31,9 @@ import static net.kosto.util.StringUtils.SCRIPT;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.PosixFilePermission;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.maven.plugin.MojoExecutionException;
 
@@ -47,6 +50,7 @@ import net.kosto.util.ResourceUtils;
 public abstract class AbstractProcessor implements Processor {
 
   public static final String FAILED_COPY_FILE = "Failed to copy source file.";
+  public static final String FAILED_SET_EXECUTABLE = "Failed to set file as executable.";
 
   /**
    * Database configuration.
@@ -99,6 +103,7 @@ public abstract class AbstractProcessor implements Processor {
     } else {
       templateService.putParameter(FILES, FileUtils.getFileNames(source, item.getFileMask()));
     }
+    processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SH, baseDirectory, SERVICE_DIRECTORY, itemType));
     processTemplateFiles(ResourceUtils.getFiles(FILE_MASK_SQL, baseDirectory, SERVICE_DIRECTORY, itemType));
     processSourceFiles(directory, FileUtils.getFiles(source, item.getFileMask()));
   }
@@ -116,6 +121,22 @@ public abstract class AbstractProcessor implements Processor {
       final String fileName = templateService.process(file.getFileName().toString());
       final Path output = directory.resolve(fileName);
       templateService.process(file, output);
+
+      // It's required for ClickHouse data processing
+      // It does not look as a good approach
+      // Make sense to review it in future
+      if (fileName.endsWith(".sh")) {
+        try {
+          Set<PosixFilePermission> perms = Files.getPosixFilePermissions(output);
+          perms.add(PosixFilePermission.OWNER_EXECUTE);
+          perms.add(PosixFilePermission.GROUP_EXECUTE);
+          perms.add(PosixFilePermission.OTHERS_EXECUTE);
+          Files.setPosixFilePermissions(output, perms);
+        } catch (IOException x) {
+          throw new MojoExecutionException(FAILED_SET_EXECUTABLE, x);
+        }
+      }
+
       zipService.add(output);
     }
   }

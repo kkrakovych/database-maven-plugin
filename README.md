@@ -22,29 +22,41 @@ The strategy contains next steps:
 - deploy scripts after source code validation.
 
 Configuration in pom.xml defines:
-- database
-- schemes if any
-- groups of database objects
+- database;
+- schemes if any;
+- groups of database objects;
   - type of objects within a group
   - location of the group in repository
-  
 - location of database objects within repository;
 - location of DDL (Data Definition Language) and DML (Data Manipulation Language) scripts;
-- order for execution of groups of scripts;
+- order for execution of groups of scripts.
 
 #### Oracle
 
-0. Fail fast in case of any issue
-1. Execute scripts before source code processing
-2. Execute source code processing
-3. Execute scripts after source code processing
+0. Fail fast in case of any issue;
+1. Execute scripts before source code processing;
+2. Execute source code processing.
+   Supported objects are: functions, package specifications and bodies, procedures, triggers, type specifications and bodies, and views;
+3. Execute scripts after source code processing.
 
 #### PostgreSQL
 
-N.B. Support for PostgreSQL is very limited at the moment.
+0. Fail fast in case of any issue;
+1. Execute scripts before source code processing;
+2. Execute source code processing.
+   Supported objects are: functions, triggers, and views;
+3. Execute scripts after source code processing.
 
-0. Fail fast in case of any issue
-1. Execute scripts processing
+#### ClickHouse
+
+0. Fail fast in case of any issue;
+1. Execute scripts before source code processing;
+2. Execute source code processing.
+   Supported objects are: materialized views and views;
+3. Execute scripts after source code processing.
+
+P.S. No source code dropping.
+P.P.S. The migration script is based on unix shell scripts.
 
 ## How to add the plugin to database maven build
 
@@ -285,6 +297,26 @@ Please take into account before the script execution you will need to install an
 
 #### Automatically
 
+###### ClickHouse
+
+The main script for automatic deploy can be executed from Unix shell either with direct credentials:
+```bash
+./install_auto.sh -h [hostname] -u [username] -p [password]
+```
+or with configuration file: 
+```bash
+./install_auto.sh -h [hostname] -u [username] -p [password]
+```
+Sample configuration file:
+```xml
+<config>
+    <host>hostname</host>
+    <user>username</user>
+    <password>password</password>
+    <secure>False</secure>
+</config>
+```
+
 ###### Oracle
 
 The main script for automatic deploy can be executed with Oracle SQL*Plus.
@@ -309,6 +341,15 @@ psql -h localhost -p [port] -U [user-name] -W [user-password] -d [database-name]
 ```
 
 #### Manually
+
+###### ClickHouse
+
+The main script for deploy with manual input can be executed as:
+```bash
+./install_manual.sh
+```
+
+###### Oracle
 
 The main script for deploy with manual input can be executed with Oracle SQL*Plus.
 ```bash

@@ -41,6 +41,9 @@ public final class ValidatorFactory {
     Validator result;
 
     switch (configuration.getDatabaseType()) {
+      case CLICKHOUSE:
+        result = new ClickHouseValidator(configuration);
+        break;
       case ORACLE:
         result = new OracleValidator(configuration);
         break;
