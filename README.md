@@ -68,7 +68,7 @@ Add new plugin to build section and set up configuration.
         <plugin>
             <groupId>net.kosto</groupId>
             <artifactId>database-maven-plugin</artifactId>
-            <version>1.3-SNAPSHOT</version>
+            <version>1.4-SNAPSHOT</version>
             <configuration>
                 ...
             </configuration>
@@ -398,7 +398,7 @@ Below you may see part of the project's pom.xml file.
 <plugin>
     <groupId>net.kosto</groupId>
     <artifactId>database-maven-plugin</artifactId>
-    <version>1.3-SNAPSHOT</version>
+    <version>1.4-SNAPSHOT</version>
     <configuration>
         <serviceDirectory>.service</serviceDirectory>
         <oracle>
